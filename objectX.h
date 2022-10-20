@@ -19,7 +19,6 @@ public:
 	CObjectX(int list = 0);
 	~CObjectX() override;
 
-	void Init(char *xFail);
 	void Init() override;
 	void Uninit() override;
 	void Update() override;
@@ -27,7 +26,7 @@ public:
 
 	void SetType(Object_Type type);
 	void SetSize(float fWidth, float fHeight);
-	static CObjectX *Create(D3DXVECTOR3 pos, char *xFail);
+	static CObjectX *Create(D3DXVECTOR3 pos);
 
 	virtual void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
 	virtual void SetNor(D3DXVECTOR3 nor) { m_nor = nor; }
@@ -35,7 +34,6 @@ public:
 	virtual void SetWorldMtx(D3DXMATRIX worldmtx) { m_worldmtx = worldmtx; }
 	virtual void SetWidth(float fWidth) { m_fWidth = fWidth; }
 	virtual void SetHeight(float fHeight) { m_fHeight = fHeight; }
-	virtual void SetPalentY(float fPalentY) { m_fPalentY = fPalentY; }
 
 	const D3DXVECTOR3& GetPos() const { return m_pos; }
 	const D3DXVECTOR3& GetNor() const { return m_nor; }
@@ -56,7 +54,6 @@ private:
 	float m_fHeight;					//長さ縦
 	float m_fLength;					//長さ(スクウェアルート)
 	float m_fAngle;						//角度(アークタンジェント)
-	float m_fPalentY;					//親モデル位置の高さ
 };
 
 #endif // !_OBJECTX_H_

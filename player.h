@@ -7,7 +7,7 @@
 #ifndef _PLAYER_H_		//このマクロ定義がされてなかったら
 #define _PLAYER_H_		//2連インクルード防止のマクロ定義
 
-#include "objectX.h"
+#include "object.h"
 
 //****************************************************************************
 //マクロ定義
@@ -19,7 +19,8 @@
 #define PLAYER_LIFE			(5)		//プレイヤーの体力
 #define PLAYER_ATTACK		(2)		//プレイヤーの攻撃判定持続時間
 #define PLAYER_SPEAD		(3)		//プレイヤーの移動速度倍率
-#define MAX_PLAYER_PARTS	(3)		//プレイヤーのパーツ数
+#define MAX_PLAYER_PARTS	(4)		//プレイヤーのパーツ数
+#define MAX_PLAYER_KEY		(4)		//プレイヤーのキー数
 
 //---------------------------
 //前方宣言
@@ -30,7 +31,7 @@ class CModel;
 //---------------------------
 //クラス
 //---------------------------
-class CPlayer : CObjectX
+class CPlayer : CObject
 {
 public:
 	//プレイヤーのモーション種類
@@ -58,38 +59,63 @@ public:
 	void Collision();
 	void RotNormalize();
 
-	static CPlayer *Create(D3DXVECTOR3 pos, float ParentY);
+	virtual void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
+	virtual void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }
+	virtual void SetWorldMtx(D3DXMATRIX worldmtx) { m_worldmtx = worldmtx; }
+	virtual void SetWidth(float fWidth) { m_fWidth = fWidth; }
+	virtual void SetHeight(float fHeight) { m_fHeight = fHeight; }
+
+	const D3DXVECTOR3& GetPos() const { return m_pos; }
+	const D3DXVECTOR3& GetRot() const { return m_rot; }
+	const D3DXMATRIX& GetWorldMtx() const { return m_worldmtx; }
+	const float GetWidth() const { return m_fWidth; }
+	const float GetHeight() const { return m_fHeight; }
+	const float GetLength() const { return m_fLength; }
+
+	static CPlayer *Create(D3DXVECTOR3 pos);
 private:
-	//****************************************************************************
-	//構造体定義
-	//****************************************************************************
-	//typedef struct
-	//{
-	//	LPD3DXMESH pMesh;
-	//	LPD3DXBUFFER pBuffMat;
-	//	DWORD nNumMat;
-	//	LPDIRECT3DTEXTURE9 g_pTexture[IMAGE_PLAYER];
-	//	D3DXMATRIX Worldmtx;	//ワールドマトリックス
-	//	D3DXVECTOR3 pos;		//頂点座標
-	//	D3DXVECTOR3 rot;		//向き
-	//	float fFrame;			//フレーム数
-	//	int nIdxModelParent;	//親モデルのインデックス
-	//}PLAYER_PARTS;
+	//キー要素
+	struct KEY {
+		float fPosX;
+		float fPosY;
+		float fPosZ;
+
+		float fRotX;
+		float fRotY;
+		float fRotZ;
+	};
+
+	//キー情報
+	struct KEY_SET {
+		int m_nFrame;
+		KEY aKey[MAX_PLAYER_PARTS];
+	};
+
+
+	D3DXVECTOR3 m_pos;					//位置
+	D3DXVECTOR3 m_rot;					//角度
+	D3DXMATRIX m_worldmtx;				//ワールドマトリックス
+	float m_fWidth;						//長さ横
+	float m_fHeight;					//長さ縦
+	float m_fLength;					//長さ(スクウェアルート)
+	float m_fAngle;						//角度(アークタンジェント)
 
 	D3DXVECTOR3 m_posOld;		//頂点座標前回位置
 	D3DXVECTOR3 m_move;			//移動量
 	D3DXVECTOR3 m_rotDest;		//向き目的値
 	int m_nLife;				//体力
 	int m_nPower;				//力
-	float m_fFlame;				//フレーム数
+	int m_nMotionFrame;			//フレーム数
+	int m_nMotionKey;			//キー数
+	int m_nMaxKey;				//最大キー数
 	float m_fAttack;			//攻撃待機時間
 	bool m_bDamege;				//被弾判定
 	bool m_bLoop;				//ループ判定
 	bool m_bGround;				//接地判定の場合
 	Player_Motion m_motion;		//モーション種類
-	//PLAYER_PARTS aParts[MAX_PLAYER_PARTS];
-	CModel *m_pModel[MAX_PLAYER_PARTS];
+	CModel *m_apModel[MAX_PLAYER_PARTS];
 	CShadow *m_pShadow;
+	KEY_SET m_aKeySet[MAX_PLAYER_KEY];
 };
 #endif// !_PLAYER_H_
 

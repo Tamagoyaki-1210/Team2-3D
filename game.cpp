@@ -48,7 +48,7 @@ void CGame::Init()
 	//m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
 	//CMenu::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f), CMenu::TYPE_NONE, CMenu::MODE_GAME);
 
-	CPlayer::Create(D3DXVECTOR3(0.0f, 20.0f, 0.0f), 15.0f);
+	CPlayer::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	CBillBoard *p = CBillBoard::Create(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
 
 	p->SetType(CObject::TYPE_OBSTACLE);

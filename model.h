@@ -25,12 +25,18 @@ public:
 	void Init();
 	void Uninit();
 	void Update();
-	void Draw(D3DXMATRIX worldmtx);
+	void Draw();
 
 	static CModel *Create(D3DXVECTOR3 pos, char *xFail);
 
+	void SetParent(CModel* pModel) { m_pParent = pModel; }
+	virtual void SetWorldMtx(D3DXMATRIX worldmtx) { m_worldmtx = worldmtx; }
 	virtual void SetPos(D3DXVECTOR3 pos) { m_pos = pos; }
 	virtual void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }
+
+	const D3DXVECTOR3& GetPos() const { return m_pos; }
+	const D3DXVECTOR3& GetRot() const { return m_rot; }
+	const D3DXMATRIX& GetWorldMtx() const { return m_worldmtx; }
 private:
 	//****************************************************************************
 	//構造体定義
@@ -53,6 +59,7 @@ private:
 	D3DXVECTOR3 m_pos;					//位置
 	D3DXVECTOR3 m_rot;					//角度
 	D3DXMATRIX m_worldmtx;				//ワールドマトリックス
+	CModel *m_pParent;
 };
 #endif// !_PLAYER_H_
 

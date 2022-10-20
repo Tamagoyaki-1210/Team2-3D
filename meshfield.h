@@ -75,5 +75,6 @@ private:
 	int m_nMeshZ;			//z軸の個数
 
 	float m_fVecNor;		//メッシュ法線ベクトル
+	float m_fVecVtx[MESHFIELD_WIDTH * MESHFIELD_HEIGHT];		//頂点毎の法線ベクトルの配列
 };
-#endif 
+#endif

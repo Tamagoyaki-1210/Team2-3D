@@ -28,28 +28,6 @@ CObjectX::~CObjectX()
 //=====================================
 //初期化処理
 //=====================================
-void CObjectX::Init(char *xFail)
-{
-	CObjectX::Init();
-
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
-
-	//Xファイルの読み込み(体)
-	D3DXLoadMeshFromX(
-		//"Data\\Model\\00_niwamaru_body.x",
-		(LPCSTR)xFail,
-		D3DXMESH_SYSTEMMEM,
-		pDevice,
-		NULL,
-		&m_pBuffMat,
-		NULL,
-		&m_nNumMat,
-		&m_pMesh
-	);
-}
-//=====================================
-//初期化処理
-//=====================================
 void CObjectX::Init()
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -110,7 +88,7 @@ void CObjectX::Draw()
 	D3DXMatrixMultiply(&m_worldmtx, &m_worldmtx, &mtxRot);
 
 	//位置を反映
-	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y + m_fPalentY, m_pos.z);
+	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
 	D3DXMatrixMultiply(&m_worldmtx, &m_worldmtx, &mtxTrans);
 
 	//++++++++++++++++++++++++++
@@ -199,13 +177,13 @@ void CObjectX::SetSize(float fWidth, float fHeight)
 //=====================================
 //オブジェクト2D生成処理
 //=====================================
-CObjectX *CObjectX::Create(D3DXVECTOR3 pos, char *xFail)
+CObjectX *CObjectX::Create(D3DXVECTOR3 pos)
 {
 	CObjectX *pObjectX = new CObjectX;	//オブジェクト2Dポインタ
 
 	if (pObjectX != nullptr)
 	{
-		pObjectX->Init(xFail);
+		pObjectX->Init();
 		pObjectX->SetPos(pos);
 	}
 

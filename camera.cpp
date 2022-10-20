@@ -74,7 +74,7 @@ void CCamera::Update()
 	//++++++++++++++++++++++++++++++++++++
 	if (m_bFollowUse)
 	{
-		CObject *pCenter = (CObject*)CObjectX::GetTop(OBJECT_PRIORITY_CENTER);	//オブジェクトの先頭ポインタ
+		CObject *pCenter = (CObject*)CObject::GetTop(OBJECT_PRIORITY_CENTER);	//オブジェクトの先頭ポインタ
 		if (pCenter != nullptr)
 		{
 			//現在位置ポインタに先頭ポインタを代入

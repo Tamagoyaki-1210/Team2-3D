@@ -14,6 +14,8 @@
 #include "game.h"		//作成したgame.hをインクルードする
 #include "application.h"
 #include "texture.h"
+#include "renderer.h"
+
 #include "debugproc.h"
 
 //****************************************************************************
@@ -25,7 +27,7 @@ D3DXVECTOR3 g_rotDestPlayer;
 //=====================================
 // デフォルトコンストラクタ
 //=====================================
-CPlayer::CPlayer() : CObjectX(OBJECT_PRIORITY_CENTER)
+CPlayer::CPlayer() : CObject(OBJECT_PRIORITY_CENTER), m_nMotionKey(0)
 {
 
 }
@@ -43,15 +45,22 @@ CPlayer::~CPlayer()
 //============================================================================
 void CPlayer::Init()
 {
-	CObjectX::Init("Data\\Model\\00_niwamaru_body.x");
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	m_pModel[0] = CModel::Create(D3DXVECTOR3(0.0f, 4.0f, -6.0f), "Data\\Model\\01_niwamaru_head.x");
-	m_pModel[1] = CModel::Create(D3DXVECTOR3(2.0f, -2.0f, 0.0f), "Data\\Model\\02_niwamaru_legL.x");
-	m_pModel[2] = CModel::Create(D3DXVECTOR3(-2.0f, -2.0f, 0.0f), "Data\\Model\\03_niwamaru_legR.x");
+	m_apModel[0] = CModel::Create(D3DXVECTOR3(0.0f, 15.0f, 0.0f), "Data\\Model\\00_niwamaru_body.x");
+	m_apModel[1] = CModel::Create(D3DXVECTOR3(0.0f, 4.0f, -6.0f), "Data\\Model\\01_niwamaru_head.x");
+	m_apModel[2] = CModel::Create(D3DXVECTOR3(2.0f, -2.0f, 0.0f), "Data\\Model\\02_niwamaru_legL.x");
+	m_apModel[3] = CModel::Create(D3DXVECTOR3(-2.0f, -2.0f, 0.0f), "Data\\Model\\03_niwamaru_legR.x");
+
+	for (int nInd = 1; nInd < MAX_PLAYER_PARTS; nInd++)
+	{
+		m_apModel[nInd]->SetParent(m_apModel[0]);
+	}
 
 	m_nLife = PLAYER_LIFE;
 	m_nPower = 0;
-	m_fFlame = 0;
+	m_nMotionFrame = 0;
 	m_fAttack = 0;
 	m_bDamege = false;
 	m_bLoop = false;
@@ -59,31 +68,6 @@ void CPlayer::Init()
 	m_motion = MOTION_NUTRAL;
 
 	//m_pShadow = CShadow::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-
-	//for (int nCntPlayerParts = 0; nCntPlayerParts < MAX_PLAYER_PARTS; nCntPlayerParts++)
-	//{
-	//	g_aPlayer.aParts[nCntPlayerParts].Worldmtx = D3DXMATRIX();	//ワールドマトリックス
-	//}
-
-	////体(親)のパーツ
-	//g_aPlayer.aParts[0].pos = D3DXVECTOR3(0.0f, 10.0f, 0.0f);
-	//g_aPlayer.aParts[0].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//g_aPlayer.aParts[0].nIdxModelParent = -1;
-
-	////頭(子)のパーツ
-	//g_aPlayer.aParts[1].pos = D3DXVECTOR3(0.0f, 4.0f, -6.0f);
-	//g_aPlayer.aParts[1].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//g_aPlayer.aParts[1].nIdxModelParent = 0;
-
-	////左足(子)のパーツ
-	//g_aPlayer.aParts[2].pos = D3DXVECTOR3(2.0f, -2.0f, 0.0f);
-	//g_aPlayer.aParts[2].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//g_aPlayer.aParts[2].nIdxModelParent = 0;
-
-	////右足(子)のパーツ
-	//g_aPlayer.aParts[3].pos = D3DXVECTOR3(-2.0f, -2.0f, 0.0f);
-	//g_aPlayer.aParts[3].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	//g_aPlayer.aParts[3].nIdxModelParent = 0;
 
 	//g_nIndxShadowPlayer = SetShadow(g_aPlayer.pos, g_aPlayer.rot);
 }
@@ -95,9 +79,8 @@ void CPlayer::Uninit()
 {
 	for (int nInd = 0; nInd < MAX_PLAYER_PARTS; nInd++)
 	{
-		m_pModel[nInd]->Uninit();
+		m_apModel[nInd]->Uninit();
 	}
-	CObjectX::Uninit();
 }
 
 //============================================================================
@@ -107,29 +90,21 @@ void CPlayer::Update()
 {
 	for (int nInd = 0; nInd < MAX_PLAYER_PARTS; nInd++)
 	{
-		m_pModel[nInd]->Update();
+		m_apModel[nInd]->Update();
 	}
-	CObjectX::Update();
 
+	//プレイヤーの前回位置を反映
+	m_posOld = m_pos;
 
-	D3DXVECTOR3 pos = CObjectX::GetPos();
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//落ちたら復帰する処理
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	if (pos.y <= -100)
+	if (m_pos.y <= -100)
 	{
 		m_nLife--;
 		//pos = D3DXVECTOR3(0.0f, 20.0f, 0.0f);
-		pos.y = 20.0f;
+		m_pos.y = 20.0f;
 	}
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//その他の処理
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	D3DXVECTOR3 rot = CObjectX::GetRot();
-
-	//プレイヤーの前回位置を反映
-	m_posOld = pos;
-
 	//重力を更新(増幅させる)
 	m_move.y -= 4.0f;
 
@@ -138,19 +113,14 @@ void CPlayer::Update()
 	//移動量を更新(減衰させる)
 	m_move -= m_move * 0.1f;
 
-	pos = CObjectX::GetPos();
-
 	Motion();
 	Collision();
 
-	pos = CObjectX::GetPos();
-
 	//プレイヤーの位置更新
-	pos += m_move * 0.1f;
+	m_pos += m_move * 0.1f;
 
-	SetPos(pos);
-	//m_pModel->SetPos(pos);
-	//m_pModel->SetRot(rot);
+	//m_apModel[0]->SetPos(m_pos);
+	//m_apModel[0]->SetRot(m_rot);
 
 	//m_pShadow->SetShadow(D3DXVECTOR3(pos.x, 2.0f, pos.z));
 
@@ -161,10 +131,28 @@ void CPlayer::Update()
 void CPlayer::Draw()
 {
 	CApplication::GetTexture()->TextureType(CTexture::TYPE_PLAYER);
-	CObjectX::Draw();
+
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+
+	D3DXMATRIX mtxRot, mtxTrans;
+
+	//ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&m_worldmtx);
+
+	//向きを反映(YaW : y,Pitch : x,Roll : z)
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
+	D3DXMatrixMultiply(&m_worldmtx, &m_worldmtx, &mtxRot);
+
+	//位置を反映
+	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
+	D3DXMatrixMultiply(&m_worldmtx, &m_worldmtx, &mtxTrans);
+
+	//ワールドマトリックスの設定
+	pDevice->SetTransform(D3DTS_WORLD, &m_worldmtx);
+
 	for (int nInd = 0; nInd < MAX_PLAYER_PARTS; nInd++)
 	{
-		m_pModel[nInd]->Draw(GetWorldMtx());
+		m_apModel[nInd]->Draw();
 	}
 	CApplication::GetTexture()->TextureClear();
 
@@ -225,8 +213,6 @@ void CPlayer::Input()
 
 	//カメラ取得処理
 	CCamera *pCamera = CApplication::GetCamera();
-
-	D3DXVECTOR3 rotPlayer = GetRot();
 	D3DXVECTOR3 rotCamera = pCamera->GetRot();
 
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -234,10 +220,10 @@ void CPlayer::Input()
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	if (pInput->GetKeyboardPress(DIK_W) == true)
 	{//手前移動
-		rotPlayer.y += (m_rotDest.y - rotPlayer.y) / 10;
+		m_rot.y += (m_rotDest.y - m_rot.y) / 10;
 		if (m_bLoop == false && m_bGround == true)
 		{
-			m_fFlame = 0;
+			m_nMotionFrame = 0;
 			m_motion = MOTION_WARK;
 			m_bLoop = true;
 		}
@@ -258,22 +244,22 @@ void CPlayer::Input()
 			m_move.x += sinf(rotCamera.y) * PLAYER_SPEAD;
 			m_move.z += cosf(rotCamera.y) * PLAYER_SPEAD;
 
-			if (rotPlayer.y >= rotCamera.y)
+			if (m_rot.y >= rotCamera.y)
 			{
-				m_rotDest.y = rotCamera.y + D3DX_PI;
+				m_rot.y = rotCamera.y + D3DX_PI;
 			}
-			else if (rotPlayer.y < rotCamera.y)
+			else if (m_rot.y < rotCamera.y)
 			{
-				m_rotDest.y = rotCamera.y - D3DX_PI;
+				m_rot.y = rotCamera.y - D3DX_PI;
 			}
 		}
 	}
 	else if (pInput->GetKeyboardPress(DIK_S) == true)
 	{//奥移動
-		rotPlayer.y += (m_rotDest.y - rotPlayer.y) / 10;
+		m_rot.y += (m_rotDest.y - m_rot.y) / 10;
 		if (m_bLoop == false && m_bGround == true)
 		{
-			m_fFlame = 0;
+			m_nMotionFrame = 0;
 			m_motion = MOTION_WARK;
 			m_bLoop = true;
 		}
@@ -299,10 +285,10 @@ void CPlayer::Input()
 	}
 	else if (pInput->GetKeyboardPress(DIK_A) == true)
 	{//左移動
-		rotPlayer.y += (m_rotDest.y - rotPlayer.y) / 10;
+		m_rot.y += (m_rotDest.y - m_rot.y) / 10;
 		if (m_bLoop == false && m_bGround == true)
 		{
-			m_fFlame = 0;
+			m_nMotionFrame = 0;
 			m_motion = MOTION_WARK;
 			m_bLoop = true;
 		}
@@ -313,11 +299,11 @@ void CPlayer::Input()
 	}
 	else if (pInput->GetKeyboardPress(DIK_D) == true)
 	{//右移動
-		rotPlayer.y += (m_rotDest.y - rotPlayer.y) / 10;
+		m_rot.y += (m_rotDest.y - m_rot.y) / 10;
 		if (m_bLoop == false && m_bGround == true)
 		{
-			m_fFlame = 0;
-			m_motion = MOTION_WARK;
+			m_nMotionFrame = 0;
+			//m_motion = MOTION_WARK;
 			m_bLoop = true;
 		}
 
@@ -330,9 +316,9 @@ void CPlayer::Input()
 	{//接地時の処理
 		if (pInput->GetKeyboardTrigger(DIK_SPACE) == true)
 		{//ジャンプ
-			m_motion = MOTION_JUMP;
+			//m_motion = MOTION_JUMP;
 			m_bLoop = true;
-			m_fFlame = 0;
+			m_nMotionFrame = 0;
 			m_move.y += 100.0f;
 			m_bGround = false;		//着地判定を偽にする
 		}
@@ -360,7 +346,6 @@ void CPlayer::Input()
 	//{
 	//	m_fFlame++;
 	//}
-	SetRot(rotPlayer);
 	RotNormalize();
 }
 
@@ -369,9 +354,62 @@ void CPlayer::Input()
 //=====================================
 void CPlayer::Motion()
 {
+	D3DXVECTOR3 ModelRot1 = m_apModel[0]->GetRot();
+	D3DXVECTOR3 ModelRot2 = m_apModel[1]->GetRot();
+	D3DXVECTOR3 ModelRot3 = m_apModel[2]->GetRot();
+	D3DXVECTOR3 ModelRot4 = m_apModel[3]->GetRot();
 	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	////プレイヤーモーション処理
 	////++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//通常状態
+	if (m_motion == MOTION_NUTRAL)
+	{
+		m_nMotionFrame++;
+		
+		//for (int nPart = 0; nPart < MAX_PLAYER_PARTS; nPart++)
+		//{
+		//	if (m_nMotionFrame < m_aKeySet[m_nMotionKey].m_nFrame)
+		//	{
+		//		m_apModel[0]->SetPos(D3DXVECTOR3(m_aKeySet[m_nMotionKey].aKey[0].fPosX, m_aKeySet[m_nMotionKey].aKey[0].fPosY, m_aKeySet[m_nMotionKey].aKey[0].fPosZ));
+		//		m_nMotionKey++;
+		//	}
+		//}
+
+		if (m_nMotionFrame <= 40)
+		{
+			//体(親)のパーツ
+			m_apModel[0]->SetRot(ModelRot1 + D3DXVECTOR3(-0.002f, 0.0f, 0.0f));
+			////頭(子)のパーツ
+			m_apModel[1]->SetRot(ModelRot2 + D3DXVECTOR3(0.002f, 0.0f, 0.0f));
+			////左足(子)のパーツ
+			m_apModel[2]->SetRot(ModelRot3 + D3DXVECTOR3(0.003f, 0.0f, 0.0f));
+			////右足(子)のパーツ
+			m_apModel[3]->SetRot(ModelRot4 + D3DXVECTOR3(0.003f, 0.0f, 0.0f));
+		}
+		else if (m_nMotionFrame <= 80)
+		{
+			//体(親)のパーツ
+			m_apModel[0]->SetRot(ModelRot1 - D3DXVECTOR3(-0.002f, 0.0f, 0.0f));
+			////頭(子)のパーツ
+			m_apModel[1]->SetRot(ModelRot2 - D3DXVECTOR3(0.002f, 0.0f, 0.0f));
+			////左足(子)のパーツ
+			m_apModel[2]->SetRot(ModelRot3 - D3DXVECTOR3(0.003f, 0.0f, 0.0f));
+			////右足(子)のパーツ
+			m_apModel[3]->SetRot(ModelRot4 - D3DXVECTOR3(0.003f, 0.0f, 0.0f));
+		}
+		else
+		{//モーションリセット
+			m_nMotionFrame = 0;
+			//体(親)のパーツ
+			m_apModel[0]->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+			////頭(子)のパーツ
+			m_apModel[1]->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+			////左足(子)のパーツ
+			m_apModel[2]->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+			////右足(子)のパーツ
+			m_apModel[3]->SetRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+		}
+	}
 	////通常状態
 	//if (m_motion == MOTION_NUTRAL)
 	//{
@@ -419,6 +457,7 @@ void CPlayer::Motion()
 	//		g_aPlayer.aParts[3].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	//	}
 	//}
+
 	////通常状態以外の処理
 	//else if (g_aPlayer.bLoop == true)
 	//{
@@ -794,7 +833,6 @@ void CPlayer::Collision()
 	//プレイヤーのサイズの半径を求める処理
 	D3DXVECTOR3 r_size = size / 2;
 
-	D3DXVECTOR3 pos = CObjectX::GetPos();
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//床の判定処理
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -808,7 +846,7 @@ void CPlayer::Collision()
 	//bool bIsGroundModel = ModelCollision(&g_aPlayer.pos, &g_aPlayer.posOld, &g_aPlayer.move, &r_size);
 
 	//床接地時
-	if (pField->FieldCollision(pos, m_posOld) == true)
+	if (pField->FieldCollision(m_pos, m_posOld) == true)
 	{
 
 		//接地しているなら
@@ -816,15 +854,15 @@ void CPlayer::Collision()
 		//{
 		float f = pField->GetVecNor();
 			//プレイヤーの位置.yを押し上げる処理
-			SetPos(D3DXVECTOR3(pos.x, f, pos.z));
+			m_pos.y = f;
 				//m_move.y = 0.0f;
 
 				if (m_bGround == false)
 				{
 					m_bGround = true;	//着地判定を真にする
 					m_bLoop = true;
-					m_fFlame = 0;
-					m_motion = MOTION_LANDING;
+					m_nMotionFrame = 0;
+					//m_motion = MOTION_LANDING;
 				}
 			
 		//}
@@ -839,34 +877,32 @@ void CPlayer::Collision()
 //=====================================
 void CPlayer::RotNormalize()
 {
-	D3DXVECTOR3 rotPlayer = GetRot();
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//角度の正規化処理
 	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	if (rotPlayer.y > D3DX_PI)
+	if (m_rot.y > D3DX_PI)
 	{//現在の角度が(PI)より大きい場合
-		rotPlayer.y -= D3DX_PI * 2;
+		m_rot.y -= D3DX_PI * 2;
 	}
-	else if (rotPlayer.y < -D3DX_PI)
+	else if (m_rot.y < -D3DX_PI)
 	{//現在の角度が(-PI)より小さい場合
-		rotPlayer.y += D3DX_PI * 2;
+		m_rot.y += D3DX_PI * 2;
 	}
 
-	if (m_rotDest.y - rotPlayer.y > D3DX_PI)
+	if (m_rotDest.y - m_rot.y > D3DX_PI)
 	{//現在の目的値が(PI)より大きい場合
 		m_rotDest.y -= 2 * D3DX_PI;
 	}
-	else if (m_rotDest.y - rotPlayer.y < -D3DX_PI)
+	else if (m_rotDest.y - m_rot.y < -D3DX_PI)
 	{//現在の目的地が(-PI)より小さい場合
 		m_rotDest.y += 2 * D3DX_PI;
 	}
-	SetRot(rotPlayer);
 }
 
 //=====================================
 //プレイヤー生成処理
 //=====================================
-CPlayer *CPlayer::Create(D3DXVECTOR3 pos, float ParentY)
+CPlayer *CPlayer::Create(D3DXVECTOR3 pos )
 {
 	CPlayer *pPlayer = new CPlayer;		//プレイヤーポインタ
 
@@ -875,7 +911,6 @@ CPlayer *CPlayer::Create(D3DXVECTOR3 pos, float ParentY)
 		pPlayer->Init();
 		pPlayer->SetPos(pos);
 		pPlayer->SetType(TYPE_PLAYER);
-		pPlayer->SetPalentY(ParentY);
 	}
 	return pPlayer;
 }

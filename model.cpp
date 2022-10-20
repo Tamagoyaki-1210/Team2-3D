@@ -48,6 +48,8 @@ void CModel::Init(char *xFail)
 		&m_nNumMat,
 		&m_pMesh
 	);
+
+	m_pParent = nullptr;
 }
 
 //=====================================
@@ -92,17 +94,17 @@ void CModel::Update()
 //=====================================
 //描画処理
 //=====================================
-void CModel::Draw(D3DXMATRIX worldmtx)
+void CModel::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
 	D3DXMATRIX mtxRot, mtxTrans;
 	D3DXMATRIX mtxParent;						//親用マトリクス
-	D3DMATERIAL9 matDef;						//現在のマテリアル保存用
+	D3DMATERIAL9 matDef;
 
-												//ワールドマトリックスの初期化
+	//ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_worldmtx);
-
+	
 	//現在のマテリアルを取得する
 	pDevice->GetMaterial(&matDef);
 
@@ -114,8 +116,16 @@ void CModel::Draw(D3DXMATRIX worldmtx)
 	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
 	D3DXMatrixMultiply(&m_worldmtx, &m_worldmtx, &mtxTrans);
 
+	if (m_pParent != nullptr)
+	{
+		mtxParent = m_pParent->GetWorldMtx();
+	}
+	else
+	{
+		pDevice->GetTransform(D3DTS_WORLD, &mtxParent);
+	}
 	//親モデルのマトリックスとの掛け算
-	D3DXMatrixMultiply(&m_worldmtx, &m_worldmtx, &worldmtx);
+	D3DXMatrixMultiply(&m_worldmtx, &m_worldmtx, &mtxParent);
 
 	//++++++++++++++++++++++++++
 	// 平面投影法
