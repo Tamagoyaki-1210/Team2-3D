@@ -118,9 +118,7 @@ void CObject::SetPriority(int nPriority)
 	{
 		nPriority = 5;
 	}
-
-	int nLastPriority = m_nPriority;
-
+	
 	if (m_pPrev != nullptr)
 	{
 		if (m_pNext != nullptr)

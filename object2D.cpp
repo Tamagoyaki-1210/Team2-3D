@@ -414,9 +414,6 @@ void CObject_2D::SetTextureParameter(const int MaxPattern, const int LinePattern
 	m_nMaxTexPattern = MaxPattern;					//アニメーションパターンの最大数の設定
 	m_nAnimFrame = nAnimFrame;						//アニメーションフレーム数の設定
 
-	float fX = 1.0f / m_nTexLine;				
-	float fY = 1.0f / m_nMaxTexColumn;
-
 	VERTEX_2D* pVtx = nullptr;
 
 	//頂点バッファのロック

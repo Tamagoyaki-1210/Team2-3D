@@ -322,6 +322,7 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos)
 		return nullptr;
 	}
 
+	pModel->m_pos = pos;
 	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_CROBAT_BODY, D3DXVECTOR3(0.0f, 50.0f, 0.0f), Vec3Null);						//‘Ì‚Ìƒ‚ƒfƒ‹‚ð¶¬‚·‚é
 	pModel->m_pModel[LEFT_WING] = CModelPart::Create(CModel::MODEL_CROBAT_LEFT_WING, D3DXVECTOR3(7.0f, 10.0f, -2.0f), Vec3Null);			//¶—ƒ‚Ìƒ‚ƒfƒ‹‚ð¶¬‚·‚é
 	pModel->m_pModel[LEFT_WING]->SetParent(pModel->m_pModel[BODY]);																			//¶—ƒ‚Ìe‚ðÝ’è‚·‚é
@@ -340,8 +341,6 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos)
 	vParts.push_back(pModel->m_pModel[LEFT_WING_SMALL]);
 	vParts.push_back(pModel->m_pModel[RIGHT_WING_SMALL]);
 	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_CROBAT);
-
-	CMeshfield::AddLandedObj(pModel);
 
 	return pModel;
 }

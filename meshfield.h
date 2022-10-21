@@ -33,10 +33,7 @@ public:
 
 	void SetTexture(CObject::TextType texture);			//テクスチャの設定処理
 	void SetTextureTiling(D3DXVECTOR2 TileSize);		//テクスチャの大きさの設定処理
-	void SetTextureTiling(float fTileSize);				//テクスチャの大きさの設定処理
-
-	static void AddLandedObj(CObject* pObj);			
-	static void RemoveLandedObj(CObject* pObj);			
+	void SetTextureTiling(float fTileSize);				//テクスチャの大きさの設定処理		
 
 	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot,
 		const D3DXVECTOR2 unitSize, const int NumberLines, const int NumberColumns);							//生成処理

@@ -154,8 +154,6 @@ void CMeshfield::Draw(void)
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 	D3DXMATRIX	mtxRot, mtxTrans;											//計算用マトリックス
 
-	void* p = this;
-
 	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	//ワルドマトリックスの初期化
@@ -261,31 +259,6 @@ void CMeshfield::SetTextureTiling(float fTileSize)
 
 
 
-
-void CMeshfield::AddLandedObj(CObject* pObj)
-{
-	/*if (pObj != nullptr)
-	{
-		m_vLandedObj.push_back(pObj);
-	}*/
-}
-
-void CMeshfield::RemoveLandedObj(CObject* pObj)
-{
-	/*if (pObj != nullptr)
-	{
-		int nSize = m_vLandedObj.size();
-
-		for (int nCnt = 0; nCnt < nSize; nCnt++)
-		{
-			if (m_vLandedObj.data()[nCnt] == pObj)
-			{
-				m_vLandedObj.erase(m_vLandedObj.begin() + nCnt);
-				break;
-			}
-		}
-	}*/
-}
 
 CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR2 unitSize, const int nColumn, const int nLine)
 {
@@ -498,17 +471,17 @@ void CMeshfield::SetVertex(void)
 		for (int nCntColumn = 0; nCntColumn < m_nColumnVertex * 2; nCntColumn += 2)
 		{
 			//一行のインデックスの設定
-			pIdx[(nCnt * m_nColumnVertex) + nCntColumn + nStart] = m_nColumnVertex + (m_nColumnVertex * (nCnt)) + (nCntColumn / 2);
+			pIdx[(nCnt * m_nColumnVertex) + nCntColumn + nStart] = (WORD)(m_nColumnVertex + (m_nColumnVertex * (nCnt)) + (nCntColumn / 2));
 			int a = m_nColumnVertex + (m_nColumnVertex * (nCnt)) + (nCntColumn / 2);
-			pIdx[(nCnt * m_nColumnVertex) + nCntColumn + nStart + 1] = (m_nColumnVertex * (nCnt)) + (nCntColumn / 2);
+			pIdx[(nCnt * m_nColumnVertex) + nCntColumn + nStart + 1] = (WORD)((m_nColumnVertex * (nCnt)) + (nCntColumn / 2));
 			a = (m_nColumnVertex * (nCnt)) + (nCntColumn / 2);
 			a++;
 
 			if (nCntColumn + 2 >= 2 * m_nColumnVertex && nCnt != m_nLineVertex - 2)
 			{
 				//縮退ポリゴン用のインデックスの設定
-				pIdx[(nCnt * m_nColumnVertex) + nCntColumn + nStart + 2] = (m_nColumnVertex * (nCnt)) + (nCntColumn / 2);
-				pIdx[(nCnt * m_nColumnVertex) + nCntColumn + nStart + 3] = m_nColumnVertex + (m_nColumnVertex * (nCnt + 1));
+				pIdx[(nCnt * m_nColumnVertex) + nCntColumn + nStart + 2] = (WORD)((m_nColumnVertex * (nCnt)) + (nCntColumn / 2));
+				pIdx[(nCnt * m_nColumnVertex) + nCntColumn + nStart + 3] = (WORD)(m_nColumnVertex + (m_nColumnVertex * (nCnt + 1)));
 				nStart += 2 + m_nColumnVertex;
 			}
 
