@@ -15,9 +15,12 @@
 #include "camera.h"
 #include "model.h"
 #include "debugProc.h"
-#include "Letter.h"
+#include "object2D.h"
+//#include "Letter.h"
 #include "animator.h"
-#include "mode.h"
+#include "title.h"
+#include "game.h"
+#include "result.h"
 
 //静的メンバー変数の宣言
 HWND CApplication::m_hWnd;
@@ -30,7 +33,7 @@ CCamera* CApplication::m_pCamera = nullptr;
 bool CApplication::m_bFade = false;
 CMode *CApplication::m_pMode = nullptr;					// モードへのポインタ
 CDebugProc* CApplication::m_pDebug = nullptr;
-
+CApplication::Mode CApplication::m_mode = CApplication::Mode_Title;
 
 //コンストラクタ
 CApplication::CApplication()
@@ -61,12 +64,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		return -1;
 	}
 
-	// モードインスタンスの生成処理
-	m_pMode = new CMode;
-
-	//最初のモード
-	m_pMode->FirstMode(CMode::MODE_GAME);
-
 	m_pDebug = CDebugProc::Create();
 
 	//テクスチャ全部をロード処理
@@ -76,6 +73,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	CModel::LoadAllModels();
 
 	CAnimator::LoadAllAnimation();
+
+	// モードインスタンスの生成処理
+	m_pMode = CGame::Create();
 
 	//キーボードインスタンスの生成処理
 	m_pInput[0] = new CInputKeyboard;
@@ -113,18 +113,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
 
 	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -300.0f), D3DXVECTOR3(0.0f, -200.0f, 300.0f));
-
-	CObject_2D* pObj2D = CObject_2D::Create();
-	pObj2D->SetPos(D3DXVECTOR3(100.0f, 100.0f, 0.0f));
-	pObj2D->SetSize(D3DXVECTOR2(20.0f, 20.0f));
-	pObj2D->SetTexture(CObject::TEXTURE_LETTERS);
-	pObj2D->SetTextureParameter(5, 13, 2, 60);
-	pObj2D->SetAnimPattern(15);
-	pObj2D->SetAnimationBase(15);
-
-	CLetter::Create(D3DXVECTOR3(200.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 'r', 5);
-
-	CLetter::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 4, 5);
 
 	//FILE*pFile;				//ファイルポインタを宣言する
 
@@ -249,7 +237,6 @@ void CApplication::Update(void)
 	if (m_pMode != nullptr)
 	{
 		m_pMode->Update();
-		m_pMode->SetMode();
 	}
 
 	if (m_pMouse != nullptr)
@@ -294,10 +281,6 @@ void CApplication::Draw(void)
 	{
 		m_pRenderer->Draw();
 	}
-	if (m_pMode != nullptr)
-	{
-		m_pMode->Draw();
-	}
 }
 
 CRenderer* CApplication::GetRenderer(void)
@@ -326,7 +309,42 @@ CCamera* CApplication::GetCamera(void)
 	return m_pCamera;
 }
 
-CMode* CApplication::GetMode(void)
+// モード取得処理
+CApplication::Mode CApplication::GetMode(void)
 {
-	return m_pMode;
+	return m_mode;
+}
+
+// モード設定処理
+void CApplication::SetMode(Mode mode)
+{
+	if (m_pMode != nullptr)
+	{
+		m_pMode->Uninit();
+		delete m_pMode;
+		m_pMode = nullptr;
+	}
+
+	CObject::ReleaseAll();
+
+	if (m_pSound != nullptr)
+	{
+		m_pSound->Stop();
+	}
+
+	switch (mode)
+	{
+	case CApplication::Mode_Title:
+		m_pMode = CTitle::Create();
+		break;
+	case CApplication::Mode_Game:
+		m_pMode = CGame::Create();
+		break;
+	case CApplication::Mode_Result:
+		m_pMode = CResult::Create();
+		break;
+	default:
+		break;
+	}
+	m_mode = mode;
 }
