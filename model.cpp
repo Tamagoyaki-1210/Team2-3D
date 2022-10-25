@@ -21,16 +21,16 @@ std::vector <LPDIRECT3DTEXTURE9>     CModel::m_vModelTexture[CModel::MODEL_MAX];
 
 char*			CModel::m_pModelPass[MODEL_MAX] =
 {
-	{ "data\\MODELS\\body.x" },
-	{ "data\\MODELS\\head.x"},
-	{ "data\\MODELS\\leftArm.x" },
-	{ "data\\MODELS\\LeftHand.x" },
-	{ "data\\MODELS\\RightArm.x" },
-	{ "data\\MODELS\\RightHand.x" },
-	{ "data\\MODELS\\LeftLeg.x" },
-	{ "data\\MODELS\\LeftFoot.x" },
-	{ "data\\MODELS\\RightLeg.x" },
-	{ "data\\MODELS\\RightFoot.x" }
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Body.x" },
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Head.x"},
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Arm_Left.x" },
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Hand_Left.x" },
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Arm_Right.x" },
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Hand_Right.x" },
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Leg_Left.x" },
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Foot_Left.x" },
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Leg_Right.x" },
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Foot_Right.x" }
 };
 
 //コンストラクタ

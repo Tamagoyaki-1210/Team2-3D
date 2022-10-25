@@ -177,7 +177,9 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="pointLight.cpp" />
     <ClCompile Include="rendering.cpp" />
+    <ClCompile Include="result.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="title.cpp" />
     <ClCompile Include="UIString.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -204,7 +206,9 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="pointLight.h" />
     <ClInclude Include="rendering.h" />
+    <ClInclude Include="result.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="title.h" />
     <ClInclude Include="UIString.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

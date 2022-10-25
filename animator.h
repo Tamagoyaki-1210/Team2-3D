@@ -69,6 +69,8 @@ public:
 	static void DestroyLoadedAnimation(void);				//全部のアニメーションの破棄処理
 	static CAnimator* Create(std::vector <CModelPart*>* vParts, AnimType type);				//生成処理
 
+	void SetPresentAnim(int nPresentAnim);
+
 private:
 
 	//アニメーションスピード
