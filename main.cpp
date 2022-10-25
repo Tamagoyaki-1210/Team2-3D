@@ -36,7 +36,7 @@ int g_nCountFPS;
 //=============================================================================
 // ÉÅÉCÉìä÷êî
 //=============================================================================
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
 	WNDCLASSEX wcex =
 	{

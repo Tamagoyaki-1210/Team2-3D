@@ -10,12 +10,13 @@
 //*****************************************************************************
 #include "rendering.h"
 #include "object.h"
-#include "object2D.h"
+//#include "object2D.h"
 #include "camera.h"
-#include "player.h"
+//#include "player.h"
 #include "application.h"
 #include <stdio.h>
 #include "debugProc.h"
+#include "game.h"
 
 //=============================================================================
 // コンストラクタ
@@ -204,7 +205,7 @@ void CRenderer::DrawFPS(void)
 	TCHAR str[256];
 
 	float fRot = CApplication::GetCamera()->GetRot().y;
-	float fRotPlayer = CApplication::GetPlayer()->GetDestRot().y;
+	float fRotPlayer = CGame::GetPlayer()->GetDestRot().y;
 
 	sprintf(str, _T("FPS : %d\n\n %f\n %f\n"), fps, fRot, fRotPlayer);
 
