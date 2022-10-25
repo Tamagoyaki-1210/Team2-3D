@@ -22,7 +22,8 @@
 //#include "Letter.h"
 #include "animator.h"
 #include "title.h"
-#include "game.h"
+#include "gamedebug.h"
+#include "gamerace.h"
 #include "result.h"
 
 //静的メンバー変数の宣言
@@ -78,7 +79,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	CAnimator::LoadAllAnimation();
 
 	// モードインスタンスの生成処理
-	m_pMode = CGame::Create();
+	m_pMode = CGameRace::Create();
 
 	//キーボードインスタンスの生成処理
 	m_pInput[0] = new CInputKeyboard;
@@ -225,7 +226,7 @@ void CApplication::Uninit(void)
 //更新処理
 void CApplication::Update(void)
 {
-	CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動");
+	CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動\n");
 
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
@@ -347,11 +348,14 @@ void CApplication::SetMode(Mode mode)
 	case CApplication::Mode_Title:
 		m_pMode = CTitle::Create();
 		break;
-	case CApplication::Mode_Game:
-		m_pMode = CGame::Create();
+	case CApplication::Mode_Game_Race:
+		m_pMode = CGameRace::Create();
 		break;
 	case CApplication::Mode_Result:
 		m_pMode = CResult::Create();
+		break;
+	case CApplication::Mode_Game_Debug:
+		m_pMode = CGameDebug::Create();
 		break;
 	default:
 		break;

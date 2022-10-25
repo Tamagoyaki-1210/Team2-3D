@@ -29,9 +29,10 @@ class CApplication
 public:
 	enum Mode
 	{
-		Mode_Title = 0,	//タイトル
-		Mode_Game,		//ゲーム
-		Mode_Result,	//リザルト
+		Mode_Title = 0,		//タイトル
+		Mode_Game_Race,		//ゲーム_競争
+		Mode_Result,		//リザルト
+		Mode_Game_Debug,	//ゲーム_デバッグ
 		Mode_Max
 	};
 
