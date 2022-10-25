@@ -21,12 +21,16 @@ std::vector <LPDIRECT3DTEXTURE9>     CModel::m_vModelTexture[CModel::MODEL_MAX];
 
 char*			CModel::m_pModelPass[MODEL_MAX] =
 {
-	{"data\\MODELS\\Tear.x"},
-	{"data\\MODELS\\CrobatBody.x"},
-	{ "data\\MODELS\\CrobatLeftWing.x" },
-	{ "data\\MODELS\\CrobatRightWing.x" },
-	{ "data\\MODELS\\CrobatLeftWingSmall.x" },
-	{ "data\\MODELS\\CrobatRightWingSmall.x" }
+	{ "data\\MODELS\\body.x" },
+	{ "data\\MODELS\\head.x"},
+	{ "data\\MODELS\\leftArm.x" },
+	{ "data\\MODELS\\LeftHand.x" },
+	{ "data\\MODELS\\RightArm.x" },
+	{ "data\\MODELS\\RightHand.x" },
+	{ "data\\MODELS\\LeftLeg.x" },
+	{ "data\\MODELS\\LeftFoot.x" },
+	{ "data\\MODELS\\RightLeg.x" },
+	{ "data\\MODELS\\RightFoot.x" }
 };
 
 //コンストラクタ
@@ -40,9 +44,9 @@ CModel::CModel()
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
 	m_minCoord = Vec3Null;
-	m_maxCoord = Vec3Null;								//モデルの頂点座標の最小値と最大値
+	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = CModel::MODEL_JEWEL_TEAR;
+	m_type = CModel::MODEL_BODY;
 }
 
 CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
@@ -57,7 +61,7 @@ CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
 	m_minCoord = Vec3Null;
 	m_maxCoord = Vec3Null;								//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = CModel::MODEL_JEWEL_TEAR;
+	m_type = CModel::MODEL_BODY;
 }
 
 //デストラクタ
