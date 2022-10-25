@@ -8,8 +8,10 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+//=============================================================================
 //インクルードファイル
-#include <d3dx9.h>
+//=============================================================================
+#include "mode.h"
 
 //前方宣言
 class CRenderer;
@@ -25,6 +27,13 @@ class CMode;
 class CApplication
 {
 public:
+	enum Mode
+	{
+		Mode_Title = 0,	//タイトル
+		Mode_Game,		//ゲーム
+		Mode_Result,	//リザルト
+		Mode_Max
+	};
 
 	CApplication();										//コンストラクタ
 	~CApplication();									//デストラクタ
@@ -38,7 +47,9 @@ public:
 	static HWND GetWindow(void);						//ウインドウの取得処理
 	static CSound* GetSound(void);						//サウンドの取得処理
 	static CCamera* GetCamera(void);					//カメラの取得処理
-	static CMode* GetMode(void);						//モードの取得処理
+
+	static Mode GetMode(void);
+	static void SetMode(Mode mode);
 
 private:
 	static HWND m_hWnd;									//クライエント画面
@@ -51,6 +62,8 @@ private:
 	static CMode* m_pMode;								//モードのインスタンスへのポインタ
 
 	static CDebugProc* m_pDebug;						//
+
+	static Mode m_mode;		//現在モード
 
 	static bool m_bFade;								//フェード中であるかどうか
 };
