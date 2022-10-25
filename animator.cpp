@@ -21,7 +21,7 @@
 //アニメーション情報のテキストファイルの相対パス
 char* CAnimator::m_pAnimPass[ANIM_TYPE_MAX] =
 {
-	{"data\\ANIMATION\\CrobatAnim.txt"},
+	{"data\\ANIMATION\\PlayerAnim.txt"},
 };
 
 std::vector <CAnimator::ModelAnimationSet> CAnimator::m_vAnimAll;			//全部のアニメーション情報を持っているベクトル

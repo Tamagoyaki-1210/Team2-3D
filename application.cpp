@@ -8,6 +8,9 @@
 //インクルードファイル
 #include "application.h"
 #include "rendering.h"
+#include "object.h"
+#include "object2D.h"
+#include "input.h"
 #include "inputKeyboard.h"
 #include "inputMouse.h"
 #include "sound.h"
@@ -216,6 +219,9 @@ void CApplication::Uninit(void)
 		delete m_pDebug;
 		m_pDebug = nullptr;
 	}
+
+	//オブジェクト全体の終了処理
+	CObject::ReleaseAll();
 
 	CLight::ReleaseAll();
 

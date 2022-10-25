@@ -25,7 +25,7 @@ public:
 	//アニメーションの種類
 	enum AnimType
 	{
-		ANIM_TYPE_CROBAT = 0,
+		ANIM_TYPE_PLAYER = 0,
 		ANIM_TYPE_MAX
 	};
 
