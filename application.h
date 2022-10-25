@@ -9,7 +9,7 @@
 #define APPLICATION_H
 
 //インクルードファイル
-#include "object.h"
+#include <d3dx9.h>
 
 //前方宣言
 class CRenderer;
@@ -18,8 +18,8 @@ class CInputMouse;
 class CSound;
 class CFade;
 class CCamera;
-class CPlayer;
 class CDebugProc;
+class CMode;
 
 //アプリケーションのクラス
 class CApplication
@@ -38,7 +38,7 @@ public:
 	static HWND GetWindow(void);						//ウインドウの取得処理
 	static CSound* GetSound(void);						//サウンドの取得処理
 	static CCamera* GetCamera(void);					//カメラの取得処理
-	static CPlayer* GetPlayer(void);					//プレイヤーの取得処理
+	static CMode* GetMode(void);						//モードの取得処理
 
 private:
 	static HWND m_hWnd;									//クライエント画面
@@ -48,13 +48,11 @@ private:
 	static CSound* m_pSound;							//サウンドのインスタンスへのポインタ
 	static CFade* m_pFade;								//フェードのインスタンスへのポインタ
 	static CCamera* m_pCamera;							//カメラのインスタンスへのポインタ
-	static CPlayer* m_pPlayer;							//プレイヤーのインスタンスへのポインタ
+	static CMode* m_pMode;								//モードのインスタンスへのポインタ
 
 	static CDebugProc* m_pDebug;						//
 
 	static bool m_bFade;								//フェード中であるかどうか
 };
-
-
 
 #endif // !APPLICATION_H

@@ -15,7 +15,6 @@
 #include "inputMouse.h"
 #include "sound.h"
 #include "directionalLight.h"
-#include "object3D.h"
 #include "camera.h"
 #include "model.h"
 #include "player.h"
@@ -25,6 +24,7 @@
 #include "Letter.h"
 #include "UIString.h"
 #include "animator.h"
+#include "mode.h"
 
 //静的メンバー変数の宣言
 HWND CApplication::m_hWnd;
@@ -35,8 +35,9 @@ CSound* CApplication::m_pSound = nullptr;
 CFade* CApplication::m_pFade = nullptr;
 CCamera* CApplication::m_pCamera = nullptr;
 bool CApplication::m_bFade = false;
-CPlayer* CApplication::m_pPlayer = nullptr;
+CMode *CApplication::m_pMode = nullptr;					// モードへのポインタ
 CDebugProc* CApplication::m_pDebug = nullptr;
+
 
 //コンストラクタ
 CApplication::CApplication()
@@ -67,6 +68,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		return -1;
 	}
 
+	// モードインスタンスの生成処理
+	m_pMode = new CMode;
+
+	//最初のモード
+	m_pMode->FirstMode(CMode::MODE_GAME);
+
 	m_pDebug = CDebugProc::Create();
 
 	//テクスチャ全部をロード処理
@@ -76,7 +83,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	CModel::LoadAllModels();
 
 	CAnimator::LoadAllAnimation();
-
 
 	//キーボードインスタンスの生成処理
 	m_pInput[0] = new CInputKeyboard;
@@ -112,15 +118,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	CLight::ReleaseAll();
 	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
-	//CDirectionalLight::Create(D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f), D3DXVECTOR3(-5, -3, -2));
+
 	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -300.0f), D3DXVECTOR3(0.0f, -200.0f, 300.0f));
-	CObject_3D* pObj = CObject_3D::Create();
-	pObj->SetPos(D3DXVECTOR3(0.0f, -200.0f, 300.0f));
-	pObj->SetSize(D3DXVECTOR2(100.0f, 100.0f));
-	pObj->SetColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pObj->SetStartingRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	pObj->SetTexture(CObject::TEXTURE_BLOCK);
-	pObj->SetTextureParameter(1, 1, 1, INT_MAX);
 
 	CObject_2D* pObj2D = CObject_2D::Create();
 	pObj2D->SetPos(D3DXVECTOR3(100.0f, 100.0f, 0.0f));
@@ -134,8 +133,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	pField->SetTexture(CObject::TEXTURE_BLOCK);
 	pField->SetTextureTiling(0.33f);
 
-	//CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, -150.0f));
-	//CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, 150.0f));
+	CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, -150.0f));
+	CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, 150.0f));
 
 	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, -100.0f, -100.0f));
 
@@ -191,6 +190,14 @@ void CApplication::Uninit(void)
 		m_pRenderer->Uninit();
 		delete m_pRenderer;
 		m_pRenderer = nullptr;
+	}
+
+	// モード
+	if (m_pMode != nullptr)
+	{
+		m_pMode->Uninit();
+		delete m_pMode;
+		m_pMode = nullptr;
 	}
 
 	//インプットデバイスの破棄
@@ -269,6 +276,12 @@ void CApplication::Update(void)
 		m_pRenderer->Update();
 	}
 
+	if (m_pMode != nullptr)
+	{
+		m_pMode->Update();
+		m_pMode->SetMode();
+	}
+
 	if (m_pMouse != nullptr)
 	{
 		m_pMouse->Update();
@@ -277,11 +290,6 @@ void CApplication::Update(void)
 	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Update();
-	}
-
-	if (m_pPlayer != nullptr)
-	{
-		m_pPlayer->Update();
 	}
 
 	/*if (CInputKeyboard::GetKeyboardTrigger(DIK_C))
@@ -316,6 +324,10 @@ void CApplication::Draw(void)
 	{
 		m_pRenderer->Draw();
 	}
+	if (m_pMode != nullptr)
+	{
+		m_pMode->Draw();
+	}
 }
 
 CRenderer* CApplication::GetRenderer(void)
@@ -344,7 +356,7 @@ CCamera* CApplication::GetCamera(void)
 	return m_pCamera;
 }
 
-CPlayer* CApplication::GetPlayer(void)
+CMode* CApplication::GetMode(void)
 {
-	return m_pPlayer;
+	return m_pMode;
 }
