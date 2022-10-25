@@ -17,12 +17,8 @@
 #include "directionalLight.h"
 #include "camera.h"
 #include "model.h"
-#include "player.h"
 #include "debugProc.h"
-#include "billboard.h"
-#include "meshfield.h"
 #include "Letter.h"
-#include "UIString.h"
 #include "animator.h"
 #include "mode.h"
 
@@ -129,23 +125,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	pObj2D->SetAnimPattern(15);
 	pObj2D->SetAnimationBase(15);
 
-	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(-1000.0f, -150.0f, 1000.0f), Vec3Null, D3DXVECTOR2(50.0f, 50.0f), 30, 30, 3);
-	pField->SetTexture(CObject::TEXTURE_BLOCK);
-	pField->SetTextureTiling(0.33f);
-
-	CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, -150.0f));
-	CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, 150.0f));
-
-	m_pPlayer = CPlayer::Create(D3DXVECTOR3(0.0f, -100.0f, -100.0f));
-
-	CBillboard* pBillboard = CBillboard::Create(D3DXVECTOR3(-150.0f, 0.0f, 300.0f), D3DXVECTOR2(50.0f, 50.0f), 3);
-	pBillboard->SetTexture(CObject::TEXTURE_BLOCK);
-
 	CLetter::Create(D3DXVECTOR3(200.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 'r', 5);
 
 	CLetter::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 4, 5);
-
-	CUIString::Create(D3DXVECTOR3(100.0f, 200.0f, 0.0f), D3DXVECTOR2(250.0f, 25.0f), D3DXCOLOR(0.2f, 1.0f, 0.5f, 1.0f), "Sentence A, 125 $%&");
 
 	//FILE*pFile;				//ファイルポインタを宣言する
 
@@ -230,12 +212,6 @@ void CApplication::Uninit(void)
 		m_pCamera->Uninit();
 		delete m_pCamera;
 		m_pCamera = nullptr;
-	}
-
-	if (m_pPlayer != nullptr)
-	{
-		m_pPlayer->Release();
-		m_pPlayer = nullptr;
 	}
 
 	if (m_pDebug != nullptr)
