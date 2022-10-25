@@ -95,11 +95,11 @@ void CPlayer::Update(void)
 		{//Aキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.5f * cosf(D3DX_PI * 0.25f + cameraRot.y);
+				m_move.x += 0.1f * cosf(D3DX_PI * 0.25f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.5f * sinf(D3DX_PI * 0.25f + cameraRot.y);
+				m_move.z += 0.1f * sinf(D3DX_PI * 0.25f + cameraRot.y);
 			}
 
 			m_DestRot.y = D3DX_PI * 0.25f + fA;
@@ -108,11 +108,11 @@ void CPlayer::Update(void)
 		{//Dキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.5f * cosf(-D3DX_PI * 0.25f + cameraRot.y);
+				m_move.x += 0.1f * cosf(-D3DX_PI * 0.25f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.5f * sinf(-D3DX_PI * 0.25f + cameraRot.y);
+				m_move.z += 0.1f * sinf(-D3DX_PI * 0.25f + cameraRot.y);
 			}
 
 			m_DestRot.y = D3DX_PI * 0.75f + fA;
@@ -121,11 +121,11 @@ void CPlayer::Update(void)
 		{//Wキーだけが押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.5f * cosf(cameraRot.y);
+				m_move.x += 0.1f * cosf(cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.5f * sinf(cameraRot.y);
+				m_move.z += 0.1f * sinf(cameraRot.y);
 			}
 
 			m_DestRot.y = D3DX_PI * 0.5f + fA;
@@ -137,11 +137,11 @@ void CPlayer::Update(void)
 		{//Aキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.5f * cosf(D3DX_PI * 0.75f + cameraRot.y);
+				m_move.x += 0.1f * cosf(D3DX_PI * 0.75f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.5f * sinf(D3DX_PI * 0.75f + cameraRot.y);
+				m_move.z += 0.1f * sinf(D3DX_PI * 0.75f + cameraRot.y);
 			}
 
 			m_DestRot.y = -D3DX_PI * 0.25f + fA;
@@ -150,11 +150,11 @@ void CPlayer::Update(void)
 		{//Dキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.5f * cosf(-D3DX_PI * 0.75f + cameraRot.y);
+				m_move.x += 0.1f * cosf(-D3DX_PI * 0.75f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.5f * sinf(-D3DX_PI * 0.75f + cameraRot.y);
+				m_move.z += 0.1f * sinf(-D3DX_PI * 0.75f + cameraRot.y);
 			}
 
 			m_DestRot.y = -D3DX_PI * 0.75f + fA;
@@ -163,11 +163,11 @@ void CPlayer::Update(void)
 		{//Sキーだけが押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.5f * cosf(D3DX_PI + cameraRot.y);
+				m_move.x += 0.1f * cosf(D3DX_PI + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.5f * sinf(D3DX_PI + cameraRot.y);
+				m_move.z += 0.1f * sinf(D3DX_PI + cameraRot.y);
 			}
 
 			m_DestRot.y = -D3DX_PI * 0.5f + fA;
@@ -177,11 +177,11 @@ void CPlayer::Update(void)
 	{//Dキーだけ押された場合
 		if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 		{
-			m_move.x += 0.5f * cosf(-D3DX_PI * 0.5f + cameraRot.y);
+			m_move.x += 0.1f * cosf(-D3DX_PI * 0.5f + cameraRot.y);
 		}
 		if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 		{
-			m_move.z += 0.5f * sinf(-D3DX_PI * 0.5f + cameraRot.y);
+			m_move.z += 0.1f * sinf(-D3DX_PI * 0.5f + cameraRot.y);
 		}
 
 		m_DestRot.y = D3DX_PI + fA;
@@ -190,11 +190,11 @@ void CPlayer::Update(void)
 	{//Aキーだけ押された場合
 		if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 		{
-			m_move.x += 0.5f * cosf(D3DX_PI * 0.5f + cameraRot.y);
+			m_move.x += 0.1f * cosf(D3DX_PI * 0.5f + cameraRot.y);
 		}
 		if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 		{
-			m_move.z += 0.5f * sinf(D3DX_PI * 0.5f + cameraRot.y);
+			m_move.z += 0.1f * sinf(D3DX_PI * 0.5f + cameraRot.y);
 		}
 
 		m_DestRot.y = fA;
@@ -323,24 +323,49 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos)
 	}
 
 	pModel->m_pos = pos;
-	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_CROBAT_BODY, D3DXVECTOR3(0.0f, 50.0f, 0.0f), Vec3Null);						//体のモデルを生成する
-	pModel->m_pModel[LEFT_WING] = CModelPart::Create(CModel::MODEL_CROBAT_LEFT_WING, D3DXVECTOR3(7.0f, 10.0f, -2.0f), Vec3Null);			//左翼のモデルを生成する
-	pModel->m_pModel[LEFT_WING]->SetParent(pModel->m_pModel[BODY]);																			//左翼の親を設定する
-	pModel->m_pModel[RIGHT_WING] = CModelPart::Create(CModel::MODEL_CROBAT_RIGHT_WING, D3DXVECTOR3(-7.0f, 10.0f, -2.0f), Vec3Null);			//右翼のモデルを生成する
-	pModel->m_pModel[RIGHT_WING]->SetParent(pModel->m_pModel[BODY]);																		//右翼の親を設定する
-	pModel->m_pModel[LEFT_WING_SMALL] = CModelPart::Create(CModel::MODEL_CROBAT_LEFT_WING_SMALL, D3DXVECTOR3(6.0f, 6.0f, 0.0f), Vec3Null);			//左翼(小さい)のモデルを生成する
-	pModel->m_pModel[LEFT_WING_SMALL]->SetParent(pModel->m_pModel[BODY]);																			//左翼(小さい)の親を設定する
-	pModel->m_pModel[RIGHT_WING_SMALL] = CModelPart::Create(CModel::MODEL_CROBAT_RIGHT_WING_SMALL, D3DXVECTOR3(-6.0f, 6.0f, 0.0f), Vec3Null);			//右翼(小さい)のモデルを生成する
-	pModel->m_pModel[RIGHT_WING_SMALL]->SetParent(pModel->m_pModel[BODY]);																		//右翼(小さい)の親を設定する
+	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 10.0f, 0.0f), Vec3Null);					//体のモデルを生成する
+
+	pModel->m_pModel[HEAD] = CModelPart::Create(CModel::MODEL_HEAD, D3DXVECTOR3(0.0f, 10.0f, 0.0f), Vec3Null);					//体のモデルを生成する
+	pModel->m_pModel[HEAD]->SetParent(pModel->m_pModel[BODY]);
+
+	pModel->m_pModel[LEFT_ARM] = CModelPart::Create(CModel::MODEL_LEFT_ARM, D3DXVECTOR3(0.0f, 6.0f, 0.0f), Vec3Null);			//左翼のモデルを生成する
+	pModel->m_pModel[LEFT_ARM]->SetParent(pModel->m_pModel[BODY]);																//左翼の親を設定する
+
+	pModel->m_pModel[LEFT_HAND] = CModelPart::Create(CModel::MODEL_LEFT_HAND, D3DXVECTOR3(-3.0f, 0.0f, 0.0f), Vec3Null);		//左翼のモデルを生成する
+	pModel->m_pModel[LEFT_HAND]->SetParent(pModel->m_pModel[LEFT_ARM]);
+
+	pModel->m_pModel[RIGHT_ARM] = CModelPart::Create(CModel::MODEL_RIGHT_ARM, D3DXVECTOR3(0.0f, 6.0f, 0.0f), Vec3Null);			//右翼のモデルを生成する
+	pModel->m_pModel[RIGHT_ARM]->SetParent(pModel->m_pModel[BODY]);																//右翼の親を設定する
+	
+	pModel->m_pModel[RIGHT_HAND] = CModelPart::Create(CModel::MODEL_RIGHT_HAND, D3DXVECTOR3(3.0f, 0.0f, 0.0f), Vec3Null);		//左翼のモデルを生成する
+	pModel->m_pModel[RIGHT_HAND]->SetParent(pModel->m_pModel[RIGHT_ARM]);
+	
+	pModel->m_pModel[LEFT_LEG] = CModelPart::Create(CModel::MODEL_LEFT_LEG, D3DXVECTOR3(0.0f, -3.0f, 0.0f), Vec3Null);			//左翼(小さい)のモデルを生成する
+	pModel->m_pModel[LEFT_LEG]->SetParent(pModel->m_pModel[BODY]);																//左翼(小さい)の親を設定する
+	
+	pModel->m_pModel[LEFT_FOOT] = CModelPart::Create(CModel::MODEL_LEFT_FOOT, D3DXVECTOR3(-0.5f, -3.0f, 0.0f), Vec3Null);		//左翼(小さい)のモデルを生成する
+	pModel->m_pModel[LEFT_FOOT]->SetParent(pModel->m_pModel[LEFT_LEG]);
+	
+	pModel->m_pModel[RIGHT_LEG] = CModelPart::Create(CModel::MODEL_RIGHT_LEG, D3DXVECTOR3(0.5f, -3.0f, 0.0f), Vec3Null);		//右翼(小さい)のモデルを生成する
+	pModel->m_pModel[RIGHT_LEG]->SetParent(pModel->m_pModel[BODY]);																//右翼(小さい)の親を設定する
+
+	pModel->m_pModel[RIGHT_FOOT] = CModelPart::Create(CModel::MODEL_RIGHT_FOOT, D3DXVECTOR3(0.5f, -3.0f, 0.0f), Vec3Null);	//右翼(小さい)のモデルを生成する
+	pModel->m_pModel[RIGHT_FOOT]->SetParent(pModel->m_pModel[RIGHT_LEG]);
 
 	std::vector <CModelPart*> vParts;
 	vParts.clear();
 	vParts.push_back(pModel->m_pModel[BODY]);
-	vParts.push_back(pModel->m_pModel[LEFT_WING]);
-	vParts.push_back(pModel->m_pModel[RIGHT_WING]);
-	vParts.push_back(pModel->m_pModel[LEFT_WING_SMALL]);
-	vParts.push_back(pModel->m_pModel[RIGHT_WING_SMALL]);
-	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_CROBAT);
+	vParts.push_back(pModel->m_pModel[HEAD]);
+	vParts.push_back(pModel->m_pModel[LEFT_ARM]);
+	vParts.push_back(pModel->m_pModel[LEFT_HAND]);
+	vParts.push_back(pModel->m_pModel[RIGHT_ARM]);
+	vParts.push_back(pModel->m_pModel[RIGHT_HAND]);
+	vParts.push_back(pModel->m_pModel[LEFT_LEG]);
+	vParts.push_back(pModel->m_pModel[LEFT_FOOT]);
+	vParts.push_back(pModel->m_pModel[RIGHT_LEG]);
+	vParts.push_back(pModel->m_pModel[RIGHT_FOOT]);
+
+	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_PLAYER);
 
 	return pModel;
 }

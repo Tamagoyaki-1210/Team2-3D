@@ -27,10 +27,15 @@ public:
 	enum Parts
 	{
 		BODY = 0,
-		LEFT_WING,
-		RIGHT_WING,
-		LEFT_WING_SMALL,
-		RIGHT_WING_SMALL,
+		HEAD,
+		LEFT_ARM,
+		LEFT_HAND,
+		RIGHT_ARM,
+		RIGHT_HAND,
+		LEFT_LEG,
+		LEFT_FOOT,
+		RIGHT_LEG,
+		RIGHT_FOOT,
 		PARTS_MAX
 	};
 

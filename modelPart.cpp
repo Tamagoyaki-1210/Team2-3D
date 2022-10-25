@@ -26,7 +26,7 @@ CModelPart::CModelPart()
 	m_minCoord = Vec3Null;
 	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = CModel::MODEL_JEWEL_TEAR;
+	m_type = CModel::MODEL_BODY;
 	m_pParent = nullptr;
 	m_vModelTexture.clear();
 }
@@ -50,7 +50,7 @@ HRESULT CModelPart::Init(void)
 	m_minCoord = Vec3Null;
 	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = CModel::MODEL_JEWEL_TEAR;
+	m_type = CModel::MODEL_BODY;
 	m_pParent = nullptr;
 	m_vModelTexture.clear();
 
