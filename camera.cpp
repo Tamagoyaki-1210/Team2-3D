@@ -99,10 +99,10 @@ void CCamera::Update(void)
 			fAngle *= -1.0f;
 		}
 
-		m_posV.x += cosf(fAngle) * 5.0f;
-		m_posV.z += sinf(fAngle) * 5.0f;
-		m_posR.x += cosf(fAngle) * 5.0f;
-		m_posR.z += sinf(fAngle) * 5.0f;
+		m_posV.x += cosf(fAngle) * 1.0f;
+		m_posV.z += sinf(fAngle) * 1.0f;
+		m_posR.x += cosf(fAngle) * 1.0f;
+		m_posR.z += sinf(fAngle) * 1.0f;
 	}
 	if (CInputKeyboard::GetKeyboardPress(DIK_RIGHT))
 	{

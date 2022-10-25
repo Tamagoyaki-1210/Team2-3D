@@ -39,6 +39,12 @@ public:
 		PARTS_MAX
 	};
 
+	enum STATE
+	{
+		STATE_NEUTRAL = 0,
+		STATE_RUNNING,
+		STATE_MAX
+	};
 
 	CPlayer();											//コンストラクタ
 	~CPlayer() override;								//デストラクタ
@@ -67,6 +73,8 @@ private:
 
 	CModelPart* m_pModel[PARTS_MAX];					//モデルへのポインタ
 	CAnimator* m_pAnimator;
+
+	STATE m_State;
 	//CModel* m_pModel;									//モデル
 };
 

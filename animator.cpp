@@ -314,3 +314,22 @@ CAnimator* CAnimator::Create(std::vector <CModelPart*>* vParts, AnimType type)
 
 	return pAnimator;					//生成したアニメーターを返す
 }
+
+void CAnimator::SetPresentAnim(int nPresentAnim)
+{
+	if (m_nPresentAnim != nPresentAnim)
+	{
+		m_nPresentAnim = nPresentAnim;
+
+		for (int nCnt = 0; nCnt < (int)m_vParts.size(); nCnt++)
+		{//パーツ毎のアニメーションスピードの計算
+
+			m_vAnimSpeed.data()[nCnt].move = (m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].vAnimKey[nCnt].RelativePos - m_vParts.data()[nCnt]->GetPos())
+				/ (float)m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].nAnimFrames;
+			m_vAnimSpeed.data()[nCnt].rotSpeed = (m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].vAnimKey[nCnt].RelativeRot - m_vParts.data()[nCnt]->GetRot())
+				/ (float)m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].nAnimFrames;
+		}
+	}
+}
+
+
