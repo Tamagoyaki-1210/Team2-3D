@@ -45,6 +45,7 @@ HRESULT CPlayer::Init(void)
 	m_move = Vec3Null;				//速度の初期化処理
 	m_DestRot = Vec3Null;			//目的の角度の初期化処理
 	m_pAnimator = nullptr;
+	m_State = STATE_NEUTRAL;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{
@@ -196,8 +197,29 @@ void CPlayer::Update(void)
 		{
 			m_move.z += 0.1f * sinf(D3DX_PI * 0.5f + cameraRot.y);
 		}
-
 		m_DestRot.y = fA;
+	}
+
+	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D))
+	{
+		m_State = STATE_RUNNING;
+	}
+	else
+	{
+		m_State = STATE_NEUTRAL;
+	}
+
+	switch (m_State)
+	{
+	case STATE_NEUTRAL:
+		m_pAnimator->SetPresentAnim(0);
+		break;
+
+	case STATE_RUNNING:
+		m_pAnimator->SetPresentAnim(1);
+		break;
+	default:
+		break;
 	}
 
 	//m_pModel->SetPos(m_pModel->GetPos() + m_move);
@@ -323,33 +345,33 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos)
 	}
 
 	pModel->m_pos = pos;
-	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 10.0f, 0.0f), Vec3Null);					//体のモデルを生成する
+	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 14.0f, 0.0f), Vec3Null);					//体のモデルを生成する
 
-	pModel->m_pModel[HEAD] = CModelPart::Create(CModel::MODEL_HEAD, D3DXVECTOR3(0.0f, 10.0f, 0.0f), Vec3Null);					//体のモデルを生成する
+	pModel->m_pModel[HEAD] = CModelPart::Create(CModel::MODEL_HEAD, D3DXVECTOR3(0.0f, 13.0f, 0.0f), Vec3Null);					//体のモデルを生成する
 	pModel->m_pModel[HEAD]->SetParent(pModel->m_pModel[BODY]);
 
-	pModel->m_pModel[LEFT_ARM] = CModelPart::Create(CModel::MODEL_LEFT_ARM, D3DXVECTOR3(0.0f, 6.0f, 0.0f), Vec3Null);			//左翼のモデルを生成する
+	pModel->m_pModel[LEFT_ARM] = CModelPart::Create(CModel::MODEL_LEFT_ARM, D3DXVECTOR3(5.0f, 12.0f, 0.0f), Vec3Null);			//左翼のモデルを生成する
 	pModel->m_pModel[LEFT_ARM]->SetParent(pModel->m_pModel[BODY]);																//左翼の親を設定する
 
-	pModel->m_pModel[LEFT_HAND] = CModelPart::Create(CModel::MODEL_LEFT_HAND, D3DXVECTOR3(-3.0f, 0.0f, 0.0f), Vec3Null);		//左翼のモデルを生成する
+	pModel->m_pModel[LEFT_HAND] = CModelPart::Create(CModel::MODEL_LEFT_HAND, D3DXVECTOR3(9.0f, 0.0f, 0.0f), Vec3Null);		//左翼のモデルを生成する
 	pModel->m_pModel[LEFT_HAND]->SetParent(pModel->m_pModel[LEFT_ARM]);
 
-	pModel->m_pModel[RIGHT_ARM] = CModelPart::Create(CModel::MODEL_RIGHT_ARM, D3DXVECTOR3(0.0f, 6.0f, 0.0f), Vec3Null);			//右翼のモデルを生成する
+	pModel->m_pModel[RIGHT_ARM] = CModelPart::Create(CModel::MODEL_RIGHT_ARM, D3DXVECTOR3(-5.0f, 12.0f, 0.0f), Vec3Null);			//右翼のモデルを生成する
 	pModel->m_pModel[RIGHT_ARM]->SetParent(pModel->m_pModel[BODY]);																//右翼の親を設定する
 	
-	pModel->m_pModel[RIGHT_HAND] = CModelPart::Create(CModel::MODEL_RIGHT_HAND, D3DXVECTOR3(3.0f, 0.0f, 0.0f), Vec3Null);		//左翼のモデルを生成する
+	pModel->m_pModel[RIGHT_HAND] = CModelPart::Create(CModel::MODEL_RIGHT_HAND, D3DXVECTOR3(-9.0f, 0.0f, 0.0f), Vec3Null);		//左翼のモデルを生成する
 	pModel->m_pModel[RIGHT_HAND]->SetParent(pModel->m_pModel[RIGHT_ARM]);
 	
-	pModel->m_pModel[LEFT_LEG] = CModelPart::Create(CModel::MODEL_LEFT_LEG, D3DXVECTOR3(0.0f, -3.0f, 0.0f), Vec3Null);			//左翼(小さい)のモデルを生成する
+	pModel->m_pModel[LEFT_LEG] = CModelPart::Create(CModel::MODEL_LEFT_LEG, D3DXVECTOR3(3.0f, 1.0f, 0.0f), Vec3Null);			//左翼(小さい)のモデルを生成する
 	pModel->m_pModel[LEFT_LEG]->SetParent(pModel->m_pModel[BODY]);																//左翼(小さい)の親を設定する
 	
-	pModel->m_pModel[LEFT_FOOT] = CModelPart::Create(CModel::MODEL_LEFT_FOOT, D3DXVECTOR3(-0.5f, -3.0f, 0.0f), Vec3Null);		//左翼(小さい)のモデルを生成する
+	pModel->m_pModel[LEFT_FOOT] = CModelPart::Create(CModel::MODEL_LEFT_FOOT, D3DXVECTOR3(0.1f, -10.0f, 0.0f), Vec3Null);		//左翼(小さい)のモデルを生成する
 	pModel->m_pModel[LEFT_FOOT]->SetParent(pModel->m_pModel[LEFT_LEG]);
 	
-	pModel->m_pModel[RIGHT_LEG] = CModelPart::Create(CModel::MODEL_RIGHT_LEG, D3DXVECTOR3(0.5f, -3.0f, 0.0f), Vec3Null);		//右翼(小さい)のモデルを生成する
+	pModel->m_pModel[RIGHT_LEG] = CModelPart::Create(CModel::MODEL_RIGHT_LEG, D3DXVECTOR3(-3.0f, 1.0f, 0.0f), Vec3Null);		//右翼(小さい)のモデルを生成する
 	pModel->m_pModel[RIGHT_LEG]->SetParent(pModel->m_pModel[BODY]);																//右翼(小さい)の親を設定する
 
-	pModel->m_pModel[RIGHT_FOOT] = CModelPart::Create(CModel::MODEL_RIGHT_FOOT, D3DXVECTOR3(0.5f, -3.0f, 0.0f), Vec3Null);	//右翼(小さい)のモデルを生成する
+	pModel->m_pModel[RIGHT_FOOT] = CModelPart::Create(CModel::MODEL_RIGHT_FOOT, D3DXVECTOR3(-0.1f, -10.0f, 0.0f), Vec3Null);	//右翼(小さい)のモデルを生成する
 	pModel->m_pModel[RIGHT_FOOT]->SetParent(pModel->m_pModel[RIGHT_LEG]);
 
 	std::vector <CModelPart*> vParts;
