@@ -315,13 +315,17 @@ CCamera* CApplication::GetCamera(void)
 	return m_pCamera;
 }
 
+//=====================================
 // モード取得処理
+//=====================================
 CApplication::Mode CApplication::GetMode(void)
 {
 	return m_mode;
 }
 
+//=====================================
 // モード設定処理
+//=====================================
 void CApplication::SetMode(Mode mode)
 {
 	if (m_pMode != nullptr)

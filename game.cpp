@@ -15,7 +15,6 @@
 #include "player.h"
 #include "UIString.h"
 #include "Letter.h"
-//#include "menu.h"
 //#include "fade.h"
 
 bool CGame::m_bPause = true;		//ポーズ使用判定
@@ -24,7 +23,7 @@ CMeshfield *CGame::m_pField = nullptr;
 CPlayer* CGame::m_pPlayer = nullptr;
 
 //=====================================
-//デフォルトコンストラクタ
+// デフォルトコンストラクタ
 //=====================================
 CGame::CGame()
 {
@@ -32,7 +31,7 @@ CGame::CGame()
 }
 
 //=====================================
-//デストラクタ
+// デストラクタ
 //=====================================
 CGame::~CGame()
 {
@@ -40,7 +39,7 @@ CGame::~CGame()
 }
 
 //=====================================
-//初期化処理
+// 初期化処理
 //=====================================
 HRESULT CGame::Init(void)
 {
@@ -85,7 +84,6 @@ HRESULT CGame::Init(void)
 	CLetter::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 4, 5);
 	//UI
 	//m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
-	//CMenu::Create(D3DXVECTOR3(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 0.0f), CMenu::TYPE_NONE, CMenu::MODE_GAME);
 
 	m_bPause = false;	//ポーズ未使用
 
@@ -93,7 +91,7 @@ HRESULT CGame::Init(void)
 }
 
 //=====================================
-//終了処理
+// 終了処理
 //=====================================
 void CGame::Uninit(void)
 {
@@ -111,7 +109,7 @@ void CGame::Uninit(void)
 }
 
 //=====================================
-//更新処理
+// 更新処理
 //=====================================
 void CGame::Update(void)
 {
@@ -154,7 +152,7 @@ void CGame::Update(void)
 }
 
 //=====================================
-//更新処理
+// 生成処理
 //=====================================
 CGame* CGame::Create(void)
 {
