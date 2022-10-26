@@ -29,7 +29,7 @@ class CApplication
 public:
 	enum Mode
 	{
-		Mode_Title = 0,		//タイトル
+		Mode_Title = 0,			//タイトル
 		Mode_Game_Race,		//ゲーム_競争
 		Mode_Result,		//リザルト
 		Mode_Game_Debug,	//ゲーム_デバッグ
@@ -48,9 +48,11 @@ public:
 	static HWND GetWindow(void);						//ウインドウの取得処理
 	static CSound* GetSound(void);						//サウンドの取得処理
 	static CCamera* GetCamera(void);					//カメラの取得処理
+	static CFade* GetFade(void);						//フェードの取得処理
 
 	static Mode GetMode(void);
 	static void SetMode(Mode mode);
+	void ChangeMode();
 
 private:
 	static HWND m_hWnd;									//クライエント画面
@@ -65,8 +67,7 @@ private:
 	static CDebugProc* m_pDebug;						//
 
 	static Mode m_mode;		//現在モード
-
-	static bool m_bFade;								//フェード中であるかどうか
+	static Mode m_modeNext;	//次のモード
 };
 
 #endif // !APPLICATION_H

@@ -16,6 +16,7 @@
 #include "application.h"
 #include <stdio.h>
 #include "debugProc.h"
+#include "fade.h"
 
 //=============================================================================
 // コンストラクタ
@@ -166,6 +167,15 @@ void CRenderer::Draw()
 
 		CObject::DrawAll();
 
+		CFade* pFade = CApplication::GetFade();
+		if (pFade != nullptr)
+		{
+			//フェードが読み込まれていない場合
+			if (pFade->GetFade() != CFade::FADE_NONE)
+			{
+				pFade->Draw();
+			}
+		}
 #ifdef _DEBUG
 		// FPS表示
 		//DrawFPS();

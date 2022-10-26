@@ -160,6 +160,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="debugProc.cpp" />
     <ClCompile Include="directionalLight.cpp" />
+    <ClCompile Include="fade.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamedebug.cpp" />
     <ClCompile Include="gamerace.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="debugProc.h" />
     <ClInclude Include="directionalLight.h" />
+    <ClInclude Include="fade.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gamedebug.h" />
     <ClInclude Include="gamerace.h" />
