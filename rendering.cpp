@@ -16,7 +16,7 @@
 #include "application.h"
 #include <stdio.h>
 #include "debugProc.h"
-#include "game.h"
+#include "fade.h"
 
 //=============================================================================
 // コンストラクタ
@@ -167,6 +167,15 @@ void CRenderer::Draw()
 
 		CObject::DrawAll();
 
+		CFade* pFade = CApplication::GetFade();
+		if (pFade != nullptr)
+		{
+			//フェードが読み込まれていない場合
+			if (pFade->GetFade() != CFade::FADE_NONE)
+			{
+				pFade->Draw();
+			}
+		}
 #ifdef _DEBUG
 		// FPS表示
 		//DrawFPS();
@@ -194,6 +203,7 @@ LPDIRECT3DDEVICE9 CRenderer::GetDevice(void)
 
 #include "camera.h"
 #include "player.h"
+#include "gamedebug.h"
 
 //=============================================================================
 // FPS表示
@@ -205,7 +215,7 @@ void CRenderer::DrawFPS(void)
 	TCHAR str[256];
 
 	float fRot = CApplication::GetCamera()->GetRot().y;
-	float fRotPlayer = CGame::GetPlayer()->GetDestRot().y;
+	float fRotPlayer = CGameDebug::GetPlayer()->GetDestRot().y;
 
 	sprintf(str, _T("FPS : %d\n\n %f\n %f\n"), fps, fRot, fRotPlayer);
 

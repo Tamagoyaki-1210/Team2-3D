@@ -10,6 +10,7 @@
 //=============================================================================
 #include "player.h"
 #include "inputKeyboard.h"
+#include "inputPad.h"
 #include "model.h"
 #include "camera.h"
 #include "application.h"
@@ -90,30 +91,30 @@ void CPlayer::Update(void)
 	}
 
 	//移動量と目的の角度の計算
-	if (CInputKeyboard::GetKeyboardPress(DIK_W))
+	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y  < -0.3f)
 	{//Wキーが押された場合
-		if (CInputKeyboard::GetKeyboardPress(DIK_A))
+		if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x  < -0.3f)
 		{//Aキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.1f * cosf(D3DX_PI * 0.25f + cameraRot.y);
+				m_move.x += 0.2f * cosf(D3DX_PI * 0.25f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.1f * sinf(D3DX_PI * 0.25f + cameraRot.y);
+				m_move.z += 0.2f * sinf(D3DX_PI * 0.25f + cameraRot.y);
 			}
 
 			m_DestRot.y = D3DX_PI * 0.25f + fA;
 		}
-		else if (CInputKeyboard::GetKeyboardPress(DIK_D))
+		else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x  > 0.3f)
 		{//Dキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.1f * cosf(-D3DX_PI * 0.25f + cameraRot.y);
+				m_move.x += 0.2f * cosf(-D3DX_PI * 0.25f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.1f * sinf(-D3DX_PI * 0.25f + cameraRot.y);
+				m_move.z += 0.2f * sinf(-D3DX_PI * 0.25f + cameraRot.y);
 			}
 
 			m_DestRot.y = D3DX_PI * 0.75f + fA;
@@ -122,40 +123,40 @@ void CPlayer::Update(void)
 		{//Wキーだけが押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.1f * cosf(cameraRot.y);
+				m_move.x += 0.2f * cosf(cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.1f * sinf(cameraRot.y);
+				m_move.z += 0.2f * sinf(cameraRot.y);
 			}
 
 			m_DestRot.y = D3DX_PI * 0.5f + fA;
 		}
 	}
-	else if (CInputKeyboard::GetKeyboardPress(DIK_S))
+	else if (CInputKeyboard::GetKeyboardPress(DIK_S) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y  > 0.3f)
 	{//Sキーが押された場合
-		if (CInputKeyboard::GetKeyboardPress(DIK_A))
+		if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x  < -0.3f)
 		{//Aキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.1f * cosf(D3DX_PI * 0.75f + cameraRot.y);
+				m_move.x += 0.2f * cosf(D3DX_PI * 0.75f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.1f * sinf(D3DX_PI * 0.75f + cameraRot.y);
+				m_move.z += 0.2f * sinf(D3DX_PI * 0.75f + cameraRot.y);
 			}
 
 			m_DestRot.y = -D3DX_PI * 0.25f + fA;
 		}
-		else if (CInputKeyboard::GetKeyboardPress(DIK_D))
+		else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x  > 0.5f)
 		{//Dキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.1f * cosf(-D3DX_PI * 0.75f + cameraRot.y);
+				m_move.x += 0.2f * cosf(-D3DX_PI * 0.75f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.1f * sinf(-D3DX_PI * 0.75f + cameraRot.y);
+				m_move.z += 0.2f * sinf(-D3DX_PI * 0.75f + cameraRot.y);
 			}
 
 			m_DestRot.y = -D3DX_PI * 0.75f + fA;
@@ -164,43 +165,45 @@ void CPlayer::Update(void)
 		{//Sキーだけが押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.1f * cosf(D3DX_PI + cameraRot.y);
+				m_move.x += 0.2f * cosf(D3DX_PI + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.1f * sinf(D3DX_PI + cameraRot.y);
+				m_move.z += 0.2f * sinf(D3DX_PI + cameraRot.y);
 			}
 
 			m_DestRot.y = -D3DX_PI * 0.5f + fA;
 		}
 	}
-	else if (CInputKeyboard::GetKeyboardPress(DIK_D))
+	else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x  > 0.3f)
 	{//Dキーだけ押された場合
 		if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 		{
-			m_move.x += 0.1f * cosf(-D3DX_PI * 0.5f + cameraRot.y);
+			m_move.x += 0.2f * cosf(-D3DX_PI * 0.5f + cameraRot.y);
 		}
 		if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 		{
-			m_move.z += 0.1f * sinf(-D3DX_PI * 0.5f + cameraRot.y);
+			m_move.z += 0.2f * sinf(-D3DX_PI * 0.5f + cameraRot.y);
 		}
 
 		m_DestRot.y = D3DX_PI + fA;
 	}
-	else if (CInputKeyboard::GetKeyboardPress(DIK_A))
+	else if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x  < -0.3f)
 	{//Aキーだけ押された場合
 		if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 		{
-			m_move.x += 0.1f * cosf(D3DX_PI * 0.5f + cameraRot.y);
+			m_move.x += 0.2f * cosf(D3DX_PI * 0.5f + cameraRot.y);
 		}
 		if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 		{
-			m_move.z += 0.1f * sinf(D3DX_PI * 0.5f + cameraRot.y);
+			m_move.z += 0.2f * sinf(D3DX_PI * 0.5f + cameraRot.y);
 		}
 		m_DestRot.y = fA;
 	}
 
-	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D))
+	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D)
+		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x  > 0.3f 
+		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y  > 0.3f)
 	{
 		m_State = STATE_RUNNING;
 	}
@@ -345,34 +348,34 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos)
 	}
 
 	pModel->m_pos = pos;
-	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 14.0f, 0.0f), Vec3Null);					//体のモデルを生成する
+	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 14.0f, 0.0f), Vec3Null);				//体のモデルを生成する
 
-	pModel->m_pModel[HEAD] = CModelPart::Create(CModel::MODEL_HEAD, D3DXVECTOR3(0.0f, 13.0f, 0.0f), Vec3Null);					//体のモデルを生成する
-	pModel->m_pModel[HEAD]->SetParent(pModel->m_pModel[BODY]);
+	pModel->m_pModel[HEAD] = CModelPart::Create(CModel::MODEL_HEAD, D3DXVECTOR3(0.0f, 13.0f, 0.0f), Vec3Null);				//頭のモデルを生成する
+	pModel->m_pModel[HEAD]->SetParent(pModel->m_pModel[BODY]);																//頭の親を設定する
 
-	pModel->m_pModel[LEFT_ARM] = CModelPart::Create(CModel::MODEL_LEFT_ARM, D3DXVECTOR3(5.0f, 12.0f, 0.0f), Vec3Null);			//左翼のモデルを生成する
-	pModel->m_pModel[LEFT_ARM]->SetParent(pModel->m_pModel[BODY]);																//左翼の親を設定する
+	pModel->m_pModel[LEFT_ARM] = CModelPart::Create(CModel::MODEL_LEFT_ARM, D3DXVECTOR3(5.0f, 12.0f, 0.0f), Vec3Null);		//左腕のモデルを生成する
+	pModel->m_pModel[LEFT_ARM]->SetParent(pModel->m_pModel[BODY]);															//左腕の親を設定する
 
-	pModel->m_pModel[LEFT_HAND] = CModelPart::Create(CModel::MODEL_LEFT_HAND, D3DXVECTOR3(9.0f, 0.0f, 0.0f), Vec3Null);		//左翼のモデルを生成する
-	pModel->m_pModel[LEFT_HAND]->SetParent(pModel->m_pModel[LEFT_ARM]);
+	pModel->m_pModel[LEFT_HAND] = CModelPart::Create(CModel::MODEL_LEFT_HAND, D3DXVECTOR3(9.0f, 0.0f, 0.0f), Vec3Null);		//左手のモデルを生成する
+	pModel->m_pModel[LEFT_HAND]->SetParent(pModel->m_pModel[LEFT_ARM]);														//左手の親を設定する
 
-	pModel->m_pModel[RIGHT_ARM] = CModelPart::Create(CModel::MODEL_RIGHT_ARM, D3DXVECTOR3(-5.0f, 12.0f, 0.0f), Vec3Null);			//右翼のモデルを生成する
-	pModel->m_pModel[RIGHT_ARM]->SetParent(pModel->m_pModel[BODY]);																//右翼の親を設定する
+	pModel->m_pModel[RIGHT_ARM] = CModelPart::Create(CModel::MODEL_RIGHT_ARM, D3DXVECTOR3(-5.0f, 12.0f, 0.0f), Vec3Null);	//右腕のモデルを生成する
+	pModel->m_pModel[RIGHT_ARM]->SetParent(pModel->m_pModel[BODY]);															//右腕の親を設定する
 	
-	pModel->m_pModel[RIGHT_HAND] = CModelPart::Create(CModel::MODEL_RIGHT_HAND, D3DXVECTOR3(-9.0f, 0.0f, 0.0f), Vec3Null);		//左翼のモデルを生成する
-	pModel->m_pModel[RIGHT_HAND]->SetParent(pModel->m_pModel[RIGHT_ARM]);
+	pModel->m_pModel[RIGHT_HAND] = CModelPart::Create(CModel::MODEL_RIGHT_HAND, D3DXVECTOR3(-9.0f, 0.0f, 0.0f), Vec3Null);	//右手のモデルを生成する
+	pModel->m_pModel[RIGHT_HAND]->SetParent(pModel->m_pModel[RIGHT_ARM]);													//右手の親を設定する
 	
-	pModel->m_pModel[LEFT_LEG] = CModelPart::Create(CModel::MODEL_LEFT_LEG, D3DXVECTOR3(3.0f, 1.0f, 0.0f), Vec3Null);			//左翼(小さい)のモデルを生成する
-	pModel->m_pModel[LEFT_LEG]->SetParent(pModel->m_pModel[BODY]);																//左翼(小さい)の親を設定する
+	pModel->m_pModel[LEFT_LEG] = CModelPart::Create(CModel::MODEL_LEFT_LEG, D3DXVECTOR3(3.0f, 1.0f, 0.0f), Vec3Null);		//左太腿のモデルを生成する
+	pModel->m_pModel[LEFT_LEG]->SetParent(pModel->m_pModel[BODY]);															//左太腿の親を設定する
 	
-	pModel->m_pModel[LEFT_FOOT] = CModelPart::Create(CModel::MODEL_LEFT_FOOT, D3DXVECTOR3(0.1f, -10.0f, 0.0f), Vec3Null);		//左翼(小さい)のモデルを生成する
-	pModel->m_pModel[LEFT_FOOT]->SetParent(pModel->m_pModel[LEFT_LEG]);
+	pModel->m_pModel[LEFT_FOOT] = CModelPart::Create(CModel::MODEL_LEFT_FOOT, D3DXVECTOR3(0.1f, -10.0f, 0.0f), Vec3Null);	//左足のモデルを生成する
+	pModel->m_pModel[LEFT_FOOT]->SetParent(pModel->m_pModel[LEFT_LEG]);														//左足の親を設定する
 	
-	pModel->m_pModel[RIGHT_LEG] = CModelPart::Create(CModel::MODEL_RIGHT_LEG, D3DXVECTOR3(-3.0f, 1.0f, 0.0f), Vec3Null);		//右翼(小さい)のモデルを生成する
-	pModel->m_pModel[RIGHT_LEG]->SetParent(pModel->m_pModel[BODY]);																//右翼(小さい)の親を設定する
+	pModel->m_pModel[RIGHT_LEG] = CModelPart::Create(CModel::MODEL_RIGHT_LEG, D3DXVECTOR3(-3.0f, 1.0f, 0.0f), Vec3Null);	//右太腿のモデルを生成する
+	pModel->m_pModel[RIGHT_LEG]->SetParent(pModel->m_pModel[BODY]);															//右太腿の親を設定する
 
-	pModel->m_pModel[RIGHT_FOOT] = CModelPart::Create(CModel::MODEL_RIGHT_FOOT, D3DXVECTOR3(-0.1f, -10.0f, 0.0f), Vec3Null);	//右翼(小さい)のモデルを生成する
-	pModel->m_pModel[RIGHT_FOOT]->SetParent(pModel->m_pModel[RIGHT_LEG]);
+	pModel->m_pModel[RIGHT_FOOT] = CModelPart::Create(CModel::MODEL_RIGHT_FOOT, D3DXVECTOR3(-0.1f, -10.0f, 0.0f), Vec3Null);//右足のモデルを生成する
+	pModel->m_pModel[RIGHT_FOOT]->SetParent(pModel->m_pModel[RIGHT_LEG]);													//右足の親を設定する
 
 	std::vector <CModelPart*> vParts;
 	vParts.clear();
