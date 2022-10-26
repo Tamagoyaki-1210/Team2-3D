@@ -23,8 +23,10 @@
 //#include "Letter.h"
 #include "animator.h"
 #include "title.h"
-#include "game.h"
+#include "gamedebug.h"
+#include "gamerace.h"
 #include "result.h"
+#include "fade.h"
 
 //静的メンバー変数の宣言
 HWND CApplication::m_hWnd;
@@ -35,10 +37,10 @@ CInputPad* CApplication::m_pPad = nullptr;
 CSound* CApplication::m_pSound = nullptr;
 CFade* CApplication::m_pFade = nullptr;
 CCamera* CApplication::m_pCamera = nullptr;
-bool CApplication::m_bFade = false;
 CMode *CApplication::m_pMode = nullptr;					// モードへのポインタ
 CDebugProc* CApplication::m_pDebug = nullptr;
 CApplication::Mode CApplication::m_mode = CApplication::Mode_Title;
+CApplication::Mode CApplication::m_modeNext = CApplication::Mode_Title;
 
 //コンストラクタ
 CApplication::CApplication()
@@ -80,7 +82,16 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	CAnimator::LoadAllAnimation();
 
 	// モードインスタンスの生成処理
-	m_pMode = CGame::Create();
+	m_pMode = CGameRace::Create();
+	m_mode = Mode_Game_Race;
+	m_modeNext = Mode_Game_Race;
+
+	//フェード生成
+	if (m_pFade == nullptr)
+	{
+		m_pFade = CFade::Create();
+		m_pFade->SetFade();
+	}
 
 	//キーボードインスタンスの生成処理
 	m_pInput[0] = new CInputKeyboard;
@@ -117,9 +128,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	{
 		m_pSound->Play(CSound::SOUND_LABEL_BGM_TITLE);
 	}*/
-
-	//m_pFade = CFade::Create();
-	m_bFade = false;
 
 	CLight::ReleaseAll();
 	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
@@ -211,6 +219,13 @@ void CApplication::Uninit(void)
 		m_pSound = nullptr;
 	}
 
+	if (m_pFade != nullptr)
+	{
+		m_pFade->Uninit();
+		delete m_pFade;
+		m_pFade = nullptr;
+	}
+
 	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Uninit();
@@ -241,7 +256,7 @@ void CApplication::Uninit(void)
 //更新処理
 void CApplication::Update(void)
 {
-	CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動");
+	CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動\n");
 
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
@@ -254,6 +269,16 @@ void CApplication::Update(void)
 	if (m_pRenderer != nullptr)
 	{
 		m_pRenderer->Update();
+	}
+
+	if (m_pFade != nullptr)
+	{
+		//フェードが読み込まれていない場合
+		if (m_pFade->GetFade() != CFade::FADE_NONE)
+		{
+			m_pFade->Update();
+			ChangeMode();
+		}
 	}
 
 	if (m_pMode != nullptr)
@@ -341,6 +366,11 @@ CCamera* CApplication::GetCamera(void)
 	return m_pCamera;
 }
 
+CFade* CApplication::GetFade(void)
+{
+	return m_pFade;
+}
+
 //=====================================
 // モード取得処理
 //=====================================
@@ -354,12 +384,38 @@ CApplication::Mode CApplication::GetMode(void)
 //=====================================
 void CApplication::SetMode(Mode mode)
 {
+	// フェード切り替え状態ではない場合
+	if (m_pFade->GetFade() == CFade::FADE_NONE)
+	{
+		m_modeNext = mode;
+		m_pFade->SetFade();
+	}
+}
+
+//=====================================
+// モード切り替え処理
+//=====================================
+void CApplication::ChangeMode()
+{
+	if (m_pFade->GetFade() != CFade::FADE_CHANGE)
+	{// フェード切り替え状態じゃない場合
+		return;
+	}
+	// 現在モードの終了
 	if (m_pMode != nullptr)
 	{
 		m_pMode->Uninit();
 		delete m_pMode;
 		m_pMode = nullptr;
 	}
+
+	//// 現在フェードの終了
+	//if (m_pFade != nullptr)
+	//{
+	//	m_pFade->Uninit();
+	//	delete m_pFade;
+	//	m_pFade = nullptr;
+	//}
 
 	CObject::ReleaseAll();
 
@@ -368,19 +424,23 @@ void CApplication::SetMode(Mode mode)
 		m_pSound->Stop();
 	}
 
-	switch (mode)
+	// モードを生成する
+	switch (m_modeNext)
 	{
 	case CApplication::Mode_Title:
 		m_pMode = CTitle::Create();
 		break;
-	case CApplication::Mode_Game:
-		m_pMode = CGame::Create();
+	case CApplication::Mode_Game_Race:
+		m_pMode = CGameRace::Create();
 		break;
 	case CApplication::Mode_Result:
 		m_pMode = CResult::Create();
 		break;
+	case CApplication::Mode_Game_Debug:
+		m_pMode = CGameDebug::Create();
+		break;
 	default:
 		break;
 	}
-	m_mode = mode;
+	m_mode = m_modeNext;
 }
