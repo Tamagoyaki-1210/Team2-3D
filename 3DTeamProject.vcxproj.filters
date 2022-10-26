@@ -120,6 +120,9 @@
     <ClCompile Include="result.cpp">
       <Filter>ソース ファイル\Mode</Filter>
     </ClCompile>
+    <ClCompile Include="inputPad.cpp">
+      <Filter>ソース ファイル\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="result.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="inputPad.h">
+      <Filter>ヘッダー ファイル\input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

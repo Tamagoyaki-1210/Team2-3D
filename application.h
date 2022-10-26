@@ -17,6 +17,7 @@
 class CRenderer;
 class CInput;
 class CInputMouse;
+class CInputPad;
 class CSound;
 class CFade;
 class CCamera;
@@ -44,6 +45,7 @@ public:
 	void Draw(void);									//描画処理
 	static CRenderer* GetRenderer(void);				//レンディングインスタンスの取得処理
 	static CInputMouse* GetMouse(void);					//マウスインスタンスの取得処理
+	static CInputPad* GetPad(void);
 	static HWND GetWindow(void);						//ウインドウの取得処理
 	static CSound* GetSound(void);						//サウンドの取得処理
 	static CCamera* GetCamera(void);					//カメラの取得処理
@@ -56,6 +58,7 @@ private:
 	static CRenderer* m_pRenderer;						//レンディングインスタンスへのポインタ
 	static CInput* m_pInput[2];							//インプットデバイスへのポインタ
 	static CInputMouse* m_pMouse;						//マウスインスタンス
+	static CInputPad* m_pPad;							//パッドのインスタンス
 	static CSound* m_pSound;							//サウンドのインスタンスへのポインタ
 	static CFade* m_pFade;								//フェードのインスタンスへのポインタ
 	static CCamera* m_pCamera;							//カメラのインスタンスへのポインタ

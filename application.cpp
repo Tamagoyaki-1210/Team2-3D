@@ -13,6 +13,7 @@
 #include "input.h"
 #include "inputKeyboard.h"
 #include "inputMouse.h"
+#include "inputPad.h"
 #include "sound.h"
 #include "directionalLight.h"
 #include "camera.h"
@@ -30,6 +31,7 @@ HWND CApplication::m_hWnd;
 CRenderer* CApplication::m_pRenderer = nullptr;			//レンディングインスタンスへのポインタ
 CInput* CApplication::m_pInput[2] = {};					//インプットインスタンスへのポインタ
 CInputMouse* CApplication::m_pMouse = nullptr;			//マウスインスタンスへのポインタ
+CInputPad* CApplication::m_pPad = nullptr;
 CSound* CApplication::m_pSound = nullptr;
 CFade* CApplication::m_pFade = nullptr;
 CCamera* CApplication::m_pCamera = nullptr;
@@ -94,6 +96,13 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	if (m_pMouse != nullptr)
 	{
 		m_pMouse->Init(hInstance, hWnd, GUID_SysMouse);
+	}
+
+	m_pPad = new CInputPad;
+
+	if (m_pPad != nullptr)
+	{
+		m_pPad->Init(hInstance, hWnd, GUID_SysMouse);
 	}
 
 	//キーボードの初期化処理
@@ -188,6 +197,13 @@ void CApplication::Uninit(void)
 		m_pMouse = nullptr;
 	}
 
+	if (m_pPad != nullptr)
+	{
+		m_pPad->Uninit();
+		delete m_pPad;
+		m_pPad = nullptr;
+	}
+
 	if (m_pSound != nullptr)
 	{
 		m_pSound->Uninit();
@@ -250,6 +266,11 @@ void CApplication::Update(void)
 		m_pMouse->Update();
 	}
 
+	if (m_pPad != nullptr)
+	{
+		m_pPad->Update();
+	}
+
 	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Update();
@@ -297,6 +318,11 @@ CRenderer* CApplication::GetRenderer(void)
 CInputMouse* CApplication::GetMouse(void)
 {
 	return m_pMouse;
+}
+
+CInputPad * CApplication::GetPad(void)
+{
+	return m_pPad;
 }
 
 HWND CApplication::GetWindow(void)

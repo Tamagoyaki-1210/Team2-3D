@@ -44,7 +44,7 @@ CGame::~CGame()
 HRESULT CGame::Init(void)
 {
 	// メッシュフィールドの生成
-	m_pField = CMeshfield::Create(D3DXVECTOR3(-1000.0f, -150.0f, 1000.0f), Vec3Null, D3DXVECTOR2(50.0f, 50.0f), 30, 30, 3);
+	m_pField = CMeshfield::Create(D3DXVECTOR3(-225.0f, -150.0f, 1800.0f), Vec3Null, D3DXVECTOR2(50.0f, 50.0f), 40, 10, 3);
 	m_pField->SetTexture(CObject::TEXTURE_BLOCK);
 	m_pField->SetTextureTiling(0.33f);
 
