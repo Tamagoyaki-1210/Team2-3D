@@ -212,6 +212,7 @@ bool CCylinderHitbox::CylinderCylinderHit(const D3DXVECTOR3 pos, const D3DXVECTO
 				parentPos = dist - GetRelativePos();
 				parentPos.y = fHeight;
 				GetParent()->SetPos(parentPos);
+				SetLastPos(parentPos + GetRelativePos());
 			}
 
 			return true;
@@ -477,11 +478,11 @@ bool CCylinderHitbox::PointBoxHit(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, 
 
 						if (fResult > 0)
 						{
-							fResult -= 0.1f;
+							fResult -= 0.001f;
 						}
 						else if (fResult < 0)
 						{
-							fResult += 0.1f;
+							fResult += 0.001f;
 						}
 
 						D3DXVECTOR3 Cross, VtxtoPos, VtxtoCross;
@@ -503,16 +504,12 @@ bool CCylinderHitbox::PointBoxHit(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, 
 
 							fResult = (Lenght2 * cosf(Alpha));
 
-							/*diff.x = (Vtx[Count].x + (N.x * fResult)) - thisPos.x;
-							diff.z = (Vtx[Count].z + (N.z * fResult)) - thisPos.z;*/
 
-							thisPos.x = Vtx[Count].x + (N.x * fResult);
-							thisPos.z = Vtx[Count].z + (N.z * fResult);
+							thisPos.x = Vtx[Count].x + (N.x * (fResult));
+							thisPos.z = Vtx[Count].z + (N.z * (fResult));
 						}
 						else
 						{
-							/*diff.x = (thisLastPos.x + (N.x * fResult)) - thisPos.x;
-							diff.z = (thisLastPos.z + (N.z * fResult)) - thisPos.z;*/
 
 							thisPos.x = thisLastPos.x + (N.x * fResult);
 							thisPos.z = thisLastPos.z + (N.z * fResult);
@@ -523,6 +520,8 @@ bool CCylinderHitbox::PointBoxHit(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, 
 				}
 
 				GetParent()->SetPos(thisPos - GetRelativePos());
+				SetLastPos(thisPos);
+				SetPos(thisPos);
 
 				return true;
 			}

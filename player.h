@@ -19,6 +19,7 @@
 class CModel;
 class CModelPart;
 class CAnimator;
+class CCylinderHitbox;
 
 class CPlayer : public CObject
 {
@@ -75,6 +76,7 @@ private:
 	CAnimator* m_pAnimator;
 
 	STATE m_State;
+	CCylinderHitbox* m_pHitbox;
 	//CModel* m_pModel;									//ƒ‚ƒfƒ‹
 };
 

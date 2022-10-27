@@ -18,6 +18,8 @@
 //#include "fade.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
+#include "CylinderHitbox.h"
+#include "BoxHitbox.h"
 
 CMeshfield *CGameRace::m_pField = nullptr;
 CPlayer* CGameRace::m_pPlayer = nullptr;
@@ -84,6 +86,9 @@ HRESULT CGameRace::Init(void)
 	CLetter::Create(D3DXVECTOR3(200.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 'r', 5);
 
 	CLetter::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 4, 5);
+
+	CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_NEUTRAL, nullptr);
+	CCylinderHitbox::Create(D3DXVECTOR3(350.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
 	//UI
 	//m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
 
@@ -115,6 +120,11 @@ void CGameRace::Uninit(void)
 void CGameRace::Update(void)
 {
 	CGame::Update();
+
+	/*if (m_pPlayer != nullptr)
+	{
+		m_pPlayer->Update();
+	}*/
 
 #ifdef _DEBUG
 

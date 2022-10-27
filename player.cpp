@@ -18,6 +18,7 @@
 #include "meshfield.h"
 #include "modelPart.h"
 #include "animator.h"
+#include "CylinderHitbox.h"
 
 //コンストラクタ
 CPlayer::CPlayer()
@@ -26,6 +27,7 @@ CPlayer::CPlayer()
 	m_move = Vec3Null;
 	m_DestRot = Vec3Null;
 	m_pAnimator = nullptr;
+	m_pHitbox = nullptr;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{
@@ -46,6 +48,7 @@ HRESULT CPlayer::Init(void)
 	m_move = Vec3Null;				//速度の初期化処理
 	m_DestRot = Vec3Null;			//目的の角度の初期化処理
 	m_pAnimator = nullptr;
+	m_pHitbox = nullptr;
 	m_State = STATE_NEUTRAL;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
@@ -76,6 +79,11 @@ void CPlayer::Uninit(void)
 		delete m_pAnimator;
 		m_pAnimator = nullptr;
 	}
+	if (m_pHitbox != nullptr)
+	{
+		m_pHitbox->Release();
+		m_pHitbox = nullptr;
+	}
 }
 
 //更新処理
@@ -97,11 +105,11 @@ void CPlayer::Update(void)
 		{//Aキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.2f * cosf(D3DX_PI * 0.25f + cameraRot.y);
+				m_move.x += 0.5f * cosf(D3DX_PI * 0.25f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.2f * sinf(D3DX_PI * 0.25f + cameraRot.y);
+				m_move.z += 0.5f * sinf(D3DX_PI * 0.25f + cameraRot.y);
 			}
 
 			m_DestRot.y = D3DX_PI * 0.25f + fA;
@@ -110,11 +118,11 @@ void CPlayer::Update(void)
 		{//Dキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.2f * cosf(-D3DX_PI * 0.25f + cameraRot.y);
+				m_move.x += 0.5f * cosf(-D3DX_PI * 0.25f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.2f * sinf(-D3DX_PI * 0.25f + cameraRot.y);
+				m_move.z += 0.5f * sinf(-D3DX_PI * 0.25f + cameraRot.y);
 			}
 
 			m_DestRot.y = D3DX_PI * 0.75f + fA;
@@ -123,11 +131,11 @@ void CPlayer::Update(void)
 		{//Wキーだけが押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.2f * cosf(cameraRot.y);
+				m_move.x += 0.5f * cosf(cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.2f * sinf(cameraRot.y);
+				m_move.z += 0.5f * sinf(cameraRot.y);
 			}
 
 			m_DestRot.y = D3DX_PI * 0.5f + fA;
@@ -139,11 +147,11 @@ void CPlayer::Update(void)
 		{//Aキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.2f * cosf(D3DX_PI * 0.75f + cameraRot.y);
+				m_move.x += 0.5f * cosf(D3DX_PI * 0.75f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.2f * sinf(D3DX_PI * 0.75f + cameraRot.y);
+				m_move.z += 0.5f * sinf(D3DX_PI * 0.75f + cameraRot.y);
 			}
 
 			m_DestRot.y = -D3DX_PI * 0.25f + fA;
@@ -152,11 +160,11 @@ void CPlayer::Update(void)
 		{//Dキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.2f * cosf(-D3DX_PI * 0.75f + cameraRot.y);
+				m_move.x += 0.5f * cosf(-D3DX_PI * 0.75f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.2f * sinf(-D3DX_PI * 0.75f + cameraRot.y);
+				m_move.z += 0.5f * sinf(-D3DX_PI * 0.75f + cameraRot.y);
 			}
 
 			m_DestRot.y = -D3DX_PI * 0.75f + fA;
@@ -165,11 +173,11 @@ void CPlayer::Update(void)
 		{//Sキーだけが押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.2f * cosf(D3DX_PI + cameraRot.y);
+				m_move.x += 0.5f * cosf(D3DX_PI + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.2f * sinf(D3DX_PI + cameraRot.y);
+				m_move.z += 0.5f * sinf(D3DX_PI + cameraRot.y);
 			}
 
 			m_DestRot.y = -D3DX_PI * 0.5f + fA;
@@ -179,11 +187,11 @@ void CPlayer::Update(void)
 	{//Dキーだけ押された場合
 		if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 		{
-			m_move.x += 0.2f * cosf(-D3DX_PI * 0.5f + cameraRot.y);
+			m_move.x += 0.5f * cosf(-D3DX_PI * 0.5f + cameraRot.y);
 		}
 		if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 		{
-			m_move.z += 0.2f * sinf(-D3DX_PI * 0.5f + cameraRot.y);
+			m_move.z += 0.5f * sinf(-D3DX_PI * 0.5f + cameraRot.y);
 		}
 
 		m_DestRot.y = D3DX_PI + fA;
@@ -192,11 +200,11 @@ void CPlayer::Update(void)
 	{//Aキーだけ押された場合
 		if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 		{
-			m_move.x += 0.2f * cosf(D3DX_PI * 0.5f + cameraRot.y);
+			m_move.x += 0.5f * cosf(D3DX_PI * 0.5f + cameraRot.y);
 		}
 		if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 		{
-			m_move.z += 0.2f * sinf(D3DX_PI * 0.5f + cameraRot.y);
+			m_move.z += 0.5f * sinf(D3DX_PI * 0.5f + cameraRot.y);
 		}
 		m_DestRot.y = fA;
 	}
@@ -286,6 +294,12 @@ void CPlayer::Update(void)
 	if (m_pAnimator != nullptr)
 	{
 		m_pAnimator->Update();
+	}
+
+	if (m_pHitbox != nullptr)
+	{
+		m_pHitbox->SetPos(m_pos);
+		m_pHitbox->Update();
 	}
 
 	CDebugProc::Print("\nRot: %f\nRot Dest: %f\n\nPos: %f, %f, %f", m_pModel[BODY]->GetRot().y, m_DestRot.y, m_pos.x, m_pos.y, m_pos.z);
@@ -391,6 +405,8 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos)
 	vParts.push_back(pModel->m_pModel[RIGHT_FOOT]);
 
 	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_PLAYER);
+
+	pModel->m_pHitbox = CCylinderHitbox::Create(pos, Vec3Null, D3DXVECTOR3(10.0f, 35.0f, 10.0f), CHitbox::TYPE_PLAYER, pModel);
 
 	return pModel;
 }
