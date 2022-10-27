@@ -26,6 +26,7 @@
 #include "gamerace.h"
 #include "result.h"
 #include "fade.h"
+#include "menu.h"
 
 //Ã“Iƒƒ“ƒo[•Ï”‚ÌéŒ¾
 HWND CApplication::m_hWnd;
@@ -35,7 +36,8 @@ CInputMouse* CApplication::m_pMouse = nullptr;			//ƒ}ƒEƒXƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ìƒ|ƒCƒ“ƒ
 CSound* CApplication::m_pSound = nullptr;
 CFade* CApplication::m_pFade = nullptr;
 CCamera* CApplication::m_pCamera = nullptr;
-CMode *CApplication::m_pMode = nullptr;					// ƒ‚[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^
+CMode* CApplication::m_pMode = nullptr;					// ƒ‚[ƒh‚Ö‚Ìƒ|ƒCƒ“ƒ^
+CMenu* CApplication::m_pMenu = nullptr;					// ƒƒjƒ…[‚Ö‚Ìƒ|ƒCƒ“ƒ^
 CDebugProc* CApplication::m_pDebug = nullptr;
 CApplication::Mode CApplication::m_mode = CApplication::Mode_Title;
 CApplication::Mode CApplication::m_modeNext = CApplication::Mode_Title;
@@ -84,11 +86,17 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	m_mode = Mode_Game_Race;
 	m_modeNext = Mode_Game_Race;
 
-	//ƒtƒF[ƒh¶¬
+	// ƒtƒF[ƒh¶¬
 	if (m_pFade == nullptr)
 	{
 		m_pFade = CFade::Create();
 		m_pFade->SetFade();
+	}
+
+	// ƒƒjƒ…[¶¬
+	if (m_pMenu == nullptr)
+	{
+		m_pMenu = CMenu::Create();
 	}
 
 	//ƒL[ƒ{[ƒhƒCƒ“ƒXƒ^ƒ“ƒX‚Ì¶¬ˆ—
@@ -210,6 +218,13 @@ void CApplication::Uninit(void)
 		m_pFade = nullptr;
 	}
 
+	if (m_pMenu != nullptr)
+	{
+		m_pMenu->Uninit();
+		delete m_pMenu;
+		m_pMenu = nullptr;
+	}
+
 	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Uninit();
@@ -268,6 +283,11 @@ void CApplication::Update(void)
 	if (m_pMode != nullptr)
 	{
 		m_pMode->Update();
+	}
+
+	if (m_pMenu != nullptr)
+	{
+		m_pMenu->Update();
 	}
 
 	if (m_pMouse != nullptr)
@@ -382,14 +402,6 @@ void CApplication::ChangeMode()
 		delete m_pMode;
 		m_pMode = nullptr;
 	}
-
-	//// Œ»ÝƒtƒF[ƒh‚ÌI—¹
-	//if (m_pFade != nullptr)
-	//{
-	//	m_pFade->Uninit();
-	//	delete m_pFade;
-	//	m_pFade = nullptr;
-	//}
 
 	CObject::ReleaseAll();
 

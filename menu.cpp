@@ -1,17 +1,19 @@
 //=============================================================================
 //
-// title.cpp
+// menu.cpp
 // Author : tanimoto kosuke
 //
 //=============================================================================
-#include "title.h"
-#include "Application.h"
 #include "menu.h"
+#include "Application.h"
+#include "font.h"
+#include <string>
+#include <map>
 
 //=====================================
 // デフォルトコンストラクタ
 //=====================================
-CTitle::CTitle()
+CMenu::CMenu()
 {
 
 }
@@ -19,7 +21,7 @@ CTitle::CTitle()
 //=====================================
 // デストラクタ
 //=====================================
-CTitle::~CTitle()
+CMenu::~CMenu()
 {
 
 }
@@ -27,24 +29,43 @@ CTitle::~CTitle()
 //=====================================
 // 初期化処理
 //=====================================
-HRESULT CTitle::Init(void)
+HRESULT CMenu::Init(void)
 {
-	CMenu::Create();
+	CChoice::Create();
+
+	//CFont *pFont[2][20];
+	//int nNumFont = 0;
+
+	//// すたーと
+	//std::string nStr[4] = { "す", "た", "ー", "と" };
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	pFont[nNumFont][i] = CFont::Create(D3DXVECTOR2(-500.0f, -50.0f), D3DXVECTOR2(30.0f, 30.0f), nStr[i], 5, i, 4);
+	//}
+	//nNumFont++;
+
+	//// おわり
+	//int nTex2[3] = { 4, 45, 41 };
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	pFont[nNumFont][i] = CFont::Create(D3DXVECTOR2(0.0f, 60.0f), D3DXVECTOR2(30.0f, 30.0f), nTex2[i], 5, i, 3);
+	//}
+
 	return S_OK;
 }
 
 //=====================================
 // 終了処理
 //=====================================
-void CTitle::Uninit(void)
+void CMenu::Uninit(void)
 {
-	
+
 }
 
 //=====================================
 // 更新処理
 //=====================================
-void CTitle::Update(void)
+void CMenu::Update(void)
 {
 
 }
@@ -52,14 +73,14 @@ void CTitle::Update(void)
 //=====================================
 // 生成処理
 //=====================================
-CTitle* CTitle::Create(void)
+CMenu* CMenu::Create(void)
 {
-	CTitle* pTitle = new CTitle;
+	CMenu* pMenu = new CMenu;
 
-	if (FAILED(pTitle->Init()))
+	if (FAILED(pMenu->Init()))
 	{
 		return nullptr;
 	}
 
-	return pTitle;
+	return pMenu;
 }
