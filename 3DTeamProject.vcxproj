@@ -172,6 +172,7 @@
     <ClCompile Include="inputPad.cpp" />
     <ClCompile Include="Letter.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="meshfield.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="inputPad.h" />
     <ClInclude Include="Letter.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="line.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="meshfield.h" />
