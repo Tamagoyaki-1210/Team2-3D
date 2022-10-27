@@ -37,6 +37,12 @@
     <Filter Include="ヘッダー ファイル\Mode">
       <UniqueIdentifier>{6f3bd69c-9114-4e37-bf05-9cf27d6f7212}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Hitbox">
+      <UniqueIdentifier>{4c40ac70-b6a7-4e70-8af0-a34fdfe21bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hitbox">
+      <UniqueIdentifier>{f0c457a9-06d6-4a15-8e7b-f6cc45a14810}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp">
@@ -144,6 +150,15 @@
     <ClCompile Include="line.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="hitbox.cpp">
+      <Filter>ソース ファイル\Hitbox</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxHitbox.cpp">
+      <Filter>ソース ファイル\Hitbox</Filter>
+    </ClCompile>
+    <ClCompile Include="CylinderHitbox.cpp">
+      <Filter>ソース ファイル\Hitbox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -250,6 +265,15 @@
     </ClInclude>
     <ClInclude Include="line.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="hitbox.h">
+      <Filter>ヘッダー ファイル\Hitbox</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxHitbox.h">
+      <Filter>ヘッダー ファイル\Hitbox</Filter>
+    </ClInclude>
+    <ClInclude Include="CylinderHitbox.h">
+      <Filter>ヘッダー ファイル\Hitbox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

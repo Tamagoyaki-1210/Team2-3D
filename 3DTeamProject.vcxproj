@@ -157,8 +157,10 @@
     <ClCompile Include="animator.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="billboard.cpp" />
+    <ClCompile Include="BoxHitbox.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="choice.cpp" />
+    <ClCompile Include="CylinderHitbox.cpp" />
     <ClCompile Include="debugProc.cpp" />
     <ClCompile Include="directionalLight.cpp" />
     <ClCompile Include="fade.cpp" />
@@ -166,6 +168,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamedebug.cpp" />
     <ClCompile Include="gamerace.cpp" />
+    <ClCompile Include="hitbox.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="inputKeyboard.cpp" />
     <ClCompile Include="inputMouse.cpp" />
@@ -194,8 +197,10 @@
     <ClInclude Include="animator.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="billboard.h" />
+    <ClInclude Include="BoxHitbox.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="choice.h" />
+    <ClInclude Include="CylinderHitbox.h" />
     <ClInclude Include="debugProc.h" />
     <ClInclude Include="directionalLight.h" />
     <ClInclude Include="fade.h" />
@@ -203,6 +208,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gamedebug.h" />
     <ClInclude Include="gamerace.h" />
+    <ClInclude Include="hitbox.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="inputKeyboard.h" />
     <ClInclude Include="inputMouse.h" />
