@@ -148,7 +148,7 @@ MOTION_SET					#アニメーション 1
 	
 		KEY_SET				#KeySet 0/2
 		
-			FRAME = 60
+			FRAME = 20
 			
 			KEY			#Key 0
 				POS = 0.0 10.0 0.0
@@ -205,7 +205,7 @@ MOTION_SET					#アニメーション 1
 		
 		KEY_SET				#KeySet 1/2
 		
-			FRAME = 60
+			FRAME = 20
 			
 			KEY			#Key 0
 				POS = 0.0 10.0 0.0
