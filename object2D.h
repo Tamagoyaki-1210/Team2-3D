@@ -66,10 +66,10 @@ public:
 	const D3DXCOLOR GetColor(void);													//カーラーの取得処理
 	void SetColor(const D3DXCOLOR col);												//カーラーの設定処理
 	void SetVtxColor(const int nVtxIdx, const D3DXCOLOR col);						//頂点１つのカーラー設定処理
-																						
+
 	void SetTexture(TextType textType);												//テクスチャの種類の設定処理
 	LPDIRECT3DVERTEXBUFFER9 GetVtxbuff(void);										//頂点バッファの取得処理
-																					
+
 	static void LoadTextures(void);													//テクスチャを全部ロードする処理
 	static void DestroyLoadedTextures(void);										//テクスチャを全部破棄する処理
 	static LPDIRECT3DTEXTURE9 GetTexturePointer(CObject::TextType type);			//テクスチャへのポインタの取得処理

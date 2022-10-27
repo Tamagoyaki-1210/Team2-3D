@@ -1,17 +1,16 @@
 //=============================================================================
 //
-// title.cpp
+// choice.cpp
 // Author : tanimoto kosuke
 //
 //=============================================================================
-#include "title.h"
+#include "choice.h"
 #include "Application.h"
-#include "menu.h"
 
 //=====================================
 // デフォルトコンストラクタ
 //=====================================
-CTitle::CTitle()
+CChoice::CChoice()
 {
 
 }
@@ -19,7 +18,7 @@ CTitle::CTitle()
 //=====================================
 // デストラクタ
 //=====================================
-CTitle::~CTitle()
+CChoice::~CChoice()
 {
 
 }
@@ -27,24 +26,39 @@ CTitle::~CTitle()
 //=====================================
 // 初期化処理
 //=====================================
-HRESULT CTitle::Init(void)
+HRESULT CChoice::Init(void)
 {
-	CMenu::Create();
+	//CFont *m_pFont[20];
+
+	//// すたーと
+	//int nTex1[4] = { 12, 15, 48, 19 };
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	m_pFont[i] = CFont::Create(D3DXVECTOR2(0.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), nTex1[i], 5, i, 4);
+	//}
+
+	//// おわり
+	//int nTex2[3] = { 4, 45, 41 };
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	m_pFont[i] = CFont::Create(D3DXVECTOR2(0.0f, 90.0f), D3DXVECTOR2(30.0f, 30.0f), nTex2[i], 5, i, 3);
+	//}
+
 	return S_OK;
 }
 
 //=====================================
 // 終了処理
 //=====================================
-void CTitle::Uninit(void)
+void CChoice::Uninit(void)
 {
-	
+
 }
 
 //=====================================
 // 更新処理
 //=====================================
-void CTitle::Update(void)
+void CChoice::Update(void)
 {
 
 }
@@ -52,14 +66,14 @@ void CTitle::Update(void)
 //=====================================
 // 生成処理
 //=====================================
-CTitle* CTitle::Create(void)
+CChoice* CChoice::Create(void)
 {
-	CTitle* pTitle = new CTitle;
+	CChoice* pChoice = new CChoice;
 
-	if (FAILED(pTitle->Init()))
+	if (FAILED(pChoice->Init()))
 	{
 		return nullptr;
 	}
 
-	return pTitle;
+	return pChoice;
 }

@@ -11,7 +11,7 @@
 //=============================================================================
 //インクルードファイル
 //=============================================================================
-#include "mode.h"
+#include "main.h"
 
 //前方宣言
 class CRenderer;
@@ -23,6 +23,7 @@ class CFade;
 class CCamera;
 class CDebugProc;
 class CMode;
+class CMenu;
 
 //アプリケーションのクラス
 class CApplication
@@ -66,6 +67,7 @@ private:
 	static CFade* m_pFade;								//フェードのインスタンスへのポインタ
 	static CCamera* m_pCamera;							//カメラのインスタンスへのポインタ
 	static CMode* m_pMode;								//モードのインスタンスへのポインタ
+	static CMenu* m_pMenu;								//メニューのインスタンスへのポインタ
 
 	static CDebugProc* m_pDebug;						//
 

@@ -158,9 +158,11 @@
     <ClCompile Include="application.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="choice.cpp" />
     <ClCompile Include="debugProc.cpp" />
     <ClCompile Include="directionalLight.cpp" />
     <ClCompile Include="fade.cpp" />
+    <ClCompile Include="font.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamedebug.cpp" />
     <ClCompile Include="gamerace.cpp" />
@@ -171,6 +173,7 @@
     <ClCompile Include="Letter.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="meshfield.cpp" />
     <ClCompile Include="mode.cpp" />
     <ClCompile Include="model.cpp" />
@@ -191,9 +194,11 @@
     <ClInclude Include="application.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="choice.h" />
     <ClInclude Include="debugProc.h" />
     <ClInclude Include="directionalLight.h" />
     <ClInclude Include="fade.h" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gamedebug.h" />
     <ClInclude Include="gamerace.h" />
@@ -204,6 +209,7 @@
     <ClInclude Include="Letter.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="meshfield.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="model.h" />
