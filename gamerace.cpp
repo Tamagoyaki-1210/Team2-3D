@@ -20,6 +20,7 @@
 #include "debugProc.h"
 #include "CylinderHitbox.h"
 #include "BoxHitbox.h"
+#include "coin.h"
 
 CMeshfield *CGameRace::m_pField = nullptr;
 CPlayer* CGameRace::m_pPlayer = nullptr;
@@ -89,6 +90,11 @@ HRESULT CGameRace::Init(void)
 
 	CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_NEUTRAL, nullptr);
 	CCylinderHitbox::Create(D3DXVECTOR3(350.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
+
+	CCoin::Create(D3DXVECTOR3(-100.0f, -125.0f, 200.0f), CCoin::COIN_0);
+	CCoin::Create(D3DXVECTOR3(0.0f, -125.0f, 200.0f), CCoin::COIN_1);
+	CCoin::Create(D3DXVECTOR3(100.0f, -125.0f, 200.0f), CCoin::COIN_2);
+	CCoin::Create(D3DXVECTOR3(200.0f, -125.0f, 200.0f), CCoin::COIN_3);
 	//UI
 	//m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
 

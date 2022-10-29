@@ -77,6 +77,7 @@ void CHitbox::Release(void)
 	{
 		if (m_vHitbox.data()[nCnt] == this)
 		{
+			m_vHitbox.data()[nCnt]->Uninit();
 			m_vHitbox.erase(m_vHitbox.begin() + nCnt);
 			delete this;
 		}
@@ -157,6 +158,17 @@ void CHitbox::SetType(const HITBOX_TYPE type)
 void CHitbox::SetParent(CObject* pParent)
 {
 	m_pParent = pParent;
+}
+
+void CHitbox::SetCollisionState(bool bCollision)
+{
+	m_bCollided = bCollision;
+}
+
+
+bool CHitbox::GetCollisionState(void)
+{
+	return m_bCollided;
 }
 
 

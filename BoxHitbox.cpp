@@ -76,7 +76,11 @@ void CBoxHitbox::Update(void)
 			case CHitbox::SHAPE_BOX:
 
 			{
-				BoxBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize());
+				if (BoxBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize()))
+				{
+					pHbx->data()[nCnt]->SetCollisionState(true);
+				}
+
 			}
 
 			break;
@@ -84,7 +88,10 @@ void CBoxHitbox::Update(void)
 			case CHitbox::SHAPE_CYLINDER:
 
 			{
-				BoxBoxHit(pHbx->data()[nCnt]->GetPos(), Vec3Null, pHbx->data()[nCnt]->GetSize());
+				if (BoxBoxHit(pHbx->data()[nCnt]->GetPos(), Vec3Null, pHbx->data()[nCnt]->GetSize()))
+				{
+					pHbx->data()[nCnt]->SetCollisionState(true);
+				}
 			}
 
 			break;

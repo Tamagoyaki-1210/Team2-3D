@@ -77,7 +77,10 @@ void CCylinderHitbox::Update(void)
 
 			{
 				//CylinderBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize());
-				PointBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize());
+				if (PointBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize()))
+				{
+					pHbx->data()[nCnt]->SetCollisionState(true);
+				}
 			}
 
 				break;
@@ -85,8 +88,10 @@ void CCylinderHitbox::Update(void)
 			case CHitbox::SHAPE_CYLINDER:
 
 			{
-				CylinderCylinderHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetSize());
-				
+				if (CylinderCylinderHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetSize()))
+				{
+					pHbx->data()[nCnt]->SetCollisionState(true);
+				}
 			}
 
 				break;

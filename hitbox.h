@@ -36,6 +36,7 @@ public:
 		TYPE_PLAYER = 0,
 		TYPE_OBSTACLE,
 		TYPE_NEUTRAL,
+		TYPE_VANISHING,
 		TYPE_MAX
 	};
 
@@ -64,6 +65,9 @@ public:
 	void SetShape(const HITBOX_SHAPE shape);
 	void SetType(const HITBOX_TYPE type);
 	void SetParent(CObject* pParent);
+	void SetCollisionState(bool bCollision);
+
+	bool GetCollisionState(void);
 
 	static void ReleaseAll(void);
 	static std::vector <CHitbox*>* GetAllHitbox(void);
