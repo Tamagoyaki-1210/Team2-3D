@@ -285,6 +285,9 @@ void CObject_2D::Draw()
 
 	// ポリゴンの描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+
+	//テクスチャの設定
+	pDevice->SetTexture(0, nullptr);
 }
 
 //=============================================================================

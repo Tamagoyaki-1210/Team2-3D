@@ -14,6 +14,8 @@
 #define DIRECTINPUT_VERSION (0x0800)
 #include "dinput.h"
 
+#define PLAYER_MAX		(2)		//プレイヤーの最大人数
+
 //ライブラリリンク
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dinput8.lib")

@@ -10,9 +10,7 @@
 //*****************************************************************************
 #include "rendering.h"
 #include "object.h"
-//#include "object2D.h"
 #include "camera.h"
-//#include "player.h"
 #include "application.h"
 #include <stdio.h>
 #include "debugProc.h"

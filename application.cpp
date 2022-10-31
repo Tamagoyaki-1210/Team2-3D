@@ -28,6 +28,7 @@
 #include "result.h"
 #include "fade.h"
 #include "menu.h"
+#include "hitbox.h"
 
 //静的メンバー変数の宣言
 HWND CApplication::m_hWnd;
@@ -147,6 +148,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -300.0f), D3DXVECTOR3(0.0f, -200.0f, 300.0f));
 
+	//m_pSphear->Init();
+
 	//FILE*pFile;				//ファイルポインタを宣言する
 
 	//						//ファイルを開く
@@ -262,6 +265,9 @@ void CApplication::Uninit(void)
 	//オブジェクト全体の終了処理
 	CObject::ReleaseAll();
 
+	//ヒットボックスの破棄処理
+	CHitbox::ReleaseAll();
+
 	CLight::ReleaseAll();
 
 	//テクスチャ全部の破棄
@@ -276,7 +282,7 @@ void CApplication::Uninit(void)
 //更新処理
 void CApplication::Update(void)
 {
-	CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動\n");
+	//CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動\n");
 
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
@@ -325,30 +331,6 @@ void CApplication::Update(void)
 	{
 		m_pCamera->Update();
 	}
-
-	/*if (CInputKeyboard::GetKeyboardTrigger(DIK_C))
-	{
-		CObject_2D* pObj2D = CObject_2D::Create();
-		pObj2D->SetPos(D3DXVECTOR3((float)CObject::random(50, SCREEN_WIDTH - 50), (float)CObject::random(50, SCREEN_HEIGHT - 50), 0.0f));
-		pObj2D->SetSize(D3DXVECTOR2(50.0f, 50.0f));
-		pObj2D->SetTexture(CObject::TEXTURE_LETTERS);
-		pObj2D->SetTextureParameter(1, 13, 2, INT_MAX);
-		pObj2D->SetAnimPattern(CObject::random(0, 25));
-		pObj2D->SetPriority(5);
-	}
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_X))
-	{
-		CObject::DebugDestroy();
-	}
-
-	if (m_pStr != nullptr)
-	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_Z))
-		{
-			m_pStr->Release();
-			m_pStr = nullptr;
-		}
-	}*/
 }
 
 //描画処理
@@ -438,6 +420,7 @@ void CApplication::ChangeMode()
 	m_pMenu->Uninit();
 
 	CObject::ReleaseAll();
+	CHitbox::ReleaseAll();
 
 	if (m_pSound != nullptr)
 	{

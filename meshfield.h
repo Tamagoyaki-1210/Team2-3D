@@ -42,9 +42,9 @@ public:
 
 	static void FieldInteraction(CObject* pObj);		//当たり判定の処理
 
+	LPDIRECT3DVERTEXBUFFER9 GetBuff();
 
 private:
-
 	void SetVertex(void);								//頂点インデックスの設定処理
 
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;					//頂点バッファへのポインタ

@@ -41,6 +41,12 @@ public:
 		D3DXVECTOR2 tex;			//テクスチャ座標
 	};
 
+	struct VERTEX_LINE
+	{
+		D3DXVECTOR3 pos;			//xyz座標
+		D3DCOLOR col;				//カーラー
+	};
+
 	//テクスチャの種類
 	enum TextType
 	{
@@ -55,7 +61,7 @@ public:
 		TEXTURE_TYPE_MAX
 	};
 
-	static const int MaxObject = 2048;					//オブジェクトの最大数
+	static const int MaxObject = 5000;					//オブジェクトの最大数
 
 	CObject();											//コンストラクタ
 	CObject(int nPriority);								//コンストラクタ (1 <= priority <= 5)

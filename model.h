@@ -29,6 +29,12 @@ public:
 		MODEL_LEFT_FOOT,
 		MODEL_RIGHT_LEG,
 		MODEL_RIGHT_FOOT,
+
+		MODEL_COIN_0,
+		MODEL_COIN_1,
+		MODEL_COIN_2,
+		MODEL_COIN_3,
+
 		MODEL_MAX
 	};
 
@@ -48,6 +54,10 @@ public:
 	const D3DXVECTOR3 GetRot(void);														//向きの取得処理
 
 	const D3DXVECTOR2 GetSize(void) override;											//サイズの取得処理
+	void SetModel(const ModelType type);												//モデルの設定処理
+
+	void StartRotation(const D3DXVECTOR3 frameRot);
+	void StopRotating(void);
 
 	static void GetModel(ModelType type, LPD3DXMESH* pMesh, LPD3DXBUFFER* pBuffMat, DWORD* numMat);		//モデルのメッシュ情報の取得処理
 	static void GetTextures(std::vector <LPDIRECT3DTEXTURE9>& vTex, CModel::ModelType type);			//マテリアルのテクスチャの取得処理
@@ -66,6 +76,7 @@ private:
 	D3DXVECTOR3		m_LastPos;												//前回の位置
 	D3DXVECTOR3		m_move;													//モデルの移動量
 	D3DXVECTOR3		m_rot;													//向き
+	D3DXVECTOR3		m_frameRot;												//1フレームの回転角度
 	D3DXVECTOR3		m_minCoord, m_maxCoord;									//モデルの頂点座標の最小値と最大値
 	D3DXMATRIX		m_mtxWorld;												//ワールドマトリックス
 	ModelType		m_type;													//モデルの種類

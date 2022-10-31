@@ -37,6 +37,18 @@
     <Filter Include="ヘッダー ファイル\Mode">
       <UniqueIdentifier>{6f3bd69c-9114-4e37-bf05-9cf27d6f7212}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Hitbox">
+      <UniqueIdentifier>{4c40ac70-b6a7-4e70-8af0-a34fdfe21bc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Hitbox">
+      <UniqueIdentifier>{f0c457a9-06d6-4a15-8e7b-f6cc45a14810}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Coins">
+      <UniqueIdentifier>{6375c01d-821b-4655-aab5-46daf2f6f4f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Coins">
+      <UniqueIdentifier>{195714aa-8b65-49b2-aa07-c91504c8bb2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp">
@@ -127,10 +139,37 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="gamedebug.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="gamerace.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="choice.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="font.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="line.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="hitbox.cpp">
+      <Filter>ソース ファイル\Hitbox</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxHitbox.cpp">
+      <Filter>ソース ファイル\Hitbox</Filter>
+    </ClCompile>
+    <ClCompile Include="CylinderHitbox.cpp">
+      <Filter>ソース ファイル\Hitbox</Filter>
+    </ClCompile>
+    <ClCompile Include="coin.cpp">
+      <Filter>ソース ファイル\Coins</Filter>
+    </ClCompile>
+    <ClCompile Include="halfsphere.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +253,42 @@
     </ClInclude>
     <ClInclude Include="result.h">
       <Filter>ヘッダー ファイル\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="choice.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="fade.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="font.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="gamedebug.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="gamerace.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inputPad.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="line.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="hitbox.h">
+      <Filter>ヘッダー ファイル\Hitbox</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxHitbox.h">
+      <Filter>ヘッダー ファイル\Hitbox</Filter>
+    </ClInclude>
+    <ClInclude Include="CylinderHitbox.h">
+      <Filter>ヘッダー ファイル\Hitbox</Filter>
+    </ClInclude>
+    <ClInclude Include="coin.h">
+      <Filter>ヘッダー ファイル\Coins</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
