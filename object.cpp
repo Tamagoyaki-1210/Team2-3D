@@ -240,17 +240,17 @@ void CObject::UpdateAll(void)
 
 				if (!pCurrent->m_bDeath)
 				{
-					if (CApplication::GetMode() == CApplication::Mode_Game_Race || CApplication::GetMode() == CApplication::Mode_Game_Debug)
-					{// ゲーム中の場合
-						if (CGame::GetPause() == false)
-						{// ポーズ中の場合
-							pCurrent->Update();
-						}
-					}
-					else
-					{
+					//if (CApplication::GetMode() == CApplication::Mode_Game_Race || CApplication::GetMode() == CApplication::Mode_Game_Debug)
+					//{// ゲーム中の場合
+					//	if (CGame::GetPause() == false)
+					//	{// ポーズ中の場合
+					//		pCurrent->Update();
+					//	}
+					//}
+					//else
+					//{
 						pCurrent->Update();
-					}
+					//}
 				}
 				pCurrent = pNext;
 			}

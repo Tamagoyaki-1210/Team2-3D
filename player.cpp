@@ -93,6 +93,7 @@ void CPlayer::Uninit(void)
 	}
 	if (m_pScore != nullptr)
 	{
+		m_pScore->Clear();
 		m_pScore = nullptr;
 	}
 	if (m_pScoreUI != nullptr)
