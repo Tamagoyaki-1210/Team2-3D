@@ -14,6 +14,8 @@
 #include "inputMouse.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
+#include "goal.h"
+//#include "BoxHitbox.h"
 
 //コンストラクタ
 CCamera::CCamera()
@@ -58,7 +60,11 @@ HRESULT CCamera::Init(void)
 //終了処理
 void CCamera::Uninit(void)
 {
-
+	/*if (m_pHitBox != nullptr)
+	{
+		m_pHitBox->Release();
+		m_pHitBox = nullptr;
+	}*/
 }
 
 //更新処理
@@ -182,6 +188,12 @@ void CCamera::Update(void)
 
 #endif // DEBUG
 
+	if (m_posV.z >= 750.0f)
+	{
+		m_posV.z = 750.0f;
+
+		CGoal::SetGoal(true);
+	}
 }
 
 //設定処理
@@ -269,6 +281,5 @@ CCamera* CCamera::Create(D3DXVECTOR3 pos, D3DXVECTOR3 focalPoint)
 	}
 
 	pCamera->m_fLenght = sqrtf(((pCamera->m_posR.x - pCamera->m_posV.x) * (pCamera->m_posR.x - pCamera->m_posV.x)) + ((pCamera->m_posR.z - pCamera->m_posV.z) * (pCamera->m_posR.z - pCamera->m_posV.z)));
-
 	return pCamera;
 }

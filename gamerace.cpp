@@ -22,6 +22,7 @@
 #include "CylinderHitbox.h"
 #include "BoxHitbox.h"
 #include "coin.h"
+#include "goal.h"
 
 CMeshfield *CGameRace::m_pField = nullptr;
 CHalfSphere* CGameRace::m_pSphere[PLAYER_MAX] = {};
@@ -51,7 +52,7 @@ HRESULT CGameRace::Init(void)
 	CGame::Init();
 
 	// メッシュフィールドの生成
-	m_pField = CMeshfield::Create(D3DXVECTOR3(-1000.0f, -150.0f, 1000.0f), Vec3Null, D3DXVECTOR2(50.0f, 50.0f), 30, 30, 3);
+	m_pField = CMeshfield::Create(D3DXVECTOR3(-200.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
 	m_pField->SetTexture(CObject::TEXTURE_BLOCK);
 	m_pField->SetTextureTiling(0.33f);
 
@@ -76,18 +77,20 @@ HRESULT CGameRace::Init(void)
 	//CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, -150.0f));
 	//CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, 150.0f));
 
+	CGoal::Create();
+
 	// プレイヤーの生成
 	m_pPlayer[0] = CPlayer::Create(D3DXVECTOR3(0.0f, -100.0f, -100.0f),0);
 	m_pPlayer[1] = CPlayer::Create(D3DXVECTOR3(-100.0f, -100.0f, -100.0f), 1);
 
 	// ビルボードの生成
-	CBillboard* pBillboard = CBillboard::Create(D3DXVECTOR3(-150.0f, 0.0f, 300.0f), D3DXVECTOR2(50.0f, 50.0f), 3);
-	pBillboard->SetTexture(CObject::TEXTURE_BLOCK);
+	//CBillboard* pBillboard = CBillboard::Create(D3DXVECTOR3(-150.0f, 0.0f, 300.0f), D3DXVECTOR2(50.0f, 50.0f), 3);
+	//pBillboard->SetTexture(CObject::TEXTURE_BLOCK);
 
 	m_pSphere[0] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -2000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f),CHalfSphere::SPHERE_UP);
 	m_pSphere[0]->LoadTexture("data\\TEXTURE\\sky001.jpg");
 
-	m_pSphere[1] = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, 0.0f, D3DX_PI), CHalfSphere::SPHERE_DOWN);
+	m_pSphere[1] = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, D3DX_PI, D3DX_PI), CHalfSphere::SPHERE_DOWN);
 	m_pSphere[1]->LoadTexture("data\\TEXTURE\\89_m.jpg");
 
 	// UIStringの生成
@@ -98,12 +101,12 @@ HRESULT CGameRace::Init(void)
 	CLetter::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 4, 5);
 
 	CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_NEUTRAL, nullptr);
-	CCylinderHitbox::Create(D3DXVECTOR3(350.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
+	CCylinderHitbox::Create(D3DXVECTOR3(150.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
 
 	CCoin::Create(D3DXVECTOR3(-100.0f, -125.0f, 200.0f), CCoin::COIN_0);
 	CCoin::Create(D3DXVECTOR3(0.0f, -125.0f, 200.0f), CCoin::COIN_1);
-	CCoin::Create(D3DXVECTOR3(100.0f, -125.0f, 200.0f), CCoin::COIN_2);
-	CCoin::Create(D3DXVECTOR3(200.0f, -125.0f, 200.0f), CCoin::COIN_3);
+	CCoin::Create(D3DXVECTOR3(-100.0f, -125.0f, 400.0f), CCoin::COIN_2);
+	CCoin::Create(D3DXVECTOR3(0.0f, -125.0f, 400.0f), CCoin::COIN_3);
 	//UI
 	//m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
 

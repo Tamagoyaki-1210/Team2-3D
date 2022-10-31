@@ -34,7 +34,7 @@ public:
 	void Update(void) override;
 
 	static CMeshfield* GetField(void) { return m_pField; }		// メッシュフィールドの取得処理
-	static CPlayer* GetPlayer(void) { return m_pPlayer[0]; }	// プレイヤーの取得処理
+	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; }	// プレイヤーの取得処理
 
 	static CGameRace* Create(void);			//生成処理
 private:
