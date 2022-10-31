@@ -38,6 +38,8 @@ public:
 	const D3DXVECTOR3 GetSize(void);													//サイズの取得処理
 	D3DXMATRIX GetMatrix(void);															//マトリックスの取得処理
 
+	void SetModelColor(const int nNumMat, const D3DXCOLOR col);
+
 	static CModelPart* Create(CModel::ModelType type, const D3DXVECTOR3 pos, const D3DXVECTOR3 rot);								//生成処理
 
 private:
@@ -54,6 +56,7 @@ private:
 	CModel::ModelType		m_type;													//モデルの種類
 	std::vector <LPDIRECT3DTEXTURE9> m_vModelTexture;								//モデルのテクスチャへのポインタ
 	CModelPart*				 m_pParent;												//親へのポインタ
+	std::vector <CModel::ModelColor> m_vCol;										//モデルの色
 };
 
 #endif

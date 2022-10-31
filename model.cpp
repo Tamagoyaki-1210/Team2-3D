@@ -53,6 +53,7 @@ CModel::CModel()
 	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
 	m_type = CModel::MODEL_BODY;
+	m_vCol.clear();
 }
 
 CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
@@ -69,6 +70,7 @@ CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
 	m_maxCoord = Vec3Null;								//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
 	m_type = CModel::MODEL_BODY;
+	m_vCol.clear();
 }
 
 //デストラクタ
@@ -91,6 +93,7 @@ HRESULT CModel::Init(void)
 	m_minCoord = Vec3Null;
 	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
+	m_vCol.clear();
 
 	/*std::vector <LPDIRECT3DTEXTURE9> v;
 
@@ -110,7 +113,7 @@ HRESULT CModel::Init(void)
 //終了処理
 void CModel::Uninit(void)
 {
-	
+	m_vCol.clear();
 }
 
 //更新処理
@@ -217,6 +220,20 @@ void CModel::Draw(void)
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
 
+		D3DXCOLOR c = {};
+		bool bCol = false;
+
+		for (int i = 0; i < (int)m_vCol.size(); i++)
+		{
+			if (m_vCol.data()[i].nMatNumber == nCntMat)
+			{
+				bCol = true;
+				c = pMat[nCntMat].MatD3D.Diffuse;
+				pMat[nCntMat].MatD3D.Diffuse = m_vCol.data()[i].col;
+				break;
+			}
+		}
+
 		//マテリアルの設定
 		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
@@ -225,6 +242,11 @@ void CModel::Draw(void)
 
 		//モデルパーツの描画
 		m_pMesh->DrawSubset(nCntMat);
+
+		if (bCol)
+		{
+			pMat[nCntMat].MatD3D.Diffuse = c;
+		}
 	}
 
 	//保持しいたマテリアルを戻す
@@ -280,6 +302,16 @@ void CModel::StartRotation(const D3DXVECTOR3 frameRot)
 void CModel::StopRotating(void)
 {
 	m_frameRot = Vec3Null;
+}
+
+//カーラーの設定処理
+void CModel::SetModelColor(const int nNumMat, const D3DXCOLOR col)
+{
+	ModelColor mCol = {};
+	mCol.nMatNumber = nNumMat;
+	mCol.col = col;
+
+	m_vCol.push_back(mCol);
 }
 
 
