@@ -141,6 +141,35 @@ bool CLetter::ConvertInSymbol(const char symbol)
 	return true;
 }
 
+bool CLetter::Convert(const char symbol)
+{
+	char aLetter = 33;
+
+	//アニメーションパターンの設定
+	int Cell = 27;
+
+	for (int nCnt = 0; nCnt < 93; nCnt++)
+	{
+		if (symbol == aLetter)
+		{
+			Cell = nCnt;
+			break;
+		}
+
+		aLetter += 1;
+	}
+
+	if (Cell < 0 || Cell > 93)
+	{
+		return false;
+	}
+	else
+	{
+		SetAnimPattern(Cell);
+		return true;
+	}
+}
+
 void CLetter::SetLife(const int nLife)
 {
 	m_bVanish = true;

@@ -20,6 +20,7 @@
 #include "animator.h"
 #include "CylinderHitbox.h"
 #include "score.h"
+#include "UIString.h"
 #include "gamerace.h"
 
 //コンストラクタ
@@ -31,6 +32,7 @@ CPlayer::CPlayer()
 	m_pAnimator = nullptr;
 	m_pHitbox = nullptr;
 	m_pScore = nullptr;
+	m_pScoreUI = nullptr;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{
@@ -54,6 +56,7 @@ HRESULT CPlayer::Init(void)
 	m_pHitbox = nullptr;
 	m_pScore = nullptr;
 	m_State = STATE_NEUTRAL;
+	m_pScoreUI = nullptr;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{
@@ -91,6 +94,11 @@ void CPlayer::Uninit(void)
 	if (m_pScore != nullptr)
 	{
 		m_pScore = nullptr;
+	}
+	if (m_pScoreUI != nullptr)
+	{
+		m_pScoreUI->Uninit();
+		m_pScoreUI = nullptr;
 	}
 }
 
@@ -198,6 +206,30 @@ void CPlayer::Update(void)
 	{
 		m_pHitbox->SetPos(m_pos);
 		m_pHitbox->Update();
+	}
+
+	if (m_pScoreUI != nullptr && m_pScore != nullptr)
+	{
+		int nScore = m_pScore->GetScore();
+		std::string str = std::to_string(nScore);
+		std::string begin = {};
+		
+		if (str.size() < 4)
+		{
+			for (int nCnt = 0; nCnt < 4 - (int)str.size(); nCnt++)
+			{
+				begin += '0';
+			}
+
+			begin += str;
+		}
+		else
+		{
+			begin = str;
+		}
+
+		const char* pStr = begin.c_str();
+		m_pScoreUI->ChangeString(pStr);
 	}
 
 	CDebugProc::Print("\nRot: %f\nRot Dest: %f\n\nPos: %f, %f, %f", m_pModel[BODY]->GetRot().y, m_DestRot.y, m_pos.x, m_pos.y, m_pos.z);
@@ -311,12 +343,17 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
 
 	pModel->m_pScore = CScore::Create(nCntPlayer);
 
+	D3DXCOLOR UIcol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+
 	if (nCntPlayer == 1)
 	{
 		pModel->m_pModel[BODY]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
 		pModel->m_pModel[LEFT_ARM]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
 		pModel->m_pModel[RIGHT_ARM]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
+		UIcol = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
 	}
+
+	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
 
 	return pModel;
 }
