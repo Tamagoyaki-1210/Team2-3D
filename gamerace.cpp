@@ -24,6 +24,7 @@
 #include "coin.h"
 #include "goal.h"
 #include "message.h"
+#include "fade.h"
 
 CMeshfield *CGameRace::m_pField = nullptr;
 CHalfSphere* CGameRace::m_pSphere[PLAYER_MAX] = {};
@@ -176,17 +177,20 @@ void CGameRace::Update(void)
 
     CDebugProc::Print("\n[F2] : デバッグモードへ移動\n");
 
-    if (CInputKeyboard::GetKeyboardTrigger(DIK_F2))
-    {// F2キーを押したら
-        CApplication::SetMode(CApplication::Mode_Game_Debug);
-    }
-    if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
-    {// Enterキーを押したら
-		SetEndGame();
-    }
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_G))
-	{// Enterキーを押したら
-		m_pMessage->GoalMessage();
+	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
+	{
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_F2))
+		{// F2キーを押したら
+			CApplication::SetMode(CApplication::Mode_Game_Debug);
+		}
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		{// Enterキーを押したら
+			SetEndGame();
+		}
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_G))
+		{// Enterキーを押したら
+			m_pMessage->GoalMessage();
+		}
 	}
 
 #endif // _DEBUG

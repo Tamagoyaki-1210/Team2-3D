@@ -10,6 +10,8 @@
 //=============================================================================
 #include "object.h"
 #include "object2D.h"
+#include "application.h"
+#include "game.h"
 #include <random>
 
 //=============================================================================
@@ -238,7 +240,17 @@ void CObject::UpdateAll(void)
 
 				if (!pCurrent->m_bDeath)
 				{
-					pCurrent->Update();
+					if (CApplication::GetMode() == CApplication::Mode_Game_Race || CApplication::GetMode() == CApplication::Mode_Game_Debug)
+					{// ゲーム中の場合
+						if (CGame::GetPause() == false)
+						{// ポーズ中の場合
+							pCurrent->Update();
+						}
+					}
+					else
+					{
+						pCurrent->Update();
+					}
 				}
 				pCurrent = pNext;
 			}

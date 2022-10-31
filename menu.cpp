@@ -11,6 +11,8 @@
 #include "choice.h"
 #include "inputKeyboard.h"
 #include "inputPad.h"
+#include "game.h"
+#include "fade.h"
 
 int CMenu::m_nNumAll = 0;
 int CMenu::m_nSelectNum = 0;
@@ -95,8 +97,8 @@ void CMenu::Uninit(void)
 //=====================================
 void CMenu::Update(void)
 {
-	if (CApplication::GetMode() == CApplication::Mode_Title || CApplication::GetMode() == CApplication::Mode_Result)
-	{
+	if ((CApplication::GetMode() != CApplication::Mode_Game_Race && CApplication::GetMode() != CApplication::Mode_Game_Debug))
+	{// ゲーム中ではない場合
 		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
 		{
 			if (m_pChoice[nCnt] != nullptr)
@@ -113,57 +115,60 @@ void CMenu::Update(void)
 //=====================================
 void CMenu::Input(void)
 {
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y < -0.3f)
-	{// Wキーが押された場合
-		m_pChoice[m_nSelectNum]->SizeReset();
-		m_nSelectNum--;
-
-		// 現在位置が0より下の場合
-		if (m_nSelectNum < 0)
-		{
-			m_nSelectNum = m_nNumAll - 1;
-		}
-		m_pChoice[m_nSelectNum]->SetSellect();
-	}
-	else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y > 0.3f)
-	{// Sキーが押された場合
-		m_pChoice[m_nSelectNum]->SizeReset();
-		m_nSelectNum++;
-
-		// 現在位置が最大数より大きい場合
-		if (m_nSelectNum >= m_nNumAll)
-		{
-			m_nSelectNum = 0;
-		}
-		m_pChoice[m_nSelectNum]->SetSellect();
-	}
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		switch (CApplication::GetMode())
-		{
-		case CApplication::Mode_Title:
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y < -0.3f)
+		{// Wキーが押された場合
+			m_pChoice[m_nSelectNum]->SizeReset();
+			m_nSelectNum--;
 
-			if (m_nSelectNum == 0)
+			// 現在位置が0より下の場合
+			if (m_nSelectNum < 0)
 			{
-				CApplication::SetMode(CApplication::Mode_Game_Race);
+				m_nSelectNum = m_nNumAll - 1;
 			}
-			else if (m_nSelectNum == 1)
+			m_pChoice[m_nSelectNum]->SetSellect();
+		}
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y > 0.3f)
+		{// Sキーが押された場合
+			m_pChoice[m_nSelectNum]->SizeReset();
+			m_nSelectNum++;
+
+			// 現在位置が最大数より大きい場合
+			if (m_nSelectNum >= m_nNumAll)
 			{
-				ExitExe();
+				m_nSelectNum = 0;
 			}
-			break;
-		case CApplication::Mode_Result:
-			if (m_nSelectNum == 0)
+			m_pChoice[m_nSelectNum]->SetSellect();
+		}
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		{
+			switch (CApplication::GetMode())
 			{
-				CApplication::SetMode(CApplication::Mode_Game_Race);
+			case CApplication::Mode_Title:
+
+				if (m_nSelectNum == 0)
+				{
+					CApplication::SetMode(CApplication::Mode_Game_Race);
+				}
+				else if (m_nSelectNum == 1)
+				{
+					ExitExe();
+				}
+				break;
+			case CApplication::Mode_Result:
+				if (m_nSelectNum == 0)
+				{
+					CApplication::SetMode(CApplication::Mode_Game_Race);
+				}
+				else if (m_nSelectNum == 1)
+				{
+					CApplication::SetMode(CApplication::Mode_Title);
+				}
+				break;
+			default:
+				break;
 			}
-			else if (m_nSelectNum == 1)
-			{
-				CApplication::SetMode(CApplication::Mode_Title);
-			}
-			break;
-		default:
-			break;
 		}
 	}
 }
