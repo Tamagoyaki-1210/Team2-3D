@@ -21,6 +21,7 @@ class CModelPart;
 class CAnimator;
 class CCylinderHitbox;
 class CScore;
+class CUIString;
 
 class CPlayer : public CObject
 {
@@ -82,6 +83,7 @@ private:
 	STATE m_State;
 	CCylinderHitbox* m_pHitbox;
 	CScore* m_pScore;
+	CUIString* m_pScoreUI;
 
 	int m_nIdxPlayer;
 	//CModel* m_pModel;									//ƒ‚ƒfƒ‹
