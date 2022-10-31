@@ -23,10 +23,12 @@
 #include "CylinderHitbox.h"
 #include "BoxHitbox.h"
 #include "coin.h"
+#include "message.h"
 
 CMeshfield *CGameRace::m_pField = nullptr;
 CHalfSphere* CGameRace::m_pSphere[PLAYER_MAX] = {};
 CPlayer* CGameRace::m_pPlayer[PLAYER_MAX] = {};
+CMessage* CGameRace::m_pMessage = nullptr;
 
 //=====================================
 // デフォルトコンストラクタ
@@ -105,6 +107,13 @@ HRESULT CGameRace::Init(void)
     CCoin::Create(D3DXVECTOR3(0.0f, -125.0f, 200.0f), CCoin::COIN_1);
     CCoin::Create(D3DXVECTOR3(100.0f, -125.0f, 200.0f), CCoin::COIN_2);
     CCoin::Create(D3DXVECTOR3(200.0f, -125.0f, 200.0f), CCoin::COIN_3);
+
+	// メッセージの生成
+	m_pMessage = CMessage::Create();
+
+	// ゴールメッセージ表示
+	m_pMessage->GoalMessage();
+
     //UI
     //m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
 
@@ -138,6 +147,13 @@ void CGameRace::Uninit(void)
         m_pField->Release();
         m_pField = nullptr;
     }
+
+	if (m_pMessage != nullptr)
+	{
+		m_pMessage->Uninit();
+		delete m_pMessage;
+		m_pMessage = nullptr;
+	}
 }
 
 //=====================================
@@ -146,6 +162,11 @@ void CGameRace::Uninit(void)
 void CGameRace::Update(void)
 {
     CGame::Update();
+
+	if (m_pMessage != nullptr)
+	{
+		m_pMessage->Update();
+	}
 
 #ifdef _DEBUG
 
@@ -159,6 +180,11 @@ void CGameRace::Update(void)
     {// Enterキーを押したら
         CApplication::SetMode(CApplication::Mode_Result);
     }
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_G))
+	{// Enterキーを押したら
+		m_pMessage->GoalMessage();
+	}
+
 #endif // _DEBUG
 }
 
