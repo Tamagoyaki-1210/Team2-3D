@@ -87,11 +87,11 @@ HRESULT CGameRace::Init(void)
     CBillboard* pBillboard = CBillboard::Create(D3DXVECTOR3(-150.0f, 0.0f, 300.0f), D3DXVECTOR2(50.0f, 50.0f), 3);
     pBillboard->SetTexture(CObject::TEXTURE_BLOCK);
 
-    m_pSphere[0] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -1000.0f, 1000.0f), D3DXVECTOR3(15000.0f, 0.0f, 15000.0f), D3DXVECTOR3(0.0f, 0.0f, 0.0f),CHalfSphere::SPHERE_UP);
+	m_pSphere[0] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -2000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f),CHalfSphere::SPHERE_UP);
     m_pSphere[0]->LoadTexture("data\\TEXTURE\\sky001.jpg");
 
-    m_pSphere[1] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -1000.0f, 1000.0f), D3DXVECTOR3(15000.0f, 0.0f, 15000.0f), D3DXVECTOR3(0.0f, 0.0f, D3DX_PI), CHalfSphere::SPHERE_DOWN);
-    m_pSphere[1]->LoadTexture("data\\TEXTURE\\9_m.jpg");
+	m_pSphere[1] = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, 0.0f, D3DX_PI), CHalfSphere::SPHERE_DOWN);
+	m_pSphere[1]->LoadTexture("data\\TEXTURE\\89_m.jpg");
 
     // UIStringÇÃê∂ê¨
     CUIString::Create(D3DXVECTOR3(100.0f, 200.0f, 0.0f), D3DXVECTOR2(250.0f, 25.0f), D3DXCOLOR(0.2f, 1.0f, 0.5f, 1.0f), "Sentence A, 125 $%&");
