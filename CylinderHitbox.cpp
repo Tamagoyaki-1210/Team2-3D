@@ -62,20 +62,9 @@ void CCylinderHitbox::Update(void)
 {
 	std::vector <CHitbox*>* pHbx = GetAllHitbox();
 
-	if (GetType() == TYPE_PLAYER)
-	{
-		for (int nCnt = 0; nCnt < (int)pHbx->size(); nCnt++)
-		{
-			if (pHbx->data()[nCnt] != this && pHbx->data()[nCnt]->GetType() == TYPE_PLAYER)
-			{
-				CylinderCylinderHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetSize());
-			}
-		}
-	}
-
 	for (int nCnt = 0; nCnt < (int)pHbx->size(); nCnt++)
 	{
-		if (pHbx->data()[nCnt] != this && pHbx->data()[nCnt]->GetType() != TYPE_PLAYER)
+		if (pHbx->data()[nCnt] != this)
 		{
 			HITBOX_SHAPE shape = pHbx->data()[nCnt]->GetShape();
 
