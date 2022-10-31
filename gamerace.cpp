@@ -124,7 +124,7 @@ void CGameRace::Uninit(void)
         {
             m_pPlayer[nCnt]->Release();
             m_pPlayer[nCnt] = nullptr;
-    }
+		}
     }
 
     if (m_pSphere[0] != nullptr)
@@ -146,11 +146,6 @@ void CGameRace::Uninit(void)
 void CGameRace::Update(void)
 {
     CGame::Update();
-
-    /*if (m_pPlayer != nullptr)
-    {
-        m_pPlayer->Update();
-    }*/
 
 #ifdef _DEBUG
 
