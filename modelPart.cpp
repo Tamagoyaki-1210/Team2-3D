@@ -330,6 +330,8 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 
 	//保持しいたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
+
+	pDevice->SetTexture(0, nullptr);
 }
 
 //親の設定処理
