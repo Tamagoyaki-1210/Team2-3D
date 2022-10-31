@@ -139,10 +139,10 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="gamedebug.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="gamerace.cpp">
-      <Filter>ソース ファイル\Mode</Filter>
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="choice.cpp">
       <Filter>ソース ファイル</Filter>
@@ -169,6 +169,7 @@
       <Filter>ソース ファイル\Coins</Filter>
     </ClCompile>
     <ClCompile Include="score.cpp">
+    <ClCompile Include="halfsphere.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

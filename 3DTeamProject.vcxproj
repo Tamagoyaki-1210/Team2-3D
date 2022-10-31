@@ -170,6 +170,7 @@
     <ClCompile Include="gamedebug.cpp" />
     <ClCompile Include="gamerace.cpp" />
     <ClCompile Include="hitbox.cpp" />
+    <ClCompile Include="halfsphere.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="inputKeyboard.cpp" />
     <ClCompile Include="inputMouse.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="gamedebug.h" />
     <ClInclude Include="gamerace.h" />
     <ClInclude Include="hitbox.h" />
+    <ClInclude Include="halfsphere.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="inputKeyboard.h" />
     <ClInclude Include="inputMouse.h" />

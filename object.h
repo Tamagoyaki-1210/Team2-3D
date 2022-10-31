@@ -61,7 +61,7 @@ public:
 		TEXTURE_TYPE_MAX
 	};
 
-	static const int MaxObject = 2048;					//オブジェクトの最大数
+	static const int MaxObject = 5000;					//オブジェクトの最大数
 
 	CObject();											//コンストラクタ
 	CObject(int nPriority);								//コンストラクタ (1 <= priority <= 5)

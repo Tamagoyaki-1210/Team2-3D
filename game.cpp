@@ -44,6 +44,7 @@ HRESULT CGame::Init(void)
 void CGame::Uninit(void)
 {
 	m_bPause = true;
+	//CObject::Release();
 }
 
 //=====================================
