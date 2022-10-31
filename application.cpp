@@ -29,6 +29,7 @@
 #include "fade.h"
 #include "menu.h"
 #include "hitbox.h"
+#include "score.h"
 
 //静的メンバー変数の宣言
 HWND CApplication::m_hWnd;
@@ -182,6 +183,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 //終了処理
 void CApplication::Uninit(void)
 {
+	CScore::Clear();
+
 	//レンディングインスタンスの破棄
 	if (m_pRenderer != nullptr)
 	{

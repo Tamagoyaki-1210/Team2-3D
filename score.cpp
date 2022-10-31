@@ -49,6 +49,13 @@ void CScore::AddScore(const int nScore)
 	m_nScore += nScore;
 }
 
+//スコアを取得処理
+const int CScore::GetScore(void)
+{
+	return m_nScore;
+}
+
+
 
 
 
@@ -59,6 +66,12 @@ void CScore::AddScore(const int nScore)
 void CScore::AddScore(const int nPlayerIdx, const int nScore)
 {
 	m_vScore.data()[nPlayerIdx]->AddScore(nScore);
+}
+
+//スコアを取得処理
+const int CScore::GetScore(const int nPlayerIdx)
+{
+	return m_vScore.data()[nPlayerIdx]->m_nScore;
 }
 
 
@@ -87,6 +100,8 @@ CScore* CScore::Create(const int nPlayerIdx)
 
 	pScore->m_nScore = 0;
 	pScore->m_nPlayerIdx = nPlayerIdx;
+
+	m_vScore.push_back(pScore);
 	
 	return pScore;
 }

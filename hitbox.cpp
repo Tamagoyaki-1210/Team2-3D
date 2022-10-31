@@ -26,6 +26,8 @@ CHitbox::CHitbox()
 	m_type = (HITBOX_TYPE)0;
 	m_bCollided = false;
 	m_pParent = nullptr;
+	m_nPlayerIdx = 0;
+	m_nScore = 0;
 
 	m_vHitbox.push_back(this);
 }
@@ -48,6 +50,8 @@ HRESULT CHitbox::Init(void)
 	m_type = (HITBOX_TYPE)0;
 	m_bCollided = false;
 	m_pParent = nullptr;
+	m_nPlayerIdx = -1;
+	m_nScore = 0;
 
 	return S_OK;
 }
@@ -165,10 +169,34 @@ void CHitbox::SetCollisionState(bool bCollision)
 	m_bCollided = bCollision;
 }
 
+//プレイヤーインデックスの設定処理
+void CHitbox::SetPlayerIdx(const int nPlayerIdx)
+{
+	m_nPlayerIdx = nPlayerIdx;
+}
 
+//スコアの設定処理
+void CHitbox::SetScore(const int nScore)
+{
+	m_nScore = nScore;
+}
+
+//何かと当たったかどうか
 bool CHitbox::GetCollisionState(void)
 {
 	return m_bCollided;
+}
+
+//プレイヤーインデックスの取得処理
+const int CHitbox::GetPlayerIdx(void)
+{
+	return m_nPlayerIdx;
+}
+
+//スコアの取得処理
+const int CHitbox::GetScore(void)
+{
+	return m_nScore;
 }
 
 
