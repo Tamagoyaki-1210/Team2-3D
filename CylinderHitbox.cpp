@@ -76,7 +76,6 @@ void CCylinderHitbox::Update(void)
 			case CHitbox::SHAPE_BOX:
 
 			{
-				//CylinderBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize());
 				if (PointBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize()))
 				{
 					pHbx->data()[nCnt]->SetCollisionState(true);
@@ -217,7 +216,7 @@ bool CCylinderHitbox::CylinderCylinderHit(const D3DXVECTOR3 pos, const D3DXVECTO
 				parentPos = dist - GetRelativePos();
 				parentPos.y = fHeight;
 				GetParent()->SetPos(parentPos);
-				SetLastPos(parentPos + GetRelativePos());
+				//SetLastPos(parentPos + GetRelativePos());
 			}
 
 			return true;

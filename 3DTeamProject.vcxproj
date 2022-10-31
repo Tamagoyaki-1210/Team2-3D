@@ -191,6 +191,7 @@
     <ClCompile Include="pointLight.cpp" />
     <ClCompile Include="rendering.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="score.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="UIString.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="pointLight.h" />
     <ClInclude Include="rendering.h" />
     <ClInclude Include="result.h" />
+    <ClInclude Include="score.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="UIString.h" />
