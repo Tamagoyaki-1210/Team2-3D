@@ -94,7 +94,7 @@ CCoin* CCoin::Create(const D3DXVECTOR3 pos, const COIN_TYPE type)
 	pCoin->SetPos(pos);													//位置の設定処理
 	pCoin->StartRotation(D3DXVECTOR3(0.0f, D3DX_PI * 0.01f, 0.0f));		//回転速度の設定
 
-	pCoin->m_pHitbox = CBoxHitbox::Create(pos, Vec3Null, m_hitboxSize[type], CHitbox::TYPE_NEUTRAL, pCoin);		//ヒットボックスを生成する
+	pCoin->m_pHitbox = CBoxHitbox::Create(pos, Vec3Null, m_hitboxSize[type], CHitbox::TYPE_NEUTRAL, pCoin, 10);		//ヒットボックスを生成する
 
 	return pCoin;				//生成したインスタンスを返す
 

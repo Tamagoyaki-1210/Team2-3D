@@ -24,7 +24,9 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\Characters.png",						//TEXTURE_CHARACTERS,
 	"data\\TEXTURE\\Alphabet.png",							//TEXTURE_LETTERS,
 	"data\\TEXTURE\\Numbers.png",							//TEXTURE_NUMBERS,
-	"data\\TEXTURE\\Hiragana.png"							//TEXTURE_HIRAGANA,
+	"data\\TEXTURE\\Japanese2000unicode.png",				//TEXTURE_JAPANESE,
+	"data\\TEXTURE\\UI_Debug_Start.png",					//TEXTURE_MESSAGE_START,
+	"data\\TEXTURE\\UI_Debug_Goal.png"						//TEXTURE_MESSAGE_GOAL,
 };
 
 //=============================================================================

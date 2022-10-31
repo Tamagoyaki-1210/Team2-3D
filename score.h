@@ -28,8 +28,10 @@ public:
 	HRESULT Init(void);					//初期化処理
 	void Uninit(void);					//終了処理
 	void AddScore(const int nScore);	//スコアを足す処理	
+	const int GetScore(void);			//スコアを取得処理
 									
 	static void AddScore(const int nPlayerIdx, const int nScore);	//スコアを足す処理
+	static const int GetScore(const int nPlayerIdx);				//スコアを取得処理
 	static void Clear(void);										//クリア処理
 	static CScore* Create(const int nPlayerIdx);					//生成処理
 

@@ -66,8 +66,12 @@ public:
 	void SetType(const HITBOX_TYPE type);
 	void SetParent(CObject* pParent);
 	void SetCollisionState(bool bCollision);
+	void SetPlayerIdx(const int nPlayerIdx);
+	void SetScore(const int nScore);
 
 	bool GetCollisionState(void);
+	const int GetPlayerIdx(void);
+	const int GetScore(void);
 
 	static void ReleaseAll(void);
 	static std::vector <CHitbox*>* GetAllHitbox(void);
@@ -83,6 +87,8 @@ private:
 	HITBOX_TYPE  m_type;
 	bool		 m_bCollided;
 	CObject*	 m_pParent;
+	int			 m_nPlayerIdx;
+	int			 m_nScore;
 
 	static std::vector <CHitbox*> m_vHitbox;
 };

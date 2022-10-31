@@ -11,7 +11,6 @@
 // インクルード
 //*****************************************************************************
 #include "game.h"
-#include "input.h"
 
 //---------------------------
 //前方宣言
@@ -19,6 +18,7 @@
 class CMeshfield;
 class CPlayer;
 class CHalfSphere;
+class CMessage;
 
 //---------------------------
 //クラス宣言
@@ -41,6 +41,7 @@ private:
 	static CMeshfield* m_pField;
 	static CPlayer* m_pPlayer[PLAYER_MAX];							//プレイヤーのインスタンスへのポインタ
 	static CHalfSphere* m_pSphere[PLAYER_MAX];
+	static CMessage* m_pMessage;
 };
 
 #endif // !_GAMERACE_H_

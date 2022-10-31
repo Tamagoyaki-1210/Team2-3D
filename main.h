@@ -46,6 +46,8 @@ namespace
 	LPCTSTR WINDOW_NAME = _T("3D Team Work");
 }
 
+#define PLAYER_MAX		(2)		//プレイヤーの最大人数
+
 // スクリーンの幅
 const int SCREEN_WIDTH = 1280;
 // スクリーンの高さ

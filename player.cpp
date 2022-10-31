@@ -19,7 +19,7 @@
 #include "modelPart.h"
 #include "animator.h"
 #include "CylinderHitbox.h"
-#include "gamerace.h"
+#include "score.h"
 
 //コンストラクタ
 CPlayer::CPlayer()
@@ -29,6 +29,7 @@ CPlayer::CPlayer()
 	m_DestRot = Vec3Null;
 	m_pAnimator = nullptr;
 	m_pHitbox = nullptr;
+	m_pScore = nullptr;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{
@@ -50,6 +51,7 @@ HRESULT CPlayer::Init(void)
 	m_DestRot = Vec3Null;			//目的の角度の初期化処理
 	m_pAnimator = nullptr;
 	m_pHitbox = nullptr;
+	m_pScore = nullptr;
 	m_State = STATE_NEUTRAL;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
@@ -84,6 +86,10 @@ void CPlayer::Uninit(void)
 	{
 		m_pHitbox->Release();
 		m_pHitbox = nullptr;
+	}
+	if (m_pScore != nullptr)
+	{
+		m_pScore = nullptr;
 	}
 }
 
@@ -194,6 +200,7 @@ void CPlayer::Update(void)
 	}
 
 	CDebugProc::Print("\nRot: %f\nRot Dest: %f\n\nPos: %f, %f, %f", m_pModel[BODY]->GetRot().y, m_DestRot.y, m_pos.x, m_pos.y, m_pos.z);
+	CDebugProc::Print("\nPlayer %d score: %d", m_nIdxPlayer, m_pScore->GetScore());
 }
 
 //描画処理
@@ -297,9 +304,18 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
 
 	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_PLAYER);
 
-	pModel->m_pHitbox = CCylinderHitbox::Create(pos, Vec3Null, D3DXVECTOR3(10.0f, 35.0f, 10.0f), CHitbox::TYPE_PLAYER, pModel);
+	pModel->m_pHitbox = CCylinderHitbox::Create(pos, Vec3Null, D3DXVECTOR3(10.0f, 35.0f, 10.0f), CHitbox::TYPE_PLAYER, pModel, nCntPlayer);
 
 	pModel->SetPlayerIdx(nCntPlayer);
+
+	pModel->m_pScore = CScore::Create(nCntPlayer);
+
+	if (nCntPlayer == 1)
+	{
+		pModel->m_pModel[BODY]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
+		pModel->m_pModel[LEFT_ARM]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
+		pModel->m_pModel[RIGHT_ARM]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
+	}
 
 	return pModel;
 }

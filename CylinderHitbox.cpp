@@ -10,6 +10,7 @@
 //=============================================================================
 #include "CylinderHitbox.h"
 #include "line.h"
+#include "score.h"
 
 //コンストラクタ
 CCylinderHitbox::CCylinderHitbox()
@@ -79,6 +80,14 @@ void CCylinderHitbox::Update(void)
 				if (PointBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize()))
 				{
 					pHbx->data()[nCnt]->SetCollisionState(true);
+
+					if (GetType() == TYPE_PLAYER && pHbx->data()[nCnt]->GetScore() != 0)
+					{
+						if (GetPlayerIdx() >= 0)
+						{
+							CScore::AddScore(GetPlayerIdx(), pHbx->data()[nCnt]->GetScore());
+						}
+					}
 				}
 			}
 
@@ -90,6 +99,14 @@ void CCylinderHitbox::Update(void)
 				if (CylinderCylinderHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetSize()))
 				{
 					pHbx->data()[nCnt]->SetCollisionState(true);
+
+					if (GetType() == TYPE_PLAYER && pHbx->data()[nCnt]->GetScore() != 0)
+					{
+						if (GetPlayerIdx() >= 0)
+						{
+							CScore::AddScore(GetPlayerIdx(), pHbx->data()[nCnt]->GetScore());
+						}
+					}
 				}
 			}
 
@@ -155,6 +172,98 @@ CCylinderHitbox* CCylinderHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR
 	pHitbox->m_pLine[5] = CLine::Create(pos, Vec3Null, Vtx[5], Vtx[0], D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 	pHitbox->m_pLine[11] = CLine::Create(pos, Vec3Null, Vtx[5], Vtx[11], D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 	pHitbox->m_pLine[17] = CLine::Create(pos, Vec3Null, Vtx[11], Vtx[6], D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+
+#endif // !_DEBUG
+
+	return pHitbox;
+}
+
+CCylinderHitbox* CCylinderHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 RelativePos, const D3DXVECTOR3 size, HITBOX_TYPE type, CObject* pParent, const int nPlayerIdx)
+{
+	CCylinderHitbox* pHitbox = new CCylinderHitbox;
+
+	if (FAILED(pHitbox->Init()))
+	{
+		return nullptr;
+	}
+
+	pHitbox->SetRelativePos(RelativePos);
+	pHitbox->SetPos(pos);
+	pHitbox->SetLastPos(pos);
+	pHitbox->SetSize(size);
+	pHitbox->SetType(type);
+	pHitbox->SetShape(CHitbox::SHAPE_CYLINDER);
+	pHitbox->SetParent(pParent);
+	pHitbox->SetPlayerIdx(nPlayerIdx);
+
+#ifdef _DEBUG
+
+	D3DXVECTOR3 Vtx[12];
+
+	for (int nCnt2 = 0; nCnt2 < 2; nCnt2++)
+	{
+		for (int nCnt = 0; nCnt < 6; nCnt++)
+		{
+			Vtx[(nCnt2 * 6) + nCnt] = D3DXVECTOR3(size.x * cosf((2.0f * D3DX_PI * nCnt) / 6), size.y * nCnt2, size.z * sinf((2.0f * D3DX_PI * nCnt) / 6));
+		}
+	}
+
+	for (int nCnt = 0; nCnt < 5; nCnt++)
+	{
+		pHitbox->m_pLine[nCnt] = CLine::Create(pos, Vec3Null, Vtx[nCnt], Vtx[nCnt + 1], D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+		pHitbox->m_pLine[nCnt + 6] = CLine::Create(pos, Vec3Null, Vtx[nCnt], Vtx[nCnt + 6], D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+		pHitbox->m_pLine[nCnt + 12] = CLine::Create(pos, Vec3Null, Vtx[nCnt + 6], Vtx[nCnt + 7], D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+	}
+
+	pHitbox->m_pLine[5] = CLine::Create(pos, Vec3Null, Vtx[5], Vtx[0], D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+	pHitbox->m_pLine[11] = CLine::Create(pos, Vec3Null, Vtx[5], Vtx[11], D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+	pHitbox->m_pLine[17] = CLine::Create(pos, Vec3Null, Vtx[11], Vtx[6], D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+
+#endif // !_DEBUG
+
+	return pHitbox;
+}
+
+CCylinderHitbox* CCylinderHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 RelativePos, const D3DXVECTOR3 size, HITBOX_TYPE type, int nScore, CObject* pParent)
+{
+	CCylinderHitbox* pHitbox = new CCylinderHitbox;
+
+	if (FAILED(pHitbox->Init()))
+	{
+		return nullptr;
+	}
+
+	pHitbox->SetRelativePos(RelativePos);
+	pHitbox->SetPos(pos);
+	pHitbox->SetLastPos(pos);
+	pHitbox->SetSize(size);
+	pHitbox->SetType(type);
+	pHitbox->SetShape(CHitbox::SHAPE_CYLINDER);
+	pHitbox->SetParent(pParent);
+	pHitbox->SetScore(nScore);
+
+#ifdef _DEBUG
+
+	D3DXVECTOR3 Vtx[12];
+
+	for (int nCnt2 = 0; nCnt2 < 2; nCnt2++)
+	{
+		for (int nCnt = 0; nCnt < 6; nCnt++)
+		{
+			Vtx[(nCnt2 * 6) + nCnt] = D3DXVECTOR3(size.x * cosf((2.0f * D3DX_PI * nCnt) / 6), size.y * nCnt2, size.z * sinf((2.0f * D3DX_PI * nCnt) / 6));
+		}
+	}
+
+	for (int nCnt = 0; nCnt < 5; nCnt++)
+	{
+		pHitbox->m_pLine[nCnt] = CLine::Create(pos, Vec3Null, Vtx[nCnt], Vtx[nCnt + 1], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		pHitbox->m_pLine[nCnt + 6] = CLine::Create(pos, Vec3Null, Vtx[nCnt], Vtx[nCnt + 6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		pHitbox->m_pLine[nCnt + 12] = CLine::Create(pos, Vec3Null, Vtx[nCnt + 6], Vtx[nCnt + 7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	}
+
+	pHitbox->m_pLine[5] = CLine::Create(pos, Vec3Null, Vtx[5], Vtx[0], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[11] = CLine::Create(pos, Vec3Null, Vtx[5], Vtx[11], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[17] = CLine::Create(pos, Vec3Null, Vtx[11], Vtx[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
 #endif // !_DEBUG
 
