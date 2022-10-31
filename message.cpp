@@ -11,6 +11,9 @@
 #include "message.h"
 #include "game.h"
 
+//静的メンバー変数宣言
+bool CMessage::m_bStart;
+
 //=====================================
 // デフォルトコンストラクタ
 //=====================================
@@ -36,6 +39,7 @@ HRESULT CMessage::Init(void)
 	m_nNum = 0;
 	m_bCountDown = false;
 	m_bEndGame = false;
+	m_bStart = false;
 	return S_OK;
 }
 
@@ -76,6 +80,7 @@ void CMessage::Update(void)
 				CGame::SetEndGame();
 			}
 			m_nMessageCounter = 0;
+			m_bStart = true;
 			Uninit();
 		}
 	}

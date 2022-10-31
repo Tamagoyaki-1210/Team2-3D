@@ -32,6 +32,7 @@ public:
 	const D3DXVECTOR3 CCamera::GetFocalPoint(void);		//注視点の取得処理
 														
 	void SetFocalPoint(const D3DXVECTOR3 pos);			//注視点の設定処理
+	void SetPos(const D3DXVECTOR3 posV, const D3DXVECTOR3 posR);	//視点、注視点の設定
 
 	static CCamera* Create(D3DXVECTOR3 pos, D3DXVECTOR3 focalPoint);		//生成処理
 

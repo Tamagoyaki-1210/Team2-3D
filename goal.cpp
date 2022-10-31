@@ -10,6 +10,8 @@
 #include "application.h"
 #include "goal.h"
 #include "rendering.h"
+#include "message.h"
+#include "gamerace.h"
 
 bool CGoal::m_bGoal = false;									//ƒS[ƒ‹‚µ‚½‚©‚Ç‚¤‚©
 
@@ -46,7 +48,7 @@ void CGoal::Update(void)
 
 	if (m_bGoal)
 	{
-		int a = 0;
+		CGameRace::Get()->GoalMessage();
 	}
 }
 

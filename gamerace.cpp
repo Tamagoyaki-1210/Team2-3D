@@ -24,6 +24,7 @@
 #include "coin.h"
 #include "goal.h"
 #include "message.h"
+#include "camera.h"
 
 CMeshfield *CGameRace::m_pField = nullptr;
 CHalfSphere* CGameRace::m_pSphere[PLAYER_MAX] = {};
@@ -120,6 +121,11 @@ HRESULT CGameRace::Init(void)
 
     //UI
     //m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
+
+	if (CApplication::GetCamera() != nullptr)
+	{
+		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+	}
 
     return S_OK;
 }
