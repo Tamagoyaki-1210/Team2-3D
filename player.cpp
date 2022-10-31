@@ -20,6 +20,7 @@
 #include "animator.h"
 #include "CylinderHitbox.h"
 #include "score.h"
+#include "gamerace.h"
 
 //コンストラクタ
 CPlayer::CPlayer()
