@@ -25,12 +25,20 @@ public:
 	void Uninit(void);
 	void Update(void);
 
+	void SetCountDown(int nNum);
+	void CountDown();
+	void StartMessage(void);
 	void GoalMessage(void);
 
 	static CMessage* Create();			//生成処理
 
 private:
-	int m_nMessageCounter;			// メッセージ表示時間
+	static const int CountDownLife = 60;
+
+	int m_nMessageCounter;		// メッセージ表示時間
+	int m_nNum;					// カウントダウン現在位置
+	bool m_bCountDown;
+	bool m_bEndGame;
 	CObject_2D* m_pObj2D;
 };
 

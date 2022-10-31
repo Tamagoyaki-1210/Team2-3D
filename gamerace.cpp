@@ -15,7 +15,6 @@
 #include "player.h"
 #include "UIString.h"
 #include "Letter.h"
-//#include "fade.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
 #include "font.h"
@@ -111,8 +110,10 @@ HRESULT CGameRace::Init(void)
 	// メッセージの生成
 	m_pMessage = CMessage::Create();
 
-	// ゴールメッセージ表示
-	m_pMessage->GoalMessage();
+	// カウントダウンメッセージ表示
+	m_pMessage->SetCountDown(3);
+
+	//m_pMessage->GoalMessage();
 
     //UI
     //m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
@@ -178,7 +179,7 @@ void CGameRace::Update(void)
     }
     if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
     {// Enterキーを押したら
-        CApplication::SetMode(CApplication::Mode_Result);
+		SetEndGame();
     }
 	if (CInputKeyboard::GetKeyboardTrigger(DIK_G))
 	{// Enterキーを押したら
