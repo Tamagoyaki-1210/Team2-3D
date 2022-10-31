@@ -394,6 +394,11 @@ void CMeshfield::FieldInteraction(CObject* pObj)
 	}
 }
 
+LPDIRECT3DVERTEXBUFFER9 CMeshfield::GetBuff()
+{
+	return m_pVtxBuff;
+}
+
 
 
 

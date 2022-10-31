@@ -46,7 +46,7 @@ public:
 		STATE_MAX
 	};
 
-	CPlayer();											//コンストラクタ
+	CPlayer();							//コンストラクタ
 	~CPlayer() override;								//デストラクタ
 
 	HRESULT Init(void) override;						//初期化処理
@@ -61,7 +61,10 @@ public:
 
 	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; };	//目的の角度の取得処理
 
-	static CPlayer* Create(const D3DXVECTOR3 pos);		//生成処理
+	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);		//生成処理
+
+	void PlayerController(int nCntPlayer);
+	void SetPlayerIdx(int nCntPlayer);
 
 private:
 
@@ -75,6 +78,8 @@ private:
 	CAnimator* m_pAnimator;
 
 	STATE m_State;
+
+	int m_nIdxPlayer;
 	//CModel* m_pModel;									//モデル
 };
 

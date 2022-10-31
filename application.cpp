@@ -134,6 +134,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -300.0f), D3DXVECTOR3(0.0f, -200.0f, 300.0f));
 
+	//m_pSphear->Init();
+
 	//FILE*pFile;				//ファイルポインタを宣言する
 
 	//						//ファイルを開く
@@ -256,7 +258,7 @@ void CApplication::Uninit(void)
 //更新処理
 void CApplication::Update(void)
 {
-	CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動\n");
+	//CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動\n");
 
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{

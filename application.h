@@ -23,6 +23,7 @@ class CFade;
 class CCamera;
 class CDebugProc;
 class CMode;
+class CHalfSphere;
 
 //アプリケーションのクラス
 class CApplication
