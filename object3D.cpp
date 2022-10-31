@@ -220,6 +220,9 @@ void CObject_3D::Draw()
 
 	//四角形を描画する
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+
+	//テクスチャの設定
+	pDevice->SetTexture(0, nullptr);
 }
 
 //=============================================================================

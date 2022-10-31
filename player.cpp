@@ -18,6 +18,7 @@
 #include "meshfield.h"
 #include "modelPart.h"
 #include "animator.h"
+#include "CylinderHitbox.h"
 
 //コンストラクタ
 CPlayer::CPlayer()
@@ -26,6 +27,7 @@ CPlayer::CPlayer()
 	m_move = Vec3Null;
 	m_DestRot = Vec3Null;
 	m_pAnimator = nullptr;
+	m_pHitbox = nullptr;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{
@@ -46,6 +48,7 @@ HRESULT CPlayer::Init(void)
 	m_move = Vec3Null;				//速度の初期化処理
 	m_DestRot = Vec3Null;			//目的の角度の初期化処理
 	m_pAnimator = nullptr;
+	m_pHitbox = nullptr;
 	m_State = STATE_NEUTRAL;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
@@ -75,6 +78,11 @@ void CPlayer::Uninit(void)
 		m_pAnimator->Uninit();
 		delete m_pAnimator;
 		m_pAnimator = nullptr;
+	}
+	if (m_pHitbox != nullptr)
+	{
+		m_pHitbox->Release();
+		m_pHitbox = nullptr;
 	}
 }
 
@@ -277,6 +285,12 @@ void CPlayer::Update(void)
 		m_pAnimator->Update();
 	}
 
+	if (m_pHitbox != nullptr)
+	{
+		m_pHitbox->SetPos(m_pos);
+		m_pHitbox->Update();
+	}
+
 	CDebugProc::Print("\nRot: %f\nRot Dest: %f\n\nPos: %f, %f, %f", m_pModel[BODY]->GetRot().y, m_DestRot.y, m_pos.x, m_pos.y, m_pos.z);
 }
 
@@ -380,6 +394,8 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
 	vParts.push_back(pModel->m_pModel[RIGHT_FOOT]);
 
 	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_PLAYER);
+
+	pModel->m_pHitbox = CCylinderHitbox::Create(pos, Vec3Null, D3DXVECTOR3(10.0f, 35.0f, 10.0f), CHitbox::TYPE_PLAYER, pModel);
 
 	pModel->SetPlayerIdx(nCntPlayer);
 

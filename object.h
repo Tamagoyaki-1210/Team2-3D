@@ -41,6 +41,12 @@ public:
 		D3DXVECTOR2 tex;			//テクスチャ座標
 	};
 
+	struct VERTEX_LINE
+	{
+		D3DXVECTOR3 pos;			//xyz座標
+		D3DCOLOR col;				//カーラー
+	};
+
 	//テクスチャの種類
 	enum TextType
 	{
@@ -50,6 +56,7 @@ public:
 		TEXTURE_CHARACTERS,
 		TEXTURE_LETTERS,
 		TEXTURE_NUMBERS,
+		TEXTURE_HIRAGANA,
 
 		TEXTURE_TYPE_MAX
 	};
