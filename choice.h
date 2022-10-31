@@ -18,12 +18,6 @@
 class CChoice
 {
 public:
-	enum Choice
-	{
-		Choice_Start = 0,	//Ç∑ÇΩÅ[Ç∆
-		Choice_Finish,		//Ç®ÇÌÇË
-		Choice_Max
-	};
 	CChoice();
 	~CChoice();
 
@@ -31,12 +25,21 @@ public:
 	void Uninit(void);
 	void Update(void);
 
-	static CChoice* Create(void);			//ê∂ê¨èàóù
+	void SizeScale(void);
+
+	void SizeReset(void);
+	void SetSellect(void);
+
+	static CChoice* Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const std::string letter);
 private:
 	static const int MaxWordLenght = 24;
 
+	int m_nNum;
+	float m_fScale;
+	bool m_bScale;
+	bool m_bSellect;
+	D3DXVECTOR2 m_sizeYuan;		
 	CFont* m_pFont[MaxWordLenght];
-	Choice* m_choice;
 };
 
 #endif // !_CHOICE_H_

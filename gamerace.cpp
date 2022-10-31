@@ -18,6 +18,7 @@
 //#include "fade.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
+#include "font.h"
 
 CMeshfield *CGameRace::m_pField = nullptr;
 CPlayer* CGameRace::m_pPlayer = nullptr;
@@ -84,6 +85,7 @@ HRESULT CGameRace::Init(void)
 	CLetter::Create(D3DXVECTOR3(200.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 'r', 5);
 
 	CLetter::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 4, 5);
+
 	//UI
 	//m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
 
@@ -121,8 +123,12 @@ void CGameRace::Update(void)
 	CDebugProc::Print("\n[F2] : デバッグモードへ移動\n");
 
 	if (CInputKeyboard::GetKeyboardTrigger(DIK_F2))
-	{//エンターキーを押したら
+	{// F2キーを押したら
 		CApplication::SetMode(CApplication::Mode_Game_Debug);
+	}
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+	{// Enterキーを押したら
+		CApplication::SetMode(CApplication::Mode_Result);
 	}
 #endif // _DEBUG
 }

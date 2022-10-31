@@ -83,7 +83,11 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	CAnimator::LoadAllAnimation();
 
-	// モードインスタンスの生成処理
+	//// モードインスタンスの生成処理
+	//m_pMode = CTitle::Create();
+	//m_mode = Mode_Title;
+	//m_modeNext = Mode_Title;
+
 	m_pMode = CGameRace::Create();
 	m_mode = Mode_Game_Race;
 	m_modeNext = Mode_Game_Race;
@@ -95,11 +99,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pFade->SetFade();
 	}
 
-	// メニュー生成
-	if (m_pMenu == nullptr)
-	{
-		m_pMenu = CMenu::Create();
-	}
 
 	//キーボードインスタンスの生成処理
 	m_pInput[0] = new CInputKeyboard;
@@ -129,6 +128,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	{
 		return -1;
 	}*/
+
+	// メニュー生成
+	if (m_pMenu == nullptr)
+	{
+		m_pMenu = CMenu::Create();
+	}
 
 	m_pSound = CSound::Create(hWnd);
 
@@ -421,6 +426,7 @@ void CApplication::ChangeMode()
 	{// フェード切り替え状態じゃない場合
 		return;
 	}
+
 	// 現在モードの終了
 	if (m_pMode != nullptr)
 	{
@@ -428,6 +434,8 @@ void CApplication::ChangeMode()
 		delete m_pMode;
 		m_pMode = nullptr;
 	}
+
+	m_pMenu->Uninit();
 
 	CObject::ReleaseAll();
 
@@ -455,4 +463,6 @@ void CApplication::ChangeMode()
 		break;
 	}
 	m_mode = m_modeNext;
+
+	m_pMenu->Init();
 }
