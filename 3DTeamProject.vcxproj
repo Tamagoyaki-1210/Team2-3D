@@ -169,6 +169,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamedebug.cpp" />
     <ClCompile Include="gamerace.cpp" />
+    <ClCompile Include="goal.cpp" />
     <ClCompile Include="hitbox.cpp" />
     <ClCompile Include="halfsphere.cpp" />
     <ClCompile Include="input.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="meshfield.cpp" />
+    <ClCompile Include="message.cpp" />
     <ClCompile Include="mode.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="modelPart.cpp" />
@@ -212,6 +214,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gamedebug.h" />
     <ClInclude Include="gamerace.h" />
+    <ClInclude Include="goal.h" />
     <ClInclude Include="hitbox.h" />
     <ClInclude Include="halfsphere.h" />
     <ClInclude Include="input.h" />
@@ -224,6 +227,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="meshfield.h" />
+    <ClInclude Include="message.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="modelPart.h" />

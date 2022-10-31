@@ -29,10 +29,10 @@ public:
 	void Update(void) override;
 	void Draw(void) override;
 
-	static CFont* CFont::Create(const D3DXVECTOR2 addPos, const D3DXVECTOR2 size, const std::string str, const int nPriority, int nCnt, int nMax);
+	static CFont* Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const char* letter);			//ê∂ê¨èàóù
 
 private:
-	static std::map<std::string, int> m_hiraganaData;
+
 };
 
 #endif // !_FONT_H

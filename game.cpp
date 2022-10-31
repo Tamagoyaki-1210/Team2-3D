@@ -5,11 +5,10 @@
 //
 //=============================================================================
 #include "game.h"
-#include "input.h"
+#include "inputKeyboard.h"
 #include "application.h"
-//#include "fade.h"
 
-bool CGame::m_bPause = true;		//ポーズ使用判定
+//bool CGame::m_bPause = true;		//ポーズ使用判定
 bool CGame::m_bEndGame = false;		//ゲーム終了判定
 
 //=====================================
@@ -33,7 +32,7 @@ CGame::~CGame()
 //=====================================
 HRESULT CGame::Init(void)
 {
-	m_bPause = false;	//ポーズ未使用
+	//m_bPause = false;	//ポーズ未使用
 
 	return S_OK;
 }
@@ -43,8 +42,7 @@ HRESULT CGame::Init(void)
 //=====================================
 void CGame::Uninit(void)
 {
-	m_bPause = true;
-	//CObject::Release();
+	//m_bPause = true;
 }
 
 //=====================================
@@ -52,40 +50,24 @@ void CGame::Uninit(void)
 //=====================================
 void CGame::Update(void)
 {
-	//CFade *pFade = CMode::GetFade();
-
-	////フェードしていない場合
-	//if (pFade->GetFade() == CFade::FADE_NONE)
+	////Pでポーズ切り替え
+	//if (pInput->GetKeyboardTrigger(DIK_P))
 	//{
-	//	CInput *pInput = CApplication::GetInput();
-
-	//	//Pでポーズ切り替え
-	//	if (pInput->GetKeyboardTrigger(DIK_P))
+	//	if (!m_bPause)
 	//	{
-	//		if (!m_bPause)
-	//		{
-	//			CSound::PlaySound(SOUND_LABEL_SE_WHISTLE_STOP);
-	//		}
-	//		else
-	//		{
-	//			CSound::PlaySound(SOUND_LABEL_SE_WHISTLE_START);
-	//		}
-	//		m_bPause = !m_bPause;
+	//		CSound::PlaySound(SOUND_LABEL_SE_WHISTLE_STOP);
 	//	}
-
-	//	//ゲーム終了時の処理
-	//	if (m_bEndGame == true)
+	//	else
 	//	{
-	//		CMode *pMode = CApplication::GetMode();
-
-	//		pMode->ChangeMode(CMode::MODE_RESULT);
-
-	//		m_bEndGame = false;
+	//		CSound::PlaySound(SOUND_LABEL_SE_WHISTLE_START);
 	//	}
+	//	m_bPause = !m_bPause;
 	//}
 
-	//if (m_pPlayer != nullptr)
-	//{
-	//	m_pPlayer->Update();
-	//}
+	//ゲーム終了時の処理
+	if (m_bEndGame == true)
+	{
+		CApplication::SetMode(CApplication::Mode_Result);
+		m_bEndGame = false;
+	}
 }

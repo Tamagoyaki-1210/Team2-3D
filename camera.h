@@ -13,6 +13,8 @@
 //=============================================================================
 #include "main.h"
 
+//class CBoxHitbox;
+
 class CCamera
 {
 public:
@@ -49,6 +51,7 @@ private:
 	float		m_fLenght;					//XZ–Ê‚Ì‹“_‚Æ’‹“_‚ÌŠÔ‚Ì‹——£
 	int			m_nDelay;					//
 
+	//CBoxHitbox *m_pHitBox;
 };
 
 #endif // !_CAMERA_H_

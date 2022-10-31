@@ -85,7 +85,11 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	CAnimator::LoadAllAnimation();
 
-	// モードインスタンスの生成処理
+	//// モードインスタンスの生成処理
+	//m_pMode = CTitle::Create();
+	//m_mode = Mode_Title;
+	//m_modeNext = Mode_Title;
+
 	m_pMode = CGameRace::Create();
 	m_mode = Mode_Game_Race;
 	m_modeNext = Mode_Game_Race;
@@ -97,11 +101,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pFade->SetFade();
 	}
 
-	// メニュー生成
-	if (m_pMenu == nullptr)
-	{
-		m_pMenu = CMenu::Create();
-	}
 
 	//キーボードインスタンスの生成処理
 	m_pInput[0] = new CInputKeyboard;
@@ -132,6 +131,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		return -1;
 	}*/
 
+	// メニュー生成
+	if (m_pMenu == nullptr)
+	{
+		m_pMenu = CMenu::Create();
+	}
+
 	m_pSound = CSound::Create(hWnd);
 
 	/*if (m_pSound != nullptr)
@@ -142,7 +147,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	CLight::ReleaseAll();
 	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
 
-	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -300.0f), D3DXVECTOR3(0.0f, -200.0f, 300.0f));
+	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 
 	//m_pSphear->Init();
 
@@ -406,6 +411,7 @@ void CApplication::ChangeMode()
 	{// フェード切り替え状態じゃない場合
 		return;
 	}
+
 	// 現在モードの終了
 	if (m_pMode != nullptr)
 	{
@@ -413,6 +419,8 @@ void CApplication::ChangeMode()
 		delete m_pMode;
 		m_pMode = nullptr;
 	}
+
+	m_pMenu->Uninit();
 
 	CObject::ReleaseAll();
 	CHitbox::ReleaseAll();
@@ -441,4 +449,6 @@ void CApplication::ChangeMode()
 		break;
 	}
 	m_mode = m_modeNext;
+
+	m_pMenu->Init();
 }
