@@ -6,7 +6,6 @@
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="BoxHitbox.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="choice.cpp" />
     <ClCompile Include="coin.cpp" />
     <ClCompile Include="CylinderHitbox.cpp" />
     <ClCompile Include="debugProc.cpp" />
@@ -44,6 +43,7 @@
     <ClCompile Include="UIString.cpp" />
     <ClCompile Include="message.cpp" />
     <ClCompile Include="goal.cpp" />
+    <ClCompile Include="fontString.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -51,7 +51,6 @@
     <ClInclude Include="billboard.h" />
     <ClInclude Include="BoxHitbox.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="choice.h" />
     <ClInclude Include="coin.h" />
     <ClInclude Include="CylinderHitbox.h" />
     <ClInclude Include="debugProc.h" />
@@ -89,5 +88,6 @@
     <ClInclude Include="UIString.h" />
     <ClInclude Include="message.h" />
     <ClInclude Include="goal.h" />
+    <ClInclude Include="fontString.h" />
   </ItemGroup>
 </Project>

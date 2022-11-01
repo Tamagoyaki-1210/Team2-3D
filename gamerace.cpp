@@ -189,7 +189,7 @@ void CGameRace::Update(void)
 		{// F2キーを押したら
 			CApplication::SetMode(CApplication::Mode_Game_Debug);
 		}
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK))
 		{// Enterキーを押したら
 			SetEndGame();
 		}

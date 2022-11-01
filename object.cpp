@@ -9,9 +9,7 @@
 //インクルードファイル
 //=============================================================================
 #include "object.h"
-#include "object2D.h"
 #include "application.h"
-#include "game.h"
 #include <random>
 
 //=============================================================================
@@ -20,7 +18,6 @@
 //int CObject::m_nNumAll = 0;										//存在するポリゴン数
 //CObject* CObject::m_pObject[CObject::MaxObject] = {};			//オブジェクトへのポンタ
 //int CObject::m_nPriorityObjNum[CObject::Max_Priority] = {};
-bool CObject::m_bPause = false;
 CObject* CObject::m_pTop[CObject::Max_Priority] = {};
 CObject* CObject::m_pCurrent[CObject::Max_Priority] = {};
 
@@ -240,17 +237,14 @@ void CObject::UpdateAll(void)
 
 				if (!pCurrent->m_bDeath)
 				{
-					//if (CApplication::GetMode() == CApplication::Mode_Game_Race || CApplication::GetMode() == CApplication::Mode_Game_Debug)
-					//{// ゲーム中の場合
-					//	if (CGame::GetPause() == false)
-					//	{// ポーズ中の場合
-					//		pCurrent->Update();
-					//	}
-					//}
-					//else
-					//{
+					if (CApplication::GetPause() == false)
+					{// ポーズ中ではない場合
 						pCurrent->Update();
-					//}
+					}
+					else if(pCurrent->m_nPriority >= 4)
+					{// UIは動かす
+						pCurrent->Update();
+					}
 				}
 				pCurrent = pNext;
 			}
@@ -339,11 +333,6 @@ void CObject::DrawAll(void)
 CObject** CObject::GetObj(void)
 {
 	return &m_pTop[0];
-}
-
-void CObject::SetPause(const bool bPause)
-{
-	m_bPause = bPause;
 }
 
 //当たり判定(丸)
