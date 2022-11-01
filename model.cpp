@@ -36,6 +36,11 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Coin\\Coin01.x" },
 	{ "data\\MODELS\\Coin\\Coin02.x" },
 	{ "data\\MODELS\\Coin\\Coin03.x" },
+
+	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade.x" },
+	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Ball.x" },
+	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Cylinder.x" },
+	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Needle.x" }
 };
 
 //コンストラクタ

@@ -29,15 +29,17 @@
 CPlayer::CPlayer()
 {
 	//メンバー変数をクリアする
-	m_move = Vec3Null;
-	m_DestRot = Vec3Null;
-	m_pAnimator = nullptr;
-	m_pHitbox = nullptr;
-	m_pScore = nullptr;
-	m_pScoreUI = nullptr;
+	m_move = Vec3Null;					//速度の初期化処理		
+	m_DestRot = Vec3Null;				//目的の角度の初期化処理
+	m_pAnimator = nullptr;				//アニメーターへのポインタ
+	m_pHitbox = nullptr;				//ヒットボックスへのポインタ
+	m_pScore = nullptr;					//スコアへのポインタ
+	m_State = (STATE)0;					//アニメーション状態
+	m_pScoreUI = nullptr;				//スコアのUIへのポインタ
+	m_bJump = false;					//ジャンプしているかどうか
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
-	{
+	{//モデルの部分へのポインタ
 		m_pModel[nCnt] = nullptr;
 	}
 }
@@ -54,14 +56,15 @@ HRESULT CPlayer::Init(void)
 	//メンバー変数の初期化処理
 	m_move = Vec3Null;				//速度の初期化処理
 	m_DestRot = Vec3Null;			//目的の角度の初期化処理
-	m_pAnimator = nullptr;
-	m_pHitbox = nullptr;
-	m_pScore = nullptr;
-	m_State = STATE_NEUTRAL;
-	m_pScoreUI = nullptr;
+	m_pAnimator = nullptr;			//アニメーターへのポインタ
+	m_pHitbox = nullptr;			//ヒットボックスへのポインタ
+	m_pScore = nullptr;				//スコアへのポインタ
+	m_State = STATE_NEUTRAL;		//アニメーション状態
+	m_pScoreUI = nullptr;			//スコアのUIへのポインタ
+	m_bJump = false;				//ジャンプしているかどうか
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
-	{
+	{//モデルの部分へのポインタ
 		m_pModel[nCnt] = nullptr;
 	}
 
@@ -82,22 +85,26 @@ void CPlayer::Uninit(void)
 		}
 	}
 
+	//アニメーターの破棄処理
 	if (m_pAnimator != nullptr)
 	{
 		m_pAnimator->Uninit();
 		delete m_pAnimator;
 		m_pAnimator = nullptr;
 	}
+	//ヒットボックスの破棄処理
 	if (m_pHitbox != nullptr)
 	{
 		m_pHitbox->Release();
 		m_pHitbox = nullptr;
 	}
+	//スコアの破棄処理
 	if (m_pScore != nullptr)
 	{
 		m_pScore->Clear();
 		m_pScore = nullptr;
 	}
+	//スコアのUIの破棄処理
 	if (m_pScoreUI != nullptr)
 	{
 		m_pScoreUI->Uninit();
@@ -109,7 +116,9 @@ void CPlayer::Uninit(void)
 void CPlayer::Update(void)
 {
 	D3DXVECTOR3 cameraRot = CApplication::GetCamera()->GetRot();					//カメラの向きの取得処理
-	D3DXVECTOR3 cR = D3DXVECTOR3(-cosf(cameraRot.y), 0.0f, sinf(cameraRot.y));
+
+	//プレイヤーの目的角度の正規化処理
+	D3DXVECTOR3 cR = D3DXVECTOR3(-cosf(cameraRot.y), 0.0f, sinf(cameraRot.y));		
 	float fA = acosf(cR.x);
 
 	if (cR.z < 0.0f)
@@ -170,12 +179,16 @@ void CPlayer::Update(void)
 	//重量を追加する
 	if (m_move.y >= -10.0f)
 	{
-		m_move.y -= 0.5f;
+		m_move.y -= 0.65f;
 	}
 
 	//SetPos(pos);
-
-	CMeshfield::FieldInteraction(this);				//地面との当たり判定
+	
+	//地面との当たり判定
+	if (CMeshfield::FieldInteraction(this))
+	{
+		m_bJump = false;		//着地している状態にする
+	}
 
 	if (m_pAnimator != nullptr)
 	{
@@ -502,6 +515,11 @@ void CPlayer::PlayerController(int nCntPlayer)
 			m_move.z += 0.2f * sinf(D3DX_PI * 0.5f + cameraRot.y);
 		}
 		m_DestRot.y = fA;
+	}
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) && !m_bJump)
+	{//ジャンプ
+		m_move.y = 18.0f;
+		m_bJump = true;
 	}
 
 	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D)
