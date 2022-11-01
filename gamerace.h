@@ -35,6 +35,7 @@ public:
 
 	static CMeshfield* GetField(void) { return m_pField; }		// メッシュフィールドの取得処理
 	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; }	// プレイヤーの取得処理
+	static CMessage* Get(void) { return m_pMessage; }
 
 	static CGameRace* Create(void);			//生成処理
 private:

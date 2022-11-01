@@ -24,6 +24,8 @@
 #include "coin.h"
 #include "goal.h"
 #include "message.h"
+#include "camera.h"
+#include "fade.h"
 
 CMeshfield *CGameRace::m_pField = nullptr;
 CHalfSphere* CGameRace::m_pSphere[PLAYER_MAX] = {};
@@ -121,6 +123,11 @@ HRESULT CGameRace::Init(void)
     //UI
     //m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
 
+	if (CApplication::GetCamera() != nullptr)
+	{
+		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+	}
+
     return S_OK;
 }
 
@@ -176,17 +183,20 @@ void CGameRace::Update(void)
 
     CDebugProc::Print("\n[F2] : デバッグモードへ移動\n");
 
-    if (CInputKeyboard::GetKeyboardTrigger(DIK_F2))
-    {// F2キーを押したら
-        CApplication::SetMode(CApplication::Mode_Game_Debug);
-    }
-    if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
-    {// Enterキーを押したら
-		SetEndGame();
-    }
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_G))
-	{// Enterキーを押したら
-		m_pMessage->GoalMessage();
+	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
+	{
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_F2))
+		{// F2キーを押したら
+			CApplication::SetMode(CApplication::Mode_Game_Debug);
+		}
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		{// Enterキーを押したら
+			SetEndGame();
+		}
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_G))
+		{// Enterキーを押したら
+			m_pMessage->GoalMessage();
+		}
 	}
 
 #endif // _DEBUG

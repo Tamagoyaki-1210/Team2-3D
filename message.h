@@ -31,9 +31,11 @@ public:
 	void GoalMessage(void);
 
 	static CMessage* Create();			//生成処理
+	static bool GetStart(void) { return m_bStart; }
 
 private:
 	static const int CountDownLife = 60;
+	static bool m_bStart;
 
 	int m_nMessageCounter;		// メッセージ表示時間
 	int m_nNum;					// カウントダウン現在位置

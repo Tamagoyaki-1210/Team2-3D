@@ -85,14 +85,14 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	CAnimator::LoadAllAnimation();
 
-	//// モードインスタンスの生成処理
-	//m_pMode = CTitle::Create();
-	//m_mode = Mode_Title;
-	//m_modeNext = Mode_Title;
+	// モードインスタンスの生成処理
+	m_pMode = CTitle::Create();
+	m_mode = Mode_Title;
+	m_modeNext = Mode_Title;
 
-	m_pMode = CGameRace::Create();
-	m_mode = Mode_Game_Race;
-	m_modeNext = Mode_Game_Race;
+	//m_pMode = CGameRace::Create();
+	//m_mode = Mode_Game_Race;
+	//m_modeNext = Mode_Game_Race;
 
 	// フェード生成
 	if (m_pFade == nullptr)
