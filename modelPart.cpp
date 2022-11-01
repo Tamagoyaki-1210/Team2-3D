@@ -29,6 +29,7 @@ CModelPart::CModelPart()
 	m_type = CModel::MODEL_BODY;
 	m_pParent = nullptr;
 	m_vModelTexture.clear();
+	m_vCol.clear();
 }
 
 //デストラクタ
@@ -53,6 +54,7 @@ HRESULT CModelPart::Init(void)
 	m_type = CModel::MODEL_BODY;
 	m_pParent = nullptr;
 	m_vModelTexture.clear();
+	m_vCol.clear();
 
 	return S_OK;
 }
@@ -60,7 +62,7 @@ HRESULT CModelPart::Init(void)
 //終了処理
 void CModelPart::Uninit(void)
 {
-
+	m_vCol.clear();
 }
 
 //更新処理
@@ -169,6 +171,20 @@ void CModelPart::Draw(void)
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
 
+		D3DXCOLOR c = {};
+		bool bCol = false;
+
+		for (int i = 0; i < (int)m_vCol.size(); i++)
+		{
+			if (m_vCol.data()[i].nMatNumber == nCntMat)
+			{
+				bCol = true;
+				c = pMat[nCntMat].MatD3D.Diffuse;
+				pMat[nCntMat].MatD3D.Diffuse = m_vCol.data()[i].col;
+				break;
+			}
+		}
+
 		//マテリアルの設定
 		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
@@ -177,6 +193,11 @@ void CModelPart::Draw(void)
 
 		//モデルパーツの描画
 		m_pMesh->DrawSubset(nCntMat);
+
+		if (bCol)
+		{
+			pMat[nCntMat].MatD3D.Diffuse = c;
+		}
 	}
 
 	//保持しいたマテリアルを戻す
@@ -278,6 +299,20 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
 
+		D3DXCOLOR c = {};
+		bool bCol = false;
+
+		for (int i = 0; i < (int)m_vCol.size(); i++)
+		{
+			if (m_vCol.data()[i].nMatNumber == nCntMat)
+			{
+				bCol = true;
+				c = pMat[nCntMat].MatD3D.Diffuse;
+				pMat[nCntMat].MatD3D.Diffuse = m_vCol.data()[i].col;
+				break;
+			}
+		}
+
 		//マテリアルの設定
 		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
@@ -286,10 +321,17 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 
 		//モデルパーツの描画
 		m_pMesh->DrawSubset(nCntMat);
+
+		if (bCol)
+		{
+			pMat[nCntMat].MatD3D.Diffuse = c;
+		}
 	}
 
 	//保持しいたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
+
+	pDevice->SetTexture(0, nullptr);
 }
 
 //親の設定処理
@@ -337,6 +379,16 @@ const D3DXVECTOR3 CModelPart::GetSize(void)
 D3DXMATRIX CModelPart::GetMatrix(void)
 {
 	return m_mtxWorld;
+}
+
+//カーラーの設定処理
+void CModelPart::SetModelColor(const int nNumMat, const D3DXCOLOR col)
+{
+	CModel::ModelColor mCol = {};
+	mCol.nMatNumber = nNumMat;
+	mCol.col = col;
+
+	m_vCol.push_back(mCol);
 }
 
 

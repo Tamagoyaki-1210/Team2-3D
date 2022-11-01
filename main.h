@@ -22,6 +22,13 @@
 #include <tchar.h> // _T
 #include <d3dx9.h>
 
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define	DEBUG_NEW	new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+
 ////*****************************************************************************
 //// 前方宣言
 ////*****************************************************************************
@@ -38,6 +45,8 @@ namespace
 	// ウインドウのキャプション名
 	LPCTSTR WINDOW_NAME = _T("3D Team Work");
 }
+
+#define PLAYER_MAX		(2)		//プレイヤーの最大人数
 
 // スクリーンの幅
 const int SCREEN_WIDTH = 1280;

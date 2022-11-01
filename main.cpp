@@ -33,11 +33,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int g_nCountFPS;
 #endif // _DEBUG
 
+//--------------------------------
+//静的変数
+//--------------------------------
+static bool s_bExit;
+
 //=============================================================================
 // メイン関数
 //=============================================================================
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	WNDCLASSEX wcex =
 	{
 		sizeof(WNDCLASSEX),
@@ -145,6 +152,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 				CDebugProc::Print("FPS: %d", g_nCountFPS);
 				dwFrameCount++;
 #endif // _DEBUG
+				if (s_bExit)
+				{
+					break;	//ウインドウを破棄する
+				}
 			}
 		}
 	}
@@ -170,6 +181,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 //=============================================================================
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	if (s_bExit)
+	{
+		//ウィンドウを破棄する
+		DestroyWindow(hWnd);
+	}
+
 	switch (uMsg)
 	{
 	case WM_CREATE:
@@ -194,6 +211,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
+//=====================================
+//終了
+//=====================================
+void ExitExe(void)
+{
+	s_bExit = true;
 }
 
 #ifdef _DEBUG

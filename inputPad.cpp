@@ -27,6 +27,7 @@ CInputPad::~CInputPad()
 //ジョイパッドの初期化
 HRESULT CInputPad::Init(HINSTANCE hInstance, HWND hWnd, GUID guid)
 {
+
 	//XInputのステートを設定（有効にする）
 	XInputEnable(true);
 
@@ -43,6 +44,7 @@ HRESULT CInputPad::Init(HINSTANCE hInstance, HWND hWnd, GUID guid)
 		m_nStrength[nCnt] = 0;
 		m_nTime[nCnt] = 0;
 	}
+
 	return S_OK;
 }
 

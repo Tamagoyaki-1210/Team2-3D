@@ -7,8 +7,21 @@
 #include "menu.h"
 #include "Application.h"
 #include "font.h"
-#include <string>
-#include <map>
+#include "mode.h"
+#include "choice.h"
+#include "inputKeyboard.h"
+#include "inputPad.h"
+#include "game.h"
+#include "fade.h"
+
+int CMenu::m_nNumAll = 0;
+int CMenu::m_nSelectNum = 0;
+CChoice* CMenu::m_pChoice[MaxChoice] = {};
+
+//-----------------------------------------
+//プロトタイプ宣言
+//-----------------------------------------
+void ExitExe(void);
 
 //=====================================
 // デフォルトコンストラクタ
@@ -31,25 +44,34 @@ CMenu::~CMenu()
 //=====================================
 HRESULT CMenu::Init(void)
 {
-	CChoice::Create();
+	switch (CApplication::GetMode())
+	{
+	case CApplication::Mode_Title :
 
-	//CFont *pFont[2][20];
-	//int nNumFont = 0;
+		m_pChoice[m_nNumAll] = CChoice::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "スタート");
+		m_nNumAll++;
 
-	//// すたーと
-	//std::string nStr[4] = { "す", "た", "ー", "と" };
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	pFont[nNumFont][i] = CFont::Create(D3DXVECTOR2(-500.0f, -50.0f), D3DXVECTOR2(30.0f, 30.0f), nStr[i], 5, i, 4);
-	//}
-	//nNumFont++;
+		m_pChoice[m_nNumAll] = CChoice::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "おわり");
+		m_nNumAll++;
 
-	//// おわり
-	//int nTex2[3] = { 4, 45, 41 };
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	pFont[nNumFont][i] = CFont::Create(D3DXVECTOR2(0.0f, 60.0f), D3DXVECTOR2(30.0f, 30.0f), nTex2[i], 5, i, 3);
-	//}
+		m_pChoice[m_nSelectNum]->SetSellect();
+		break;
+	case CApplication::Mode_Game_Race:
+		break;
+	case CApplication::Mode_Result:
+		m_pChoice[m_nNumAll] = CChoice::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
+		m_nNumAll++;
+
+		m_pChoice[m_nNumAll] = CChoice::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
+		m_nNumAll++;
+
+		m_pChoice[m_nSelectNum]->SetSellect();
+		break;
+	case CApplication::Mode_Game_Debug:
+		break;
+	default:
+		break;
+	}
 
 	return S_OK;
 }
@@ -59,7 +81,15 @@ HRESULT CMenu::Init(void)
 //=====================================
 void CMenu::Uninit(void)
 {
-
+	for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
+	{
+		if (m_pChoice[nCnt] != nullptr)
+		{
+			m_pChoice[nCnt]->Uninit();
+		}
+	}
+	m_nSelectNum = 0;
+	m_nNumAll = 0;
 }
 
 //=====================================
@@ -67,7 +97,80 @@ void CMenu::Uninit(void)
 //=====================================
 void CMenu::Update(void)
 {
+	if ((CApplication::GetMode() != CApplication::Mode_Game_Race && CApplication::GetMode() != CApplication::Mode_Game_Debug))
+	{// ゲーム中ではない場合
+		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
+		{
+			if (m_pChoice[nCnt] != nullptr)
+			{
+				m_pChoice[nCnt]->Update();
+			}
+		}
+		Input();
+	}
+}
 
+//=====================================
+// 入力処理
+//=====================================
+void CMenu::Input(void)
+{
+	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
+	{
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y < -0.3f)
+		{// Wキーが押された場合
+			m_pChoice[m_nSelectNum]->SizeReset();
+			m_nSelectNum--;
+
+			// 現在位置が0より下の場合
+			if (m_nSelectNum < 0)
+			{
+				m_nSelectNum = m_nNumAll - 1;
+			}
+			m_pChoice[m_nSelectNum]->SetSellect();
+		}
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y > 0.3f)
+		{// Sキーが押された場合
+			m_pChoice[m_nSelectNum]->SizeReset();
+			m_nSelectNum++;
+
+			// 現在位置が最大数より大きい場合
+			if (m_nSelectNum >= m_nNumAll)
+			{
+				m_nSelectNum = 0;
+			}
+			m_pChoice[m_nSelectNum]->SetSellect();
+		}
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		{
+			switch (CApplication::GetMode())
+			{
+			case CApplication::Mode_Title:
+
+				if (m_nSelectNum == 0)
+				{
+					CApplication::SetMode(CApplication::Mode_Game_Race);
+				}
+				else if (m_nSelectNum == 1)
+				{
+					ExitExe();
+				}
+				break;
+			case CApplication::Mode_Result:
+				if (m_nSelectNum == 0)
+				{
+					CApplication::SetMode(CApplication::Mode_Game_Race);
+				}
+				else if (m_nSelectNum == 1)
+				{
+					CApplication::SetMode(CApplication::Mode_Title);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
 
 //=====================================

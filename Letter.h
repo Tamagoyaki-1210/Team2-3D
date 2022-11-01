@@ -26,6 +26,7 @@ public:
 
 	bool ConvertInNumber(const int nNum);									//”’l‚É•ÏŠ·‚·‚éˆ—
 	bool ConvertInSymbol(const char symbol);								//•¶š‚É•ÏŠ·‚·‚éˆ—
+	bool Convert(const char symbol);
 
 	void SetLife(const int nLife);											//ƒ‰ƒCƒt‚Ìİ’èˆ—
 

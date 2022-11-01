@@ -14,6 +14,9 @@
 #include "inputMouse.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
+#include "goal.h"
+#include "message.h"
+//#include "BoxHitbox.h"
 
 //コンストラクタ
 CCamera::CCamera()
@@ -180,8 +183,35 @@ void CCamera::Update(void)
 	m_posR.x = m_posV.x + m_fLenght * cosf(m_rot.y);
 	m_posR.z = m_posV.z + m_fLenght * sinf(m_rot.y);
 
+	CDebugProc::Print("\nPosV: %f, %f, %f\nPosR: %f, %f, %f", m_posV.x, m_posV.y, m_posV.z, m_posR.x, m_posR.y, m_posR.z);
+
 #endif // DEBUG
 
+	if (CMessage::GetStart())
+	{
+		D3DXVECTOR3 v = m_posR - m_posV;
+		v.y = 0.0f;
+		D3DXVec3Normalize(&v, &v);
+		D3DXVECTOR3 unit = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
+		float fDot = D3DXVec3Dot(&v, &unit);
+		float fAngle = acosf(fDot);
+		if (v.z < 0.0f)
+		{
+			fAngle *= -1.0f;
+		}
+
+		m_posV.x += cosf(fAngle) * 1.0f;
+		m_posV.z += sinf(fAngle) * 1.0f;
+		m_posR.x += cosf(fAngle) * 1.0f;
+		m_posR.z += sinf(fAngle) * 1.0f;
+	}
+
+	if (m_posV.z >= 750.0f)
+	{
+		m_posV.z = 750.0f;
+
+		CGoal::SetGoal(true);
+	}
 }
 
 //設定処理
@@ -210,7 +240,7 @@ void CCamera::Set(void)
 		D3DXToRadian(45.0f),
 		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
 		10.0f,
-		2000.0f);
+		50000.0f);
 
 	//プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProjection);
@@ -246,6 +276,13 @@ void CCamera::SetFocalPoint(const D3DXVECTOR3 pos)
 	m_posR = pos;
 }
 
+//視点注視点の設定
+void CCamera::SetPos(const D3DXVECTOR3 posV, const D3DXVECTOR3 posR)
+{
+	m_posV = posV;
+	m_posR = posR;
+}
+
 CCamera* CCamera::Create(D3DXVECTOR3 pos, D3DXVECTOR3 focalPoint)
 {
 	CCamera* pCamera = new CCamera;
@@ -269,6 +306,5 @@ CCamera* CCamera::Create(D3DXVECTOR3 pos, D3DXVECTOR3 focalPoint)
 	}
 
 	pCamera->m_fLenght = sqrtf(((pCamera->m_posR.x - pCamera->m_posV.x) * (pCamera->m_posR.x - pCamera->m_posV.x)) + ((pCamera->m_posR.z - pCamera->m_posV.z) * (pCamera->m_posR.z - pCamera->m_posV.z)));
-
 	return pCamera;
 }

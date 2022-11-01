@@ -28,6 +28,8 @@
 #include "result.h"
 #include "fade.h"
 #include "menu.h"
+#include "hitbox.h"
+#include "score.h"
 
 //静的メンバー変数の宣言
 HWND CApplication::m_hWnd;
@@ -84,9 +86,13 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	CAnimator::LoadAllAnimation();
 
 	// モードインスタンスの生成処理
-	m_pMode = CGameRace::Create();
-	m_mode = Mode_Game_Race;
-	m_modeNext = Mode_Game_Race;
+	m_pMode = CTitle::Create();
+	m_mode = Mode_Title;
+	m_modeNext = Mode_Title;
+
+	//m_pMode = CGameRace::Create();
+	//m_mode = Mode_Game_Race;
+	//m_modeNext = Mode_Game_Race;
 
 	// フェード生成
 	if (m_pFade == nullptr)
@@ -95,11 +101,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pFade->SetFade();
 	}
 
-	// メニュー生成
-	if (m_pMenu == nullptr)
-	{
-		m_pMenu = CMenu::Create();
-	}
 
 	//キーボードインスタンスの生成処理
 	m_pInput[0] = new CInputKeyboard;
@@ -130,6 +131,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		return -1;
 	}*/
 
+	// メニュー生成
+	if (m_pMenu == nullptr)
+	{
+		m_pMenu = CMenu::Create();
+	}
+
 	m_pSound = CSound::Create(hWnd);
 
 	/*if (m_pSound != nullptr)
@@ -140,7 +147,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	CLight::ReleaseAll();
 	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
 
-	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -300.0f), D3DXVECTOR3(0.0f, -200.0f, 300.0f));
+	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+
+	//m_pSphear->Init();
 
 	//FILE*pFile;				//ファイルポインタを宣言する
 
@@ -179,6 +188,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 //終了処理
 void CApplication::Uninit(void)
 {
+	CScore::Clear();
+
 	//レンディングインスタンスの破棄
 	if (m_pRenderer != nullptr)
 	{
@@ -257,6 +268,9 @@ void CApplication::Uninit(void)
 	//オブジェクト全体の終了処理
 	CObject::ReleaseAll();
 
+	//ヒットボックスの破棄処理
+	CHitbox::ReleaseAll();
+
 	CLight::ReleaseAll();
 
 	//テクスチャ全部の破棄
@@ -271,7 +285,7 @@ void CApplication::Uninit(void)
 //更新処理
 void CApplication::Update(void)
 {
-	CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動\n");
+	//CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動\n");
 
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
@@ -320,30 +334,6 @@ void CApplication::Update(void)
 	{
 		m_pCamera->Update();
 	}
-
-	/*if (CInputKeyboard::GetKeyboardTrigger(DIK_C))
-	{
-		CObject_2D* pObj2D = CObject_2D::Create();
-		pObj2D->SetPos(D3DXVECTOR3((float)CObject::random(50, SCREEN_WIDTH - 50), (float)CObject::random(50, SCREEN_HEIGHT - 50), 0.0f));
-		pObj2D->SetSize(D3DXVECTOR2(50.0f, 50.0f));
-		pObj2D->SetTexture(CObject::TEXTURE_LETTERS);
-		pObj2D->SetTextureParameter(1, 13, 2, INT_MAX);
-		pObj2D->SetAnimPattern(CObject::random(0, 25));
-		pObj2D->SetPriority(5);
-	}
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_X))
-	{
-		CObject::DebugDestroy();
-	}
-
-	if (m_pStr != nullptr)
-	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_Z))
-		{
-			m_pStr->Release();
-			m_pStr = nullptr;
-		}
-	}*/
 }
 
 //描画処理
@@ -421,6 +411,7 @@ void CApplication::ChangeMode()
 	{// フェード切り替え状態じゃない場合
 		return;
 	}
+
 	// 現在モードの終了
 	if (m_pMode != nullptr)
 	{
@@ -429,7 +420,10 @@ void CApplication::ChangeMode()
 		m_pMode = nullptr;
 	}
 
+	m_pMenu->Uninit();
+
 	CObject::ReleaseAll();
+	CHitbox::ReleaseAll();
 
 	if (m_pSound != nullptr)
 	{
@@ -455,4 +449,6 @@ void CApplication::ChangeMode()
 		break;
 	}
 	m_mode = m_modeNext;
+
+	m_pMenu->Init();
 }

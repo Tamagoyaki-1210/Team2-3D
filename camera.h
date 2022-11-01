@@ -13,6 +13,8 @@
 //=============================================================================
 #include "main.h"
 
+//class CBoxHitbox;
+
 class CCamera
 {
 public:
@@ -30,6 +32,7 @@ public:
 	const D3DXVECTOR3 CCamera::GetFocalPoint(void);		//注視点の取得処理
 														
 	void SetFocalPoint(const D3DXVECTOR3 pos);			//注視点の設定処理
+	void SetPos(const D3DXVECTOR3 posV, const D3DXVECTOR3 posR);	//視点、注視点の設定
 
 	static CCamera* Create(D3DXVECTOR3 pos, D3DXVECTOR3 focalPoint);		//生成処理
 
@@ -49,6 +52,7 @@ private:
 	float		m_fLenght;					//XZ面の視点と注視点の間の距離
 	int			m_nDelay;					//
 
+	//CBoxHitbox *m_pHitBox;
 };
 
 #endif // !_CAMERA_H_

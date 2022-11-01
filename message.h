@@ -1,45 +1,47 @@
 //=============================================================================
 //
-// choice.h
+// message.h
 // Author : tanimoto kosuke
 //
 //=============================================================================
-#ifndef _CHOICE_H_
-#define _CHOICE_H_
+#ifndef _MESSAGE_H
+#define _MESSAGE_H
 
 //=============================================================================
 //インクルードファイル
 //=============================================================================
-#include "font.h"
+#include "object2D.h"
 
 //---------------------------
 //クラス宣言
 //---------------------------
-class CChoice
+class CMessage
 {
 public:
-	CChoice();
-	~CChoice();
+	CMessage();
+	~CMessage();
 
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 
-	void SizeScale(void);
+	void SetCountDown(int nNum);
+	void CountDown();
+	void StartMessage(void);
+	void GoalMessage(void);
 
-	void SizeReset(void);
-	void SetSellect(void);
+	static CMessage* Create();			//生成処理
+	static bool GetStart(void) { return m_bStart; }
 
-	static CChoice* Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const std::string letter);
 private:
-	static const int MaxWordLenght = 24;
+	static const int CountDownLife = 60;
+	static bool m_bStart;
 
-	int m_nNum;
-	float m_fScale;
-	bool m_bScale;
-	bool m_bSellect;
-	D3DXVECTOR2 m_sizeYuan;		
-	CFont* m_pFont[MaxWordLenght];
+	int m_nMessageCounter;		// メッセージ表示時間
+	int m_nNum;					// カウントダウン現在位置
+	bool m_bCountDown;
+	bool m_bEndGame;
+	CObject_2D* m_pObj2D;
 };
 
-#endif // !_CHOICE_H_
+#endif // !_MESSAGE_H

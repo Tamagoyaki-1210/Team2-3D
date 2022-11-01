@@ -25,7 +25,7 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 
-	static CTitle* Create(void);			//¶¬ˆ—
+	static CTitle* Create(void);
 private:
 };
 

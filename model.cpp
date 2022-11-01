@@ -30,7 +30,12 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Player_Debug\\Player_Debug_Leg_Left.x" },
 	{ "data\\MODELS\\Player_Debug\\Player_Debug_Foot_Left.x" },
 	{ "data\\MODELS\\Player_Debug\\Player_Debug_Leg_Right.x" },
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Foot_Right.x" }
+	{ "data\\MODELS\\Player_Debug\\Player_Debug_Foot_Right.x" },
+
+	{ "data\\MODELS\\Coin\\Coin00.x" },
+	{ "data\\MODELS\\Coin\\Coin01.x" },
+	{ "data\\MODELS\\Coin\\Coin02.x" },
+	{ "data\\MODELS\\Coin\\Coin03.x" },
 };
 
 //コンストラクタ
@@ -43,10 +48,12 @@ CModel::CModel()
 	m_LastPos = Vec3Null;							//前回の位置
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
+	m_frameRot = Vec3Null;							//1フレームの回転角度
 	m_minCoord = Vec3Null;
 	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
 	m_type = CModel::MODEL_BODY;
+	m_vCol.clear();
 }
 
 CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
@@ -58,10 +65,12 @@ CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
 	m_LastPos = Vec3Null;							//前回の位置
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
+	m_frameRot = Vec3Null;							//1フレームの回転角度
 	m_minCoord = Vec3Null;
 	m_maxCoord = Vec3Null;								//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
 	m_type = CModel::MODEL_BODY;
+	m_vCol.clear();
 }
 
 //デストラクタ
@@ -80,9 +89,11 @@ HRESULT CModel::Init(void)
 	m_LastPos = Vec3Null;							//前回の位置
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
+	m_frameRot = Vec3Null;							//1フレームの回転角度
 	m_minCoord = Vec3Null;
 	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
+	m_vCol.clear();
 
 	/*std::vector <LPDIRECT3DTEXTURE9> v;
 
@@ -102,13 +113,18 @@ HRESULT CModel::Init(void)
 //終了処理
 void CModel::Uninit(void)
 {
-	
+	m_vCol.clear();
 }
 
 //更新処理
 void CModel::Update(void)
 {
-	
+	m_LastPos = m_pos;
+
+	if (m_frameRot != nullptr)
+	{
+		m_rot += m_frameRot;
+	}
 }
 
 //描画処理
@@ -204,6 +220,20 @@ void CModel::Draw(void)
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
 
+		D3DXCOLOR c = {};
+		bool bCol = false;
+
+		for (int i = 0; i < (int)m_vCol.size(); i++)
+		{
+			if (m_vCol.data()[i].nMatNumber == nCntMat)
+			{
+				bCol = true;
+				c = pMat[nCntMat].MatD3D.Diffuse;
+				pMat[nCntMat].MatD3D.Diffuse = m_vCol.data()[i].col;
+				break;
+			}
+		}
+
 		//マテリアルの設定
 		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
@@ -212,6 +242,11 @@ void CModel::Draw(void)
 
 		//モデルパーツの描画
 		m_pMesh->DrawSubset(nCntMat);
+
+		if (bCol)
+		{
+			pMat[nCntMat].MatD3D.Diffuse = c;
+		}
 	}
 
 	//保持しいたマテリアルを戻す
@@ -247,6 +282,38 @@ const D3DXVECTOR2 CModel::GetSize(void)
 {
 	return D3DXVECTOR2(0.0f, 0.0f);
 }
+
+//モデルの設定処理
+void CModel::SetModel(const ModelType type)
+{
+	m_pMesh = m_pMeshAll[type];
+	m_pBuffMat = m_pBuffMatAll[type];
+	m_nNumMat = m_nNumMatAll[type];
+	m_type = type;
+}
+
+//回転速度の設定処理
+void CModel::StartRotation(const D3DXVECTOR3 frameRot)
+{
+	m_frameRot = frameRot;
+}
+
+//回転を止まる処理
+void CModel::StopRotating(void)
+{
+	m_frameRot = Vec3Null;
+}
+
+//カーラーの設定処理
+void CModel::SetModelColor(const int nNumMat, const D3DXCOLOR col)
+{
+	ModelColor mCol = {};
+	mCol.nMatNumber = nNumMat;
+	mCol.col = col;
+
+	m_vCol.push_back(mCol);
+}
+
 
 
 

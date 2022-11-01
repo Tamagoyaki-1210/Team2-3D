@@ -10,21 +10,6 @@
 //=============================================================================
 #include "font.h"
 
-//ひらがなセット
-std::map<std::string, int> CFont::m_hiraganaData = 
-{
-	{ "あ", 0 },{ "い", 1 },{ "う", 2 },{ "え", 3 },{ "お", 4 },
-	{ "か", 5 },{ "き", 6 },{ "く", 7 },{ "け", 8 },{ "こ", 9 },
-	{ "さ", 10 },{ "し", 11 },{ "す", 12 },{ "せ", 13 },{ "そ", 14 },
-	{ "た", 15 },{ "ち", 16 },{ "つ", 17 },{ "て", 18 },{ "と", 19 },
-	{ "な", 20 },{ "に", 21 },{ "ぬ", 22 },{ "ね", 23 },{ "の", 24 },
-	{ "は", 25 },{ "ひ", 26 },{ "ふ", 27 },{ "へ", 28 },{ "ほ", 29 },
-	{ "ま", 30 },{ "み", 31 },{ "む", 32 },{ "め", 33 },{ "も", 34 },
-	{ "や", 35 },{ "ゆ", 36 },{ "よ", 37 },{ "、", 38 },{ "。", 39 },
-	{ "ら", 40 },{ "り", 41 },{ "る", 42 },{ "れ", 43 },{ "ろ", 44 },
-	{ "わ", 45 },{ "を", 46 },{ "ん", 47 },{ "ー", 48 },{ "・", 49 },
-	{ "が", 50 },{ "ぎ", 51 },{ "ぐ", 52 },{ "げ", 53 },{ "ご", 54 },
-};
 //=====================================
 // デフォルトコンストラクタ
 //=====================================
@@ -60,7 +45,6 @@ HRESULT CFont::Init(void)
 	return S_OK;
 }
 
-
 //=====================================
 // 終了処理
 //=====================================
@@ -92,22 +76,126 @@ void CFont::Draw(void)
 //=====================================
 // 生成処理
 //=====================================
-CFont* CFont::Create(const D3DXVECTOR2 addPos, const D3DXVECTOR2 size, const std::string str, const int nPriority, int nCnt, int nMax)
+CFont* CFont::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const char* letter)
 {
-	CFont* pFont = new CFont(nPriority);
+	CFont* pFont = new CFont(5);		//生成(Priority = 5)
 
+	//初期化処理
 	if (FAILED(pFont->Init()))
 	{
 		return nullptr;
 	}
-	int nTex = m_hiraganaData[str];
 
-	pFont->SetSize(size);									//サイズの設定
-	float fSize = pFont->GetSize().x * 2;
-	pFont->SetPos(D3DXVECTOR3((SCREEN_WIDTH / 2 - (nMax * fSize) * 0.5) + (nCnt * fSize) + addPos.x, 300.0f + addPos.y, 0.0f) );
+	pFont->SetPos(pos);									//位置の設定
+	pFont->SetSize(size);								//サイズの設定
 
-	pFont->SetTexture(CObject::TEXTURE_HIRAGANA);			//テクスチャの設定
-	pFont->SetTextureParameter(100, 10, 10, INT_MAX);		//テクスチャパラメータの設定
-	pFont->SetAnimPattern(nTex);
+	pFont->SetTexture(CObject::TEXTURE_JAPANESE);		//テクスチャの設定
+	pFont->SetTextureParameter(1, 20, 10, INT_MAX);		//テクスチャパラメータの設定
+
+	//アニメーションパターンの設定
+	int Cell = -1;
+
+	// ひらがな(-126)と配列[0]が一致する場合
+	if (letter[0] == -126)
+	{
+		int aLetter = -97;	// 最初の文字が始まる位置33439
+
+		for (int nCnt = 0; nCnt < 90; nCnt++)
+		{
+			if (letter[1] == aLetter)
+			{
+				Cell = nCnt;
+				break;
+			}
+
+			aLetter += 1;
+		}
+
+		// "ん"まで対応
+		if (Cell < 0 || Cell > 82)
+		{
+			pFont->Release();
+			return nullptr;
+		}
+		else
+		{
+			pFont->SetAnimPattern(Cell);
+		}
+	}
+	// カタカナ(-125)と配列[0]が一致する場合
+	else if (letter[0] == -125)
+	{
+		// "ミ"までのカタカナ
+		if (letter[1] >= 64)
+		{
+			int aLetter = 64;	// 最初の文字が始まる位置33439
+			int aKatakana = 96;		// カタカナが始まる位置
+
+			for (int nCnt = 0; nCnt < 90; nCnt++)
+			{
+				if (letter[1] == aLetter)
+				{
+					Cell = nCnt + aKatakana;
+					break;
+				}
+
+				aLetter += 1;
+			}
+
+			if (Cell < aKatakana || Cell > aKatakana + 62)
+			{
+				pFont->Release();
+				return nullptr;
+			}
+			else
+			{
+				pFont->SetAnimPattern(Cell);
+			}
+		}
+		// "ム"以降のカタカナ
+		else
+		{
+			int aLetter = -128;		// 最初の文字が始まる位置33439
+			int aKatakana = 159;	// カタカナが始まる位置
+
+			for (int nCnt = 0; nCnt < 90; nCnt++)
+			{
+				if (letter[1] == aLetter)
+				{
+					Cell = nCnt + aKatakana;
+					break;
+				}
+
+				aLetter += 1;
+			}
+
+			if (Cell < aKatakana || Cell > aKatakana + 22)
+			{
+				pFont->Release();
+				return nullptr;
+			}
+			else
+			{
+				pFont->SetAnimPattern(Cell);
+			}
+		}
+	}
+	// 記号(-127)と配列[0]が一致する場合
+	else if (letter[0] == -127)
+	{
+		if (letter[1] == -127)
+		{
+			pFont->SetAnimPattern(95);	//＝
+		}
+		else if (letter[1] == 69)
+		{
+			pFont->SetAnimPattern(186);	//・
+		}
+		else if (letter[1] == 91)
+		{
+			pFont->SetAnimPattern(187);	//ー
+		}
+	}
+
 	return pFont;
 }
