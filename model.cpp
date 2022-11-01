@@ -200,6 +200,60 @@ void CModel::Draw(void)
 		pMat[nCntMat].MatD3D.Diffuse.a = col.a;
 	}
 
+
+	//ステンシルバッファを有効にする
+	pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+
+	//ステンシルバッファと比較する参照値設定
+	pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
+
+	//ステンシルバッファの値に対してのマスク設定
+	pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
+
+	//ステンシルテストの比較方法の設定
+	pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+
+	//ステンシルテストの結果に対しての反映設定
+	pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);
+	pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+
+	pMat = nullptr;
+
+	//保持しいたマテリアルを戻す
+	pDevice->SetMaterial(&matDef);
+
+
+	//ワールドマトリックスの設定
+	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+
+	//現在のマテリアルを保持
+	pDevice->GetMaterial(&matDef);
+
+	//マテリアルデータへのポインタの取得
+	pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
+
+	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
+	{
+		//テクスチャの設定
+		pDevice->SetTexture(0, NULL);
+
+		//マテリアルの設定
+		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+
+		//テクスチャの設定
+		pDevice->SetTexture(0, m_vModelTexture[m_type].data()[nCntMat]);
+
+		//モデルパーツの描画
+		m_pMesh->DrawSubset(nCntMat);
+	}
+
+	//保持しいたマテリアルを戻す
+	pDevice->SetMaterial(&matDef);
+
+	//ステンシルバッファを無効にする
+	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+
 	pMat = nullptr;
 	
 	//保持しいたマテリアルを戻す

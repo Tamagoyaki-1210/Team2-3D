@@ -22,6 +22,8 @@
 #include "score.h"
 #include "UIString.h"
 #include "gamerace.h"
+#include "rendering.h"
+#include "silhouette.h"
 
 //コンストラクタ
 CPlayer::CPlayer()
@@ -239,6 +241,27 @@ void CPlayer::Update(void)
 //描画処理
 void CPlayer::Draw(void)
 {
+	//デバイスの取得処理
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+
+	//ステンシルバッファを有効にする
+	pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+
+	//ステンシルバッファと比較する参照値設定
+	pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
+
+	//ステンシルバッファの値に対してのマスク設定
+	pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
+
+	//ステンシルテストの比較方法の設定
+	pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_GREATEREQUAL);
+
+	//ステンシルテストの結果に対しての反映設定
+	pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+	pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+
+
 	D3DXMATRIX mtxTrans, mtxRot;												//計算用のマトリックス
 	D3DXMatrixIdentity(&m_mtxWorld);											//ワールドマトリックスの初期化処理
 
@@ -259,6 +282,9 @@ void CPlayer::Draw(void)
 			m_pModel[nCnt]->Draw();
 		}
 	}
+
+	//ステンシルバッファを無効にする
+	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 }
 
 //位置の設定処理
@@ -354,6 +380,8 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
 	}
 
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
+
+	CSilhouette::Create();
 
 	return pModel;
 }
