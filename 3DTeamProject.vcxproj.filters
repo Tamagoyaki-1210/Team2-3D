@@ -43,6 +43,7 @@
     <ClCompile Include="UIString.cpp" />
     <ClCompile Include="message.cpp" />
     <ClCompile Include="goal.cpp" />
+    <ClCompile Include="silhouette.cpp" />
     <ClCompile Include="fontString.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +89,7 @@
     <ClInclude Include="UIString.h" />
     <ClInclude Include="message.h" />
     <ClInclude Include="goal.h" />
+    <ClInclude Include="silhouette.h" />
     <ClInclude Include="fontString.h" />
   </ItemGroup>
 </Project>

@@ -64,7 +64,7 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	d3dpp.BackBufferFormat = d3ddm.Format;							// カラーモードの指定
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;						// 映像信号に同期してフリップする
 	d3dpp.EnableAutoDepthStencil = TRUE;							// デプスバッファ（Ｚバッファ）とステンシルバッファを作成
-	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;						// デプスバッファとして16bitを使う
+	d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;					// デプスバッファとして24bit、ステンシルバッファとして8ビットを使う
 	d3dpp.Windowed = bWindow;										// ウィンドウモード
 	d3dpp.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;		// リフレッシュレート
 	d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;		// インターバル
@@ -153,8 +153,8 @@ void CRenderer::Update()
 //=============================================================================
 void CRenderer::Draw()
 {
-	//画面クリア(バックバッファ＆Zバッファのクリア)
-	m_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
+	//画面クリア(ステンシルバッファ、バックバッファ＆Zバッファのクリア)
+	m_pD3DDevice->Clear(0, NULL, (D3DCLEAR_STENCIL | D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
 
 	//描画開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))

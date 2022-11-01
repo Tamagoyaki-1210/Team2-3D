@@ -76,6 +76,7 @@ private:
 	D3DXVECTOR3 m_rot;									//向き
 	D3DXVECTOR3 m_DestRot;								//目的の角度
 	D3DXMATRIX  m_mtxWorld;								//ワールドマトリックス
+	bool		m_bJump;								//ジャンプしているかどうか
 
 	CModelPart* m_pModel[PARTS_MAX];					//モデルへのポインタ
 	CAnimator* m_pAnimator;
