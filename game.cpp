@@ -7,8 +7,8 @@
 #include "game.h"
 #include "inputKeyboard.h"
 #include "application.h"
+#include "menu.h"
 
-bool CGame::m_bPause = false;		//ポーズ使用判定
 bool CGame::m_bEndGame = false;		//ゲーム終了判定
 
 //=====================================
@@ -41,7 +41,6 @@ HRESULT CGame::Init(void)
 void CGame::Uninit(void)
 {
 	m_bEndGame = false;
-	m_bPause = false;
 }
 
 //=====================================
@@ -52,7 +51,10 @@ void CGame::Update(void)
 	//Pでポーズ切り替え
 	if (CInputKeyboard::GetKeyboardTrigger(DIK_P))
 	{
-		m_bPause = !m_bPause;	//ポーズ切り替え処理
+		bool bPause = !CApplication::GetPause();	//ポーズ切り替え処理
+		CApplication::SetPause(bPause);
+		CMenu::PauseChange(bPause);		// ポーズ処理
+
 	}
 
 	//ゲーム終了時の処理

@@ -56,7 +56,7 @@ HRESULT CGameRace::Init(void)
     CGame::Init();
 
 	// メッシュフィールドの生成
-	m_pField = CMeshfield::Create(D3DXVECTOR3(-200.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
+	m_pField = CMeshfield::Create(D3DXVECTOR3(-200.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(50.0f, 50.0f), 30, 10, 3);
 	m_pField->SetTexture(CObject::TEXTURE_BLOCK);
 	m_pField->SetTextureTiling(0.33f);
 
@@ -84,8 +84,17 @@ HRESULT CGameRace::Init(void)
 	CGoal::Create();
 
 	// プレイヤーの生成
-	m_pPlayer[0] = CPlayer::Create(D3DXVECTOR3(0.0f, -100.0f, -100.0f),0);
-	m_pPlayer[1] = CPlayer::Create(D3DXVECTOR3(-100.0f, -100.0f, -100.0f), 1);
+	m_pPlayer[0] = CPlayer::Create(D3DXVECTOR3(-50.0f, -100.0f, -100.0f),0);
+	m_pPlayer[0]->SetRot(D3DXVECTOR3(0.0f, D3DX_PI, 0.0f));
+
+	m_pPlayer[1] = CPlayer::Create(D3DXVECTOR3(0.0f, -100.0f, -100.0f), 1);
+	m_pPlayer[1]->SetRot(D3DXVECTOR3(0.0f, D3DX_PI, 0.0f));
+
+	m_pPlayer[2] = CPlayer::Create(D3DXVECTOR3(-100.0f, -100.0f, -100.0f), 2);
+	m_pPlayer[2]->SetRot(D3DXVECTOR3(0.0f, D3DX_PI, 0.0f));
+
+	m_pPlayer[3] = CPlayer::Create(D3DXVECTOR3(-150.0f, -100.0f, -100.0f), 3);
+	m_pPlayer[3]->SetRot(D3DXVECTOR3(0.0f, D3DX_PI, 0.0f));
 
 	// ビルボードの生成
 	//CBillboard* pBillboard = CBillboard::Create(D3DXVECTOR3(-150.0f, 0.0f, 300.0f), D3DXVECTOR2(50.0f, 50.0f), 3);
@@ -112,6 +121,13 @@ HRESULT CGameRace::Init(void)
     CCoin::Create(D3DXVECTOR3(100.0f, -125.0f, 200.0f), CCoin::COIN_2);
     CCoin::Create(D3DXVECTOR3(200.0f, -125.0f, 200.0f), CCoin::COIN_3);
 
+	//CModel* pModel = nullptr;
+	//CModel::Create(CModel::MODEL_OBSTACLE_0, D3DXVECTOR3(-100.0f, -120.0f, 300.0f));
+	//CModel::Create(CModel::MODEL_OBSTACLE_1, D3DXVECTOR3(0.0f, -120.0f, 300.0f));
+	//CModel::Create(CModel::MODEL_OBSTACLE_2, D3DXVECTOR3(100.0f, -120.0f, 300.0f));
+	//pModel = CModel::Create(CModel::MODEL_OBSTACLE_3, D3DXVECTOR3(200.0f, -120.0f, 300.0f));
+	//pModel->SetModelColor(4, D3DXCOLOR(0.68f, 0.68f, 0.68f, 1.0f));
+
 	// メッセージの生成
 	m_pMessage = CMessage::Create();
 
@@ -125,7 +141,7 @@ HRESULT CGameRace::Init(void)
 
 	if (CApplication::GetCamera() != nullptr)
 	{
-		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+		CApplication::GetCamera()->SetPos(D3DXVECTOR3(-80.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
     return S_OK;
@@ -189,7 +205,7 @@ void CGameRace::Update(void)
 		{// F2キーを押したら
 			CApplication::SetMode(CApplication::Mode_Game_Debug);
 		}
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK))
 		{// Enterキーを押したら
 			SetEndGame();
 		}

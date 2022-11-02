@@ -10,6 +10,7 @@
 //=============================================================================
 #include "message.h"
 #include "game.h"
+#include "application.h"
 
 //静的メンバー変数宣言
 bool CMessage::m_bStart;
@@ -64,29 +65,32 @@ void CMessage::Uninit(void)
 //=====================================
 void CMessage::Update(void)
 {
-	// カウントダウン処理でなければ
-	if (m_bCountDown == false)
+	// ポーズ中でない場合のみ更新
+	if (CApplication::GetPause() == false)
 	{
-		// メッセージ表示時間をカウント
-		if (m_nMessageCounter > 0)
+		// カウントダウン処理でなければ
+		if (m_bCountDown == false)
 		{
-
-			m_nMessageCounter--;
+			// メッセージ表示時間をカウント
+			if (m_nMessageCounter > 0)
+			{
+				m_nMessageCounter--;
+			}
+			else
+			{	// ゲーム終了判定
+				if (m_bEndGame == true)
+				{
+					CGame::SetEndGame();
+				}
+				m_nMessageCounter = 0;
+				m_bStart = true;
+				Uninit();
+			}
 		}
 		else
-		{	// ゲーム終了判定
-			if (m_bEndGame == true)
-			{
-				CGame::SetEndGame();
-			}
-			m_nMessageCounter = 0;
-			m_bStart = true;
-			Uninit();
+		{
+			CountDown();
 		}
-	}
-	else
-	{
-		CountDown();
 	}
 }
 
@@ -102,6 +106,7 @@ void CMessage::SetCountDown(int nNum)
 		m_pObj2D->SetSize(D3DXVECTOR2(200.0f, 150.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_NUMBERS);
 		m_pObj2D->SetTextureParameter(1, 5, 3, INT_MAX);
+		m_pObj2D->SetPriority(3);
 		m_nNum = nNum;
 		m_pObj2D->SetAnimPattern(nNum);
 		m_nMessageCounter = CountDownLife;
@@ -144,6 +149,7 @@ void CMessage::StartMessage(void)
 		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_START);
 		m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		m_pObj2D->SetPriority(4);
 		m_nMessageCounter = 120;
 	}
 }
@@ -160,6 +166,7 @@ void CMessage::GoalMessage(void)
 		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_GOAL);
 		m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		m_pObj2D->SetPriority(4);
 		m_nMessageCounter = 120;
 		m_bEndGame = true;
 	}

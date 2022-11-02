@@ -159,13 +159,13 @@
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="BoxHitbox.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="choice.cpp" />
     <ClCompile Include="coin.cpp" />
     <ClCompile Include="CylinderHitbox.cpp" />
     <ClCompile Include="debugProc.cpp" />
     <ClCompile Include="directionalLight.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="font.cpp" />
+    <ClCompile Include="fontString.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamedebug.cpp" />
     <ClCompile Include="gamerace.cpp" />
@@ -194,6 +194,7 @@
     <ClCompile Include="rendering.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="score.cpp" />
+    <ClCompile Include="silhouette.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="UIString.cpp" />
@@ -204,13 +205,13 @@
     <ClInclude Include="billboard.h" />
     <ClInclude Include="BoxHitbox.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="choice.h" />
     <ClInclude Include="coin.h" />
     <ClInclude Include="CylinderHitbox.h" />
     <ClInclude Include="debugProc.h" />
     <ClInclude Include="directionalLight.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="font.h" />
+    <ClInclude Include="fontString.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gamedebug.h" />
     <ClInclude Include="gamerace.h" />
@@ -239,6 +240,7 @@
     <ClInclude Include="rendering.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="score.h" />
+    <ClInclude Include="silhouette.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="UIString.h" />
