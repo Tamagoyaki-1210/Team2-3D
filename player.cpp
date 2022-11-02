@@ -977,7 +977,22 @@ void CPlayer::PlayerController(int nCntPlayer)
 		m_State = STATE_NEUTRAL;
 	}
 
-	m_pAnimator->SetPresentAnim(1);
+	switch (m_State)
+	{
+	case STATE_NEUTRAL:
+
+	{
+		m_pAnimator->SetPresentAnim(0);
+	}
+
+	break;
+
+	case STATE_RUNNING:
+
+	{
+		m_pAnimator->SetPresentAnim(1);
+	}
+	break;
 
 	case STATE_PUNCH:
 		m_pAnimator->SetPresentAnim(2);
