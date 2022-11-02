@@ -28,7 +28,7 @@ public:
 	void SetCountDown(int nNum);
 	void CountDown();
 	void StartMessage(void);
-	void GoalMessage(void);
+	void GoalMessage(int nMessageIdx);
 
 	static CMessage* Create();			//¶¬ˆ—
 	static bool GetStart(void) { return m_bStart; }

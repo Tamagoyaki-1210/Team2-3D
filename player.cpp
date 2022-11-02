@@ -365,27 +365,172 @@ void CPlayer::Update(void)
 					}
 				}
 
-				CGameRace::GetPlayer((int)PlayerScore[3].y)->m_bWinner = true;
+				if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
+				{
+					CGameRace::GetPlayer((int)PlayerScore[0].y)->m_bWinner = true;
+					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_bWinner = true;
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_bWinner = true;
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_bWinner = true;
+				}
+				else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
+				{
+					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_bWinner = true;
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_bWinner = true;
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_bWinner = true;
+				}
+				else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
+				{
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_bWinner = true;
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_bWinner = true;
+				}
+				else
+				{
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_bWinner = true;
+				}	
 
 				if (!m_bPos)
 				{
-					TargetPos5 = CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-					m_bPos = true;
+					if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
+					{
+						GoalPos4 = CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos3 = CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos2 = CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos1 = CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+
+						m_bPos = true;
+					}
+					else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
+					{
+						GoalPos3 = CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos2 = CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos1 = CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+
+						m_bPos = true;
+					}
+					else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
+					{
+						GoalPos2 = CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos1 = CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+
+						m_bPos = true;
+					}
+					else
+					{
+						GoalPos1 = CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+
+						m_bPos = true;
+					}
 				}
 
-				// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
-				CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle = sqrtf((float)(pow(TargetPos5.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x, 2) + pow(TargetPos5.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z, 2)));
-				CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.x = (TargetPos5.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
-				CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.z = (TargetPos5.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+				if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
+				{
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[0].y)->m_fAngle = sqrtf((float)(pow(GoalPos4.x - CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.x, 2) + pow(GoalPos4.z - CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[0].y)->m_move.x = (GoalPos4.x - CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[0].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[0].y)->m_move.z = (GoalPos4.z - CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[0].y)->m_fAngle / 1.0f);
 
-				if (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z <= TargetPos5.z)
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle = sqrtf((float)(pow(GoalPos3.x - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.x, 2) + pow(GoalPos3.z - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_move.x = (GoalPos3.x - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_move.z = (GoalPos3.z - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle / 1.0f);
+
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle = sqrtf((float)(pow(GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x, 2) + pow(GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.x = (GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.z = (GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
+
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle = sqrtf((float)(pow(GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x, 2) + pow(GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.x = (GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.z = (GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+				}
+				else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
+				{
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle = sqrtf((float)(pow(GoalPos3.x - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.x, 2) + pow(GoalPos3.z - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_move.x = (GoalPos3.x - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_move.z = (GoalPos3.z - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle / 1.0f);
+
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle = sqrtf((float)(pow(GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x, 2) + pow(GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.x = (GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.z = (GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
+
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle = sqrtf((float)(pow(GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x, 2) + pow(GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.x = (GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.z = (GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+				}
+				else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
+				{
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle = sqrtf((float)(pow(GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x, 2) + pow(GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.x = (GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.z = (GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
+
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle = sqrtf((float)(pow(GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x, 2) + pow(GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.x = (GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.z = (GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+				}	
+				else
+				{
+					// ëŒè€Ç‹Ç≈ÇÃäpìxÇÃéZèo
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle = sqrtf((float)(pow(GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x, 2) + pow(GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z, 2)));
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.x = (GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.z = (GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+				}	
+
+				if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
+				{
+					if (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z <= GoalPos1.z && CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z <= GoalPos2.z && CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z <= GoalPos3.z && CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.z <= GoalPos4.z)
+					{
+						CGameRace::GetPlayer(0)->m_bMove = true;
+						CGameRace::GetPlayer(1)->m_bMove = true;
+						CGameRace::GetPlayer(2)->m_bMove = true;
+						CGameRace::GetPlayer(3)->m_bMove = true;
+
+						CGoal::SetGoal(true, (int)PlayerScore[0].y + 1);
+						CGoal::SetGoal(true, (int)PlayerScore[1].y + 1);
+						CGoal::SetGoal(true, (int)PlayerScore[2].y + 1);
+						CGoal::SetGoal(true, (int)PlayerScore[3].y + 1);
+					}
+				}
+				else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
+				{
+					if (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z <= GoalPos1.z && CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z <= GoalPos2.z && CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z <= GoalPos3.z)
+					{
+						CGameRace::GetPlayer(0)->m_bMove = true;
+						CGameRace::GetPlayer(1)->m_bMove = true;
+						CGameRace::GetPlayer(2)->m_bMove = true;
+						CGameRace::GetPlayer(3)->m_bMove = true;
+
+						CGoal::SetGoal(true, (int)PlayerScore[1].y + 1);
+						CGoal::SetGoal(true, (int)PlayerScore[2].y + 1);
+						CGoal::SetGoal(true, (int)PlayerScore[3].y + 1);
+					}
+				}
+				else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
+				{
+					if (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z <= GoalPos1.z && CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z <= GoalPos2.z)
+					{
+						CGameRace::GetPlayer(0)->m_bMove = true;
+						CGameRace::GetPlayer(1)->m_bMove = true;
+						CGameRace::GetPlayer(2)->m_bMove = true;
+						CGameRace::GetPlayer(3)->m_bMove = true;
+
+						CGoal::SetGoal(true, (int)PlayerScore[2].y + 1);
+						CGoal::SetGoal(true, (int)PlayerScore[3].y + 1);
+					}
+				}
+				else
 				{
 					CGameRace::GetPlayer(0)->m_bMove = true;
 					CGameRace::GetPlayer(1)->m_bMove = true;
 					CGameRace::GetPlayer(2)->m_bMove = true;
 					CGameRace::GetPlayer(3)->m_bMove = true;
 
-					CGoal::SetGoal(true);
+					CGoal::SetGoal(true,(int)PlayerScore[3].y + 1);
 				}
 			}
 		}
@@ -496,8 +641,6 @@ const D3DXVECTOR3 CPlayer::GetPos(void)
 {
 	return m_pos;
 }
-
-
 
 //ê∂ê¨èàóù
 CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
