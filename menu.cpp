@@ -68,8 +68,6 @@ HRESULT CMenu::Init(void)
 
 		m_pChoice[m_nSelectNum]->SetSellect();
 		break;
-	case CApplication::Mode_Game_Debug:
-		break;
 	default:
 		break;
 	}
@@ -179,7 +177,7 @@ void CMenu::Input(void)
 
 				if (m_nSelectNum == 0)
 				{
-					CApplication::SetMode(CApplication::Mode_Game_Race);
+					CApplication::SetMode(CApplication::Mode_PlayerSelect);
 				}
 				else if (m_nSelectNum == 1)
 				{

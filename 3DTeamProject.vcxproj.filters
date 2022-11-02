@@ -13,7 +13,6 @@
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="gamedebug.cpp" />
     <ClCompile Include="gamerace.cpp" />
     <ClCompile Include="hitbox.cpp" />
     <ClCompile Include="halfsphere.cpp" />
@@ -47,6 +46,7 @@
     <ClCompile Include="fontString.cpp" />
     <ClCompile Include="stage.cpp" />
     <ClCompile Include="SpikeBall.cpp" />
+    <ClCompile Include="playerSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -61,7 +61,6 @@
     <ClInclude Include="fade.h" />
     <ClInclude Include="font.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="gamedebug.h" />
     <ClInclude Include="gamerace.h" />
     <ClInclude Include="hitbox.h" />
     <ClInclude Include="halfsphere.h" />
@@ -95,5 +94,6 @@
     <ClInclude Include="fontString.h" />
     <ClInclude Include="stage.h" />
     <ClInclude Include="SpikeBall.h" />
+    <ClInclude Include="playerSelect.h" />
   </ItemGroup>
 </Project>

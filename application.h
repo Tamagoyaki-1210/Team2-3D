@@ -32,10 +32,10 @@ class CApplication
 public:
 	enum Mode
 	{
-		Mode_Title = 0,			//タイトル
-		Mode_Game_Race,		//ゲーム_競争
-		Mode_Result,		//リザルト
-		Mode_Game_Debug,	//ゲーム_デバッグ
+		Mode_Title = 0,		// タイトル
+		Mode_PlayerSelect,	// プレイヤー選択画面
+		Mode_Game_Race,		// ゲーム_競争
+		Mode_Result,		// リザルト
 		Mode_Max
 	};
 
@@ -75,7 +75,7 @@ private:
 	static CMode* m_pMode;								//モードのインスタンスへのポインタ
 	static CMenu* m_pMenu;								//メニューのインスタンスへのポインタ
 
-	static CDebugProc* m_pDebug;						//
+	static CDebugProc* m_pDebug;
 
 	static Mode m_mode;		//現在モード
 	static Mode m_modeNext;	//次のモード
