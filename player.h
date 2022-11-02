@@ -80,6 +80,7 @@ private:
 	D3DXVECTOR3 m_DestRot2;								//目的の角度
 	D3DXMATRIX  m_mtxWorld;								//ワールドマトリックス
 	bool		m_bJump;								//ジャンプしているかどうか
+	int			m_nInvincibilityCnt;					//無敵状態のカウンター
 
 	float m_fAngle;
 	bool m_bGoal;

@@ -64,3 +64,11 @@ void CGame::Update(void)
 		m_bEndGame = false;
 	}
 }
+
+//=====================================
+// XVˆ—
+//=====================================
+void CGame::SetEndGame(void)
+{
+	m_bEndGame = true;
+}

@@ -45,11 +45,10 @@ void CGoal::Uninit(void)
 //çXêV
 void CGoal::Update(void)
 {
-	m_bGoal = GetGoal();
-
 	if (m_bGoal)
 	{
-		CGameRace::Get()->GoalMessage(m_nWinnerIdx);
+		CGameRace::GetMsg()->GoalMessage(m_nWinnerIdx);
+		m_bGoal = false;
 	}
 }
 
@@ -80,11 +79,6 @@ void CGoal::SetGoal(bool bGoal,int nWinnerIdx)
 {
 	m_bGoal = bGoal;
 	m_nWinnerIdx = nWinnerIdx;
-}
-
-bool CGoal::GetGoal()
-{
-	return m_bGoal;
 }
 
 //ê∂ê¨

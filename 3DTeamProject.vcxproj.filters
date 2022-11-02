@@ -45,6 +45,7 @@
     <ClCompile Include="goal.cpp" />
     <ClCompile Include="silhouette.cpp" />
     <ClCompile Include="fontString.cpp" />
+    <ClCompile Include="stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -91,5 +92,6 @@
     <ClInclude Include="goal.h" />
     <ClInclude Include="silhouette.h" />
     <ClInclude Include="fontString.h" />
+    <ClInclude Include="stage.h" />
   </ItemGroup>
 </Project>

@@ -34,7 +34,6 @@ public:
 	const D3DXVECTOR3 GetPos(void) override;		//ˆÊ’u‚Ìæ“¾ˆ—
 
 	static void SetGoal(bool bGoal, int nWinnerIdx);
-	bool GetGoal();
 
 	static CGoal* Create();	//¶¬ˆ—
 

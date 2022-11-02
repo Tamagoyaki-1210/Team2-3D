@@ -21,10 +21,11 @@
 #include "CylinderHitbox.h"
 #include "score.h"
 #include "UIString.h"
-#include "gamerace.h"
+#include "stage.h"
 #include "rendering.h"
 #include "silhouette.h"
 #include "goal.h"
+#include "coin.h"
 
 //コンストラクタ
 CPlayer::CPlayer()
@@ -38,6 +39,7 @@ CPlayer::CPlayer()
 	m_State = (STATE)0;					//アニメーション状態
 	m_pScoreUI = nullptr;				//スコアのUIへのポインタ
 	m_bJump = false;					//ジャンプしているかどうか
+	m_nInvincibilityCnt = 0;			//無敵状態のカウンター
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -73,6 +75,7 @@ HRESULT CPlayer::Init(void)
 	m_State = STATE_NEUTRAL;		//アニメーション状態
 	m_pScoreUI = nullptr;			//スコアのUIへのポインタ
 	m_bJump = false;				//ジャンプしているかどうか
+	m_nInvincibilityCnt = 0;		//無敵状態のカウンター
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -226,122 +229,207 @@ void CPlayer::Update(void)
 
 		m_DestRot2 = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);
 
-		if (wallPos.z >= 900.0f || CGameRace::GetPlayer(0)->m_pos.z >= 900.0f)
+		// プレイヤー最大数分のインスタンスを作成
+		CPlayer* pPlayer[PLAYER_MAX];
+
+		// 各プレイヤーのポインタを取得し、各インスタンスに代入
+		for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+		{
+			pPlayer[nCnt] = CStage::GetPlayer(nCnt);
+		}
+
+		if (wallPos.z >= 900.0f || pPlayer[0]->m_pos.z >= 900.0f)
 		{
 			D3DXVECTOR3 TargetPos1 = D3DXVECTOR3(-147.0f, -149.0f, 1009.0f);
 
 			// 対象までの角度の算出
-			CGameRace::GetPlayer(0)->m_fAngle = sqrtf((float)(pow(TargetPos1.x - CGameRace::GetPlayer(0)->m_pos.x, 2) + pow(TargetPos1.z - CGameRace::GetPlayer(0)->m_pos.z, 2)));
-			CGameRace::GetPlayer(0)->m_move.x = (TargetPos1.x - CGameRace::GetPlayer(0)->m_pos.x) / (CGameRace::GetPlayer(0)->m_fAngle / 1.0f);
-			CGameRace::GetPlayer(0)->m_move.z = (TargetPos1.z - CGameRace::GetPlayer(0)->m_pos.z) / (CGameRace::GetPlayer(0)->m_fAngle / 1.0f);
+			pPlayer[0]->m_fAngle = sqrtf((float)(pow(TargetPos1.x - pPlayer[0]->m_pos.x, 2) + pow(TargetPos1.z - pPlayer[0]->m_pos.z, 2)));
+			pPlayer[0]->m_move.x = (TargetPos1.x - pPlayer[0]->m_pos.x) / (pPlayer[0]->m_fAngle / 1.0f);
+			pPlayer[0]->m_move.z = (TargetPos1.z - pPlayer[0]->m_pos.z) / (pPlayer[0]->m_fAngle / 1.0f);
 
-			if (CGameRace::GetPlayer(0)->m_pos.z >= TargetPos1.z && CGameRace::GetPlayer(0)->m_pos.x <= TargetPos1.x)
+			if (pPlayer[0]->m_pos.z >= TargetPos1.z && pPlayer[0]->m_pos.x <= TargetPos1.x)
 			{
-				if (CGameRace::GetPlayer(0)->m_rot.y <= m_DestRot2.y)
+				if (pPlayer[0]->m_rot.y <= m_DestRot2.y)
 				{
-					CGameRace::GetPlayer(0)->m_rot.y += 0.01f * D3DX_PI;
-				}
+					pPlayer[0]->m_rot.y += 0.01f * D3DX_PI;
+		}
 				else
 				{
-					CGameRace::GetPlayer(0)->m_bGoal = true;
-					CGameRace::GetPlayer(0)->m_bMove = false;
+					pPlayer[0]->m_bGoal = true;
+					pPlayer[0]->m_bMove = false;
 				}
 			}
 		}
 
-		if (wallPos.z >= 900.0f || CGameRace::GetPlayer(1)->m_pos.z >= 900.0f)
+		if (wallPos.z >= 900.0f || pPlayer[1]->m_pos.z >= 900.0f)
 		{
 			D3DXVECTOR3 TargetPos2 = D3DXVECTOR3(-85.0f, -149.0f, 1009.0f);
 
 			// 対象までの角度の算出
-			CGameRace::GetPlayer(1)->m_fAngle = sqrtf((float)(pow(TargetPos2.x - CGameRace::GetPlayer(1)->m_pos.x, 2) + pow(TargetPos2.z - CGameRace::GetPlayer(1)->m_pos.z, 2)));
-			CGameRace::GetPlayer(1)->m_move.x = (TargetPos2.x - CGameRace::GetPlayer(1)->m_pos.x) / (CGameRace::GetPlayer(1)->m_fAngle / 1.0f);
-			CGameRace::GetPlayer(1)->m_move.z = (TargetPos2.z - CGameRace::GetPlayer(1)->m_pos.z) / (CGameRace::GetPlayer(1)->m_fAngle / 1.0f);
+			pPlayer[1]->m_fAngle = sqrtf((float)(pow(TargetPos2.x - pPlayer[1]->m_pos.x, 2) + pow(TargetPos2.z - pPlayer[1]->m_pos.z, 2)));
+			pPlayer[1]->m_move.x = (TargetPos2.x - pPlayer[1]->m_pos.x) / (pPlayer[1]->m_fAngle / 1.0f);
+			pPlayer[1]->m_move.z = (TargetPos2.z - pPlayer[1]->m_pos.z) / (pPlayer[1]->m_fAngle / 1.0f);
 
-			if (CGameRace::GetPlayer(1)->m_pos.z >= TargetPos2.z && CGameRace::GetPlayer(1)->m_pos.x - 1.0f <= TargetPos2.x)
+			if (pPlayer[1]->m_pos.z >= TargetPos2.z && pPlayer[1]->m_pos.x -1.0f <= TargetPos2.x)
 			{
-				if (CGameRace::GetPlayer(1)->m_rot.y <= m_DestRot2.y)
+				if (pPlayer[1]->m_rot.y <= m_DestRot2.y)
 				{
-					CGameRace::GetPlayer(1)->m_rot.y += 0.01f * D3DX_PI;
-				}
+					pPlayer[1]->m_rot.y += 0.01f * D3DX_PI;
+		}
 				else
 				{
-					CGameRace::GetPlayer(1)->m_bGoal = true;
-					CGameRace::GetPlayer(1)->m_bMove = false;
-				}
+					pPlayer[1]->m_bGoal = true;
+					pPlayer[1]->m_bMove = false;
+	}
 			}
 		}
 
+	if (m_nInvincibilityCnt > 0)
+	{
+		m_nInvincibilityCnt--;
 
-		if (wallPos.z >= 900.0f || CGameRace::GetPlayer(2)->m_pos.z >= 900.0f)
+		if (m_nInvincibilityCnt <= 0)
+		{
+	if (m_pHitbox != nullptr)
+	{
+				m_pHitbox->SetInvincibility(false);
+			}
+		}
+	}
+
+	if (m_pHitbox != nullptr)
+	{
+		int nScore = m_pScore->GetScore();
+
+		m_pHitbox->SetPos(m_pos);
+		m_pHitbox->Update();
+
+		CHitbox::INTERACTION_EFFECT effect = m_pHitbox->GetEffect();
+
+		switch (effect)
+		{
+		case CHitbox::EFFECT_DAMAGE:
+
+		{
+			int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);
+
+			for (int nCnt = 0; nCnt < spawnCoin; nCnt++)
+			{
+				CCoin::Create(GetPos(), D3DXVECTOR3((float)random(-5, 5), 10.0f, (float)random(-5, 5)), 180, CCoin::COIN_0);
+	}
+
+			m_nInvincibilityCnt = 60;
+
+			if (m_pHitbox != nullptr)
+			{
+				m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
+				m_pHitbox->SetInvincibility(true);
+			}
+		}
+
+			break;
+
+		case CHitbox::EFFECT_LAUNCH:
+
+		{
+			int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);
+			
+			for (int nCnt = 0; nCnt < spawnCoin; nCnt++)
+			{
+				CCoin::Create(GetPos(), D3DXVECTOR3((float)random(-5, 5), 10.0f, (float)random(-5, 5)), 180, CCoin::COIN_0);
+			}
+
+			D3DXVec3Normalize(&m_move, &m_move);
+			m_move.x *= -50.0f;
+			m_move.y = 10.0f;
+			m_move.z *= -50.f;
+
+			m_nInvincibilityCnt = 60;
+			
+			if (m_pHitbox != nullptr)
+			{
+				m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
+				m_pHitbox->SetInvincibility(true);
+			}
+
+		}
+
+			break;
+		
+		default:
+			break;
+		}
+	}
+
+		if (wallPos.z >= 900.0f || pPlayer[2]->m_pos.z >= 900.0f)
 		{
 			D3DXVECTOR3 TargetPos3 = D3DXVECTOR3(-23.0f, -149.0f, 1009.0f);
 
 			// 対象までの角度の算出
-			CGameRace::GetPlayer(2)->m_fAngle = sqrtf((float)(pow(TargetPos3.x - CGameRace::GetPlayer(2)->m_pos.x, 2) + pow(TargetPos3.z - CGameRace::GetPlayer(2)->m_pos.z, 2)));
-			CGameRace::GetPlayer(2)->m_move.x = (TargetPos3.x - CGameRace::GetPlayer(2)->m_pos.x) / (CGameRace::GetPlayer(2)->m_fAngle / 1.0f);
-			CGameRace::GetPlayer(2)->m_move.z = (TargetPos3.z - CGameRace::GetPlayer(2)->m_pos.z) / (CGameRace::GetPlayer(2)->m_fAngle / 1.0f);
+			pPlayer[2]->m_fAngle = sqrtf((float)(pow(TargetPos3.x - pPlayer[2]->m_pos.x, 2) + pow(TargetPos3.z - pPlayer[2]->m_pos.z, 2)));
+			pPlayer[2]->m_move.x = (TargetPos3.x - pPlayer[2]->m_pos.x) / (pPlayer[2]->m_fAngle / 1.0f);
+			pPlayer[2]->m_move.z = (TargetPos3.z - pPlayer[2]->m_pos.z) / (pPlayer[2]->m_fAngle / 1.0f);
 
-			if (CGameRace::GetPlayer(2)->m_pos.z >= TargetPos3.z && CGameRace::GetPlayer(2)->m_pos.x - 1.0f <= TargetPos3.x)
+			if (pPlayer[2]->m_pos.z >= TargetPos3.z && pPlayer[2]->m_pos.x - 1.0f <= TargetPos3.x)
 			{
-				if (CGameRace::GetPlayer(2)->m_rot.y <= m_DestRot2.y)
+				if (pPlayer[2]->m_rot.y <= m_DestRot2.y)
 				{
-					CGameRace::GetPlayer(2)->m_rot.y += 0.01f * D3DX_PI;
+					pPlayer[2]->m_rot.y += 0.01f * D3DX_PI;
 				}
 				else
 				{
-					CGameRace::GetPlayer(2)->m_bGoal = true;
-					CGameRace::GetPlayer(2)->m_bMove = false;
+					pPlayer[2]->m_bGoal = true;
+					pPlayer[2]->m_bMove = false;
 				}
 			}
 		}
 
-		if (wallPos.z >= 900.0f || CGameRace::GetPlayer(3)->m_pos.z >= 900.0f)
+		if (wallPos.z >= 900.0f || pPlayer[3]->m_pos.z >= 900.0f)
 		{
 			D3DXVECTOR3 TargetPos4 = D3DXVECTOR3(39.0f, -149.0f, 1009.0f);
 
 			// 対象までの角度の算出
-			CGameRace::GetPlayer(3)->m_fAngle = sqrtf((float)(pow(TargetPos4.x - CGameRace::GetPlayer(3)->m_pos.x, 2) + pow(TargetPos4.z - CGameRace::GetPlayer(3)->m_pos.z, 2)));
-			CGameRace::GetPlayer(3)->m_move.x = (TargetPos4.x - CGameRace::GetPlayer(3)->m_pos.x) / (CGameRace::GetPlayer(3)->m_fAngle / 1.0f);
-			CGameRace::GetPlayer(3)->m_move.z = (TargetPos4.z - CGameRace::GetPlayer(3)->m_pos.z) / (CGameRace::GetPlayer(3)->m_fAngle / 1.0f);
+			pPlayer[3]->m_fAngle = sqrtf((float)(pow(TargetPos4.x - pPlayer[3]->m_pos.x, 2) + pow(TargetPos4.z - pPlayer[3]->m_pos.z, 2)));
+			pPlayer[3]->m_move.x = (TargetPos4.x - pPlayer[3]->m_pos.x) / (pPlayer[3]->m_fAngle / 1.0f);
+			pPlayer[3]->m_move.z = (TargetPos4.z - pPlayer[3]->m_pos.z) / (pPlayer[3]->m_fAngle / 1.0f);
 
-			if (CGameRace::GetPlayer(3)->m_pos.z >= TargetPos4.z && CGameRace::GetPlayer(3)->m_pos.x - 1.0f <= TargetPos4.x)
+			if (pPlayer[3]->m_pos.z >= TargetPos4.z && pPlayer[3]->m_pos.x - 1.0f <= TargetPos4.x)
 			{
-				if (CGameRace::GetPlayer(3)->m_rot.y <= m_DestRot2.y)
+				if (pPlayer[3]->m_rot.y <= m_DestRot2.y)
 				{
-					CGameRace::GetPlayer(3)->m_rot.y += 0.01f * D3DX_PI;
+					pPlayer[3]->m_rot.y += 0.01f * D3DX_PI;
 				}
 				else
 				{
-					CGameRace::GetPlayer(3)->m_bGoal = true;
-					CGameRace::GetPlayer(3)->m_bMove = false;
+					pPlayer[3]->m_bGoal = true;
+					pPlayer[3]->m_bMove = false;
 				}
 			}
 		}
 
-		if (CGameRace::GetPlayer(0)->m_bGoal == true && CGameRace::GetPlayer(1)->m_bGoal == true && CGameRace::GetPlayer(2)->m_bGoal == true && CGameRace::GetPlayer(3)->m_bGoal == true)
+		if (pPlayer[0]->m_bGoal == true && pPlayer[1]->m_bGoal == true && pPlayer[2]->m_bGoal == true && pPlayer[3]->m_bGoal == true)
 		{
-			if (!CGameRace::GetPlayer(0)->m_bWinner)
+			if (!pPlayer[0]->m_bWinner)
 			{
-				CGameRace::GetPlayer(0)->m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+				pPlayer[0]->m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			}
 
-			if(!CGameRace::GetPlayer(1)->m_bWinner)
+			if(!pPlayer[1]->m_bWinner)
 			{
-				CGameRace::GetPlayer(1)->m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+				pPlayer[1]->m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			}
 
-			if (!CGameRace::GetPlayer(2)->m_bWinner)
+			if (!pPlayer[2]->m_bWinner)
 			{
-				CGameRace::GetPlayer(2)->m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+				pPlayer[2]->m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			}
 
-			if (!CGameRace::GetPlayer(3)->m_bWinner)
+			if (!pPlayer[3]->m_bWinner)
 			{
-				CGameRace::GetPlayer(3)->m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+				pPlayer[3]->m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			}
 
-			if (CGameRace::GetPlayer(0)->m_bMove == false && CGameRace::GetPlayer(1)->m_bMove == false && CGameRace::GetPlayer(2)->m_bMove == false && CGameRace::GetPlayer(3)->m_bMove == false)
+			if (pPlayer[0]->m_bMove == false && pPlayer[1]->m_bMove == false && pPlayer[2]->m_bMove == false && pPlayer[3]->m_bMove == false)
 			{
 				D3DXVECTOR2 PlayerScore[PLAYER_MAX] = {};
 				D3DXVECTOR2 nChange;
@@ -367,56 +455,56 @@ void CPlayer::Update(void)
 
 				if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
 				{
-					CGameRace::GetPlayer((int)PlayerScore[0].y)->m_bWinner = true;
-					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_bWinner = true;
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_bWinner = true;
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_bWinner = true;
+					pPlayer[(int)PlayerScore[0].y]->m_bWinner = true;
+					pPlayer[(int)PlayerScore[1].y]->m_bWinner = true;
+					pPlayer[(int)PlayerScore[2].y]->m_bWinner = true;
+					pPlayer[(int)PlayerScore[3].y]->m_bWinner = true;
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
 				{
-					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_bWinner = true;
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_bWinner = true;
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_bWinner = true;
+					pPlayer[(int)PlayerScore[1].y]->m_bWinner = true;
+					pPlayer[(int)PlayerScore[2].y]->m_bWinner = true;
+					pPlayer[(int)PlayerScore[3].y]->m_bWinner = true;
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
 				{
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_bWinner = true;
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_bWinner = true;
+					pPlayer[(int)PlayerScore[2].y]->m_bWinner = true;
+					pPlayer[(int)PlayerScore[3].y]->m_bWinner = true;
 				}
 				else
 				{
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_bWinner = true;
+					pPlayer[(int)PlayerScore[3].y]->m_bWinner = true;
 				}	
 
 				if (!m_bPos)
 				{
 					if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
 					{
-						GoalPos4 = CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-						GoalPos3 = CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-						GoalPos2 = CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-						GoalPos1 = CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos4 = pPlayer[(int)PlayerScore[0].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos3 = pPlayer[(int)PlayerScore[1].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos2 = pPlayer[(int)PlayerScore[2].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos1 = pPlayer[(int)PlayerScore[3].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
 
 						m_bPos = true;
 					}
 					else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
 					{
-						GoalPos3 = CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-						GoalPos2 = CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-						GoalPos1 = CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos3 = pPlayer[(int)PlayerScore[1].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos2 = pPlayer[(int)PlayerScore[2].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos1 = pPlayer[(int)PlayerScore[3].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
 
 						m_bPos = true;
 					}
 					else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
 					{
-						GoalPos2 = CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-						GoalPos1 = CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos2 = pPlayer[(int)PlayerScore[2].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos1 = pPlayer[(int)PlayerScore[3].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
 
 						m_bPos = true;
 					}
 					else
 					{
-						GoalPos1 = CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+						GoalPos1 = pPlayer[(int)PlayerScore[3].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
 
 						m_bPos = true;
 					}
@@ -425,106 +513,106 @@ void CPlayer::Update(void)
 				if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
 				{
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[0].y)->m_fAngle = sqrtf((float)(pow(GoalPos4.x - CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.x, 2) + pow(GoalPos4.z - CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[0].y)->m_move.x = (GoalPos4.x - CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[0].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[0].y)->m_move.z = (GoalPos4.z - CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[0].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[0].y]->m_fAngle = sqrtf((float)(pow(GoalPos4.x - pPlayer[(int)PlayerScore[0].y]->m_pos.x, 2) + pow(GoalPos4.z - pPlayer[(int)PlayerScore[0].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[0].y]->m_move.x = (GoalPos4.x - pPlayer[(int)PlayerScore[0].y]->m_pos.x) / (pPlayer[(int)PlayerScore[0].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[0].y]->m_move.z = (GoalPos4.z - pPlayer[(int)PlayerScore[0].y]->m_pos.z) / (pPlayer[(int)PlayerScore[0].y]->m_fAngle / 1.0f);
 
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle = sqrtf((float)(pow(GoalPos3.x - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.x, 2) + pow(GoalPos3.z - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_move.x = (GoalPos3.x - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_move.z = (GoalPos3.z - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[1].y]->m_fAngle = sqrtf((float)(pow(GoalPos3.x - pPlayer[(int)PlayerScore[1].y]->m_pos.x, 2) + pow(GoalPos3.z - pPlayer[(int)PlayerScore[1].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[1].y]->m_move.x = (GoalPos3.x - pPlayer[(int)PlayerScore[1].y]->m_pos.x) / (pPlayer[(int)PlayerScore[1].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[1].y]->m_move.z = (GoalPos3.z - pPlayer[(int)PlayerScore[1].y]->m_pos.z) / (pPlayer[(int)PlayerScore[1].y]->m_fAngle / 1.0f);
 
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle = sqrtf((float)(pow(GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x, 2) + pow(GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.x = (GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.z = (GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[2].y]->m_fAngle = sqrtf((float)(pow(GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x, 2) + pow(GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[2].y]->m_move.x = (GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[2].y]->m_move.z = (GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
 
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle = sqrtf((float)(pow(GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x, 2) + pow(GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.x = (GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.z = (GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[3].y]->m_fAngle = sqrtf((float)(pow(GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x, 2) + pow(GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[3].y]->m_move.x = (GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[3].y]->m_move.z = (GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
 				{
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle = sqrtf((float)(pow(GoalPos3.x - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.x, 2) + pow(GoalPos3.z - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_move.x = (GoalPos3.x - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[1].y)->m_move.z = (GoalPos3.z - CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[1].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[1].y]->m_fAngle = sqrtf((float)(pow(GoalPos3.x - pPlayer[(int)PlayerScore[1].y]->m_pos.x, 2) + pow(GoalPos3.z - pPlayer[(int)PlayerScore[1].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[1].y]->m_move.x = (GoalPos3.x - pPlayer[(int)PlayerScore[1].y]->m_pos.x) / (pPlayer[(int)PlayerScore[1].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[1].y]->m_move.z = (GoalPos3.z - pPlayer[(int)PlayerScore[1].y]->m_pos.z) / (pPlayer[(int)PlayerScore[1].y]->m_fAngle / 1.0f);
 
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle = sqrtf((float)(pow(GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x, 2) + pow(GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.x = (GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.z = (GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[2].y]->m_fAngle = sqrtf((float)(pow(GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x, 2) + pow(GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[2].y]->m_move.x = (GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[2].y]->m_move.z = (GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
 
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle = sqrtf((float)(pow(GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x, 2) + pow(GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.x = (GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.z = (GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[3].y]->m_fAngle = sqrtf((float)(pow(GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x, 2) + pow(GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[3].y]->m_move.x = (GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[3].y]->m_move.z = (GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
 				{
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle = sqrtf((float)(pow(GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x, 2) + pow(GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.x = (GoalPos2.x - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[2].y)->m_move.z = (GoalPos2.z - CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[2].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[2].y]->m_fAngle = sqrtf((float)(pow(GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x, 2) + pow(GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[2].y]->m_move.x = (GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[2].y]->m_move.z = (GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
 
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle = sqrtf((float)(pow(GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x, 2) + pow(GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.x = (GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.z = (GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[3].y]->m_fAngle = sqrtf((float)(pow(GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x, 2) + pow(GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[3].y]->m_move.x = (GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[3].y]->m_move.z = (GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
 				}	
 				else
 				{
 					// 対象までの角度の算出
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle = sqrtf((float)(pow(GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x, 2) + pow(GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z, 2)));
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.x = (GoalPos1.x - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.x) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
-					CGameRace::GetPlayer((int)PlayerScore[3].y)->m_move.z = (GoalPos1.z - CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z) / (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[3].y]->m_fAngle = sqrtf((float)(pow(GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x, 2) + pow(GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z, 2)));
+					pPlayer[(int)PlayerScore[3].y]->m_move.x = (GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
+					pPlayer[(int)PlayerScore[3].y]->m_move.z = (GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
 				}	
 
 				if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
 				{
-					if (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z <= GoalPos1.z && CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z <= GoalPos2.z && CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z <= GoalPos3.z && CGameRace::GetPlayer((int)PlayerScore[0].y)->m_pos.z <= GoalPos4.z)
+					if (pPlayer[(int)PlayerScore[3].y]->m_pos.z <= GoalPos1.z && pPlayer[(int)PlayerScore[2].y]->m_pos.z <= GoalPos2.z && pPlayer[(int)PlayerScore[1].y]->m_pos.z <= GoalPos3.z && pPlayer[(int)PlayerScore[0].y]->m_pos.z <= GoalPos4.z)
 					{
-						CGameRace::GetPlayer(0)->m_bMove = true;
-						CGameRace::GetPlayer(1)->m_bMove = true;
-						CGameRace::GetPlayer(2)->m_bMove = true;
-						CGameRace::GetPlayer(3)->m_bMove = true;
+						pPlayer[0]->m_bMove = true;
+						pPlayer[1]->m_bMove = true;
+						pPlayer[2]->m_bMove = true;
+						pPlayer[3]->m_bMove = true;
 
-						CGoal::SetGoal(true,5);
+						CGoal::SetGoal(true,0);
 					}
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
 				{
-					if (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z <= GoalPos1.z && CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z <= GoalPos2.z && CGameRace::GetPlayer((int)PlayerScore[1].y)->m_pos.z <= GoalPos3.z)
+					if (pPlayer[(int)PlayerScore[3].y]->m_pos.z <= GoalPos1.z && pPlayer[(int)PlayerScore[2].y]->m_pos.z <= GoalPos2.z && pPlayer[(int)PlayerScore[1].y]->m_pos.z)
 					{
-						CGameRace::GetPlayer(0)->m_bMove = true;
-						CGameRace::GetPlayer(1)->m_bMove = true;
-						CGameRace::GetPlayer(2)->m_bMove = true;
-						CGameRace::GetPlayer(3)->m_bMove = true;
+						pPlayer[0]->m_bMove = true;
+						pPlayer[1]->m_bMove = true;
+						pPlayer[2]->m_bMove = true;
+						pPlayer[3]->m_bMove = true;
 
-						CGoal::SetGoal(true, 5);
+						CGoal::SetGoal(true, 0);
 					}
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
 				{
-					if (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z <= GoalPos1.z && CGameRace::GetPlayer((int)PlayerScore[2].y)->m_pos.z <= GoalPos2.z)
+					if (pPlayer[(int)PlayerScore[3].y]->m_pos.z <= GoalPos1.z && pPlayer[(int)PlayerScore[2].y]->m_pos.z)
 					{
-						CGameRace::GetPlayer(0)->m_bMove = true;
-						CGameRace::GetPlayer(1)->m_bMove = true;
-						CGameRace::GetPlayer(2)->m_bMove = true;
-						CGameRace::GetPlayer(3)->m_bMove = true;
+						pPlayer[0]->m_bMove = true;
+						pPlayer[1]->m_bMove = true;
+						pPlayer[2]->m_bMove = true;
+						pPlayer[3]->m_bMove = true;
 
-						CGoal::SetGoal(true, 5);
+						CGoal::SetGoal(true, 0);
 					}
 				}
 				else
 				{
-					if (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z <= GoalPos1.z)
+					if (pPlayer[(int)PlayerScore[3].y]->m_pos.z <= GoalPos1.z)
 					{
-						CGameRace::GetPlayer(0)->m_bMove = true;
-						CGameRace::GetPlayer(1)->m_bMove = true;
-						CGameRace::GetPlayer(2)->m_bMove = true;
-						CGameRace::GetPlayer(3)->m_bMove = true;
+						pPlayer[0]->m_bMove = true;
+						pPlayer[1]->m_bMove = true;
+						pPlayer[2]->m_bMove = true;
+						pPlayer[3]->m_bMove = true;
 
 						CGoal::SetGoal(true, (int)PlayerScore[3].y + 1);
 					}
@@ -538,29 +626,29 @@ void CPlayer::Update(void)
 			m_pHitbox->Update();
 		}
 
-		if (m_pScoreUI != nullptr && m_pScore != nullptr)
+	if (m_pScoreUI != nullptr && m_pScore != nullptr)
+	{
+		int nScore = m_pScore->GetScore();
+		std::string str = std::to_string(nScore);
+		std::string begin = {};
+
+		if (str.size() < 4)
 		{
-			int nScore = m_pScore->GetScore();
-			std::string str = std::to_string(nScore);
-			std::string begin = {};
-
-			if (str.size() < 4)
+			for (int nCnt = 0; nCnt < 4 - (int)str.size(); nCnt++)
 			{
-				for (int nCnt = 0; nCnt < 4 - (int)str.size(); nCnt++)
-				{
-					begin += '0';
-				}
-
-				begin += str;
-			}
-			else
-			{
-				begin = str;
+				begin += '0';
 			}
 
-			const char* pStr = begin.c_str();
-			m_pScoreUI->ChangeString(pStr);
+			begin += str;
 		}
+		else
+		{
+			begin = str;
+		}
+
+		const char* pStr = begin.c_str();
+		m_pScoreUI->ChangeString(pStr);
+	}
 	}
 
 	CDebugProc::Print("\nRot: %f\nRot Dest: %f\n\nPos: %f, %f, %f", m_pModel[BODY]->GetRot().y, m_DestRot.y, m_pos.x, m_pos.y, m_pos.z);
@@ -570,6 +658,8 @@ void CPlayer::Update(void)
 //描画処理
 void CPlayer::Draw(void)
 {
+	if (m_nInvincibilityCnt % 10 <= 5)
+	{
 	//デバイスの取得処理
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
@@ -614,6 +704,7 @@ void CPlayer::Draw(void)
 
 	//ステンシルバッファを無効にする
 	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	}
 }
 
 //位置の設定処理
@@ -725,101 +816,101 @@ void CPlayer::PlayerController(int nCntPlayer)
 	float fA = acosf(cR.x);
 
 	
-		//移動量と目的の角度の計算
-		if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y < -0.3f)
-		{//Wキーが押された場合
-			if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
-			{//Aキーも押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
-				{
-					m_move.x += 0.2f * cosf(D3DX_PI * 0.25f + cameraRot.y);
-				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
-				{
-					m_move.z += 0.2f * sinf(D3DX_PI * 0.25f + cameraRot.y);
-				}
-
-				m_DestRot.y = -D3DX_PI * 0.75f + fA;
-			}
-			else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.3f)
-			{//Dキーも押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
-				{
-					m_move.x += 0.2f * cosf(-D3DX_PI * 0.25f + cameraRot.y);
-				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
-				{
-					m_move.z += 0.2f * sinf(-D3DX_PI * 0.25f + cameraRot.y);
-				}
-
-				m_DestRot.y = -D3DX_PI * 0.25f + fA;
-			}
-			else
-			{//Wキーだけが押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
-				{
-					m_move.x += 0.2f * cosf(cameraRot.y);
-				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
-				{
-					m_move.z += 0.2f * sinf(cameraRot.y);
-				}
-
-				m_DestRot.y = -D3DX_PI * 0.5f + fA;
-			}
-		}
-		else if (CInputKeyboard::GetKeyboardPress(DIK_S) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y > 0.3f)
-		{//Sキーが押された場合
-			if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
-			{//Aキーも押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
-				{
-					m_move.x += 0.2f * cosf(D3DX_PI * 0.75f + cameraRot.y);
-				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
-				{
-					m_move.z += 0.2f * sinf(D3DX_PI * 0.75f + cameraRot.y);
-				}
-
-				m_DestRot.y = D3DX_PI * 0.75f + fA;
-			}
-			else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.5f)
-			{//Dキーも押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
-				{
-					m_move.x += 0.2f * cosf(-D3DX_PI * 0.75f + cameraRot.y);
-				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
-				{
-					m_move.z += 0.2f * sinf(-D3DX_PI * 0.75f + cameraRot.y);
-				}
-
-				m_DestRot.y = D3DX_PI * 0.25f + fA;
-			}
-			else
-			{//Sキーだけが押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
-				{
-					m_move.x += 0.2f * cosf(D3DX_PI + cameraRot.y);
-				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
-				{
-					m_move.z += 0.2f * sinf(D3DX_PI + cameraRot.y);
-				}
-
-				m_DestRot.y = D3DX_PI * 0.5f + fA;
-			}
-		}
-		else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.3f)
-		{//Dキーだけ押された場合
+	//移動量と目的の角度の計算
+	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  < -0.3f)
+	{//Wキーが押された場合
+		if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f)
+		{//Aキーも押された場合
 			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
 			{
-				m_move.x += 0.2f * cosf(-D3DX_PI * 0.5f + cameraRot.y);
+				m_move.x += 0.2f * cosf(D3DX_PI * 0.25f + cameraRot.y);
 			}
 			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
 			{
-				m_move.z += 0.2f * sinf(-D3DX_PI * 0.5f + cameraRot.y);
+				m_move.z += 0.2f * sinf(D3DX_PI * 0.25f + cameraRot.y);
 			}
+
+				m_DestRot.y = -D3DX_PI * 0.75f + fA;
+		}
+		else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f)
+		{//Dキーも押された場合
+			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+			{
+				m_move.x += 0.2f * cosf(-D3DX_PI * 0.25f + cameraRot.y);
+			}
+			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+			{
+				m_move.z += 0.2f * sinf(-D3DX_PI * 0.25f + cameraRot.y);
+			}
+
+				m_DestRot.y = -D3DX_PI * 0.25f + fA;
+		}
+		else
+		{//Wキーだけが押された場合
+			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+			{
+				m_move.x += 0.2f * cosf(cameraRot.y);
+			}
+			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+			{
+				m_move.z += 0.2f * sinf(cameraRot.y);
+			}
+
+				m_DestRot.y = -D3DX_PI * 0.5f + fA;
+		}
+	}
+	else if (CInputKeyboard::GetKeyboardPress(DIK_S) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  > 0.3f)
+	{//Sキーが押された場合
+		if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f)
+		{//Aキーも押された場合
+			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+			{
+				m_move.x += 0.2f * cosf(D3DX_PI * 0.75f + cameraRot.y);
+			}
+			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+			{
+				m_move.z += 0.2f * sinf(D3DX_PI * 0.75f + cameraRot.y);
+			}
+
+				m_DestRot.y = D3DX_PI * 0.75f + fA;
+		}
+		else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.5f)
+		{//Dキーも押された場合
+			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+			{
+				m_move.x += 0.2f * cosf(-D3DX_PI * 0.75f + cameraRot.y);
+			}
+			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+			{
+				m_move.z += 0.2f * sinf(-D3DX_PI * 0.75f + cameraRot.y);
+			}
+
+				m_DestRot.y = D3DX_PI * 0.25f + fA;
+		}
+		else
+		{//Sキーだけが押された場合
+			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+			{
+				m_move.x += 0.2f * cosf(D3DX_PI + cameraRot.y);
+			}
+			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+			{
+				m_move.z += 0.2f * sinf(D3DX_PI + cameraRot.y);
+			}
+
+				m_DestRot.y = D3DX_PI * 0.5f + fA;
+		}
+	}
+	else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f)
+	{//Dキーだけ押された場合
+		if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+		{
+			m_move.x += 0.2f * cosf(-D3DX_PI * 0.5f + cameraRot.y);
+		}
+		if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+		{
+			m_move.z += 0.2f * sinf(-D3DX_PI * 0.5f + cameraRot.y);
+		}
 
 		m_DestRot.y = fA;
 	}

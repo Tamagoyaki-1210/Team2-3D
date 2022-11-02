@@ -36,11 +36,11 @@ CMessage::~CMessage()
 //=====================================
 HRESULT CMessage::Init(void)
 {
+	m_nMessageIdx = 0;
 	m_nMessageCounter = 0;
 	m_nNum = 0;
-	m_bCountDown = false;
-	m_bEndGame = false;
 	m_bStart = false;
+	m_type = MESSAGE_COUNTDOWN;
 	return S_OK;
 }
 
@@ -54,10 +54,10 @@ void CMessage::Uninit(void)
 		m_pObj2D->Release();
 		m_pObj2D = nullptr;
 	}
+	m_nMessageIdx = 0;
 	m_nMessageCounter = 0;
 	m_nNum = 0;
-	m_bCountDown = false;
-	m_bEndGame = false;
+	m_bStart = false;
 }
 
 //=====================================
@@ -68,28 +68,45 @@ void CMessage::Update(void)
 	// ポーズ中でない場合のみ更新
 	if (CApplication::GetPause() == false)
 	{
-		// カウントダウン処理でなければ
-		if (m_bCountDown == false)
+		// カウントが0より上の場合
+		if (m_nMessageCounter > 0)
 		{
-			// メッセージ表示時間をカウント
-			if (m_nMessageCounter > 0)
+			m_nMessageCounter--;
+
+			// カウントが0以下になった場合
+			if (m_nMessageCounter <= 0)
 			{
-				m_nMessageCounter--;
-			}
-			else
-			{	// ゲーム終了判定
-				if (m_bEndGame == true)
+				if (m_type == MESSAGE_COUNTDOWN)
+				{// カウントダウン処理の場合
+					m_nNum--;
+					// 現在位置が0より大きい場合
+					if (m_nNum > 0)
+					{
+						m_nMessageCounter = CountDownLife;
+						m_pObj2D->SetAnimPattern(m_nNum);
+					}
+					else
+					{
+						Destroy();
+						StartMessage();
+					}
+				}
+				else if (m_type == MESSAGE_GOAL)
 				{
+					Destroy();
+					WinMessage();
+				}
+				else if (m_type == MESSAGE_WIN)
+				{
+					Uninit();
+					// ゲーム終了判定
 					CGame::SetEndGame();
 				}
-				m_nMessageCounter = 0;
-				m_bStart = true;
-				Uninit();
+				else
+				{
+					Destroy();
+				}
 			}
-		}
-		else
-		{
-			CountDown();
 		}
 	}
 }
@@ -99,7 +116,7 @@ void CMessage::Update(void)
 //=====================================
 void CMessage::SetCountDown(int nNum)
 {
-	if (m_bCountDown == false && m_pObj2D == nullptr)
+	if (m_pObj2D == nullptr)
 	{
 		m_pObj2D = CObject_2D::Create();
 		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
@@ -110,30 +127,7 @@ void CMessage::SetCountDown(int nNum)
 		m_nNum = nNum;
 		m_pObj2D->SetAnimPattern(nNum);
 		m_nMessageCounter = CountDownLife;
-		m_bCountDown = true;
-	}
-}
-
-//=====================================
-// カウントダウンメッセージ表示処理
-//=====================================
-void CMessage::CountDown()
-{
-	m_nMessageCounter--;
-	if (m_nMessageCounter <= 0)
-	{
-		m_nNum--;
-		// 現在位置が0より大きい場合
-		if (m_nNum > 0)
-		{
-			m_nMessageCounter = CountDownLife;
-			m_pObj2D->SetAnimPattern(m_nNum);
-		}
-		else
-		{
-			Uninit();
-			StartMessage();
-		}
+		m_type = MESSAGE_COUNTDOWN;
 	}
 }
 
@@ -151,6 +145,8 @@ void CMessage::StartMessage(void)
 		m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
 		m_pObj2D->SetPriority(4);
 		m_nMessageCounter = 120;
+		m_type = MESSAGE_START;
+		m_bStart = true;
 	}
 }
 
@@ -161,73 +157,90 @@ void CMessage::GoalMessage(int nMessageIdx)
 {
 	if (m_pObj2D == nullptr)
 	{
-		if (nMessageIdx == 0)
-		{
-			m_pObj2D = CObject_2D::Create();
-			m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-			m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
-			m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_GOAL);
-			m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
-			m_pObj2D->SetPriority(4);
-			m_nMessageCounter = 120;
-			m_bEndGame = true;
-		}
-	}
-
-	if (nMessageIdx == 1)
-	{
-		CObject_2D *m_pObject2D = CObject_2D::Create();
-		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
-		m_pObject2D->SetTexture(CObject::TEXTURE_1P_WIN);
-		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
-		m_pObject2D->SetPriority(4);
+		m_pObj2D = CObject_2D::Create();
+		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
+		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_GOAL);
+		m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		m_pObj2D->SetPriority(4);
 		m_nMessageCounter = 120;
-		m_bEndGame = true;
-	}
-	else if (nMessageIdx == 2)
-	{
-		CObject_2D *m_pObject2D = CObject_2D::Create();
-		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
-		m_pObject2D->SetTexture(CObject::TEXTURE_2P_WIN);
-		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
-		m_pObject2D->SetPriority(4);
-		m_bEndGame = true;
-	}
-	else if (nMessageIdx == 3)
-	{
-		CObject_2D *m_pObject2D = CObject_2D::Create();
-		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
-		m_pObject2D->SetTexture(CObject::TEXTURE_3P_WIN);
-		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
-		m_pObject2D->SetPriority(4);
-		m_nMessageCounter = 120;
-		m_bEndGame = true;
-	}
-	else if (nMessageIdx == 4)
-	{
-		CObject_2D *m_pObject2D = CObject_2D::Create();
-		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
-		m_pObject2D->SetTexture(CObject::TEXTURE_4P_WIN);
-		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
-		m_pObject2D->SetPriority(4);
-		m_nMessageCounter = 120;
-		m_bEndGame = true;
-	}
-	else if (nMessageIdx == 5)
-	{
-		CObject_2D *m_pObject2D = CObject_2D::Create();
-		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
-		m_pObject2D->SetTexture(CObject::TEXTURE_DRAW);
-		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
-		m_nMessageCounter = 120;
-		m_bEndGame = true;
+		m_type = MESSAGE_GOAL;
+		m_bStart = false;
+		// 勝敗番号を代入する
+		m_nMessageIdx = nMessageIdx;
 	}
 }
+
+
+//=====================================
+// ゴールメッセージ表示処理
+//=====================================
+void CMessage::WinMessage()
+{
+	if (m_pObj2D == nullptr)
+	{
+		// 同点ではない場合
+		if (m_nMessageIdx != 0)
+		{
+			// WIN生成
+			m_pObj2D = CObject_2D::Create();
+			m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f));
+			m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+			m_pObj2D->SetTexture(CObject::TEXTURE_WINNER);
+			m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
+			m_pObj2D->SetPriority(4);
+		}
+
+		// 勝敗メッセージ生成
+		CObject_2D *pObject2D = CObject_2D::Create();
+		pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
+		pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+		pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		pObject2D->SetPriority(4);
+
+		// 番号でプレイヤーを変更する
+		switch (m_nMessageIdx)
+		{
+		case 0:
+			pObject2D->SetTexture(CObject::TEXTURE_DRAW);
+			break;
+		case 1:
+			pObject2D->SetTexture(CObject::TEXTURE_1P_WIN);
+			break;
+		case 2:
+			pObject2D->SetTexture(CObject::TEXTURE_2P_WIN);
+			break;
+		case 3:
+			pObject2D->SetTexture(CObject::TEXTURE_3P_WIN);
+			break;
+		case 4:
+			pObject2D->SetTexture(CObject::TEXTURE_4P_WIN);
+			break;
+		default:
+			pObject2D->SetTexture(CObject::TEXTURE_NULL);
+			break;
+		}
+
+		m_type = MESSAGE_WIN;
+		m_nMessageCounter = 120;
+	}
+}
+
+//=====================================
+// 終了処理
+//=====================================
+void CMessage::Destroy(void)
+{
+	if (m_pObj2D != nullptr)
+	{
+		m_pObj2D->Release();
+		m_pObj2D = nullptr;
+		m_nMessageCounter = 120;
+		m_bEndGame = true;
+	}
+	m_nMessageCounter = 0;
+}
+
 
 //=====================================
 // 生成処理

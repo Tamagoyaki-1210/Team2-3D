@@ -10,9 +10,11 @@
 //=============================================================================
 #include "coin.h"
 #include "BoxHitbox.h"
+#include "meshfield.h"
 
 const D3DXVECTOR3 CCoin::m_hitboxSize[COIN_MAX] =
 {
+	{10.0f, 20.0f, 10.0f},
 	{10.0f, 20.0f, 10.0f},
 	{10.0f, 20.0f, 10.0f},
 	{10.0f, 20.0f, 10.0f},
@@ -22,6 +24,8 @@ const D3DXVECTOR3 CCoin::m_hitboxSize[COIN_MAX] =
 //コンストラクタ
 CCoin::CCoin()
 {
+	m_move = Vec3Null;
+	m_nLife = 0;
 	m_pHitbox = nullptr;
 }
 
@@ -39,6 +43,9 @@ HRESULT CCoin::Init(void)
 	{
 		return -1;
 	}
+
+	m_move = Vec3Null;
+	m_nLife = -1;
 
 	m_pHitbox = nullptr;
 
@@ -71,8 +78,57 @@ void CCoin::Update(void)
 		{//何かと当たった場合
 			m_pHitbox->Release();		//ヒットボックスを消す
 			Release();					//コインを消す
+			return;
 		}
 	}
+
+	if (m_nLife > 0)
+	{
+		m_nLife--;
+
+		if (m_nLife <= 0)
+		{
+			m_pHitbox->Release();		//ヒットボックスを消す
+			Release();					//コインを消す
+			return;
+		}
+	}
+
+	if (D3DXVec3Length(&m_move) > 0.0f)
+	{
+		if (m_move.y >= -10.0f)
+		{
+			m_move.y += -0.7f;
+		}
+
+		CMeshfield::FieldInteraction(this);
+
+		D3DXVECTOR3 newPos = GetPos() + m_move;
+		SetPos(newPos);
+		m_pHitbox->SetPos(newPos);
+
+		m_move.x += (0.0f - m_move.x) * 0.05f;
+		m_move.z += (0.0f - m_move.z) * 0.05f;
+	}
+}
+
+//描画処理
+void CCoin::Draw(void)
+{
+	if ((m_nLife % 30) <= 15)
+	{
+		CModel::Draw();
+	}
+}
+
+void CCoin::SetMove(const D3DXVECTOR3 move)
+{
+	m_move = move;
+}
+
+const D3DXVECTOR3 CCoin::GetMove(void)
+{
+	return m_move;
 }
 
 
@@ -94,8 +150,30 @@ CCoin* CCoin::Create(const D3DXVECTOR3 pos, const COIN_TYPE type)
 	pCoin->SetPos(pos);													//位置の設定処理
 	pCoin->StartRotation(D3DXVECTOR3(0.0f, D3DX_PI * 0.01f, 0.0f));		//回転速度の設定
 
-	pCoin->m_pHitbox = CBoxHitbox::Create(pos, Vec3Null, m_hitboxSize[type], CHitbox::TYPE_NEUTRAL, pCoin, 10);		//ヒットボックスを生成する
+	pCoin->m_pHitbox = CBoxHitbox::Create(pos, Vec3Null, m_hitboxSize[type], CHitbox::TYPE_VANISHING, pCoin, 10);		//ヒットボックスを生成する
 
 	return pCoin;				//生成したインスタンスを返す
 
+}
+
+CCoin* CCoin::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 move, const int nLife, const COIN_TYPE type)
+{
+	CCoin* pCoin = new CCoin;			//コインを生成する
+
+	if (FAILED(pCoin->Init()))
+	{//初期化処理
+		return nullptr;
+	}
+
+	int nType = (int)CModel::MODEL_COIN_0 + (int)type;					//モデル番号を計算する
+
+	pCoin->SetModel((CModel::ModelType)nType);							//モデルの設定処理
+	pCoin->SetPos(pos);													//位置の設定処理
+	pCoin->m_move = move;												//移動量の設定処理
+	pCoin->StartRotation(D3DXVECTOR3(0.0f, D3DX_PI * 0.01f, 0.0f));		//回転速度の設定
+	pCoin->m_nLife = nLife;												//ライフの設定
+
+	pCoin->m_pHitbox = CBoxHitbox::Create(pos, Vec3Null, m_hitboxSize[type], CHitbox::TYPE_VANISHING, pCoin, 10);		//ヒットボックスを生成する
+
+	return pCoin;				//生成したインスタンスを返す
 }
