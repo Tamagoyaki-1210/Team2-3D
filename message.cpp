@@ -157,18 +157,66 @@ void CMessage::StartMessage(void)
 //=====================================
 // ゴールメッセージ表示処理
 //=====================================
-void CMessage::GoalMessage(void)
+void CMessage::GoalMessage(int nMessageIdx)
 {
 	if (m_pObj2D == nullptr)
 	{
-		m_pObj2D = CObject_2D::Create();
-		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
-		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_GOAL);
-		m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
-		m_pObj2D->SetPriority(4);
-		m_nMessageCounter = 120;
-		m_bEndGame = true;
+		if (nMessageIdx == 0)
+		{
+			m_pObj2D = CObject_2D::Create();
+			m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
+			m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+			m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_GOAL);
+			m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
+			m_pObj2D->SetPriority(4);
+			m_nMessageCounter = 120;
+			m_bEndGame = true;
+		}
+	}
+
+	if (nMessageIdx == 1)
+	{
+		CObject_2D *m_pObject2D = CObject_2D::Create();
+		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
+		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+		m_pObject2D->SetTexture(CObject::TEXTURE_1P_WIN);
+		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		m_pObject2D->SetPriority(4);
+	}
+	else if (nMessageIdx == 2)
+	{
+		CObject_2D *m_pObject2D = CObject_2D::Create();
+		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
+		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+		m_pObject2D->SetTexture(CObject::TEXTURE_2P_WIN);
+		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		m_pObject2D->SetPriority(4);
+	}
+	else if (nMessageIdx == 3)
+	{
+		CObject_2D *m_pObject2D = CObject_2D::Create();
+		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
+		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+		m_pObject2D->SetTexture(CObject::TEXTURE_3P_WIN);
+		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		m_pObject2D->SetPriority(4);
+	}
+	else if (nMessageIdx == 4)
+	{
+		CObject_2D *m_pObject2D = CObject_2D::Create();
+		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
+		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+		m_pObject2D->SetTexture(CObject::TEXTURE_4P_WIN);
+		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		m_pObject2D->SetPriority(4);
+	}
+	else if (nMessageIdx == 5)
+	{
+		CObject_2D *m_pObject2D = CObject_2D::Create();
+		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
+		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+		m_pObject2D->SetTexture(CObject::TEXTURE_DRAW);
+		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
 	}
 }
 

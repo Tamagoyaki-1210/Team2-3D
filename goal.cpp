@@ -14,6 +14,7 @@
 #include "gamerace.h"
 
 bool CGoal::m_bGoal = false;									//ゴールしたかどうか
+int CGoal::m_nWinnerIdx = 0;
 
 //コンストラクタ
 CGoal::CGoal()
@@ -48,7 +49,7 @@ void CGoal::Update(void)
 
 	if (m_bGoal)
 	{
-		CGameRace::Get()->GoalMessage();
+		CGameRace::Get()->GoalMessage(m_nWinnerIdx);
 	}
 }
 
@@ -75,9 +76,10 @@ const D3DXVECTOR3 CGoal::GetPos(void)
 	return m_pos;
 }
 
-void CGoal::SetGoal(bool bGoal)
+void CGoal::SetGoal(bool bGoal,int nWinnerIdx)
 {
 	m_bGoal = bGoal;
+	m_nWinnerIdx = nWinnerIdx;
 }
 
 bool CGoal::GetGoal()

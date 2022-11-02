@@ -58,6 +58,7 @@ public:
 	void Draw(void) override;							//描画処理
 
 	void SetPos(const D3DXVECTOR3 pos) override;		//位置の設定処理
+	void SetRot(const D3DXVECTOR3 rot);					//位置の設定処理
 
 	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
@@ -77,6 +78,18 @@ private:
 	D3DXVECTOR3 m_DestRot;								//目的の角度
 	D3DXMATRIX  m_mtxWorld;								//ワールドマトリックス
 	bool		m_bJump;								//ジャンプしているかどうか
+	int			m_nInvincibilityCnt;					//無敵状態のカウンター
+
+	float m_fAngle;
+	bool m_bGoal;
+	bool m_bMove;
+	bool m_bWinner;
+	bool m_bPos;
+
+	D3DXVECTOR3 GoalPos1;
+	D3DXVECTOR3 GoalPos2;
+	D3DXVECTOR3 GoalPos3;
+	D3DXVECTOR3 GoalPos4;
 
 	CModelPart* m_pModel[PARTS_MAX];					//モデルへのポインタ
 	CAnimator* m_pAnimator;

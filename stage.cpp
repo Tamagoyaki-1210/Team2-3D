@@ -64,7 +64,9 @@ HRESULT CStage::Init(void)
 
 	// ƒvƒŒƒCƒ„[‚Ì¶¬
 	m_pPlayer[0] = CPlayer::Create(D3DXVECTOR3(0.0f, -100.0f, -100.0f), 0);
-	m_pPlayer[1] = CPlayer::Create(D3DXVECTOR3(-100.0f, -100.0f, -100.0f), 1);
+	m_pPlayer[1] = CPlayer::Create(D3DXVECTOR3(-50.0f, -100.0f, -100.0f), 1);
+	m_pPlayer[2] = CPlayer::Create(D3DXVECTOR3(-100.0f, -100.0f, -100.0f), 2);
+	m_pPlayer[3] = CPlayer::Create(D3DXVECTOR3(-150.0f, -100.0f, -100.0f), 3);
 
 	CObject_2D* pObj2D = CObject_2D::Create();
 	pObj2D->SetPos(D3DXVECTOR3(100.0f, 100.0f, 0.0f));

@@ -209,8 +209,6 @@ void CCamera::Update(void)
 	if (m_posV.z >= 750.0f)
 	{
 		m_posV.z = 750.0f;
-
-		CGoal::SetGoal(true);
 	}
 }
 

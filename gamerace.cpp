@@ -107,7 +107,7 @@ void CGameRace::Update(void)
 		}
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_G))
 		{// EnterƒL[‚ğ‰Ÿ‚µ‚½‚ç
-			m_pMessage->GoalMessage();
+			m_pMessage->GoalMessage(0);
 		}
 	}
 
