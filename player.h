@@ -50,6 +50,20 @@ public:
 		STATE_MAX
 	};
 
+	enum PlayerColor
+	{
+		PLAYER_RED = 0,
+		PLAYER_GREEN,
+		PLAYER_BLUE,
+		PLAYER_YELLOW,
+		PLAYER_MAGENTA,
+		PLAYER_CYAN,
+		PLAYER_BLACK,
+		PLAYER_WHITE,
+
+		PLAYER_COLOR_MAX
+	};
+
 	CPlayer();							//コンストラクタ
 	~CPlayer() override;								//デストラクタ
 
@@ -73,6 +87,8 @@ public:
 	
 private:
 	void GoalMove();
+
+	static D3DXCOLOR m_playerColor[PLAYER_COLOR_MAX];
 
 	D3DXVECTOR3 m_pos;									//位置
 	D3DXVECTOR3 m_move;									//速度

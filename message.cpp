@@ -142,7 +142,6 @@ void CMessage::StartMessage(void)
 		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
 		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_START);
-		m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
 		m_pObj2D->SetPriority(4);
 		m_nMessageCounter = 120;
 		m_type = MESSAGE_START;
@@ -161,7 +160,6 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
 		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_GOAL);
-		m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
 		m_pObj2D->SetPriority(4);
 		m_nMessageCounter = 120;
 		m_type = MESSAGE_GOAL;
@@ -185,17 +183,15 @@ void CMessage::WinMessage()
 			// WIN生成
 			m_pObj2D = CObject_2D::Create();
 			m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f));
-			m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+			m_pObj2D->SetSize(D3DXVECTOR2(240.0f, 100.0f));
 			m_pObj2D->SetTexture(CObject::TEXTURE_WINNER);
-			m_pObj2D->SetTextureParameter(1, 1, 1, INT_MAX);
 			m_pObj2D->SetPriority(4);
 		}
 
 		// 勝敗メッセージ生成
 		CObject_2D *pObject2D = CObject_2D::Create();
 		pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-		pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
-		pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		pObject2D->SetSize(D3DXVECTOR2(150.0f, 100.0f));
 		pObject2D->SetPriority(4);
 
 		// 番号でプレイヤーを変更する
@@ -203,6 +199,7 @@ void CMessage::WinMessage()
 		{
 		case 0:
 			pObject2D->SetTexture(CObject::TEXTURE_DRAW);
+			pObject2D->SetSize(D3DXVECTOR2(400.0f, 150.0f));
 			break;
 		case 1:
 			pObject2D->SetTexture(CObject::TEXTURE_1P_WIN);

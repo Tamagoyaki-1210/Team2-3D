@@ -40,14 +40,11 @@ HRESULT CGameRace::Init(void)
     CGame::Init();
 
 	m_pStage = CStage::Create();
-
 	// メッセージの生成
 	m_pMessage = CMessage::Create();
 
 	// カウントダウンメッセージ表示
 	m_pMessage->SetCountDown(3);
-
-	//m_pMessage->GoalMessage();
 
     return S_OK;
 }
@@ -97,10 +94,6 @@ void CGameRace::Update(void)
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_F2))
-		{// F2キーを押したら
-			CApplication::SetMode(CApplication::Mode_Game_Debug);
-		}
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK))
 		{// Enterキーを押したら
 			SetEndGame();

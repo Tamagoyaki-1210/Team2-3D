@@ -46,6 +46,8 @@ public:
 		MODEL_OBSTACLE_2,
 		MODEL_OBSTACLE_3,
 
+		MODEL_SPIKE_BALL,
+
 		MODEL_MAX
 	};
 

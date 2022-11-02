@@ -23,7 +23,7 @@
 //#include "Letter.h"
 #include "animator.h"
 #include "title.h"
-#include "gamedebug.h"
+#include "playerSelect.h"
 #include "gamerace.h"
 #include "result.h"
 #include "fade.h"
@@ -444,14 +444,14 @@ void CApplication::ChangeMode()
 	case CApplication::Mode_Title:
 		m_pMode = CTitle::Create();
 		break;
+	case CApplication::Mode_PlayerSelect:
+		m_pMode = CPlayerSelect ::Create();
+		break;
 	case CApplication::Mode_Game_Race:
 		m_pMode = CGameRace::Create();
 		break;
 	case CApplication::Mode_Result:
 		m_pMode = CResult::Create();
-		break;
-	case CApplication::Mode_Game_Debug:
-		m_pMode = CGameDebug::Create();
 		break;
 	default:
 		break;
