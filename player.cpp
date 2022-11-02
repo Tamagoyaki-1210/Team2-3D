@@ -490,10 +490,7 @@ void CPlayer::Update(void)
 						CGameRace::GetPlayer(2)->m_bMove = true;
 						CGameRace::GetPlayer(3)->m_bMove = true;
 
-						CGoal::SetGoal(true, (int)PlayerScore[0].y + 1);
-						CGoal::SetGoal(true, (int)PlayerScore[1].y + 1);
-						CGoal::SetGoal(true, (int)PlayerScore[2].y + 1);
-						CGoal::SetGoal(true, (int)PlayerScore[3].y + 1);
+						CGoal::SetGoal(true,5);
 					}
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
@@ -505,9 +502,7 @@ void CPlayer::Update(void)
 						CGameRace::GetPlayer(2)->m_bMove = true;
 						CGameRace::GetPlayer(3)->m_bMove = true;
 
-						CGoal::SetGoal(true, (int)PlayerScore[1].y + 1);
-						CGoal::SetGoal(true, (int)PlayerScore[2].y + 1);
-						CGoal::SetGoal(true, (int)PlayerScore[3].y + 1);
+						CGoal::SetGoal(true, 5);
 					}
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
@@ -519,18 +514,20 @@ void CPlayer::Update(void)
 						CGameRace::GetPlayer(2)->m_bMove = true;
 						CGameRace::GetPlayer(3)->m_bMove = true;
 
-						CGoal::SetGoal(true, (int)PlayerScore[2].y + 1);
-						CGoal::SetGoal(true, (int)PlayerScore[3].y + 1);
+						CGoal::SetGoal(true, 5);
 					}
 				}
 				else
 				{
-					CGameRace::GetPlayer(0)->m_bMove = true;
-					CGameRace::GetPlayer(1)->m_bMove = true;
-					CGameRace::GetPlayer(2)->m_bMove = true;
-					CGameRace::GetPlayer(3)->m_bMove = true;
+					if (CGameRace::GetPlayer((int)PlayerScore[3].y)->m_pos.z <= GoalPos1.z)
+					{
+						CGameRace::GetPlayer(0)->m_bMove = true;
+						CGameRace::GetPlayer(1)->m_bMove = true;
+						CGameRace::GetPlayer(2)->m_bMove = true;
+						CGameRace::GetPlayer(3)->m_bMove = true;
 
-					CGoal::SetGoal(true,(int)PlayerScore[3].y + 1);
+						CGoal::SetGoal(true, (int)PlayerScore[3].y + 1);
+					}
 				}
 			}
 		}
