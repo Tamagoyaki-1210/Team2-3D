@@ -58,20 +58,21 @@ public:
 	void Update(void) override;							//更新処理
 	void Draw(void) override;							//描画処理
 
-	void SetPos(const D3DXVECTOR3 pos) override;		//位置の設定処理
-	void SetRot(const D3DXVECTOR3 rot);					//位置の設定処理
+	void SetPos(const D3DXVECTOR3 pos) override { m_pos = pos; }		//位置の設定処理
+	void SetRot(const D3DXVECTOR3 rot) { m_rot = rot; }					//位置の設定処理
 
-	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
-	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
+	const D3DXVECTOR2 GetSize(void) override { return Vec2Null; }			//サイズの取得処理
+	const D3DXVECTOR3 GetPos(void) override { return m_pos; }			//位置の取得処理
 
-	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; };	//目的の角度の取得処理
+	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; }	//目的の角度の取得処理
 
 	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);		//生成処理
 
 	void PlayerController(int nCntPlayer);
 	void SetPlayerIdx(int nCntPlayer);
-
+	
 private:
+	void GoalMove();
 
 	D3DXVECTOR3 m_pos;									//位置
 	D3DXVECTOR3 m_move;									//速度
@@ -87,6 +88,8 @@ private:
 	bool m_bMove;
 	bool m_bWinner;
 	bool m_bPos;
+
+	D3DXVECTOR3 m_TargetPos;
 
 	D3DXVECTOR3 GoalPos1;
 	D3DXVECTOR3 GoalPos2;
