@@ -182,6 +182,8 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_pObject2D->SetTexture(CObject::TEXTURE_1P_WIN);
 		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
 		m_pObject2D->SetPriority(4);
+		m_nMessageCounter = 120;
+		m_bEndGame = true;
 	}
 	else if (nMessageIdx == 2)
 	{
@@ -191,6 +193,7 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_pObject2D->SetTexture(CObject::TEXTURE_2P_WIN);
 		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
 		m_pObject2D->SetPriority(4);
+		m_bEndGame = true;
 	}
 	else if (nMessageIdx == 3)
 	{
@@ -200,6 +203,8 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_pObject2D->SetTexture(CObject::TEXTURE_3P_WIN);
 		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
 		m_pObject2D->SetPriority(4);
+		m_nMessageCounter = 120;
+		m_bEndGame = true;
 	}
 	else if (nMessageIdx == 4)
 	{
@@ -209,6 +214,8 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_pObject2D->SetTexture(CObject::TEXTURE_4P_WIN);
 		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
 		m_pObject2D->SetPriority(4);
+		m_nMessageCounter = 120;
+		m_bEndGame = true;
 	}
 	else if (nMessageIdx == 5)
 	{
@@ -217,6 +224,8 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
 		m_pObject2D->SetTexture(CObject::TEXTURE_DRAW);
 		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
+		m_nMessageCounter = 120;
+		m_bEndGame = true;
 	}
 }
 
