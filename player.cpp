@@ -721,11 +721,11 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 
 	D3DXCOLOR UIcol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 
-
 	pModel->m_pModel[BODY]->SetModelColor(2, m_playerColor[nCntPlayer]);
 	pModel->m_pModel[LEFT_ARM]->SetModelColor(2, m_playerColor[nCntPlayer]);
 	pModel->m_pModel[RIGHT_ARM]->SetModelColor(2, m_playerColor[nCntPlayer]);
 	UIcol = m_playerColor[nCntPlayer];
+	pModel->m_TargetPos = D3DXVECTOR3(-223.0f + (61.0f * (nCntPlayer + 1)),-149.0f,1009.0f);
 
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
 
@@ -899,7 +899,6 @@ void CPlayer::PlayerController(int nCntPlayer)
 	}
 }
 
-
 void CPlayer::SetPlayerIdx(int nCntPlayer)
 {
 	m_nIdxPlayer = nCntPlayer;
@@ -912,14 +911,12 @@ void CPlayer::GoalMove()
 		return;
 	}
 
-	D3DXVECTOR3 TargetPos1 = D3DXVECTOR3(-147.0f, -149.0f, 1009.0f);
-
 	// ‘ÎÛ‚Ü‚Å‚ÌŠp“x‚ÌŽZo
-	m_fAngle = sqrtf((float)(pow(TargetPos1.x - m_pos.x, 2) + pow(TargetPos1.z - m_pos.z, 2)));
-	m_move.x = (TargetPos1.x - m_pos.x) / (m_fAngle / 1.0f);
-	m_move.z = (TargetPos1.z - m_pos.z) / (m_fAngle / 1.0f);
+	m_fAngle = sqrtf((float)(pow(m_TargetPos.x - m_pos.x, 2) + pow(m_TargetPos.z - m_pos.z, 2)));
+	m_move.x = (m_TargetPos.x - m_pos.x) / (m_fAngle / 1.0f);
+	m_move.z = (m_TargetPos.z - m_pos.z) / (m_fAngle / 1.0f);
 
-	if (m_pos.z >= TargetPos1.z && m_pos.x <= TargetPos1.x)
+	if (m_pos.z >= m_TargetPos.z)
 	{
 		m_move = Vec3Null;
 
