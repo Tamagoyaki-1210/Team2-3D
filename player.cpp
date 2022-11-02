@@ -21,7 +21,7 @@
 #include "CylinderHitbox.h"
 #include "score.h"
 #include "UIString.h"
-#include "gamerace.h"
+#include "stage.h"
 #include "rendering.h"
 #include "silhouette.h"
 
@@ -207,14 +207,14 @@ void CPlayer::Update(void)
 			m_pos.z = wallPos.z;
 		}
 
-		if (wallPos.z >= 900.0f || CGameRace::GetPlayer(0)->m_pos.z >= 900.0f)
+		if (wallPos.z >= 900.0f || CStage::GetPlayer(0)->m_pos.z >= 900.0f)
 		{
-			CGameRace::GetPlayer(0)->m_pos = D3DXVECTOR3(-147.0f,-149.0f,1009.0f);
+			CStage::GetPlayer(0)->m_pos = D3DXVECTOR3(-147.0f,-149.0f,1009.0f);
 		}
 
-		if(wallPos.z >= 900.0f || CGameRace::GetPlayer(1)->m_pos.z >= 900.0f)
+		if(wallPos.z >= 900.0f || CStage::GetPlayer(1)->m_pos.z >= 900.0f)
 		{
-			CGameRace::GetPlayer(1)->m_pos = D3DXVECTOR3(-85.0f, -149.0f, 1009.0f);
+			CStage::GetPlayer(1)->m_pos = D3DXVECTOR3(-85.0f, -149.0f, 1009.0f);
 		}
 	}
 
