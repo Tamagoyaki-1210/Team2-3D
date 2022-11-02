@@ -210,6 +210,14 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
 		m_pObject2D->SetPriority(4);
 	}
+	else if (nMessageIdx == 5)
+	{
+		CObject_2D *m_pObject2D = CObject_2D::Create();
+		m_pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
+		m_pObject2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+		m_pObject2D->SetTexture(CObject::TEXTURE_DRAW);
+		m_pObject2D->SetTextureParameter(1, 1, 1, INT_MAX);
+	}
 }
 
 //=====================================
