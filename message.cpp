@@ -235,6 +235,8 @@ void CMessage::Destroy(void)
 	{
 		m_pObj2D->Release();
 		m_pObj2D = nullptr;
+		m_nMessageCounter = 120;
+		m_bEndGame = true;
 	}
 	m_nMessageCounter = 0;
 }

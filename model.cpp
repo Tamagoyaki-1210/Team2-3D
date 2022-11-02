@@ -21,16 +21,16 @@ std::vector <LPDIRECT3DTEXTURE9>     CModel::m_vModelTexture[CModel::MODEL_MAX];
 
 char*			CModel::m_pModelPass[MODEL_MAX] =
 {
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Body.x" },
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Head.x"},
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Arm_Left.x" },
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Hand_Left.x" },
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Arm_Right.x" },
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Hand_Right.x" },
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Leg_Left.x" },
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Foot_Left.x" },
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Leg_Right.x" },
-	{ "data\\MODELS\\Player_Debug\\Player_Debug_Foot_Right.x" },
+	{ "data\\MODELS\\Player02\\Player02_Body.x" },
+	{ "data\\MODELS\\Player02\\Player02_Head.x"},
+	{ "data\\MODELS\\Player02\\Player02_Arm_Left.x" },
+	{ "data\\MODELS\\Player02\\Player02_Hand_Left.x" },
+	{ "data\\MODELS\\Player02\\Player02_Arm_Right.x" },
+	{ "data\\MODELS\\Player02\\Player02_Hand_Right.x" },
+	{ "data\\MODELS\\Player02\\Player02_Leg_Left.x" },
+	{ "data\\MODELS\\Player02\\Player02_Foot_Left.x" },
+	{ "data\\MODELS\\Player02\\Player02_Leg_Right.x" },
+	{ "data\\MODELS\\Player02\\Player02_Foot_Right.x" },
 
 	{ "data\\MODELS\\Coin\\Coin00.x" },
 	{ "data\\MODELS\\Coin\\Coin01.x" },
