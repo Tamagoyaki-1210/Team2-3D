@@ -121,6 +121,13 @@ HRESULT CGameRace::Init(void)
     CCoin::Create(D3DXVECTOR3(100.0f, -125.0f, 200.0f), CCoin::COIN_2);
     CCoin::Create(D3DXVECTOR3(200.0f, -125.0f, 200.0f), CCoin::COIN_3);
 
+	//CModel* pModel = nullptr;
+	//CModel::Create(CModel::MODEL_OBSTACLE_0, D3DXVECTOR3(-100.0f, -120.0f, 300.0f));
+	//CModel::Create(CModel::MODEL_OBSTACLE_1, D3DXVECTOR3(0.0f, -120.0f, 300.0f));
+	//CModel::Create(CModel::MODEL_OBSTACLE_2, D3DXVECTOR3(100.0f, -120.0f, 300.0f));
+	//pModel = CModel::Create(CModel::MODEL_OBSTACLE_3, D3DXVECTOR3(200.0f, -120.0f, 300.0f));
+	//pModel->SetModelColor(4, D3DXCOLOR(0.68f, 0.68f, 0.68f, 1.0f));
+
 	// メッセージの生成
 	m_pMessage = CMessage::Create();
 
@@ -198,7 +205,7 @@ void CGameRace::Update(void)
 		{// F2キーを押したら
 			CApplication::SetMode(CApplication::Mode_Game_Debug);
 		}
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK))
 		{// Enterキーを押したら
 			SetEndGame();
 		}

@@ -144,11 +144,6 @@ void CFade::Update(void)
 		{
 			m_fade = FADE_IN;		// フェードイン状態
 		}
-		////ポリゴンが完全に透明な場合
-		//else if (m_fAlpha == 0.0f)
-		//{
-		//	m_fade = FADE_NONE;		// 何もしていない状態
-		//}
 		break;
 	default:
 		break;
@@ -163,16 +158,16 @@ void CFade::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
-	//頂点バッファをデータストリームに設定
+	// 頂点バッファをデータストリームに設定
 	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
 
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_2D);
 
-	//
+	// テクスチャを未使用にする
 	pDevice->SetTexture(0, NULL);
 
-	//ポリゴンの描画
+	// ポリゴンの描画
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 
 }

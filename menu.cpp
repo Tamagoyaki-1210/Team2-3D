@@ -6,9 +6,8 @@
 //=============================================================================
 #include "menu.h"
 #include "Application.h"
-#include "font.h"
 #include "mode.h"
-#include "choice.h"
+#include "fontString.h"
 #include "inputKeyboard.h"
 #include "inputPad.h"
 #include "game.h"
@@ -16,7 +15,9 @@
 
 int CMenu::m_nNumAll = 0;
 int CMenu::m_nSelectNum = 0;
-CChoice* CMenu::m_pChoice[MaxChoice] = {};
+CFontString* CMenu::m_pChoice[MaxChoice] = {};
+CFontString* CMenu::m_pPause = nullptr;
+CObject_2D* CMenu::m_pObj2D = nullptr;
 
 //-----------------------------------------
 //プロトタイプ宣言
@@ -48,10 +49,10 @@ HRESULT CMenu::Init(void)
 	{
 	case CApplication::Mode_Title :
 
-		m_pChoice[m_nNumAll] = CChoice::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "スタート");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "スタート");
 		m_nNumAll++;
 
-		m_pChoice[m_nNumAll] = CChoice::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "おわり");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "おわり");
 		m_nNumAll++;
 
 		m_pChoice[m_nSelectNum]->SetSellect();
@@ -59,10 +60,10 @@ HRESULT CMenu::Init(void)
 	case CApplication::Mode_Game_Race:
 		break;
 	case CApplication::Mode_Result:
-		m_pChoice[m_nNumAll] = CChoice::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
 		m_nNumAll++;
 
-		m_pChoice[m_nNumAll] = CChoice::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
 		m_nNumAll++;
 
 		m_pChoice[m_nSelectNum]->SetSellect();
@@ -86,8 +87,22 @@ void CMenu::Uninit(void)
 		if (m_pChoice[nCnt] != nullptr)
 		{
 			m_pChoice[nCnt]->Uninit();
+			m_pChoice[nCnt] = nullptr;
 		}
 	}
+
+	if (m_pPause != nullptr)
+	{
+		m_pPause->Uninit();
+		m_pPause = nullptr;
+	}
+
+	if (m_pObj2D != nullptr)
+	{
+		m_pObj2D->Release();
+		m_pObj2D = nullptr;
+	}
+
 	m_nSelectNum = 0;
 	m_nNumAll = 0;
 }
@@ -97,8 +112,23 @@ void CMenu::Uninit(void)
 //=====================================
 void CMenu::Update(void)
 {
-	if ((CApplication::GetMode() != CApplication::Mode_Game_Race && CApplication::GetMode() != CApplication::Mode_Game_Debug))
-	{// ゲーム中ではない場合
+	if (CApplication::GetMode() == CApplication::Mode_Game_Race)
+	{
+		// ポーズ中でない場合のみ更新
+		if (CApplication::GetPause() == true)
+		{
+			for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
+			{
+				if (m_pChoice[nCnt] != nullptr)
+				{
+					m_pChoice[nCnt]->Update();
+				}
+			}
+			Input();
+		}
+	}
+	else
+	{
 		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
 		{
 			if (m_pChoice[nCnt] != nullptr)
@@ -156,6 +186,21 @@ void CMenu::Input(void)
 					ExitExe();
 				}
 				break;
+			case CApplication::Mode_Game_Race:
+				if (m_nSelectNum == 0)
+				{
+					CApplication::SetPause(false);
+					PauseChange(false);
+				}
+				else if (m_nSelectNum == 1)
+				{
+					CApplication::SetMode(CApplication::Mode_Game_Race);
+				}
+				else if (m_nSelectNum == 2)
+				{
+					CApplication::SetMode(CApplication::Mode_Title);
+				}
+				break;
 			case CApplication::Mode_Result:
 				if (m_nSelectNum == 0)
 				{
@@ -170,6 +215,61 @@ void CMenu::Input(void)
 				break;
 			}
 		}
+	}
+}
+
+//=====================================
+// ポーズ選択肢処理
+//=====================================
+void CMenu::PauseChange(bool bPause)
+{
+	if (bPause == true)
+	{
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "つづける");
+		m_nNumAll++;
+
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "やりなおす");
+		m_nNumAll++;
+
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 600.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
+		m_nNumAll++;
+
+		m_pChoice[m_nSelectNum]->SetSellect();
+
+		m_pPause = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 200.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), "ポーズ");
+
+		m_pObj2D = CObject_2D::Create();
+		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+		m_pObj2D->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+		m_pObj2D->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.1f));
+		m_pObj2D->SetTexture(CObject::TEXTURE_NULL);
+		m_pObj2D->SetPriority(4);
+	}
+	else
+	{
+		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
+		{
+			if (m_pChoice[nCnt] != nullptr)
+			{
+				m_pChoice[nCnt]->Uninit();
+				m_pChoice[nCnt] = nullptr;
+			}
+		}
+
+		if (m_pPause != nullptr)
+		{
+			m_pPause->Uninit();
+			m_pPause = nullptr;
+		}
+
+		if (m_pObj2D != nullptr)
+		{
+			m_pObj2D->Release();
+			m_pObj2D = nullptr;
+		}
+
+		m_nSelectNum = 0;
+		m_nNumAll = 0;
 	}
 }
 

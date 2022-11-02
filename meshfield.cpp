@@ -298,7 +298,7 @@ CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, con
 	return pField;
 }
 
-void CMeshfield::FieldInteraction(CObject* pObj)
+bool CMeshfield::FieldInteraction(CObject* pObj)
 {
 	int nFieldNum = m_vMeshfield.size();
 
@@ -380,6 +380,7 @@ void CMeshfield::FieldInteraction(CObject* pObj)
 				{
 					pos.y = Y;
 					pObj->SetPos(pos);
+					return true;
 					break;
 				}
 			}
@@ -392,6 +393,8 @@ void CMeshfield::FieldInteraction(CObject* pObj)
 		//頂点バッファのアンロック
 		pField->m_pVtxBuff->Unlock();
 	}
+
+	return false;
 }
 
 LPDIRECT3DVERTEXBUFFER9 CMeshfield::GetBuff()
