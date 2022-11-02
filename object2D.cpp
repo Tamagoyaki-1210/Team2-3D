@@ -26,7 +26,12 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\Numbers.png",							//TEXTURE_NUMBERS,
 	"data\\TEXTURE\\Japanese2000unicode.png",				//TEXTURE_JAPANESE,
 	"data\\TEXTURE\\UI_Debug_Start.png",					//TEXTURE_MESSAGE_START,
-	"data\\TEXTURE\\UI_Debug_Goal.png"						//TEXTURE_MESSAGE_GOAL,
+	"data\\TEXTURE\\UI_Debug_Goal.png",						//TEXTURE_MESSAGE_GOAL,
+	"data\\TEXTURE\\UI_PlayerNumber_1P.png",				//TEXTURE_1P_WIN,
+	"data\\TEXTURE\\UI_PlayerNumber_2P.png",				//TEXTURE_2P_WIN,
+	"data\\TEXTURE\\UI_PlayerNumber_3P.png",				//TEXTURE_3P_WIN,
+	"data\\TEXTURE\\UI_PlayerNumber_4P.png",				//TEXTURE_4P_WIN,
+	"data\\TEXTURE\\UI_GameResult_Win.png"					//TEXTURE_WINNER,
 };
 
 //=============================================================================
