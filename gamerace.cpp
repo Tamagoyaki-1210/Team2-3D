@@ -106,7 +106,7 @@ void CGameRace::Update(void)
 			SetEndGame();
 		}
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_G))
-		{// Enterキーを押したら
+		{// Gキーを押したら
 			m_pMessage->GoalMessage(0);
 		}
 	}

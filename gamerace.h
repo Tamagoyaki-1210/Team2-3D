@@ -31,7 +31,7 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 
-	static CMessage* Get(void) { return m_pMessage; }
+	static CMessage* GetMsg(void) { return m_pMessage; }
 
 	static CGameRace* Create(void);			//¶¬ˆ—
 private:

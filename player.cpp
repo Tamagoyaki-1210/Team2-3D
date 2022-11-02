@@ -238,7 +238,7 @@ void CPlayer::Update(void)
 			pPlayer[nCnt] = CStage::GetPlayer(nCnt);
 		}
 
-		if (wallPos.z >= 900.0f || CStage::GetPlayer(0)->m_pos.z >= 900.0f)
+		if (wallPos.z >= 900.0f || pPlayer[0]->m_pos.z >= 900.0f)
 		{
 			D3DXVECTOR3 TargetPos1 = D3DXVECTOR3(-147.0f, -149.0f, 1009.0f);
 
@@ -578,7 +578,7 @@ void CPlayer::Update(void)
 						pPlayer[2]->m_bMove = true;
 						pPlayer[3]->m_bMove = true;
 
-						CGoal::SetGoal(true,5);
+						CGoal::SetGoal(true,0);
 					}
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
@@ -590,7 +590,7 @@ void CPlayer::Update(void)
 						pPlayer[2]->m_bMove = true;
 						pPlayer[3]->m_bMove = true;
 
-						CGoal::SetGoal(true, 5);
+						CGoal::SetGoal(true, 0);
 					}
 				}
 				else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
@@ -602,7 +602,7 @@ void CPlayer::Update(void)
 						pPlayer[2]->m_bMove = true;
 						pPlayer[3]->m_bMove = true;
 
-						CGoal::SetGoal(true, 5);
+						CGoal::SetGoal(true, 0);
 					}
 				}
 				else

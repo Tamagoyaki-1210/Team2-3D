@@ -25,7 +25,7 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 
-	static void SetEndGame() { m_bEndGame = true; }			// ゲーム終了を設定する
+	static void SetEndGame();			// ゲーム終了を設定する
 
 private:
 	static bool m_bEndGame;
