@@ -40,7 +40,6 @@ HRESULT CGameRace::Init(void)
     CGame::Init();
 
 	m_pStage = CStage::Create();
-
 	// メッセージの生成
 	m_pMessage = CMessage::Create();
 

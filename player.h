@@ -46,7 +46,22 @@ public:
 	{
 		STATE_NEUTRAL = 0,
 		STATE_RUNNING,
+		STATE_PUNCH,
 		STATE_MAX
+	};
+
+	enum PlayerColor
+	{
+		PLAYER_BLACK = 0,
+		PLAYER_WHITE,
+		PLAYER_RED,
+		PLAYER_GREEN,
+		PLAYER_BLUE,
+		PLAYER_MAGENTA,
+		PLAYER_CYAN,
+		PLAYER_YELLOW,
+
+		PLAYER_COLOR_MAX
 	};
 
 	CPlayer();							//コンストラクタ
@@ -72,10 +87,13 @@ public:
 
 private:
 
+	static D3DXCOLOR m_playerColor[PLAYER_COLOR_MAX];
+
 	D3DXVECTOR3 m_pos;									//位置
 	D3DXVECTOR3 m_move;									//速度
 	D3DXVECTOR3 m_rot;									//向き
 	D3DXVECTOR3 m_DestRot;								//目的の角度
+	D3DXVECTOR3 m_DestRot2;								//目的の角度
 	D3DXMATRIX  m_mtxWorld;								//ワールドマトリックス
 	bool		m_bJump;								//ジャンプしているかどうか
 	int			m_nInvincibilityCnt;					//無敵状態のカウンター

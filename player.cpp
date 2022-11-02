@@ -27,6 +27,18 @@
 #include "goal.h"
 #include "coin.h"
 
+D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
+{
+	{ 0.0f, 0.0f, 0.0f, 1.0f },
+	{ 1.0f, 1.0f, 1.0f, 1.0f },
+	{ 1.0f, 0.0f, 0.0f, 1.0f },
+	{ 0.0f, 1.0f, 0.0f, 1.0f },
+	{ 0.0f, 0.0f, 1.0f, 1.0f },
+	{ 1.0f, 0.0f, 1.0f, 1.0f },
+	{ 0.0f, 1.0f, 1.0f, 1.0f },
+	{ 1.0f, 1.0f, 0.0f, 1.0f }
+};
+
 //コンストラクタ
 CPlayer::CPlayer()
 {
@@ -156,6 +168,24 @@ void CPlayer::Update(void)
 		m_pos += m_move;									//位置の更新
 	}
 
+	if (m_pos.y <= -1000.0f)
+	{
+		D3DXVECTOR3 posCamera = CApplication::GetCamera()->GetPos();
+		m_pos = D3DXVECTOR3(posCamera.x, posCamera.y + 100.0f, posCamera.z + 300.0f);
+		
+		if (m_pHitbox != nullptr)
+		{
+			m_pHitbox->SetInvincibility(true);
+		}
+
+		if (m_pScore != nullptr)
+		{
+			m_pScore->AddScore(-30);
+		}
+
+		m_nInvincibilityCnt = 180;
+	}
+
 	//目的の角度の正規化処理
 	if (m_DestRot.y - (m_pModel[BODY]->GetRot().y) > D3DX_PI)
 	{
@@ -227,7 +257,7 @@ void CPlayer::Update(void)
 			m_pos.z = wallPos.z;
 		}
 
-		m_DestRot = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);
+		m_DestRot2 = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);
 
 		// プレイヤー最大数分のインスタンスを作成
 		CPlayer* pPlayer[PLAYER_MAX];
@@ -249,7 +279,7 @@ void CPlayer::Update(void)
 
 			if (pPlayer[0]->m_pos.z >= TargetPos1.z && pPlayer[0]->m_pos.x <= TargetPos1.x)
 			{
-				if (pPlayer[0]->m_rot.y <= m_DestRot.y)
+				if (pPlayer[0]->m_rot.y <= m_DestRot2.y)
 				{
 					pPlayer[0]->m_rot.y += 0.01f * D3DX_PI;
 		}
@@ -270,9 +300,9 @@ void CPlayer::Update(void)
 			pPlayer[1]->m_move.x = (TargetPos2.x - pPlayer[1]->m_pos.x) / (pPlayer[1]->m_fAngle / 1.0f);
 			pPlayer[1]->m_move.z = (TargetPos2.z - pPlayer[1]->m_pos.z) / (pPlayer[1]->m_fAngle / 1.0f);
 
-			if (pPlayer[1]->m_pos.z >= TargetPos2.z && pPlayer[1]->m_pos.x <= TargetPos2.x)
+			if (pPlayer[1]->m_pos.z >= TargetPos2.z && pPlayer[1]->m_pos.x -1.0f <= TargetPos2.x)
 			{
-				if (pPlayer[1]->m_rot.y <= m_DestRot.y)
+				if (pPlayer[1]->m_rot.y <= m_DestRot2.y)
 				{
 					pPlayer[1]->m_rot.y += 0.01f * D3DX_PI;
 		}
@@ -372,7 +402,7 @@ void CPlayer::Update(void)
 
 			if (pPlayer[2]->m_pos.z >= TargetPos3.z && pPlayer[2]->m_pos.x - 1.0f <= TargetPos3.x)
 			{
-				if (pPlayer[2]->m_rot.y <= m_DestRot.y)
+				if (pPlayer[2]->m_rot.y <= m_DestRot2.y)
 				{
 					pPlayer[2]->m_rot.y += 0.01f * D3DX_PI;
 				}
@@ -395,7 +425,7 @@ void CPlayer::Update(void)
 
 			if (pPlayer[3]->m_pos.z >= TargetPos4.z && pPlayer[3]->m_pos.x - 1.0f <= TargetPos4.x)
 			{
-				if (pPlayer[3]->m_rot.y <= m_DestRot.y)
+				if (pPlayer[3]->m_rot.y <= m_DestRot2.y)
 				{
 					pPlayer[3]->m_rot.y += 0.01f * D3DX_PI;
 				}
@@ -731,10 +761,10 @@ const D3DXVECTOR3 CPlayer::GetPos(void)
 }
 
 //生成処理
-CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
+CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 {
 	CPlayer* pModel = new CPlayer;		//インスタンスを生成する
-	
+
 	//プレイヤーの初期化処理
 	if (FAILED(pModel->Init()))
 	{
@@ -742,33 +772,33 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
 	}
 
 	pModel->m_pos = pos;
-	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 14.0f, 0.0f), Vec3Null);				//体のモデルを生成する
+	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 17.0f, 0.0f), Vec3Null);				//体のモデルを生成する
 
-	pModel->m_pModel[HEAD] = CModelPart::Create(CModel::MODEL_HEAD, D3DXVECTOR3(0.0f, 13.0f, 0.0f), Vec3Null);				//頭のモデルを生成する
+	pModel->m_pModel[HEAD] = CModelPart::Create(CModel::MODEL_HEAD, D3DXVECTOR3(0.0f, 7.0f, 0.0f), Vec3Null);				//頭のモデルを生成する
 	pModel->m_pModel[HEAD]->SetParent(pModel->m_pModel[BODY]);																//頭の親を設定する
 
-	pModel->m_pModel[LEFT_ARM] = CModelPart::Create(CModel::MODEL_LEFT_ARM, D3DXVECTOR3(5.0f, 12.0f, 0.0f), Vec3Null);		//左腕のモデルを生成する
+	pModel->m_pModel[LEFT_ARM] = CModelPart::Create(CModel::MODEL_LEFT_ARM, D3DXVECTOR3(8.0f, 3.0f, 0.0f), Vec3Null);		//左腕のモデルを生成する
 	pModel->m_pModel[LEFT_ARM]->SetParent(pModel->m_pModel[BODY]);															//左腕の親を設定する
 
 	pModel->m_pModel[LEFT_HAND] = CModelPart::Create(CModel::MODEL_LEFT_HAND, D3DXVECTOR3(9.0f, 0.0f, 0.0f), Vec3Null);		//左手のモデルを生成する
 	pModel->m_pModel[LEFT_HAND]->SetParent(pModel->m_pModel[LEFT_ARM]);														//左手の親を設定する
 
-	pModel->m_pModel[RIGHT_ARM] = CModelPart::Create(CModel::MODEL_RIGHT_ARM, D3DXVECTOR3(-5.0f, 12.0f, 0.0f), Vec3Null);	//右腕のモデルを生成する
+	pModel->m_pModel[RIGHT_ARM] = CModelPart::Create(CModel::MODEL_RIGHT_ARM, D3DXVECTOR3(-8.0f, 3.0f, 0.0f), Vec3Null);	//右腕のモデルを生成する
 	pModel->m_pModel[RIGHT_ARM]->SetParent(pModel->m_pModel[BODY]);															//右腕の親を設定する
-	
+
 	pModel->m_pModel[RIGHT_HAND] = CModelPart::Create(CModel::MODEL_RIGHT_HAND, D3DXVECTOR3(-9.0f, 0.0f, 0.0f), Vec3Null);	//右手のモデルを生成する
 	pModel->m_pModel[RIGHT_HAND]->SetParent(pModel->m_pModel[RIGHT_ARM]);													//右手の親を設定する
-	
-	pModel->m_pModel[LEFT_LEG] = CModelPart::Create(CModel::MODEL_LEFT_LEG, D3DXVECTOR3(3.0f, 1.0f, 0.0f), Vec3Null);		//左太腿のモデルを生成する
+
+	pModel->m_pModel[LEFT_LEG] = CModelPart::Create(CModel::MODEL_LEFT_LEG, D3DXVECTOR3(3.0f, -9.0f, 0.0f), Vec3Null);		//左太腿のモデルを生成する
 	pModel->m_pModel[LEFT_LEG]->SetParent(pModel->m_pModel[BODY]);															//左太腿の親を設定する
-	
-	pModel->m_pModel[LEFT_FOOT] = CModelPart::Create(CModel::MODEL_LEFT_FOOT, D3DXVECTOR3(0.1f, -10.0f, 0.0f), Vec3Null);	//左足のモデルを生成する
+
+	pModel->m_pModel[LEFT_FOOT] = CModelPart::Create(CModel::MODEL_LEFT_FOOT, D3DXVECTOR3(0.1f, -5.0f, 0.0f), Vec3Null);	//左足のモデルを生成する
 	pModel->m_pModel[LEFT_FOOT]->SetParent(pModel->m_pModel[LEFT_LEG]);														//左足の親を設定する
-	
-	pModel->m_pModel[RIGHT_LEG] = CModelPart::Create(CModel::MODEL_RIGHT_LEG, D3DXVECTOR3(-3.0f, 1.0f, 0.0f), Vec3Null);	//右太腿のモデルを生成する
+
+	pModel->m_pModel[RIGHT_LEG] = CModelPart::Create(CModel::MODEL_RIGHT_LEG, D3DXVECTOR3(-3.0f, -9.0f, 0.0f), Vec3Null);	//右太腿のモデルを生成する
 	pModel->m_pModel[RIGHT_LEG]->SetParent(pModel->m_pModel[BODY]);															//右太腿の親を設定する
 
-	pModel->m_pModel[RIGHT_FOOT] = CModelPart::Create(CModel::MODEL_RIGHT_FOOT, D3DXVECTOR3(-0.1f, -10.0f, 0.0f), Vec3Null);//右足のモデルを生成する
+	pModel->m_pModel[RIGHT_FOOT] = CModelPart::Create(CModel::MODEL_RIGHT_FOOT, D3DXVECTOR3(-0.1f, -5.0f, 0.0f), Vec3Null);//右足のモデルを生成する
 	pModel->m_pModel[RIGHT_FOOT]->SetParent(pModel->m_pModel[RIGHT_LEG]);													//右足の親を設定する
 
 	std::vector <CModelPart*> vParts;
@@ -794,13 +824,11 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
 
 	D3DXCOLOR UIcol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 
-	if (nCntPlayer == 1)
-	{
-		pModel->m_pModel[BODY]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
-		pModel->m_pModel[LEFT_ARM]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
-		pModel->m_pModel[RIGHT_ARM]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
-		UIcol = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
-	}
+
+	pModel->m_pModel[BODY]->SetModelColor(1, m_playerColor[nCntPlayer]);
+	pModel->m_pModel[LEFT_ARM]->SetModelColor(1, m_playerColor[nCntPlayer]);
+	pModel->m_pModel[RIGHT_ARM]->SetModelColor(1, m_playerColor[nCntPlayer]);
+	UIcol = m_playerColor[nCntPlayer];
 
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
 
@@ -932,6 +960,11 @@ void CPlayer::PlayerController(int nCntPlayer)
 		m_bJump = true;
 	}
 
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_R))
+	{
+		m_State = STATE_PUNCH;
+	}
+
 	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D)
 		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f
 		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  > 0.3f)
@@ -952,6 +985,29 @@ void CPlayer::PlayerController(int nCntPlayer)
 	case STATE_RUNNING:
 		m_pAnimator->SetPresentAnim(1);
 		break;
+	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D)
+		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f
+		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  > 0.3f)
+	{
+		m_State = STATE_RUNNING;
+	}
+	else
+	{
+		m_State = STATE_NEUTRAL;
+	}
+
+	switch (m_State)
+	{
+	case STATE_NEUTRAL:
+		m_pAnimator->SetPresentAnim(0);
+		break;
+
+	case STATE_RUNNING:
+		m_pAnimator->SetPresentAnim(1);
+		break;
+
+	case STATE_PUNCH:
+		m_pAnimator->SetPresentAnim(2);
 	default:
 		break;
 	}

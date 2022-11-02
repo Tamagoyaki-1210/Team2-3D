@@ -77,7 +77,7 @@ HRESULT CBillboard::Init(void)
 			pVtx[nCnt].pos = Vec3Null;					//頂点座標の設定
 			pVtx[nCnt].nor = Vec3Null;					//法線ベクトルの設定
 			pVtx[nCnt].nor.y = 1.0f;					//法線ベクトルの設定
-			pVtx[nCnt].col = ColorFull;					//頂点カラーの設定
+			pVtx[nCnt].col = ColorWhite;					//頂点カラーの設定
 		}
 
 		//テクスチャ座標の設定

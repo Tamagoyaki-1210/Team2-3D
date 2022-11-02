@@ -196,6 +196,7 @@
     <ClCompile Include="score.cpp" />
     <ClCompile Include="silhouette.cpp" />
     <ClCompile Include="sound.cpp" />
+    <ClCompile Include="SpikeBall.cpp" />
     <ClCompile Include="stage.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="UIString.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="score.h" />
     <ClInclude Include="silhouette.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="SpikeBall.h" />
     <ClInclude Include="stage.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="UIString.h" />

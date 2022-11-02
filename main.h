@@ -63,7 +63,7 @@ const D3DXVECTOR2 Vec2Null = D3DXVECTOR2(0.0f, 0.0f);
 const D3DXVECTOR3 Vec3Null = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 const D3DXCOLOR ColorNull = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
 
-const D3DXCOLOR ColorFull = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+const D3DXCOLOR ColorWhite = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 //*****************************************************************************
 // ç\ë¢ëÃíËã`

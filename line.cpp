@@ -18,7 +18,7 @@ CLine::CLine() : CObject(5)
 	//メンバー変数をクリアする
 	m_pos = Vec3Null;
 	m_rot = Vec3Null;
-	m_col = ColorFull;
+	m_col = ColorWhite;
 	m_start = Vec3Null;
 	m_finish = Vec3Null;
 	m_pVtxBuff = nullptr;
@@ -36,7 +36,7 @@ HRESULT CLine::Init(void)
 	//メンバー変数の初期化
 	m_pos = Vec3Null;
 	m_rot = Vec3Null;
-	m_col = ColorFull;
+	m_col = ColorWhite;
 	m_start = Vec3Null;
 	m_finish = Vec3Null;
 	m_pVtxBuff = nullptr;
