@@ -27,6 +27,18 @@
 #include "goal.h"
 #include "coin.h"
 
+D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
+{
+	{ 0.0f, 0.0f, 0.0f, 1.0f },
+	{ 1.0f, 1.0f, 1.0f, 1.0f },
+	{ 1.0f, 0.0f, 0.0f, 1.0f },
+	{ 0.0f, 1.0f, 0.0f, 1.0f },
+	{ 0.0f, 0.0f, 1.0f, 1.0f },
+	{ 1.0f, 0.0f, 1.0f, 1.0f },
+	{ 0.0f, 1.0f, 1.0f, 1.0f },
+	{ 1.0f, 1.0f, 0.0f, 1.0f }
+};
+
 //コンストラクタ
 CPlayer::CPlayer()
 {
@@ -154,6 +166,24 @@ void CPlayer::Update(void)
 	if (!m_bMove)
 	{
 		m_pos += m_move;									//位置の更新
+	}
+
+	if (m_pos.y <= -1000.0f)
+	{
+		D3DXVECTOR3 posCamera = CApplication::GetCamera()->GetPos();
+		m_pos = D3DXVECTOR3(posCamera.x, posCamera.y + 100.0f, posCamera.z + 300.0f);
+		
+		if (m_pHitbox != nullptr)
+		{
+			m_pHitbox->SetInvincibility(true);
+		}
+
+		if (m_pScore != nullptr)
+		{
+			m_pScore->AddScore(-30);
+		}
+
+		m_nInvincibilityCnt = 180;
 	}
 
 	//目的の角度の正規化処理
@@ -722,10 +752,10 @@ const D3DXVECTOR3 CPlayer::GetPos(void)
 }
 
 //生成処理
-CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
+CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 {
 	CPlayer* pModel = new CPlayer;		//インスタンスを生成する
-	
+
 	//プレイヤーの初期化処理
 	if (FAILED(pModel->Init()))
 	{
@@ -746,16 +776,16 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
 
 	pModel->m_pModel[RIGHT_ARM] = CModelPart::Create(CModel::MODEL_RIGHT_ARM, D3DXVECTOR3(-5.0f, 12.0f, 0.0f), Vec3Null);	//右腕のモデルを生成する
 	pModel->m_pModel[RIGHT_ARM]->SetParent(pModel->m_pModel[BODY]);															//右腕の親を設定する
-	
+
 	pModel->m_pModel[RIGHT_HAND] = CModelPart::Create(CModel::MODEL_RIGHT_HAND, D3DXVECTOR3(-9.0f, 0.0f, 0.0f), Vec3Null);	//右手のモデルを生成する
 	pModel->m_pModel[RIGHT_HAND]->SetParent(pModel->m_pModel[RIGHT_ARM]);													//右手の親を設定する
-	
+
 	pModel->m_pModel[LEFT_LEG] = CModelPart::Create(CModel::MODEL_LEFT_LEG, D3DXVECTOR3(3.0f, 1.0f, 0.0f), Vec3Null);		//左太腿のモデルを生成する
 	pModel->m_pModel[LEFT_LEG]->SetParent(pModel->m_pModel[BODY]);															//左太腿の親を設定する
-	
+
 	pModel->m_pModel[LEFT_FOOT] = CModelPart::Create(CModel::MODEL_LEFT_FOOT, D3DXVECTOR3(0.1f, -10.0f, 0.0f), Vec3Null);	//左足のモデルを生成する
 	pModel->m_pModel[LEFT_FOOT]->SetParent(pModel->m_pModel[LEFT_LEG]);														//左足の親を設定する
-	
+
 	pModel->m_pModel[RIGHT_LEG] = CModelPart::Create(CModel::MODEL_RIGHT_LEG, D3DXVECTOR3(-3.0f, 1.0f, 0.0f), Vec3Null);	//右太腿のモデルを生成する
 	pModel->m_pModel[RIGHT_LEG]->SetParent(pModel->m_pModel[BODY]);															//右太腿の親を設定する
 
@@ -785,13 +815,11 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos,int nCntPlayer)
 
 	D3DXCOLOR UIcol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 
-	if (nCntPlayer == 1)
-	{
-		pModel->m_pModel[BODY]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
-		pModel->m_pModel[LEFT_ARM]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
-		pModel->m_pModel[RIGHT_ARM]->SetModelColor(1, D3DXCOLOR(0.2f, 1.0f, 0.2f, 1.0f));
-		UIcol = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
-	}
+
+	pModel->m_pModel[BODY]->SetModelColor(1, m_playerColor[nCntPlayer]);
+	pModel->m_pModel[LEFT_ARM]->SetModelColor(1, m_playerColor[nCntPlayer]);
+	pModel->m_pModel[RIGHT_ARM]->SetModelColor(1, m_playerColor[nCntPlayer]);
+	UIcol = m_playerColor[nCntPlayer];
 
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
 

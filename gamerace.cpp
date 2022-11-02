@@ -116,6 +116,9 @@ HRESULT CGameRace::Init(void)
 	CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_NEUTRAL, nullptr, -30, CHitbox::EFFECT_LAUNCH);
 	CCylinderHitbox::Create(D3DXVECTOR3(150.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
 
+	CBoxHitbox::Create(D3DXVECTOR3(0.0f, -150.0f, 400.0f), Vec3Null, D3DXVECTOR3(50.0f, 50.0f, 50.0f), CHitbox::TYPE_NEUTRAL, nullptr);
+	CBoxHitbox::Create(D3DXVECTOR3(0.0f, -100.0f, 400.0f), Vec3Null, D3DXVECTOR3(45.0f, 10.0f, 45.0f), CHitbox::TYPE_OBSTACLE, nullptr, -30, CHitbox::EFFECT_LAUNCH);
+
     CCoin::Create(D3DXVECTOR3(-100.0f, -125.0f, 200.0f), CCoin::COIN_0);
     CCoin::Create(D3DXVECTOR3(0.0f, -125.0f, 200.0f), CCoin::COIN_1);
     CCoin::Create(D3DXVECTOR3(100.0f, -125.0f, 200.0f), CCoin::COIN_2);

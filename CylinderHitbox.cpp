@@ -61,8 +61,7 @@ void CCylinderHitbox::Uninit(void)
 //çXêVèàóù
 void CCylinderHitbox::Update(void)
 {
-	if (!GetInvincibility())
-	{
+	
 		std::vector <CHitbox*>* pHbx = GetAllHitbox();
 
 		for (int nCnt = 0; nCnt < (int)pHbx->size(); nCnt++)
@@ -81,22 +80,25 @@ void CCylinderHitbox::Update(void)
 				{
 					if (PointBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize()))
 					{
-						if (GetType() == TYPE_PLAYER && (pHbx->data()[nCnt]->GetType() == TYPE_VANISHING || pHbx->data()[nCnt]->GetType() == TYPE_OBSTACLE))
+						if (!GetInvincibility())
 						{
-							pHbx->data()[nCnt]->SetCollisionState(true);
-						}
-
-						if (GetType() == TYPE_PLAYER && pHbx->data()[nCnt]->GetScore() != 0)
-						{
-							if (GetPlayerIdx() >= 0)
+							if (GetType() == TYPE_PLAYER && (pHbx->data()[nCnt]->GetType() == TYPE_VANISHING || pHbx->data()[nCnt]->GetType() == TYPE_OBSTACLE))
 							{
-								CScore::AddScore(GetPlayerIdx(), pHbx->data()[nCnt]->GetScore());
+								pHbx->data()[nCnt]->SetCollisionState(true);
 							}
-						}
 
-						if (GetEffect() == EFFECT_MAX && pHbx->data()[nCnt]->GetEffect() != EFFECT_MAX)
-						{
-							SetEffect(pHbx->data()[nCnt]->GetEffect());
+							if (GetType() == TYPE_PLAYER && pHbx->data()[nCnt]->GetScore() != 0)
+							{
+								if (GetPlayerIdx() >= 0)
+								{
+									CScore::AddScore(GetPlayerIdx(), pHbx->data()[nCnt]->GetScore());
+								}
+							}
+
+							if (GetEffect() == EFFECT_MAX && pHbx->data()[nCnt]->GetEffect() != EFFECT_MAX)
+							{
+								SetEffect(pHbx->data()[nCnt]->GetEffect());
+							}
 						}
 					}
 				}
@@ -108,19 +110,22 @@ void CCylinderHitbox::Update(void)
 				{
 					if (CylinderCylinderHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetSize()))
 					{
-						pHbx->data()[nCnt]->SetCollisionState(true);
-
-						if (GetType() == TYPE_PLAYER && pHbx->data()[nCnt]->GetScore() != 0)
+						if (!GetInvincibility())
 						{
-							if (GetPlayerIdx() >= 0)
+							pHbx->data()[nCnt]->SetCollisionState(true);
+
+							if (GetType() == TYPE_PLAYER && pHbx->data()[nCnt]->GetScore() != 0)
 							{
-								CScore::AddScore(GetPlayerIdx(), pHbx->data()[nCnt]->GetScore());
+								if (GetPlayerIdx() >= 0)
+								{
+									CScore::AddScore(GetPlayerIdx(), pHbx->data()[nCnt]->GetScore());
+								}
 							}
-						}
 
-						if (GetEffect() == EFFECT_MAX && pHbx->data()[nCnt]->GetEffect() != EFFECT_MAX)
-						{
-							SetEffect(pHbx->data()[nCnt]->GetEffect());
+							if (GetEffect() == EFFECT_MAX && pHbx->data()[nCnt]->GetEffect() != EFFECT_MAX)
+							{
+								SetEffect(pHbx->data()[nCnt]->GetEffect());
+							}
 						}
 					}
 				}
@@ -132,7 +137,7 @@ void CCylinderHitbox::Update(void)
 				}
 			}
 		}
-	}
+	
 
 	for (int nCnt = 0; nCnt < 18; nCnt++)
 	{
