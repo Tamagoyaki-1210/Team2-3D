@@ -979,27 +979,6 @@ void CPlayer::PlayerController(int nCntPlayer)
 
 	m_pAnimator->SetPresentAnim(1);
 
-	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D)
-		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f
-		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  > 0.3f)
-	{
-		m_State = STATE_RUNNING;
-	}
-	else
-	{
-		m_State = STATE_NEUTRAL;
-	}
-
-	switch (m_State)
-	{
-	case STATE_NEUTRAL:
-		m_pAnimator->SetPresentAnim(0);
-		break;
-
-	case STATE_RUNNING:
-		m_pAnimator->SetPresentAnim(1);
-		break;
-
 	case STATE_PUNCH:
 		m_pAnimator->SetPresentAnim(2);
 		break;

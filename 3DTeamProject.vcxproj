@@ -167,7 +167,6 @@
     <ClCompile Include="font.cpp" />
     <ClCompile Include="fontString.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="gamedebug.cpp" />
     <ClCompile Include="gamerace.cpp" />
     <ClCompile Include="goal.cpp" />
     <ClCompile Include="hitbox.cpp" />
@@ -190,6 +189,7 @@
     <ClCompile Include="object2D.cpp" />
     <ClCompile Include="object3D.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="playerSelect.cpp" />
     <ClCompile Include="pointLight.cpp" />
     <ClCompile Include="rendering.cpp" />
     <ClCompile Include="result.cpp" />
@@ -215,7 +215,6 @@
     <ClInclude Include="font.h" />
     <ClInclude Include="fontString.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="gamedebug.h" />
     <ClInclude Include="gamerace.h" />
     <ClInclude Include="goal.h" />
     <ClInclude Include="hitbox.h" />
@@ -238,6 +237,7 @@
     <ClInclude Include="object2D.h" />
     <ClInclude Include="object3D.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="playerSelect.h" />
     <ClInclude Include="pointLight.h" />
     <ClInclude Include="rendering.h" />
     <ClInclude Include="result.h" />
