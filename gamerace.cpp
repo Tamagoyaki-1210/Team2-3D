@@ -104,7 +104,7 @@ HRESULT CGameRace::Init(void)
 
     CLetter::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 4, 5);
 
-	CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_NEUTRAL, nullptr);
+	CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_NEUTRAL, nullptr, -30, CHitbox::EFFECT_LAUNCH);
 	CCylinderHitbox::Create(D3DXVECTOR3(150.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
 
     CCoin::Create(D3DXVECTOR3(-100.0f, -125.0f, 200.0f), CCoin::COIN_0);
@@ -112,11 +112,11 @@ HRESULT CGameRace::Init(void)
     CCoin::Create(D3DXVECTOR3(100.0f, -125.0f, 200.0f), CCoin::COIN_2);
     CCoin::Create(D3DXVECTOR3(200.0f, -125.0f, 200.0f), CCoin::COIN_3);
 
-	//CModel* pModel = nullptr;
-	//CModel::Create(CModel::MODEL_OBSTACLE_0, D3DXVECTOR3(-100.0f, -120.0f, 300.0f));
-	//CModel::Create(CModel::MODEL_OBSTACLE_1, D3DXVECTOR3(0.0f, -120.0f, 300.0f));
-	//CModel::Create(CModel::MODEL_OBSTACLE_2, D3DXVECTOR3(100.0f, -120.0f, 300.0f));
-	//pModel = CModel::Create(CModel::MODEL_OBSTACLE_3, D3DXVECTOR3(200.0f, -120.0f, 300.0f));
+	CModel* pModel = nullptr;
+	CModel::Create(CModel::MODEL_OBSTACLE_0, D3DXVECTOR3(-100.0f, -120.0f, 300.0f));
+	CModel::Create(CModel::MODEL_OBSTACLE_1, D3DXVECTOR3(0.0f, -120.0f, 300.0f));
+	CModel::Create(CModel::MODEL_OBSTACLE_2, D3DXVECTOR3(100.0f, -120.0f, 300.0f));
+	pModel = CModel::Create(CModel::MODEL_OBSTACLE_3, D3DXVECTOR3(200.0f, -120.0f, 300.0f));
 	//pModel->SetModelColor(4, D3DXCOLOR(0.68f, 0.68f, 0.68f, 1.0f));
 
 	// メッセージの生成

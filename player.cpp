@@ -24,6 +24,7 @@
 #include "gamerace.h"
 #include "rendering.h"
 #include "silhouette.h"
+#include "coin.h"
 
 //コンストラクタ
 CPlayer::CPlayer()
@@ -37,6 +38,7 @@ CPlayer::CPlayer()
 	m_State = (STATE)0;					//アニメーション状態
 	m_pScoreUI = nullptr;				//スコアのUIへのポインタ
 	m_bJump = false;					//ジャンプしているかどうか
+	m_nInvincibilityCnt = 0;			//無敵状態のカウンター
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -62,6 +64,7 @@ HRESULT CPlayer::Init(void)
 	m_State = STATE_NEUTRAL;		//アニメーション状態
 	m_pScoreUI = nullptr;			//スコアのUIへのポインタ
 	m_bJump = false;				//ジャンプしているかどうか
+	m_nInvincibilityCnt = 0;		//無敵状態のカウンター
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -218,10 +221,81 @@ void CPlayer::Update(void)
 		}
 	}
 
+	if (m_nInvincibilityCnt > 0)
+	{
+		m_nInvincibilityCnt--;
+
+		if (m_nInvincibilityCnt <= 0)
+		{
+			if (m_pHitbox != nullptr)
+			{
+				m_pHitbox->SetInvincibility(false);
+			}
+		}
+	}
+
 	if (m_pHitbox != nullptr)
 	{
+		int nScore = m_pScore->GetScore();
+
 		m_pHitbox->SetPos(m_pos);
 		m_pHitbox->Update();
+
+		CHitbox::INTERACTION_EFFECT effect = m_pHitbox->GetEffect();
+
+		switch (effect)
+		{
+		case CHitbox::EFFECT_DAMAGE:
+
+		{
+			int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);
+
+			for (int nCnt = 0; nCnt < spawnCoin; nCnt++)
+			{
+				CCoin::Create(GetPos(), D3DXVECTOR3((float)random(-5, 5), 10.0f, (float)random(-5, 5)), 180, CCoin::COIN_0);
+			}
+
+			m_nInvincibilityCnt = 60;
+
+			if (m_pHitbox != nullptr)
+			{
+				m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
+				m_pHitbox->SetInvincibility(true);
+			}
+		}
+
+			break;
+
+		case CHitbox::EFFECT_LAUNCH:
+
+		{
+			int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);
+			
+			for (int nCnt = 0; nCnt < spawnCoin; nCnt++)
+			{
+				CCoin::Create(GetPos(), D3DXVECTOR3((float)random(-5, 5), 10.0f, (float)random(-5, 5)), 180, CCoin::COIN_0);
+			}
+
+			D3DXVec3Normalize(&m_move, &m_move);
+			m_move.x *= -50.0f;
+			m_move.y = 10.0f;
+			m_move.z *= -50.f;
+
+			m_nInvincibilityCnt = 60;
+			
+			if (m_pHitbox != nullptr)
+			{
+				m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
+				m_pHitbox->SetInvincibility(true);
+			}
+
+		}
+
+			break;
+		
+		default:
+			break;
+		}
 	}
 
 	if (m_pScoreUI != nullptr && m_pScore != nullptr)
@@ -255,50 +329,53 @@ void CPlayer::Update(void)
 //描画処理
 void CPlayer::Draw(void)
 {
-	//デバイスの取得処理
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+	if (m_nInvincibilityCnt % 10 <= 5)
+	{
+		//デバイスの取得処理
+		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
-	//ステンシルバッファを有効にする
-	pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+		//ステンシルバッファを有効にする
+		pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
 
-	//ステンシルバッファと比較する参照値設定
-	pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
+		//ステンシルバッファと比較する参照値設定
+		pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
 
-	//ステンシルバッファの値に対してのマスク設定
-	pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
+		//ステンシルバッファの値に対してのマスク設定
+		pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
 
-	//ステンシルテストの比較方法の設定
-	pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_GREATEREQUAL);
+		//ステンシルテストの比較方法の設定
+		pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_GREATEREQUAL);
 
-	//ステンシルテストの結果に対しての反映設定
-	pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
-	pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
-	pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+		//ステンシルテストの結果に対しての反映設定
+		pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+		pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+		pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
 
 
-	D3DXMATRIX mtxTrans, mtxRot;												//計算用のマトリックス
-	D3DXMatrixIdentity(&m_mtxWorld);											//ワールドマトリックスの初期化処理
+		D3DXMATRIX mtxTrans, mtxRot;												//計算用のマトリックス
+		D3DXMatrixIdentity(&m_mtxWorld);											//ワールドマトリックスの初期化処理
 
-	//向きを反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
+		//向きを反映
+		D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
 
-	//位置を反映
-	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
+		//位置を反映
+		D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
-	m_pModel[BODY]->Draw(m_mtxWorld);											//最初のモデルの描画処理
+		m_pModel[BODY]->Draw(m_mtxWorld);											//最初のモデルの描画処理
 
-	for (int nCnt = 1; nCnt < PARTS_MAX; nCnt++)
-	{//他のモデルの描画処理
-		if (m_pModel[nCnt] != nullptr)
-		{
-			m_pModel[nCnt]->Draw();
+		for (int nCnt = 1; nCnt < PARTS_MAX; nCnt++)
+		{//他のモデルの描画処理
+			if (m_pModel[nCnt] != nullptr)
+			{
+				m_pModel[nCnt]->Draw();
+			}
 		}
-	}
 
-	//ステンシルバッファを無効にする
-	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+		//ステンシルバッファを無効にする
+		pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	}
 }
 
 //位置の設定処理

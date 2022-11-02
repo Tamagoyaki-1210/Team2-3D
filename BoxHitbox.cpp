@@ -60,6 +60,8 @@ void CBoxHitbox::Uninit(void)
 //çXêVèàóù
 void CBoxHitbox::Update(void)
 {
+	SetPos(GetPos() + D3DXVECTOR3(0.2f, 0.0f, 0.0f));
+
 	std::vector <CHitbox*>* pHbx = GetAllHitbox();
 
 	for (int nCnt = 0; nCnt < (int)pHbx->size(); nCnt++)
@@ -78,7 +80,12 @@ void CBoxHitbox::Update(void)
 			{
 				if (BoxBoxHit(pHbx->data()[nCnt]->GetPos(), pHbx->data()[nCnt]->GetRot(), pHbx->data()[nCnt]->GetSize()))
 				{
-					pHbx->data()[nCnt]->SetCollisionState(true);
+					//pHbx->data()[nCnt]->SetCollisionState(true);
+
+					if (GetEffect() != EFFECT_MAX && pHbx->data()[nCnt]->GetEffect() == EFFECT_MAX)
+					{
+						pHbx->data()[nCnt]->SetEffect(GetEffect());
+					}
 				}
 
 			}
@@ -90,7 +97,12 @@ void CBoxHitbox::Update(void)
 			{
 				if (BoxBoxHit(pHbx->data()[nCnt]->GetPos(), Vec3Null, pHbx->data()[nCnt]->GetSize()))
 				{
-					pHbx->data()[nCnt]->SetCollisionState(true);
+					//pHbx->data()[nCnt]->SetCollisionState(true);
+
+					if (GetEffect() != EFFECT_MAX && pHbx->data()[nCnt]->GetEffect() == EFFECT_MAX)
+					{
+						pHbx->data()[nCnt]->SetEffect(GetEffect());
+					}
 				}
 			}
 
@@ -183,6 +195,58 @@ CBoxHitbox* CBoxHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 Relative
 	pHitbox->SetShape(CHitbox::SHAPE_BOX);
 	pHitbox->SetParent(pParent);
 	pHitbox->SetScore(nScore);
+
+#ifdef _DEBUG
+
+	D3DXVECTOR3 VtxPos[8] = {};
+	VtxPos[0] = D3DXVECTOR3(-size.x, 0.0f, size.z);
+	VtxPos[1] = D3DXVECTOR3(size.x, 0.0f, size.z);
+	VtxPos[2] = D3DXVECTOR3(size.x, 0.0f, -size.z);
+	VtxPos[3] = D3DXVECTOR3(-size.x, 0.0f, -size.z);
+	VtxPos[4] = D3DXVECTOR3(-size.x, size.y, size.z);
+	VtxPos[5] = D3DXVECTOR3(size.x, size.y, size.z);
+	VtxPos[6] = D3DXVECTOR3(size.x, size.y, -size.z);
+	VtxPos[7] = D3DXVECTOR3(-size.x, size.y, -size.z);
+
+	pHitbox->m_pLine[0] = CLine::Create(pos, Vec3Null, VtxPos[0], VtxPos[1], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[1] = CLine::Create(pos, Vec3Null, VtxPos[1], VtxPos[2], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[2] = CLine::Create(pos, Vec3Null, VtxPos[2], VtxPos[3], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[3] = CLine::Create(pos, Vec3Null, VtxPos[3], VtxPos[0], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+
+	pHitbox->m_pLine[4] = CLine::Create(pos, Vec3Null, VtxPos[0], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[5] = CLine::Create(pos, Vec3Null, VtxPos[1], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[6] = CLine::Create(pos, Vec3Null, VtxPos[2], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[7] = CLine::Create(pos, Vec3Null, VtxPos[3], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+
+	pHitbox->m_pLine[8] = CLine::Create(pos, Vec3Null, VtxPos[4], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[9] = CLine::Create(pos, Vec3Null, VtxPos[5], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[10] = CLine::Create(pos, Vec3Null, VtxPos[6], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[11] = CLine::Create(pos, Vec3Null, VtxPos[7], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+
+#endif // !DEBUG
+
+
+	return pHitbox;
+}
+
+CBoxHitbox* CBoxHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 RelativePos, const D3DXVECTOR3 size, HITBOX_TYPE type, CObject* pParent, const int nScore, INTERACTION_EFFECT effect)
+{
+	CBoxHitbox* pHitbox = new CBoxHitbox;
+
+	if (FAILED(pHitbox->Init()))
+	{
+		return nullptr;
+	}
+
+	pHitbox->SetRelativePos(RelativePos);
+	pHitbox->SetPos(pos);
+	pHitbox->SetLastPos(pos);
+	pHitbox->SetSize(size);
+	pHitbox->SetType(type);
+	pHitbox->SetShape(CHitbox::SHAPE_BOX);
+	pHitbox->SetParent(pParent);
+	pHitbox->SetScore(nScore);
+	pHitbox->SetEffect(effect);
 
 #ifdef _DEBUG
 
@@ -356,7 +420,10 @@ bool CBoxHitbox::BoxBoxHit(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 size)
 					}
 				}
 
-				GetParent()->SetPos(thisPos - GetRelativePos());
+				if (GetParent() != nullptr)
+				{
+					GetParent()->SetPos(thisPos - GetRelativePos());
+				}
 
 				return true;
 			}
@@ -365,9 +432,6 @@ bool CBoxHitbox::BoxBoxHit(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 size)
 
 	return false;
 }
-
-
-
 
 
 

@@ -77,6 +77,7 @@ private:
 	D3DXVECTOR3 m_DestRot;								//目的の角度
 	D3DXMATRIX  m_mtxWorld;								//ワールドマトリックス
 	bool		m_bJump;								//ジャンプしているかどうか
+	int			m_nInvincibilityCnt;					//無敵状態のカウンター
 
 	CModelPart* m_pModel[PARTS_MAX];					//モデルへのポインタ
 	CAnimator* m_pAnimator;

@@ -24,10 +24,12 @@ CHitbox::CHitbox()
 	m_rot = Vec3Null;
 	m_shape = (HITBOX_SHAPE)0;
 	m_type = (HITBOX_TYPE)0;
+	m_effect = (INTERACTION_EFFECT)0;
 	m_bCollided = false;
 	m_pParent = nullptr;
 	m_nPlayerIdx = 0;
 	m_nScore = 0;
+	m_bInvincible = false;
 
 	m_vHitbox.push_back(this);
 }
@@ -48,10 +50,12 @@ HRESULT CHitbox::Init(void)
 	m_rot = Vec3Null;
 	m_shape = (HITBOX_SHAPE)0;
 	m_type = (HITBOX_TYPE)0;
+	m_effect = EFFECT_MAX;
 	m_bCollided = false;
 	m_pParent = nullptr;
 	m_nPlayerIdx = -1;
 	m_nScore = 0;
+	m_bInvincible = false;
 
 	return S_OK;
 }
@@ -128,6 +132,11 @@ CObject* CHitbox::GetParent(void)
 	return m_pParent;
 }
 
+CHitbox::INTERACTION_EFFECT CHitbox::GetEffect(void)
+{
+	return m_effect;
+}
+
 
 void CHitbox::SetPos(const D3DXVECTOR3 pos)
 {
@@ -181,6 +190,16 @@ void CHitbox::SetScore(const int nScore)
 	m_nScore = nScore;
 }
 
+void CHitbox::SetEffect(INTERACTION_EFFECT effect)
+{
+	m_effect = effect;
+}
+
+void CHitbox::SetInvincibility(const bool bInv)
+{
+	m_bInvincible = bInv;
+}
+
 //‰½‚©‚Æ“–‚½‚Á‚½‚©‚Ç‚¤‚©
 bool CHitbox::GetCollisionState(void)
 {
@@ -197,6 +216,11 @@ const int CHitbox::GetPlayerIdx(void)
 const int CHitbox::GetScore(void)
 {
 	return m_nScore;
+}
+
+const bool CHitbox::GetInvincibility(void)
+{
+	return m_bInvincible;
 }
 
 
