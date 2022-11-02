@@ -7,30 +7,14 @@
 #include "gamerace.h"
 #include "input.h"
 #include "application.h"
-#include "meshfield.h"
-#include "object2D.h"
-#include "object3D.h"
-#include "billboard.h"
-#include "model.h"
-#include "player.h"
-#include "UIString.h"
-#include "Letter.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
-#include "font.h"
-#include "halfsphere.h"
-#include "CylinderHitbox.h"
-#include "BoxHitbox.h"
-#include "coin.h"
-#include "goal.h"
 #include "message.h"
-#include "camera.h"
 #include "fade.h"
+#include "stage.h"
 
-CMeshfield *CGameRace::m_pField = nullptr;
-CHalfSphere* CGameRace::m_pSphere[PLAYER_MAX] = {};
-CPlayer* CGameRace::m_pPlayer[PLAYER_MAX] = {};
 CMessage* CGameRace::m_pMessage = nullptr;
+CStage* CGameRace::m_pStage = nullptr;
 
 //=====================================
 // デフォルトコンストラクタ
@@ -55,10 +39,7 @@ HRESULT CGameRace::Init(void)
 {
     CGame::Init();
 
-	// メッシュフィールドの生成
-	m_pField = CMeshfield::Create(D3DXVECTOR3(-200.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(50.0f, 50.0f), 30, 10, 3);
-	m_pField->SetTexture(CObject::TEXTURE_BLOCK);
-	m_pField->SetTextureTiling(0.33f);
+	m_pStage = CStage::Create();
 
     CObject_2D* pObj2D = CObject_2D::Create();
     pObj2D->SetPos(D3DXVECTOR3(100.0f, 100.0f, 0.0f));
@@ -139,14 +120,6 @@ HRESULT CGameRace::Init(void)
 
 	//m_pMessage->GoalMessage();
 
-    //UI
-    //m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
-
-	if (CApplication::GetCamera() != nullptr)
-	{
-		CApplication::GetCamera()->SetPos(D3DXVECTOR3(-80.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
-	}
-
     return S_OK;
 }
 
@@ -157,26 +130,12 @@ void CGameRace::Uninit(void)
 {
     CGame::Uninit();
 
-    for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
-    {
-        if (m_pPlayer[nCnt] != nullptr)
-        {
-            m_pPlayer[nCnt]->Release();
-            m_pPlayer[nCnt] = nullptr;
-		}
-    }
-
-    if (m_pSphere[0] != nullptr)
-    {
-        m_pSphere[0]->Release();
-        m_pSphere[0] = nullptr;
-    }
-
-    if (m_pField != nullptr)
-    {
-        m_pField->Release();
-        m_pField = nullptr;
-    }
+	if (m_pStage != nullptr)
+	{
+		m_pStage->Uninit();
+		delete m_pStage;
+		m_pStage = nullptr;
+	}
 
 	if (m_pMessage != nullptr)
 	{
@@ -196,6 +155,11 @@ void CGameRace::Update(void)
 	if (m_pMessage != nullptr)
 	{
 		m_pMessage->Update();
+	}
+
+	if (m_pStage != nullptr)
+	{
+		m_pStage->Update();
 	}
 
 #ifdef _DEBUG
