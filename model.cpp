@@ -40,7 +40,9 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade.x" },
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Ball.x" },
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Cylinder.x" },
-	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Needle.x" }
+	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Needle.x" },
+
+	{ "data\\MODELS\\NeedleBall\\NeedleBall.x" }
 };
 
 //コンストラクタ

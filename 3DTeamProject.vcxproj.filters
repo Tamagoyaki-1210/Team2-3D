@@ -46,6 +46,7 @@
     <ClCompile Include="silhouette.cpp" />
     <ClCompile Include="fontString.cpp" />
     <ClCompile Include="stage.cpp" />
+    <ClCompile Include="SpikeBall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -93,5 +94,6 @@
     <ClInclude Include="silhouette.h" />
     <ClInclude Include="fontString.h" />
     <ClInclude Include="stage.h" />
+    <ClInclude Include="SpikeBall.h" />
   </ItemGroup>
 </Project>
