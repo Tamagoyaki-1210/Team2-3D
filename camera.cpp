@@ -210,7 +210,7 @@ void CCamera::Update(void)
 	{
 		m_posV.z = 750.0f;
 
-		CGoal::SetGoal(true);
+		//CGoal::SetGoal(true);
 	}
 }
 
