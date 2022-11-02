@@ -59,6 +59,12 @@ public:
 		TEXTURE_JAPANESE,
 		TEXTURE_MESSAGE_START,
 		TEXTURE_MESSAGE_GOAL,
+		TEXTURE_1P_WIN,
+		TEXTURE_2P_WIN,
+		TEXTURE_3P_WIN,
+		TEXTURE_4P_WIN,
+		TEXTURE_WINNER,
+		TEXTURE_DRAW,
 
 		TEXTURE_TYPE_MAX
 	};
@@ -86,7 +92,6 @@ public:
 	static void UpdateAll(void);						//全部の更新処理
 	static void DrawAll(void);							//全部の描画処理
 	static CObject** GetObj(void);						//オブジェクトの取得処理
-	static void SetPause(const bool bPause);			//ポーズの設定処理
 
 	//当たり判定関数
 	static bool CircleHit(D3DXVECTOR3* pos1, 
@@ -99,13 +104,10 @@ public:
 	static D3DXVECTOR3 GetPerpendicularVersor(D3DXVECTOR3 V);		//垂直ベクトルを返す処理
 	static int random(const int low, const int high);				//乱数を返す処理
 
-	static void DebugDestroy(void);									
-														
+	static void DebugDestroy(void);	
 private:								
 
 	static const int Max_Priority = 5;					//プライオリティの最大値
-
-	static bool m_bPause;								//ポーズ中であるかどうか
 	int m_nIdx;											//このインスタンスの配列のインデックス
 	int m_nPriority;									//描画順
 	bool m_bDeath;										//死亡フラグ
@@ -115,7 +117,5 @@ private:
 	CObject* m_pPrev;									//前のオブジェクトへのポンタ
 	CObject* m_pNext;									//次のオブジェクトへのポンタ
 };
-
-
 
 #endif

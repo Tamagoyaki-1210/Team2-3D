@@ -33,7 +33,7 @@ public:
 	const D3DXVECTOR2 GetSize(void) override;		//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override;		//位置の取得処理
 
-	static void SetGoal(bool bGoal);
+	static void SetGoal(bool bGoal, int nWinnerIdx);
 	bool GetGoal();
 
 	static CGoal* Create();	//生成処理
@@ -47,6 +47,7 @@ private:
 	D3DXVECTOR3 m_rot;								//向き
 	D3DXMATRIX  m_mtxWorld;							//ワールドマトリックス
 
+	static int m_nWinnerIdx;
 	static bool m_bGoal;									//ゴールしたかどうか
 };
 

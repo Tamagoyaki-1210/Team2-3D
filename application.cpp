@@ -45,6 +45,7 @@ CMenu* CApplication::m_pMenu = nullptr;					// メニューへのポインタ
 CDebugProc* CApplication::m_pDebug = nullptr;
 CApplication::Mode CApplication::m_mode = CApplication::Mode_Title;
 CApplication::Mode CApplication::m_modeNext = CApplication::Mode_Title;
+bool CApplication::m_bPause = false;
 
 //コンストラクタ
 CApplication::CApplication()
@@ -100,7 +101,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pFade = CFade::Create();
 		m_pFade->SetFade();
 	}
-
 
 	//キーボードインスタンスの生成処理
 	m_pInput[0] = new CInputKeyboard;
@@ -181,6 +181,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//{//ファイルが開けなかった場合
 	//	printf("XXXXX セーブファイルが開けませんでした XXXXX");
 	//}
+
+	m_bPause = false;	//ポーズを未使用にする
 
 	return S_OK;
 }
@@ -330,9 +332,13 @@ void CApplication::Update(void)
 		m_pPad->Update();
 	}
 
-	if (m_pCamera != nullptr)
+	// ポーズ中でない場合のみ更新
+	if (m_bPause == false)
 	{
-		m_pCamera->Update();
+		if (m_pCamera != nullptr)
+		{
+			m_pCamera->Update();
+		}
 	}
 }
 
@@ -425,6 +431,8 @@ void CApplication::ChangeMode()
 	CObject::ReleaseAll();
 	CHitbox::ReleaseAll();
 
+	m_bPause = false;		// ポーズを未使用にする
+
 	if (m_pSound != nullptr)
 	{
 		m_pSound->Stop();
@@ -451,4 +459,20 @@ void CApplication::ChangeMode()
 	m_mode = m_modeNext;
 
 	m_pMenu->Init();
+}
+
+//=====================================
+// ポーズ取得処理
+//=====================================
+bool CApplication::GetPause()
+{
+	return m_bPause;
+}
+
+//=====================================
+// ポーズ設定処理
+//=====================================
+void CApplication::SetPause(const bool bPause)
+{
+	m_bPause = bPause;
 }

@@ -56,9 +56,14 @@ public:
 
 	static Mode GetMode(void);
 	static void SetMode(Mode mode);
+
+	static bool GetPause(void);							// ポーズの取得処理
+	static void SetPause(const bool bPause);			// ポーズの設定処理
 	void ChangeMode();
 
 private:
+	static bool m_bPause;								//ポーズ中であるかどうか
+
 	static HWND m_hWnd;									//クライエント画面
 	static CRenderer* m_pRenderer;						//レンディングインスタンスへのポインタ
 	static CInput* m_pInput[2];							//インプットデバイスへのポインタ

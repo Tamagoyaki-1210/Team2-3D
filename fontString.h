@@ -1,11 +1,11 @@
 //=============================================================================
 //
-// choice.h
+// fontString.h
 // Author : tanimoto kosuke
 //
 //=============================================================================
-#ifndef _CHOICE_H_
-#define _CHOICE_H_
+#ifndef _FONTSTRING_H_
+#define _FONTSTRING_H_
 
 //=============================================================================
 //インクルードファイル
@@ -15,11 +15,11 @@
 //---------------------------
 //クラス宣言
 //---------------------------
-class CChoice
+class CFontString
 {
 public:
-	CChoice();
-	~CChoice();
+	CFontString();
+	~CFontString();
 
 	HRESULT Init(void);
 	void Uninit(void);
@@ -30,7 +30,7 @@ public:
 	void SizeReset(void);
 	void SetSellect(void);
 
-	static CChoice* Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const std::string letter);
+	static CFontString* Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const std::string letter);
 private:
 	static const int MaxWordLenght = 24;
 
@@ -42,4 +42,4 @@ private:
 	CFont* m_pFont[MaxWordLenght];
 };
 
-#endif // !_CHOICE_H_
+#endif // !_FONTSTRING_H_
