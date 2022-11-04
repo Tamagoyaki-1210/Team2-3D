@@ -16,7 +16,6 @@
 //=============================================================================
 //‘O•ûéŒ¾
 //=============================================================================
-class CModel;
 class CModelPart;
 class CAnimator;
 class CCylinderHitbox;
@@ -81,6 +80,7 @@ public:
 	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; };	//–Ú“I‚ÌŠp“x‚Ìæ“¾ˆ—
 
 	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);		//¶¬ˆ—
+	static D3DXCOLOR* GetPlayerColors(void);
 
 	void PlayerController(int nCntPlayer);
 	void SetPlayerIdx(int nCntPlayer);

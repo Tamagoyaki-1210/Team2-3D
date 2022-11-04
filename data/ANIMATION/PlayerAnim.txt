@@ -257,7 +257,8 @@ MOTION_SET					#アニメーション 1
 			END_KEY
 				
 		END_KEY_SET
-
+		
+		
 
 END_MOTION_SET
 

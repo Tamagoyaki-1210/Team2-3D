@@ -202,7 +202,7 @@ void CMenu::Input(void)
 			case CApplication::Mode_Result:
 				if (m_nSelectNum == 0)
 				{
-					CApplication::SetMode(CApplication::Mode_Game_Race);
+					CApplication::SetMode(CApplication::Mode_PlayerSelect);
 				}
 				else if (m_nSelectNum == 1)
 				{
