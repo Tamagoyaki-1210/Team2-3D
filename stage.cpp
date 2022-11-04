@@ -24,6 +24,7 @@
 #include "camera.h"
 #include "SpikeBall.h"
 #include <string>
+#include "score.h"
 
 //アニメーション情報のテキストファイルの相対パス
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
@@ -34,6 +35,8 @@ char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
 CMeshfield *CStage::m_pField = nullptr;
 CHalfSphere* CStage::m_pSphere[PLAYER_MAX] = {};
 CPlayer* CStage::m_pPlayer[PLAYER_MAX] = {};
+bool CStage::m_bResult = false;
+
 //=====================================
 // デフォルトコンストラクタ
 //=====================================
@@ -117,7 +120,7 @@ void CStage::Uninit(void)
 //=====================================
 void CStage::Update(void)
 {
-
+	GameResult();
 }
 
 //=====================================
@@ -153,6 +156,97 @@ CStage* CStage::Create(void)
 	return pStage;
 }
 
+void CStage::GameResult()
+{
+	bool bGoal[PLAYER_MAX] = {};
+	bool bRot[PLAYER_MAX] = {};
+
+	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+	{
+		bGoal[nCnt] = m_pPlayer[nCnt]->GetGoal();
+		bRot[nCnt] = m_pPlayer[nCnt]->GetRotCmp();
+	}
+	
+	if (bGoal[0] && bGoal[1] && bGoal[2] && bGoal[3]
+		&& bRot[0] && bRot[1] && bRot[2] && bRot[3])
+	{
+		m_bResult = true;
+		ScoreComparison();
+	}
+}
+
+int CStage::ScoreComparison()
+{
+	int nCnt = 0;
+
+	if (m_bResult)
+	{
+		D3DXVECTOR2 PlayerScore[PLAYER_MAX] = {};
+		D3DXVECTOR2 nChange;
+
+		for (int nCount = 0; nCount < PLAYER_MAX; nCount++)
+		{
+			PlayerScore[nCount].x = (float)CScore::GetScore(nCount);
+			PlayerScore[nCount].y = (float)nCount;
+		}
+
+		for (int nCount = 0; nCount < PLAYER_MAX - 1; nCount++)
+		{
+			for (int nCount2 = nCount + 1; nCount2 < PLAYER_MAX; nCount2++)
+			{
+				if (PlayerScore[nCount].x < PlayerScore[nCount2].x)
+				{
+					nChange = PlayerScore[nCount2];
+					PlayerScore[nCount2] = PlayerScore[nCount];
+					PlayerScore[nCount] = nChange;
+				}
+			}
+		}
+
+		if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
+		{
+			m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
+			m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
+			m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
+			m_pPlayer[(int)PlayerScore[3].y]->SetWinner(true);
+
+			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
+			m_pPlayer[(int)PlayerScore[1].y]->MoveWinner();
+			m_pPlayer[(int)PlayerScore[2].y]->MoveWinner();
+			m_pPlayer[(int)PlayerScore[3].y]->MoveWinner();
+			nCnt = 4;
+		}
+		else if ((int)PlayerScore[2].x == (int)PlayerScore[0].x)
+		{
+			m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
+			m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
+			m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
+
+			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
+			m_pPlayer[(int)PlayerScore[1].y]->MoveWinner();
+			m_pPlayer[(int)PlayerScore[2].y]->MoveWinner();
+			nCnt = 3;
+		}
+		else if ((int)PlayerScore[1].x == (int)PlayerScore[0].x)
+		{
+			m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
+			m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
+
+			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
+			m_pPlayer[(int)PlayerScore[1].y]->MoveWinner();
+			nCnt = 2;
+		}
+		else
+		{
+			m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
+
+			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
+			nCnt = 1;
+		}
+	}
+
+	return nCnt;
+}
 
 //=====================================
 //読み込み処理

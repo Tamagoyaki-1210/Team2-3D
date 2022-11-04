@@ -26,6 +26,7 @@
 #include "silhouette.h"
 #include "goal.h"
 #include "coin.h"
+#include "playerModel.h"
 
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
 {
@@ -82,6 +83,7 @@ HRESULT CPlayer::Init(void)
 	m_bMove = false;
 	m_bWinner = false;
 	m_bPos = false;
+	m_bRot = false;
 	m_pAnimator = nullptr;			//アニメーターへのポインタ
 	m_pHitbox = nullptr;			//ヒットボックスへのポインタ
 	m_pScore = nullptr;				//スコアへのポインタ
@@ -267,8 +269,6 @@ void CPlayer::Update(void)
 			pPlayer[nCnt] = CStage::GetPlayer(nCnt);
 		}
 
-		m_DestRot2 = D3DXVECTOR3(0.0f, D3DX_PI * 2, 0.0f);
-
 		if (m_pos.z >= 900.0f && m_bGoal == false)
 		{
 			m_bGoal = true;
@@ -352,219 +352,8 @@ void CPlayer::Update(void)
 				break;
 			}
 		}
-
-		//if (pPlayer[0]->m_bGoal == true && pPlayer[1]->m_bGoal == true && pPlayer[2]->m_bGoal == true && pPlayer[3]->m_bGoal == true)
-		//{
-		//	//if (!pPlayer[0]->m_bWinner)
-		//	//{
-		//	//	pPlayer[0]->m_move = Vec3Null;
-		//	//}
-
-		//	//if (!pPlayer[1]->m_bWinner)
-		//	//{
-		//	//	pPlayer[1]->m_move = Vec3Null;
-		//	//}
-
-		//	//if (!pPlayer[2]->m_bWinner)
-		//	//{
-		//	//	pPlayer[2]->m_move = Vec3Null;
-		//	//}
-
-		//	//if (!pPlayer[3]->m_bWinner)
-		//	//{
-		//	//	pPlayer[3]->m_move = Vec3Null;
-		//	//}
-
-		//	if (pPlayer[0]->m_bMove == false && pPlayer[1]->m_bMove == false && pPlayer[2]->m_bMove == false && pPlayer[3]->m_bMove == false)
-		//	{
-		//		D3DXVECTOR2 PlayerScore[PLAYER_MAX] = {};
-		//		D3DXVECTOR2 nChange;
-
-		//		for (int nCount = 0; nCount < PLAYER_MAX; nCount++)
-		//		{
-		//			PlayerScore[nCount].x = (float)CScore::GetScore(nCount);
-		//			PlayerScore[nCount].y = (float)nCount;
-		//		}
-
-		//		for (int nCount = 0; nCount < PLAYER_MAX - 1; nCount++)
-		//		{
-		//			for (int nCount2 = nCount + 1; nCount2 < PLAYER_MAX; nCount2++)
-		//			{
-		//				if (PlayerScore[nCount].x > PlayerScore[nCount2].x)
-		//				{
-		//					nChange = PlayerScore[nCount2];
-		//					PlayerScore[nCount2] = PlayerScore[nCount];
-		//					PlayerScore[nCount] = nChange;
-		//				}
-		//			}
-		//		}
-
-		//		if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
-		//		{
-		//			pPlayer[(int)PlayerScore[0].y]->m_bWinner = true;
-		//			pPlayer[(int)PlayerScore[1].y]->m_bWinner = true;
-		//			pPlayer[(int)PlayerScore[2].y]->m_bWinner = true;
-		//			pPlayer[(int)PlayerScore[3].y]->m_bWinner = true;
-		//		}
-		//		else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
-		//		{
-		//			pPlayer[(int)PlayerScore[1].y]->m_bWinner = true;
-		//			pPlayer[(int)PlayerScore[2].y]->m_bWinner = true;
-		//			pPlayer[(int)PlayerScore[3].y]->m_bWinner = true;
-		//		}
-		//		else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
-		//		{
-		//			pPlayer[(int)PlayerScore[2].y]->m_bWinner = true;
-		//			pPlayer[(int)PlayerScore[3].y]->m_bWinner = true;
-		//		}
-		//		else
-		//		{
-		//			pPlayer[(int)PlayerScore[3].y]->m_bWinner = true;
-		//		}
-
-		//		if (!m_bPos)
-		//		{
-		//			if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
-		//			{
-		//				GoalPos4 = pPlayer[(int)PlayerScore[0].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-		//				GoalPos3 = pPlayer[(int)PlayerScore[1].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-		//				GoalPos2 = pPlayer[(int)PlayerScore[2].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-		//				GoalPos1 = pPlayer[(int)PlayerScore[3].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-
-		//				m_bPos = true;
-		//			}
-		//			else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
-		//			{
-		//				GoalPos3 = pPlayer[(int)PlayerScore[1].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-		//				GoalPos2 = pPlayer[(int)PlayerScore[2].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-		//				GoalPos1 = pPlayer[(int)PlayerScore[3].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-
-		//				m_bPos = true;
-		//			}
-		//			else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
-		//			{
-		//				GoalPos2 = pPlayer[(int)PlayerScore[2].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-		//				GoalPos1 = pPlayer[(int)PlayerScore[3].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-
-		//				m_bPos = true;
-		//			}
-		//			else
-		//			{
-		//				GoalPos1 = pPlayer[(int)PlayerScore[3].y]->m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-
-		//				m_bPos = true;
-		//			}
-		//		}
-
-		//		if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
-		//		{
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[0].y]->m_fAngle = sqrtf((float)(pow(GoalPos4.x - pPlayer[(int)PlayerScore[0].y]->m_pos.x, 2) + pow(GoalPos4.z - pPlayer[(int)PlayerScore[0].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[0].y]->m_move.x = (GoalPos4.x - pPlayer[(int)PlayerScore[0].y]->m_pos.x) / (pPlayer[(int)PlayerScore[0].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[0].y]->m_move.z = (GoalPos4.z - pPlayer[(int)PlayerScore[0].y]->m_pos.z) / (pPlayer[(int)PlayerScore[0].y]->m_fAngle / 1.0f);
-
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[1].y]->m_fAngle = sqrtf((float)(pow(GoalPos3.x - pPlayer[(int)PlayerScore[1].y]->m_pos.x, 2) + pow(GoalPos3.z - pPlayer[(int)PlayerScore[1].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[1].y]->m_move.x = (GoalPos3.x - pPlayer[(int)PlayerScore[1].y]->m_pos.x) / (pPlayer[(int)PlayerScore[1].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[1].y]->m_move.z = (GoalPos3.z - pPlayer[(int)PlayerScore[1].y]->m_pos.z) / (pPlayer[(int)PlayerScore[1].y]->m_fAngle / 1.0f);
-
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[2].y]->m_fAngle = sqrtf((float)(pow(GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x, 2) + pow(GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[2].y]->m_move.x = (GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[2].y]->m_move.z = (GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
-
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[3].y]->m_fAngle = sqrtf((float)(pow(GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x, 2) + pow(GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[3].y]->m_move.x = (GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[3].y]->m_move.z = (GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
-		//		}
-		//		else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
-		//		{
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[1].y]->m_fAngle = sqrtf((float)(pow(GoalPos3.x - pPlayer[(int)PlayerScore[1].y]->m_pos.x, 2) + pow(GoalPos3.z - pPlayer[(int)PlayerScore[1].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[1].y]->m_move.x = (GoalPos3.x - pPlayer[(int)PlayerScore[1].y]->m_pos.x) / (pPlayer[(int)PlayerScore[1].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[1].y]->m_move.z = (GoalPos3.z - pPlayer[(int)PlayerScore[1].y]->m_pos.z) / (pPlayer[(int)PlayerScore[1].y]->m_fAngle / 1.0f);
-
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[2].y]->m_fAngle = sqrtf((float)(pow(GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x, 2) + pow(GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[2].y]->m_move.x = (GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[2].y]->m_move.z = (GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
-
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[3].y]->m_fAngle = sqrtf((float)(pow(GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x, 2) + pow(GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[3].y]->m_move.x = (GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[3].y]->m_move.z = (GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
-		//		}
-		//		else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
-		//		{
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[2].y]->m_fAngle = sqrtf((float)(pow(GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x, 2) + pow(GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[2].y]->m_move.x = (GoalPos2.x - pPlayer[(int)PlayerScore[2].y]->m_pos.x) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[2].y]->m_move.z = (GoalPos2.z - pPlayer[(int)PlayerScore[2].y]->m_pos.z) / (pPlayer[(int)PlayerScore[2].y]->m_fAngle / 1.0f);
-
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[3].y]->m_fAngle = sqrtf((float)(pow(GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x, 2) + pow(GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[3].y]->m_move.x = (GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[3].y]->m_move.z = (GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
-		//		}
-		//		else
-		//		{
-		//			// 対象までの角度の算出
-		//			pPlayer[(int)PlayerScore[3].y]->m_fAngle = sqrtf((float)(pow(GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x, 2) + pow(GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z, 2)));
-		//			pPlayer[(int)PlayerScore[3].y]->m_move.x = (GoalPos1.x - pPlayer[(int)PlayerScore[3].y]->m_pos.x) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
-		//			pPlayer[(int)PlayerScore[3].y]->m_move.z = (GoalPos1.z - pPlayer[(int)PlayerScore[3].y]->m_pos.z) / (pPlayer[(int)PlayerScore[3].y]->m_fAngle / 1.0f);
-		//		}
-
-		//		if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
-		//		{
-		//			if (pPlayer[(int)PlayerScore[3].y]->m_pos.z <= GoalPos1.z && pPlayer[(int)PlayerScore[2].y]->m_pos.z <= GoalPos2.z && pPlayer[(int)PlayerScore[1].y]->m_pos.z <= GoalPos3.z && pPlayer[(int)PlayerScore[0].y]->m_pos.z <= GoalPos4.z)
-		//			{
-		//				pPlayer[0]->m_bMove = true;
-		//				pPlayer[1]->m_bMove = true;
-		//				pPlayer[2]->m_bMove = true;
-		//				pPlayer[3]->m_bMove = true;
-
-		//				CGoal::SetGoal(true, 0);
-		//			}
-		//		}
-		//		else if ((int)PlayerScore[3].x == (int)PlayerScore[1].x)
-		//		{
-		//			if (pPlayer[(int)PlayerScore[3].y]->m_pos.z <= GoalPos1.z && pPlayer[(int)PlayerScore[2].y]->m_pos.z <= GoalPos2.z && pPlayer[(int)PlayerScore[1].y]->m_pos.z)
-		//			{
-		//				pPlayer[0]->m_bMove = true;
-		//				pPlayer[1]->m_bMove = true;
-		//				pPlayer[2]->m_bMove = true;
-		//				pPlayer[3]->m_bMove = true;
-
-		//				CGoal::SetGoal(true, 0);
-		//			}
-		//		}
-		//		else if ((int)PlayerScore[3].x == (int)PlayerScore[2].x)
-		//		{
-		//			if (pPlayer[(int)PlayerScore[3].y]->m_pos.z <= GoalPos1.z && pPlayer[(int)PlayerScore[2].y]->m_pos.z)
-		//			{
-		//				pPlayer[0]->m_bMove = true;
-		//				pPlayer[1]->m_bMove = true;
-		//				pPlayer[2]->m_bMove = true;
-		//				pPlayer[3]->m_bMove = true;
-
-		//				CGoal::SetGoal(true, 0);
-		//			}
-		//		}
-		//		else
-		//		{
-		//			if (pPlayer[(int)PlayerScore[3].y]->m_pos.z <= GoalPos1.z)
-		//			{
-		//				pPlayer[0]->m_bMove = true;
-		//				pPlayer[1]->m_bMove = true;
-		//				pPlayer[2]->m_bMove = true;
-		//				pPlayer[3]->m_bMove = true;
-
-		//				CGoal::SetGoal(true, (int)PlayerScore[3].y + 1);
-		//			}
-		//		}
-		//	}
-		//}
+		
+		//MoveWinner();
 
 		if (m_pHitbox != nullptr)
 		{
@@ -721,10 +510,10 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 
 	D3DXCOLOR UIcol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 
-	pModel->m_pModel[BODY]->SetModelColor(2, m_playerColor[nCntPlayer]);
-	pModel->m_pModel[LEFT_ARM]->SetModelColor(2, m_playerColor[nCntPlayer]);
-	pModel->m_pModel[RIGHT_ARM]->SetModelColor(2, m_playerColor[nCntPlayer]);
-	UIcol = m_playerColor[nCntPlayer];
+	D3DXCOLOR col = CPlayerModel::GetPlayerColors()[nCntPlayer];
+
+	pModel->m_pModel[BODY]->SetModelColor(2, col);
+	UIcol = col;
 	pModel->m_TargetPos = D3DXVECTOR3(-223.0f + (61.0f * (nCntPlayer + 1)),-149.0f,1009.0f);
 
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
@@ -734,12 +523,21 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 	return pModel;
 }
 
+D3DXCOLOR* CPlayer::GetPlayerColors(void)
+{
+	return m_playerColor;
+}
+
+
+
+
+
+
 void CPlayer::PlayerController(int nCntPlayer)
 {
 	D3DXVECTOR3 cameraRot = CApplication::GetCamera()->GetRot();					//カメラの向きの取得処理
 	D3DXVECTOR3 cR = D3DXVECTOR3(-cosf(cameraRot.y), 0.0f, sinf(cameraRot.y));
 	float fA = acosf(cR.x);
-
 
 	//移動量と目的の角度の計算
 	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y < -0.3f)
@@ -851,51 +649,34 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 		m_DestRot.y = D3DX_PI + fA;
 	}
+
 	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) && !m_bJump)
 	{//ジャンプ
 		m_move.y = 18.0f;
-		m_bJump = true;
+ 		m_bJump = true;
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_R))
+	bool bMoving = false;
+
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE))
 	{
-		m_State = STATE_PUNCH;
+		m_pAnimator->SetPresentAnim(2);
 	}
 
 	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D)
 		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f
 		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  > 0.3f)
 	{
-		m_State = STATE_RUNNING;
-	}
-	else
-	{
-		m_State = STATE_NEUTRAL;
-	}
-
-	switch (m_State)
-	{
-	case STATE_NEUTRAL:
-
-	{
-		m_pAnimator->SetPresentAnim(0);
+		if (!m_bJump)
+		{
+			m_pAnimator->SetLoopingAnim(1);
+			bMoving = true;
+		}
 	}
 
-	break;
-
-	case STATE_RUNNING:
-
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) && !bMoving && !m_bJump)
 	{
-		m_pAnimator->SetPresentAnim(1);
-	}
-	break;
-
-	case STATE_PUNCH:
-		m_pAnimator->SetPresentAnim(2);
-		break;
-
-	default:
-		break;
+		m_pAnimator->SetPresentAnim(3);
 	}
 }
 
@@ -904,8 +685,43 @@ void CPlayer::SetPlayerIdx(int nCntPlayer)
 	m_nIdxPlayer = nCntPlayer;
 }
 
+bool CPlayer::GetRotCmp()
+{
+	return m_bRot;
+}
+
+void CPlayer::MoveWinner()
+{
+	if (!m_bPos)
+	{
+		GoalPos = m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+		m_bPos = true;
+	}
+
+	m_fAngle = sqrtf((float)(pow(GoalPos.x - m_pos.x, 2) + pow(GoalPos.z -m_pos.z, 2)));
+	m_move.x = (GoalPos.x - m_pos.x) / (m_fAngle / 1.0f);
+	m_move.z = (GoalPos.z - m_pos.z) / (m_fAngle / 1.0f);
+
+	if (m_pos.z <= GoalPos.z)
+	{
+		m_move = Vec3Null;
+		m_bMove = true;
+
+		CGoal::SetGoal(true, 0);
+	}
+}
+
+void CPlayer::SetWinner(bool bWinner)
+{
+	m_bWinner = bWinner;
+}
+
 void CPlayer::GoalMove()
 {
+	D3DXVECTOR3 cameraRot = CApplication::GetCamera()->GetRot();
+	D3DXVECTOR3 cR = D3DXVECTOR3(-cosf(cameraRot.y), 0.0f, sinf(cameraRot.y));
+	float fA = acosf(cR.x);
+
 	if (!m_bGoal)
 	{
 		return;
@@ -919,10 +735,11 @@ void CPlayer::GoalMove()
 	if (m_pos.z >= m_TargetPos.z)
 	{
 		m_move = Vec3Null;
-
-		if (m_rot.y <= m_DestRot2.y)
-		{
-			m_rot.y += 0.01f * D3DX_PI;
-		}
+		m_DestRot.y = D3DX_PI * 0.5f + fA;
+	}
+	
+	if(m_rot.y <= m_DestRot.y * 2.0f)
+	{
+		m_bRot = true;
 	}
 }

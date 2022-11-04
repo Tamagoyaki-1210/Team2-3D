@@ -101,14 +101,14 @@ void CCoin::Update(void)
 			m_move.y += -0.7f;
 		}
 
-		CMeshfield::FieldInteraction(this);
-
 		D3DXVECTOR3 newPos = GetPos() + m_move;
 		SetPos(newPos);
 		m_pHitbox->SetPos(newPos);
 
 		m_move.x += (0.0f - m_move.x) * 0.05f;
 		m_move.z += (0.0f - m_move.z) * 0.05f;
+
+		CMeshfield::FieldInteraction(this);
 	}
 }
 

@@ -16,7 +16,6 @@
 //=============================================================================
 //前方宣言
 //=============================================================================
-class CModel;
 class CModelPart;
 class CAnimator;
 class CCylinderHitbox;
@@ -46,6 +45,7 @@ public:
 	{
 		STATE_NEUTRAL = 0,
 		STATE_RUNNING,
+		STATE_JUMP,
 		STATE_PUNCH,
 		STATE_MAX
 	};
@@ -81,10 +81,19 @@ public:
 	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; }	//目的の角度の取得処理
 
 	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);		//生成処理
+	static D3DXCOLOR* GetPlayerColors(void);
 
 	void PlayerController(int nCntPlayer);
 	void SetPlayerIdx(int nCntPlayer);
-	
+
+	bool GetGoal() { return m_bGoal; }
+
+	bool GetRotCmp();
+
+	void MoveWinner();
+
+	void SetWinner(bool bWinner);
+
 private:
 	void GoalMove();
 
@@ -94,7 +103,6 @@ private:
 	D3DXVECTOR3 m_move;									//速度
 	D3DXVECTOR3 m_rot;									//向き
 	D3DXVECTOR3 m_DestRot;								//目的の角度
-	D3DXVECTOR3 m_DestRot2;								//目的の角度
 	D3DXMATRIX  m_mtxWorld;								//ワールドマトリックス
 	bool		m_bJump;								//ジャンプしているかどうか
 	int			m_nInvincibilityCnt;					//無敵状態のカウンター
@@ -104,13 +112,13 @@ private:
 	bool m_bMove;
 	bool m_bWinner;
 	bool m_bPos;
+	bool m_bRot;
+
+	int m_nScore[PLAYER_MAX];
 
 	D3DXVECTOR3 m_TargetPos;
 
-	D3DXVECTOR3 GoalPos1;
-	D3DXVECTOR3 GoalPos2;
-	D3DXVECTOR3 GoalPos3;
-	D3DXVECTOR3 GoalPos4;
+	D3DXVECTOR3 GoalPos;
 
 	CModelPart* m_pModel[PARTS_MAX];					//モデルへのポインタ
 	CAnimator* m_pAnimator;
