@@ -8,6 +8,8 @@
 #include "Application.h"
 #include "inputKeyboard.h"
 #include "fade.h"
+#include "playerModel.h"
+#include "camera.h"
 
 CFontString* CPlayerSelect::m_pStr = nullptr;
 //=====================================
@@ -32,6 +34,9 @@ CPlayerSelect::~CPlayerSelect()
 HRESULT CPlayerSelect::Init(void)
 {
 	m_pStr = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 50.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), "キャラクターセレクト");
+
+	CCamera* pCamera = CApplication::GetCamera();
+	pCamera->SetPos(D3DXVECTOR3(50.0f, 230.0f, -200.0f), D3DXVECTOR3(50.0f, 220.0f, 100.0f));
 
 	return S_OK;
 }
@@ -88,6 +93,11 @@ CPlayerSelect* CPlayerSelect::Create(void)
 	if (FAILED(pPlayerSelect->Init()))
 	{
 		return nullptr;
+	}
+
+	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+	{
+		CPlayerModel::Create(D3DXVECTOR3(-100.0f + (100.0f * nCnt), 220.0f, 100.0f), nCnt);
 	}
 
 	return pPlayerSelect;

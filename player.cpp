@@ -26,6 +26,7 @@
 #include "silhouette.h"
 #include "goal.h"
 #include "coin.h"
+#include "playerModel.h"
 
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
 {
@@ -509,10 +510,10 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 
 	D3DXCOLOR UIcol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 
-	pModel->m_pModel[BODY]->SetModelColor(2, m_playerColor[nCntPlayer]);
-	pModel->m_pModel[LEFT_ARM]->SetModelColor(2, m_playerColor[nCntPlayer]);
-	pModel->m_pModel[RIGHT_ARM]->SetModelColor(2, m_playerColor[nCntPlayer]);
-	UIcol = m_playerColor[nCntPlayer];
+	D3DXCOLOR col = CPlayerModel::GetPlayerColors()[nCntPlayer];
+
+	pModel->m_pModel[BODY]->SetModelColor(2, col);
+	UIcol = col;
 	pModel->m_TargetPos = D3DXVECTOR3(-223.0f + (61.0f * (nCntPlayer + 1)),-149.0f,1009.0f);
 
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
@@ -521,6 +522,16 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 
 	return pModel;
 }
+
+D3DXCOLOR* CPlayer::GetPlayerColors(void)
+{
+	return m_playerColor;
+}
+
+
+
+
+
 
 void CPlayer::PlayerController(int nCntPlayer)
 {

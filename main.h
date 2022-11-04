@@ -46,7 +46,7 @@ namespace
 	LPCTSTR WINDOW_NAME = _T("3D Team Work");
 }
 
-#define PLAYER_MAX		(4)		//プレイヤーの最大人数
+//#define PLAYER_MAX		(4)		//プレイヤーの最大人数
 
 // スクリーンの幅
 const int SCREEN_WIDTH = 1280;
@@ -58,6 +58,8 @@ const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 const DWORD FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 // 線頂点フォーマット
 const DWORD FVF_VERTEX_LINE = (D3DFVF_XYZ | D3DFVF_DIFFUSE);
+
+const int PLAYER_MAX = 4;
 
 const D3DXVECTOR2 Vec2Null = D3DXVECTOR2(0.0f, 0.0f);
 const D3DXVECTOR3 Vec3Null = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
