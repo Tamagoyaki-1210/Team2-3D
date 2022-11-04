@@ -219,7 +219,7 @@ void CMessage::WinMessage()
 		}
 
 		m_type = MESSAGE_WIN;
-		m_nMessageCounter = 120;
+		m_nMessageCounter = 300;
 	}
 }
 

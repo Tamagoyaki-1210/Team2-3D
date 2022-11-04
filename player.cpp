@@ -353,7 +353,7 @@ void CPlayer::Update(void)
 			}
 		}
 		
-		//MoveWinner();
+		MoveWinner();
 
 		if (m_pHitbox != nullptr)
 		{
@@ -362,7 +362,6 @@ void CPlayer::Update(void)
 				m_pHitbox->SetPos(m_pos);
 				m_pHitbox->Update();
 			}
-			
 		}
 
 		if (m_pScoreUI != nullptr && m_pScore != nullptr)
@@ -690,24 +689,30 @@ bool CPlayer::GetRotCmp()
 	return m_bRot;
 }
 
+//=====================================
+// èüé“ÇÃà⁄ìÆèàóù
+//=====================================
 void CPlayer::MoveWinner()
 {
-	if (!m_bPos)
+	if (m_bWinner)
 	{
-		GoalPos = m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-		m_bPos = true;
-	}
+		if (!m_bPos)
+		{
+			GoalPos = m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+			m_bPos = true;
+		}
 
-	m_fAngle = sqrtf((float)(pow(GoalPos.x - m_pos.x, 2) + pow(GoalPos.z -m_pos.z, 2)));
-	m_move.x = (GoalPos.x - m_pos.x) / (m_fAngle / 1.0f);
-	m_move.z = (GoalPos.z - m_pos.z) / (m_fAngle / 1.0f);
+		m_fAngle = sqrtf((float)(pow(GoalPos.x - m_pos.x, 2) + pow(GoalPos.z - m_pos.z, 2)));
+		m_move.x = (GoalPos.x - m_pos.x) / (m_fAngle / 1.0f);
+		m_move.z = (GoalPos.z - m_pos.z) / (m_fAngle / 1.0f);
 
-	if (m_pos.z <= GoalPos.z)
-	{
-		m_move = Vec3Null;
-		m_bMove = true;
+		if (m_pos.z <= GoalPos.z)
+		{
+			m_move = Vec3Null;
+			m_bMove = true;
 
-		CGoal::SetGoal(true, 0);
+			//CGoal::SetGoal(true, 0);
+		}
 	}
 }
 

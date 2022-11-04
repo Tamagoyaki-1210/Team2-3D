@@ -110,7 +110,29 @@ void CMenu::Uninit(void)
 //=====================================
 void CMenu::Update(void)
 {
-	if (CApplication::GetMode() == CApplication::Mode_Game_Race)
+	ModeType();
+}
+
+//=====================================
+// 入力処理
+//=====================================
+void CMenu::ModeType(void)
+{
+	switch (CApplication::GetMode())
+	{
+	case CApplication::Mode_Title:
+	{
+		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
+		{
+			if (m_pChoice[nCnt] != nullptr)
+			{
+				m_pChoice[nCnt]->Update();
+			}
+		}
+		Input();
+	}
+	break;
+	case CApplication::Mode_Game_Race:
 	{
 		// ポーズ中でない場合のみ更新
 		if (CApplication::GetPause() == true)
@@ -125,7 +147,8 @@ void CMenu::Update(void)
 			Input();
 		}
 	}
-	else
+	break;
+	case CApplication::Mode_Result:
 	{
 		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
 		{
@@ -135,6 +158,10 @@ void CMenu::Update(void)
 			}
 		}
 		Input();
+	}
+	break;
+	default:
+		break;
 	}
 }
 
