@@ -44,6 +44,7 @@ public:
 
 	LPDIRECT3DVERTEXBUFFER9 GetBuff();
 
+	void LoadTexture(const char *aFileName);				//テクスチャの読み込み
 private:
 	void SetVertex(void);								//頂点インデックスの設定処理
 

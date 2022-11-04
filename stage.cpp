@@ -23,11 +23,17 @@
 #include "goal.h"
 #include "camera.h"
 #include "SpikeBall.h"
+#include <string>
+
+//アニメーション情報のテキストファイルの相対パス
+char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
+{
+	{ "data\\STAGESET\\StageSet1.txt" },
+};
 
 CMeshfield *CStage::m_pField = nullptr;
 CHalfSphere* CStage::m_pSphere[PLAYER_MAX] = {};
 CPlayer* CStage::m_pPlayer[PLAYER_MAX] = {};
-
 //=====================================
 // デフォルトコンストラクタ
 //=====================================
@@ -51,15 +57,14 @@ HRESULT CStage::Init(void)
 {
 	// メッシュフィールドの生成
 	m_pField = CMeshfield::Create(D3DXVECTOR3(-200.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
-	m_pField->SetTexture(CObject::TEXTURE_BLOCK);
-	m_pField->SetTextureTiling(0.33f);
 
 	// スフィアメッシュ
 	m_pSphere[0] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -2000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
-	m_pSphere[0]->LoadTexture("data\\TEXTURE\\sky001.jpg");
 
 	m_pSphere[1] = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, D3DX_PI, D3DX_PI), CHalfSphere::SPHERE_DOWN);
-	m_pSphere[1]->LoadTexture("data\\TEXTURE\\89_m.jpg");
+
+	// ステージ読み込み処理
+	Load();
 
 	CGoal::Create();
 
@@ -69,59 +74,8 @@ HRESULT CStage::Init(void)
 	m_pPlayer[2] = CPlayer::Create(D3DXVECTOR3(-100.0f, -100.0f, -100.0f), 2);
 	m_pPlayer[3] = CPlayer::Create(D3DXVECTOR3(-150.0f, -100.0f, -100.0f), 3);
 
-	CObject_2D* pObj2D = CObject_2D::Create();
-	pObj2D->SetPos(D3DXVECTOR3(100.0f, 100.0f, 0.0f));
-	pObj2D->SetSize(D3DXVECTOR2(20.0f, 20.0f));
-	pObj2D->SetTexture(CObject::TEXTURE_LETTERS);
-	pObj2D->SetTextureParameter(5, 13, 2, 60);
-	pObj2D->SetAnimPattern(15);
-	pObj2D->SetAnimationBase(15);
-
-	// オブジェクト3Dの生成
-	//CObject_3D* pObj = CObject_3D::Create();
-	//pObj->SetPos(D3DXVECTOR3(0.0f, -200.0f, 300.0f));
-	//pObj->SetSize(D3DXVECTOR2(100.0f, 100.0f));
-	//pObj->SetColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	//pObj->SetStartingRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	//pObj->SetTexture(CObject::TEXTURE_BLOCK);
-	//pObj->SetTextureParameter(1, 1, 1, INT_MAX);
-
-	// モデルの生成
-	//CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, -150.0f));
-	//CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, 150.0f));
-
-	// ビルボードの生成
-	//CBillboard* pBillboard = CBillboard::Create(D3DXVECTOR3(-150.0f, 0.0f, 300.0f), D3DXVECTOR2(50.0f, 50.0f), 3);
-	//pBillboard->SetTexture(CObject::TEXTURE_BLOCK);
-
-	// UIStringの生成
-	CUIString::Create(D3DXVECTOR3(100.0f, 200.0f, 0.0f), D3DXVECTOR2(250.0f, 25.0f), D3DXCOLOR(0.2f, 1.0f, 0.5f, 1.0f), "Sentence A, 125 $%&");
-
-	CLetter::Create(D3DXVECTOR3(200.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 'r', 5);
-
-	CLetter::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 4, 5);
-
-	CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_OBSTACLE, nullptr, -30, CHitbox::EFFECT_LAUNCH);
-	CCylinderHitbox::Create(D3DXVECTOR3(150.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
-
-	CCoin::Create(D3DXVECTOR3(-100.0f, -125.0f, 200.0f), CCoin::COIN_0);
-	CCoin::Create(D3DXVECTOR3(0.0f, -125.0f, 200.0f), CCoin::COIN_1);
-	CCoin::Create(D3DXVECTOR3(100.0f, -125.0f, 200.0f), CCoin::COIN_2);
-	CCoin::Create(D3DXVECTOR3(200.0f, -125.0f, 200.0f), CCoin::COIN_3);
-
-	CSpikeBall::Create(D3DXVECTOR3(-50.0f, -125.0f, 500.0f));
-
-	//CModel::Create(CModel::MODEL_SPIKE_BALL, D3DXVECTOR3(-50.0f, -125.0f, 500.0f));
-
-	//CModel* pModel = nullptr;
-	//CModel::Create(CModel::MODEL_OBSTACLE_0, D3DXVECTOR3(-100.0f, -120.0f, 300.0f));
-	//CModel::Create(CModel::MODEL_OBSTACLE_1, D3DXVECTOR3(0.0f, -120.0f, 300.0f));
-	//CModel::Create(CModel::MODEL_OBSTACLE_2, D3DXVECTOR3(100.0f, -120.0f, 300.0f));
-	//pModel = CModel::Create(CModel::MODEL_OBSTACLE_3, D3DXVECTOR3(200.0f, -120.0f, 300.0f));
-	//pModel->SetModelColor(4, D3DXCOLOR(0.68f, 0.68f, 0.68f, 1.0f));
-
-	//UI
-	//m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
+	//CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_OBSTACLE, nullptr, -30, CHitbox::EFFECT_LAUNCH);
+	//CCylinderHitbox::Create(D3DXVECTOR3(150.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
 
 	if (CApplication::GetCamera() != nullptr)
 	{
@@ -167,6 +121,24 @@ void CStage::Update(void)
 }
 
 //=====================================
+// 終了処理
+//=====================================
+void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
+{
+	switch (type)
+	{
+	case CStage::MODEL_SPIKEBALL:
+	{
+		// 鉄球
+		CSpikeBall::Create(D3DXVECTOR3(pos));
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+//=====================================
 // 生成処理
 //=====================================
 CStage* CStage::Create(void)
@@ -179,4 +151,170 @@ CStage* CStage::Create(void)
 	}
 
 	return pStage;
+}
+
+
+//=====================================
+//読み込み処理
+//=====================================
+void CStage::Load()
+{
+	char aStr[256] = {};		//読み込む用文字列
+
+								//ファイルを開く
+	FILE* pFile = fopen(m_pStagePass[0], "r");
+
+	if (pFile != nullptr)
+	{//ファイルが開いた場合
+		fscanf(pFile, "%s", aStr);
+
+		while (strncmp(aStr, "END_SCRIPT", 10) != 0)
+		{//文字列の初期化と読み込み
+			fscanf(pFile, "%s", aStr);
+
+			// メッシュフィールド読み込み
+			if (strncmp(aStr, "FIELDSET", 8) == 0)
+			{
+				while (strncmp(aStr, "END_FIELDSET", 12) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
+					{//この後にコメント
+						fscanf(pFile, "%s", aStr);
+						fscanf(pFile, "%s", aStr);
+						m_pField->LoadTexture(aStr);
+					}
+					else if (strncmp(aStr, "TEXTURE_TILING", 14) == 0)
+					{//この後にコメント
+						fscanf(pFile, "%s", aStr);
+						fscanf(pFile, "%s", aStr);			// メッシュフィールドのタイリングを読み込む処理
+						std::string s = aStr;				// std::stringに変換する
+						float fTaling = std::stof(s);		//floatに変換する
+						m_pField->SetTextureTiling(fTaling);
+					}
+				}
+			}
+			else if (strncmp(aStr, "SPHERESET", 9) == 0)
+			{
+				int nSphere = 0;
+				while (strncmp(aStr, "END_SPHERESET", 13) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					while (strncmp(aStr, "END_SPHERE", 10) != 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						if (strncmp(aStr, "SPHERE", 6) == 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
+							{
+								fscanf(pFile, "%s", aStr);
+								fscanf(pFile, "%s", aStr);
+								m_pSphere[nSphere]->LoadTexture(aStr);
+							}
+						}
+					}
+					nSphere++;
+				}
+			}
+			else if (strncmp(aStr, "COINALLSET", 10) == 0)
+			{
+				int nCoinType = 0;
+				while (strncmp(aStr, "END_COINALLSET", 14) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "COINTYPESET", 11) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_COINTYPESET", 15) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "COINSET", 7) == 0)
+							{
+								while (strncmp(aStr, "END_COINSET", 11) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "COIN", 4) == 0)
+									{
+										while (strncmp(aStr, "END_COIN", 8) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												float x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float z = std::stof(s);		//floatに変換する
+
+												CCoin::Create(D3DXVECTOR3(x, y, z), (CCoin::COIN_TYPE)nCoinType);
+											}
+										}
+									}
+								}
+							}
+						}
+						nCoinType++;
+					}
+				}
+			}
+			else if (strncmp(aStr, "MODELALLSET", 11) == 0)
+			{
+				int nModelType = 0;
+				while (strncmp(aStr, "END_MODELALLSET", 15) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "MODELTYPESET", 12) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_MODELTYPESET", 16) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "MODELSET", 8) == 0)
+							{
+								while (strncmp(aStr, "END_MODELSET", 12) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "MODEL", 5) == 0)
+									{
+										while (strncmp(aStr, "END_MODEL", 9) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												float x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float z = std::stof(s);		//floatに変換する
+
+												SetModelType(D3DXVECTOR3(x, y, z), (ModelType)nModelType);
+											}
+										}
+									}
+								}
+							}
+						}
+						nModelType++;
+					}
+				}
+			}
+		}
+	}
+	//ファイルを閉じる
+	fclose(pFile);
 }
