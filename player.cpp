@@ -23,7 +23,6 @@
 #include "UIString.h"
 #include "stage.h"
 #include "rendering.h"
-#include "silhouette.h"
 #include "goal.h"
 #include "coin.h"
 #include "playerModel.h"
@@ -44,7 +43,7 @@ D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
 };
 
 //コンストラクタ
-CPlayer::CPlayer()
+CPlayer::CPlayer() : CObject::CObject(1)
 {
 	//メンバー変数をクリアする
 	m_move = Vec3Null;					//速度の初期化処理		
@@ -251,11 +250,23 @@ void CPlayer::Update(void)
 
 	//SetPos(pos);
 
-	//地面との当たり判定
-	if (CMeshfield::FieldInteraction(this))
 	{
-		m_bJump = false;		//着地している状態にする
-		m_bHit = false;
+		float fHeight = 0.0f;
+
+			//地面との当たり判定
+			if (CMeshfield::FieldInteraction(this, &fHeight))
+			{
+				m_bJump = false;		//着地している状態にする
+				m_bHit = false;
+
+				for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
+				{
+					if (m_pModel[nCnt] != nullptr)
+					{
+						m_pModel[nCnt]->SetShadowHeight(fHeight);
+					}
+				}
+			}
 	}
 
 	if (m_pAnimator != nullptr)
@@ -498,22 +509,22 @@ void CPlayer::Draw(void)
 		//デバイスの取得処理
 		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
-		//ステンシルバッファを有効にする
-		pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+		////ステンシルバッファを有効にする
+		//pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
 
-		//ステンシルバッファと比較する参照値設定
-		pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
+		////ステンシルバッファと比較する参照値設定
+		//pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
 
-		//ステンシルバッファの値に対してのマスク設定
-		pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
+		////ステンシルバッファの値に対してのマスク設定
+		//pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
 
-		//ステンシルテストの比較方法の設定
-		pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_GREATEREQUAL);
+		////ステンシルテストの比較方法の設定
+		//pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_GREATEREQUAL);
 
-		//ステンシルテストの結果に対しての反映設定
-		pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
-		pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
-		pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+		////ステンシルテストの結果に対しての反映設定
+		//pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+		//pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+		//pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
 
 
 		D3DXMATRIX mtxTrans, mtxRot;												//計算用のマトリックス
@@ -537,8 +548,8 @@ void CPlayer::Draw(void)
 			}
 		}
 
-		//ステンシルバッファを無効にする
-		pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+		////ステンシルバッファを無効にする
+		//pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 	}
 }
 
@@ -614,7 +625,7 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
 
-	CSilhouette::Create();
+	//CSilhouette::Create();
 
 	return pModel;
 }

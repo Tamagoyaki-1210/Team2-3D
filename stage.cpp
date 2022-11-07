@@ -19,6 +19,7 @@
 #include "SpikeBall.h"
 #include "score.h"
 #include "message.h"
+#include "silhouette.h"
 #include <string>
 
 //アニメーション情報のテキストファイルの相対パス
@@ -85,6 +86,8 @@ HRESULT CStage::Init(void)
 	{
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
+
+	CSilhouette::Create();
 
 	return S_OK;
 }
