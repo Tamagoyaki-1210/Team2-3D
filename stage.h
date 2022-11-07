@@ -42,7 +42,7 @@ public:
 		MODEL_TYPE_MAX
 	};
 
-	//ПбКQХ®ВћОнЧё
+	//П∞ВћОнЧё
 	enum FloorType
 	{
 		FLOOR_LAVA = 0,

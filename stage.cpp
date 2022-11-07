@@ -21,6 +21,7 @@
 #include "score.h"
 #include "message.h"
 #include "silhouette.h"
+#include "environment.h"
 #include <string>
 
 #include "trampoline.h"
@@ -71,7 +72,7 @@ HRESULT CStage::Init(void)
 	// ステージ読み込み処理
 	Load();
 
-	CGoal::Create(D3DXVECTOR3(0.0f, -150.0f, 900.0f));
+	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
 
 	//CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
 
@@ -508,6 +509,54 @@ void CStage::Load()
 							}
 						}
 						nFloorType++;
+					}
+				}
+			}
+			else if (strncmp(aStr, "ENVIRONMENTALLSET", 17) == 0)
+			{// コイン読み込み
+				int nEnvironmentType = 0;
+				while (strncmp(aStr, "END_ENVIRONMENTALLSET", 21) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "ENVIRONMENTTYPESET", 18) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_ENVIRONMENTTYPESET", 22) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "ENVIRONMENTSET", 14) == 0)
+							{
+								while (strncmp(aStr, "END_ENVIRONMENTSET", 18) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "ENVIRONMENT", 11) == 0)
+									{
+										while (strncmp(aStr, "END_ENVIRONMENT", 15) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												float x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float z = std::stof(s);		//floatに変換する
+
+												CEnvironment::Create(D3DXVECTOR3(x, y, z), (CEnvironment::EnvironmentType)nEnvironmentType);
+											}
+										}
+									}
+								}
+							}
+						}
+						nEnvironmentType++;
 					}
 				}
 			}
