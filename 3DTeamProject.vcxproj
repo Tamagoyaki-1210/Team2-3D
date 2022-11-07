@@ -204,6 +204,7 @@
     <ClCompile Include="stage.cpp" />
     <ClCompile Include="stageSelect.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="trampoline.cpp" />
     <ClCompile Include="UIString.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +258,7 @@
     <ClInclude Include="stage.h" />
     <ClInclude Include="stageSelect.h" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="trampoline.h" />
     <ClInclude Include="UIString.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
