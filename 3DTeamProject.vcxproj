@@ -164,6 +164,7 @@
     <ClCompile Include="CylinderHitbox.cpp" />
     <ClCompile Include="debugProc.cpp" />
     <ClCompile Include="directionalLight.cpp" />
+    <ClCompile Include="environment.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="fontString.cpp" />
@@ -203,6 +204,7 @@
     <ClCompile Include="stage.cpp" />
     <ClCompile Include="stageSelect.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="trampoline.cpp" />
     <ClCompile Include="UIString.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +218,7 @@
     <ClInclude Include="CylinderHitbox.h" />
     <ClInclude Include="debugProc.h" />
     <ClInclude Include="directionalLight.h" />
+    <ClInclude Include="environment.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="font.h" />
     <ClInclude Include="fontString.h" />
@@ -255,6 +258,7 @@
     <ClInclude Include="stage.h" />
     <ClInclude Include="stageSelect.h" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="trampoline.h" />
     <ClInclude Include="UIString.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

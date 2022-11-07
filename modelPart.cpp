@@ -23,6 +23,7 @@ CModelPart::CModelPart()
 	m_LastPos = Vec3Null;							//前回の位置
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
+	m_shadowPosY = 0.0f;
 	m_minCoord = Vec3Null;
 	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
@@ -48,6 +49,7 @@ HRESULT CModelPart::Init(void)
 	m_LastPos = Vec3Null;							//前回の位置
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
+	m_shadowPosY = 0.0f;
 	m_minCoord = Vec3Null;
 	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
@@ -87,11 +89,28 @@ void CModelPart::Draw(void)
 		mtxParent = m_pParent->GetMatrix();
 	}
 
+	//ステンシルバッファを有効にする
+	pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+
+	//ステンシルバッファと比較する参照値設定
+	pDevice->SetRenderState(D3DRS_STENCILREF, 0x02);
+
+	//ステンシルバッファの値に対してのマスク設定
+	pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
+
+	//ステンシルテストの比較方法の設定
+	pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_GREATEREQUAL);
+
+	//ステンシルテストの結果に対しての反映設定
+	pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+	pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+
 	D3DXVECTOR3 dir = CDirectionalLight::GetPrincipalLightDir();
 	D3DXVec3Normalize(&dir, &dir);
 
 	vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
-	pos = D3DXVECTOR3(0.0f, -149.0f, 0.0f);
+	pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);
 	Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -152,6 +171,20 @@ void CModelPart::Draw(void)
 	}
 
 	pMat = nullptr;
+
+	//ステンシルバッファと比較する参照値設定
+	pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
+
+	//ステンシルバッファの値に対してのマスク設定
+	pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
+
+	//ステンシルテストの比較方法の設定
+	pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
+
+	//ステンシルテストの結果に対しての反映設定
+	pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+	pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
 
 	//保持しいたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
@@ -202,6 +235,9 @@ void CModelPart::Draw(void)
 
 	//保持しいたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
+
+	//ステンシルバッファを無効にする
+	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 }
 
 //描画処理
@@ -219,7 +255,7 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 	D3DXVec3Normalize(&dir, &dir);
 
 	vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
-	pos = D3DXVECTOR3(0.0f, -149.0f, 0.0f);
+	pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);
 	Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -245,6 +281,23 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 
 	//ワールドマトリックスの設定
 	pDevice->SetTransform(D3DTS_WORLD, &mtxShadow);
+
+	//ステンシルバッファを有効にする
+	pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+
+	//ステンシルバッファと比較する参照値設定
+	pDevice->SetRenderState(D3DRS_STENCILREF, 0x02);
+
+	//ステンシルバッファの値に対してのマスク設定
+	pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
+
+	//ステンシルテストの比較方法の設定
+	pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_GREATEREQUAL);
+
+	//ステンシルテストの結果に対しての反映設定
+	pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+	pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
 
 	//現在のマテリアルを保持
 	pDevice->GetMaterial(&matDef);
@@ -280,6 +333,20 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 	}
 
 	pMat = nullptr;
+
+	//ステンシルバッファと比較する参照値設定
+	pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
+
+	//ステンシルバッファの値に対してのマスク設定
+	pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
+
+	//ステンシルテストの比較方法の設定
+	pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
+
+	//ステンシルテストの結果に対しての反映設定
+	pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
+	pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
 
 	//保持しいたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
@@ -332,6 +399,9 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 	pDevice->SetMaterial(&matDef);
 
 	pDevice->SetTexture(0, nullptr);
+
+	//ステンシルバッファを無効にする
+	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 }
 
 //親の設定処理
@@ -381,6 +451,12 @@ D3DXMATRIX CModelPart::GetMatrix(void)
 	return m_mtxWorld;
 }
 
+//影の高さの設定処理
+void CModelPart::SetShadowHeight(const float fHeight)
+{
+	m_shadowPosY = fHeight;
+}
+
 //カーラーの設定処理
 void CModelPart::SetModelColor(const int nNumMat, const D3DXCOLOR col)
 {
@@ -423,6 +499,7 @@ CModelPart* CModelPart::Create(CModel::ModelType type, const D3DXVECTOR3 pos, co
 	pModel->m_rot = rot;
 	pModel->m_LastPos = pos;
 	pModel->m_type = type;
+	pModel->m_shadowPosY = pos.y;
 
 	CModel::GetModel(type, &pModel->m_pMesh, &pModel->m_pBuffMat, &pModel->m_nNumMat);
 	CModel::GetTextures(pModel->m_vModelTexture, type);

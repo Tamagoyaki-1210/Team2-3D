@@ -38,10 +38,12 @@ public:
 	enum ModelType
 	{
 		MODEL_SPIKEBALL = 0,
+		MODEL_BOUNCEPOLE,
+		MODEL_TRAMPOLINE,
 		MODEL_TYPE_MAX
 	};
 
-	//ПбКQХ®ВћОнЧё
+	//П∞ВћОнЧё
 	enum FloorType
 	{
 		FLOOR_LAVA = 0,

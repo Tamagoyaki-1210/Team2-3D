@@ -1,12 +1,12 @@
 //=============================================================================
 //
-// goal.h
+// environment.h
 // Author : Kajita Hiromu
 //
 //=============================================================================
 
-#ifndef _GOAL_H_
-#define _GOAL_H_
+#ifndef _ENVIROMENT_H_
+#define _ENVIROMENT_H_
 
 //=============================================================================
 //インクルードファイル
@@ -17,26 +17,27 @@
 //前方宣言
 //=============================================================================
 
-class CGoal : public CModel
+class CEnvironment : public CModel
 {
 public:
-	CGoal();										//コンストラクタ
-	~CGoal() override;								//デストラクタ
+	//自然・環境の種類
+	enum EnvironmentType
+	{
+		ENVIRONMENT_MOUNT = 0,
+		ENVIRONMENT_TYPE_MAX
+	};
+
+	CEnvironment();										//コンストラクタ
+	~CEnvironment() override;								//デストラクタ
 
 	HRESULT Init(void) override;					//初期化処理
 	void Uninit(void) override;						//終了処理
 	void Update(void) override;						//更新処理
 	void Draw(void) override;						//描画処理
 
-	static void SetGoal(bool bGoal, int nWinnerIdx);
-
-	static CGoal* Create(D3DXVECTOR3 pos);	//生成処理
+	static CEnvironment* Create(D3DXVECTOR3 pos, EnvironmentType type);	//生成処理
 
 private:
-
-
-	static int m_nWinnerIdx;
-	static bool m_bGoal;									//ゴールしたかどうか
 };
 
-#endif
+#endif //!_ENVIROMENT_H_

@@ -20,7 +20,12 @@
 #include "lavaFloor.h"
 #include "score.h"
 #include "message.h"
+#include "silhouette.h"
+#include "environment.h"
 #include <string>
+
+#include "trampoline.h"
+#include "bouncePole.h"
 
 //アニメーション情報のテキストファイルの相対パス
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
@@ -57,7 +62,7 @@ CStage::~CStage()
 HRESULT CStage::Init(void)
 {
 	// メッシュフィールドの生成
-	m_pField = CMeshfield::Create(D3DXVECTOR3(-200.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
+	m_pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
 
 	// スフィアメッシュ
 	m_pSphere[0] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -2000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
@@ -67,12 +72,14 @@ HRESULT CStage::Init(void)
 	// ステージ読み込み処理
 	Load();
 
-	CGoal::Create();
+	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
+
+	//CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
 
 	// プレイヤーの生成
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
 	{
-		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-50.0f * nCnt, -100.0f, -100.0f), nCnt);
+		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -100.0f, -100.0f), nCnt);
 	}
 
 	// メッセージの生成
@@ -86,6 +93,10 @@ HRESULT CStage::Init(void)
 	{
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
+
+	//CBoxHitbox::Create(D3DXVECTOR3(50.0f, -150.0f, 300.0f), Vec3Null, D3DXVECTOR3(25.0f, 100.0f, 100.0f), CHitbox::TYPE_NEUTRAL, nullptr, 0, CHitbox::EFFECT_BOUNCE);
+
+	CSilhouette::Create();
 
 	return S_OK;
 }
@@ -152,7 +163,18 @@ void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 		CSpikeBall::Create(pos);
 	}
 	break;
-
+	case CStage::MODEL_BOUNCEPOLE:
+	{
+		// 跳ね返る円柱
+		CBouncePole::Create(pos);
+	}
+	break;
+	case CStage::MODEL_TRAMPOLINE:
+	{
+		// 跳ね返る円柱
+		CTrampoline::Create(pos);
+	}
+	break;
 	default:
 		break;
 	}
@@ -171,7 +193,6 @@ void CStage::SetFloorType(D3DXVECTOR3 pos, FloorType type)
 		CLavaFloor::Create(pos);
 	}
 	break;
-
 	default:
 		break;
 	}
@@ -493,6 +514,54 @@ void CStage::Load()
 							}
 						}
 						nFloorType++;
+					}
+				}
+			}
+			else if (strncmp(aStr, "ENVIRONMENTALLSET", 17) == 0)
+			{// コイン読み込み
+				int nEnvironmentType = 0;
+				while (strncmp(aStr, "END_ENVIRONMENTALLSET", 21) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "ENVIRONMENTTYPESET", 18) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_ENVIRONMENTTYPESET", 22) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "ENVIRONMENTSET", 14) == 0)
+							{
+								while (strncmp(aStr, "END_ENVIRONMENTSET", 18) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "ENVIRONMENT", 11) == 0)
+									{
+										while (strncmp(aStr, "END_ENVIRONMENT", 15) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												float x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float z = std::stof(s);		//floatに変換する
+
+												CEnvironment::Create(D3DXVECTOR3(x, y, z), (CEnvironment::EnvironmentType)nEnvironmentType);
+											}
+										}
+									}
+								}
+							}
+						}
+						nEnvironmentType++;
 					}
 				}
 			}

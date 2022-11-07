@@ -1,12 +1,11 @@
 //=============================================================================
 //
-// goal.h
-// Author : Kajita Hiromu
+// trampoline.h
+// Author : Ricci Alex
 //
 //=============================================================================
-
-#ifndef _GOAL_H_
-#define _GOAL_H_
+#ifndef TRAMPOLINE_H
+#define TRAMPOLINE_H
 
 //=============================================================================
 //インクルードファイル
@@ -16,27 +15,29 @@
 //=============================================================================
 //前方宣言
 //=============================================================================
+class CCylinderHitbox;
 
-class CGoal : public CModel
+class CTrampoline : public CModel
 {
 public:
-	CGoal();										//コンストラクタ
-	~CGoal() override;								//デストラクタ
-
-	HRESULT Init(void) override;					//初期化処理
-	void Uninit(void) override;						//終了処理
-	void Update(void) override;						//更新処理
-	void Draw(void) override;						//描画処理
-
-	static void SetGoal(bool bGoal, int nWinnerIdx);
-
-	static CGoal* Create(D3DXVECTOR3 pos);	//生成処理
+	CTrampoline();										//コンストラクタ
+	~CTrampoline();										//デストラクタ
+														
+	HRESULT Init(void) override;						//初期化処理
+	void Uninit(void) override;							//終了処理
+	void Update(void) override;							//更新処理
+														
+	static CTrampoline* Create(const D3DXVECTOR3 pos);	//生成処理
 
 private:
 
+	CCylinderHitbox* m_pHitbox;
 
-	static int m_nWinnerIdx;
-	static bool m_bGoal;									//ゴールしたかどうか
 };
+
+
+
+
+
 
 #endif

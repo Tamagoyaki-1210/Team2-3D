@@ -37,6 +37,8 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Coin\\Coin02.x" },
 	{ "data\\MODELS\\Coin\\Coin03.x" },
 
+	{ "data\\MODELS\\Mountains\\Fuji.x" },
+
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade.x" },
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Ball.x" },
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Cylinder.x" },
@@ -44,6 +46,10 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 
 	{ "data\\MODELS\\NeedleBall\\NeedleBall.x" },
 	{ "data\\MODELS\\LavaFloor\\Lava.x" },
+	{ "data\\MODELS\\BoundPole\\BoundPole.x" },
+	{ "data\\MODELS\\traps\\jump.x" },
+
+	{ "data\\MODELS\\Goal\\Goal01.x" },
 };
 
 //コンストラクタ
@@ -62,6 +68,7 @@ CModel::CModel()
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
 	m_type = CModel::MODEL_BODY;
 	m_vCol.clear();
+	m_bShadow = true;
 }
 
 CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
@@ -79,6 +86,7 @@ CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
 	m_type = CModel::MODEL_BODY;
 	m_vCol.clear();
+	m_bShadow = true;
 }
 
 //デストラクタ
@@ -102,6 +110,7 @@ HRESULT CModel::Init(void)
 	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
 	m_vCol.clear();
+	m_bShadow = true;
 
 	/*std::vector <LPDIRECT3DTEXTURE9> v;
 
@@ -146,90 +155,95 @@ void CModel::Draw(void)
 	D3DXVECTOR3 pos, Normal;
 	D3DXPLANE planeField;
 
-	D3DXVECTOR3 dir = CDirectionalLight::GetPrincipalLightDir();
-	D3DXVec3Normalize(&dir, &dir);
+	
+		D3DXVECTOR3 dir = CDirectionalLight::GetPrincipalLightDir();
+		D3DXVec3Normalize(&dir, &dir);
 
-	vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
-	pos = D3DXVECTOR3(0.0f, -149.0f, 0.0f);
-	Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
+		pos = D3DXVECTOR3(0.0f, -149.0f, 0.0f);
+		Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
-	//ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&m_mtxWorld);
-	D3DXMatrixIdentity(&mtxShadow);
+		//ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&m_mtxWorld);
+		D3DXMatrixIdentity(&mtxShadow);
 
-	//向きを反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
+		//向きを反映
+		D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
 
-	//位置を反映
-	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
+		//位置を反映
+		D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
-	D3DXPlaneFromPointNormal(&planeField, &pos, &Normal);
-	D3DXMatrixShadow(&mtxShadow, &vecLight, &planeField);
+		if (m_bShadow)
+		{
 
-	D3DXMatrixMultiply(&mtxShadow, &m_mtxWorld, &mtxShadow);
+		D3DXPlaneFromPointNormal(&planeField, &pos, &Normal);
+		D3DXMatrixShadow(&mtxShadow, &vecLight, &planeField);
 
-	//ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &mtxShadow);
+		D3DXMatrixMultiply(&mtxShadow, &m_mtxWorld, &mtxShadow);
 
-	//現在のマテリアルを保持
-	pDevice->GetMaterial(&matDef);
+		//ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &mtxShadow);
 
-	//マテリアルデータへのポインタの取得
-	pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
+		//現在のマテリアルを保持
+		pDevice->GetMaterial(&matDef);
 
-	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
-	{
-		//テクスチャの設定
-		pDevice->SetTexture(0, NULL);
+		//マテリアルデータへのポインタの取得
+		pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
 
-		D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;
+		for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
+		{
+			//テクスチャの設定
+			pDevice->SetTexture(0, NULL);
 
-		pMat[nCntMat].MatD3D.Diffuse.r = 0.0f;
-		pMat[nCntMat].MatD3D.Diffuse.g = 0.0f;
-		pMat[nCntMat].MatD3D.Diffuse.b = 0.0f;
-		pMat[nCntMat].MatD3D.Diffuse.a = 1.0f;
+			D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;
 
-		//マテリアルの設定
-		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+			pMat[nCntMat].MatD3D.Diffuse.r = 0.0f;
+			pMat[nCntMat].MatD3D.Diffuse.g = 0.0f;
+			pMat[nCntMat].MatD3D.Diffuse.b = 0.0f;
+			pMat[nCntMat].MatD3D.Diffuse.a = 1.0f;
 
-		//テクスチャの設定
-		pDevice->SetTexture(0, m_vModelTexture[m_type].data()[nCntMat]);
+			//マテリアルの設定
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
-		//モデルパーツの描画
-		m_pMesh->DrawSubset(nCntMat);
+			//テクスチャの設定
+			pDevice->SetTexture(0, m_vModelTexture[m_type].data()[nCntMat]);
 
-		pMat[nCntMat].MatD3D.Diffuse.r = col.r;
-		pMat[nCntMat].MatD3D.Diffuse.g = col.g;
-		pMat[nCntMat].MatD3D.Diffuse.b = col.b;
-		pMat[nCntMat].MatD3D.Diffuse.a = col.a;
+			//モデルパーツの描画
+			m_pMesh->DrawSubset(nCntMat);
+
+			pMat[nCntMat].MatD3D.Diffuse.r = col.r;
+			pMat[nCntMat].MatD3D.Diffuse.g = col.g;
+			pMat[nCntMat].MatD3D.Diffuse.b = col.b;
+			pMat[nCntMat].MatD3D.Diffuse.a = col.a;
+		}
+
+
+		//ステンシルバッファを有効にする
+		pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
+
+		//ステンシルバッファと比較する参照値設定
+		pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
+
+		//ステンシルバッファの値に対してのマスク設定
+		pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
+
+		//ステンシルテストの比較方法の設定
+		pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+
+		//ステンシルテストの結果に対しての反映設定
+		pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);
+		pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+		pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+
+		pMat = nullptr;
+
+		//保持しいたマテリアルを戻す
+		pDevice->SetMaterial(&matDef);
 	}
-
-
-	//ステンシルバッファを有効にする
-	pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
-
-	//ステンシルバッファと比較する参照値設定
-	pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
-
-	//ステンシルバッファの値に対してのマスク設定
-	pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
-
-	//ステンシルテストの比較方法の設定
-	pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
-
-	//ステンシルテストの結果に対しての反映設定
-	pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);
-	pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
-	pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
-
-	pMat = nullptr;
-
-	//保持しいたマテリアルを戻す
-	pDevice->SetMaterial(&matDef);
 
 
 	//ワールドマトリックスの設定
@@ -374,6 +388,12 @@ void CModel::SetModelColor(const int nNumMat, const D3DXCOLOR col)
 	mCol.col = col;
 
 	m_vCol.push_back(mCol);
+}
+
+//影が描画されているかどうかの設定処理
+void CModel::SetShadowDraw(const bool bDraw)
+{
+	m_bShadow = bDraw;
 }
 
 
