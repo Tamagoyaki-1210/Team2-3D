@@ -41,6 +41,13 @@ public:
 		MODEL_TYPE_MAX
 	};
 
+	//障害物の種類
+	enum FloorType
+	{
+		FLOOR_LAVA = 0,
+		FLOOR_TYPE_MAX
+	};
+
 	CStage();
 	~CStage();
 
@@ -52,6 +59,7 @@ public:
 	void LoadSelect(void);
 
 	static void SetModelType(D3DXVECTOR3 pos, ModelType type);
+	static void SetFloorType(D3DXVECTOR3 pos, FloorType type);
 
 	static CMeshfield* GetField(void) { return m_pField; }			// メッシュフィールドの取得処理
 	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; }	// プレイヤーの取得処理

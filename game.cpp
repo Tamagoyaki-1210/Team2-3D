@@ -6,6 +6,7 @@
 //=============================================================================
 #include "game.h"
 #include "inputKeyboard.h"
+#include "inputPad.h"
 #include "application.h"
 #include "menu.h"
 
@@ -49,7 +50,7 @@ void CGame::Uninit(void)
 void CGame::Update(void)
 {
 	//Pでポーズ切り替え
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_P))
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_P) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
 	{
 		bool bPause = !CApplication::GetPause();	//ポーズ切り替え処理
 		CApplication::SetPause(bPause);

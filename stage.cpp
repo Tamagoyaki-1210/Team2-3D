@@ -17,8 +17,10 @@
 #include "goal.h"
 #include "camera.h"
 #include "SpikeBall.h"
+#include "lavaFloor.h"
 #include "score.h"
 #include "message.h"
+#include "silhouette.h"
 #include <string>
 
 #include "bouncePole.h"
@@ -90,6 +92,10 @@ HRESULT CStage::Init(void)
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
+	CBoxHitbox::Create(D3DXVECTOR3(50.0f, -150.0f, 300.0f), Vec3Null, D3DXVECTOR3(25.0f, 100.0f, 100.0f), CHitbox::TYPE_NEUTRAL, nullptr, 0, CHitbox::EFFECT_BOUNCE);
+
+	CSilhouette::Create();
+
 	return S_OK;
 }
 
@@ -143,7 +149,7 @@ void CStage::Update(void)
 }
 
 //=====================================
-// 終了処理
+// モデル設定処理
 //=====================================
 void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 {
@@ -152,9 +158,29 @@ void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 	case CStage::MODEL_SPIKEBALL:
 	{
 		// 鉄球
-		CSpikeBall::Create(D3DXVECTOR3(pos));
+		CSpikeBall::Create(pos);
 	}
+	break;
+
+	default:
 		break;
+	}
+}
+
+//=====================================
+// 床設定処理
+//=====================================
+void CStage::SetFloorType(D3DXVECTOR3 pos, FloorType type)
+{
+	switch (type)
+	{
+	case CStage::FLOOR_LAVA:
+	{
+		// 溶岩床
+		CLavaFloor::Create(pos);
+	}
+	break;
+
 	default:
 		break;
 	}
@@ -428,6 +454,54 @@ void CStage::Load()
 							}
 						}
 						nModelType++;
+					}
+				}
+			}
+			else if (strncmp(aStr, "FLOORALLSET", 11) == 0)
+			{// 障害物モデル読み込み
+				int nFloorType = 0;
+				while (strncmp(aStr, "END_FLOORALLSET", 15) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "FLOORTYPESET", 12) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_FLOORTYPESET", 16) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "FLOORSET", 8) == 0)
+							{
+								while (strncmp(aStr, "END_FLOORSET", 12) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "FLOOR", 5) == 0)
+									{
+										while (strncmp(aStr, "END_FLOOR", 9) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												float x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float z = std::stof(s);		//floatに変換する
+
+												SetFloorType(D3DXVECTOR3(x, y, z), (FloorType)nFloorType);
+											}
+										}
+									}
+								}
+							}
+						}
+						nFloorType++;
 					}
 				}
 			}

@@ -100,6 +100,12 @@ void CCylinderHitbox::Update(void)
 								SetEffect(pHbx->data()[nCnt]->GetEffect());
 							}
 
+							if (pHbx->data()[nCnt]->GetEffect() == CHitbox::EFFECT_BOUNCE)
+							{
+								D3DXVECTOR3 dir = GetParent()->GetPos() - pHbx->data()[nCnt]->GetPos();
+								pHbx->data()[nCnt]->SetDirection(dir);
+							}
+
 							if (pHbx->data()[nCnt]->GetDirection() != Vec3Null)
 							{
 								SetDirection(pHbx->data()[nCnt]->GetDirection());
@@ -130,6 +136,17 @@ void CCylinderHitbox::Update(void)
 							if (GetEffect() == EFFECT_MAX && pHbx->data()[nCnt]->GetEffect() != EFFECT_MAX)
 							{
 								SetEffect(pHbx->data()[nCnt]->GetEffect());
+							}
+
+							if (pHbx->data()[nCnt]->GetEffect() == CHitbox::EFFECT_BOUNCE)
+							{
+								D3DXVECTOR3 dir = GetParent()->GetPos() - pHbx->data()[nCnt]->GetPos();
+								pHbx->data()[nCnt]->SetDirection(dir);
+							}
+
+							if (pHbx->data()[nCnt]->GetDirection() != Vec3Null)
+							{
+								SetDirection(pHbx->data()[nCnt]->GetDirection());
 							}
 						}
 					}

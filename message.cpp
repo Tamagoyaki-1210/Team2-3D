@@ -148,7 +148,7 @@ void CMessage::StartMessage(void)
 		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_START);
 		m_pObj2D->SetPriority(4);
-		m_nMessageCounter = 120;
+		m_nMessageCounter = 30;
 		m_type = MESSAGE_START;
 		m_bStart = true;
 		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_GAMESTART);

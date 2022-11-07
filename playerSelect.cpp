@@ -7,6 +7,7 @@
 #include "playerSelect.h"
 #include "Application.h"
 #include "inputKeyboard.h"
+#include "inputPad.h"
 #include "fade.h"
 #include "playerModel.h"
 #include "camera.h"
@@ -74,12 +75,12 @@ void CPlayerSelect::Input(void)
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK))
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, 0))
 		{// BACKSPACEキーを押したら
 			CApplication::SetMode(CApplication::Mode_Title);
 			pSound->Play(CSound::SOUND_LABEL_SE_NO);
 		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
 		{// Enterキーを押したら
 			CApplication::SetMode(CApplication::Mode_StageSelect);
 			pSound->Play(CSound::SOUND_LABEL_SE_YES);
