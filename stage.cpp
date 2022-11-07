@@ -20,7 +20,10 @@
 #include "lavaFloor.h"
 #include "score.h"
 #include "message.h"
+#include "silhouette.h"
 #include <string>
+
+#include "bouncePole.h"
 
 //アニメーション情報のテキストファイルの相対パス
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
@@ -69,6 +72,8 @@ HRESULT CStage::Init(void)
 
 	CGoal::Create(D3DXVECTOR3(0.0f, -150.0f, 900.0f));
 
+	CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
+
 	// プレイヤーの生成
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
 	{
@@ -86,6 +91,10 @@ HRESULT CStage::Init(void)
 	{
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
+
+	CBoxHitbox::Create(D3DXVECTOR3(50.0f, -150.0f, 300.0f), Vec3Null, D3DXVECTOR3(25.0f, 100.0f, 100.0f), CHitbox::TYPE_NEUTRAL, nullptr, 0, CHitbox::EFFECT_BOUNCE);
+
+	CSilhouette::Create();
 
 	return S_OK;
 }
