@@ -66,10 +66,10 @@ HRESULT CStage::Init(void)
 	CGoal::Create();
 
 	// ÉvÉåÉCÉÑÅ[ÇÃê∂ê¨
-	m_pPlayer[0] = CPlayer::Create(D3DXVECTOR3(0.0f, -100.0f, -100.0f), 0);
-	m_pPlayer[1] = CPlayer::Create(D3DXVECTOR3(-50.0f, -100.0f, -100.0f), 1);
-	m_pPlayer[2] = CPlayer::Create(D3DXVECTOR3(-100.0f, -100.0f, -100.0f), 2);
-	m_pPlayer[3] = CPlayer::Create(D3DXVECTOR3(-150.0f, -100.0f, -100.0f), 3);
+	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+	{
+		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-50.0f * nCnt, -100.0f, -100.0f), nCnt);
+	}
 
 	CObject_2D* pObj2D = CObject_2D::Create();
 	pObj2D->SetPos(D3DXVECTOR3(100.0f, 100.0f, 0.0f));
@@ -241,6 +241,12 @@ int CStage::ScoreComparison()
 			m_pPlayer[(int)PlayerScore[1].y]->MoveWinner();
 			m_pPlayer[(int)PlayerScore[2].y]->MoveWinner();
 			m_pPlayer[(int)PlayerScore[3].y]->MoveWinner();
+
+			m_pPlayer[(int)PlayerScore[0].y]->WinnerAnim();
+			m_pPlayer[(int)PlayerScore[1].y]->WinnerAnim();
+			m_pPlayer[(int)PlayerScore[2].y]->WinnerAnim();
+			m_pPlayer[(int)PlayerScore[3].y]->WinnerAnim();
+
 			nCnt = 4;
 		}
 		else if ((int)PlayerScore[2].x == (int)PlayerScore[0].x)
@@ -252,6 +258,16 @@ int CStage::ScoreComparison()
 			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
 			m_pPlayer[(int)PlayerScore[1].y]->MoveWinner();
 			m_pPlayer[(int)PlayerScore[2].y]->MoveWinner();
+
+			m_pPlayer[(int)PlayerScore[0].y]->WinnerAnim();
+			m_pPlayer[(int)PlayerScore[1].y]->WinnerAnim();
+			m_pPlayer[(int)PlayerScore[2].y]->WinnerAnim();
+
+			if (PLAYER_MAX >= 4)
+			{
+				m_pPlayer[(int)PlayerScore[3].y]->LoserAnim();
+			}
+
 			nCnt = 3;
 		}
 		else if ((int)PlayerScore[1].x == (int)PlayerScore[0].x)
@@ -261,6 +277,20 @@ int CStage::ScoreComparison()
 
 			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
 			m_pPlayer[(int)PlayerScore[1].y]->MoveWinner();
+
+			m_pPlayer[(int)PlayerScore[0].y]->WinnerAnim();
+			m_pPlayer[(int)PlayerScore[1].y]->WinnerAnim();
+
+			if (PLAYER_MAX >= 3)
+			{
+				m_pPlayer[(int)PlayerScore[2].y]->LoserAnim();
+			}
+			
+			if (PLAYER_MAX >= 4)
+			{
+				m_pPlayer[(int)PlayerScore[3].y]->LoserAnim();
+			}
+
 			nCnt = 2;
 		}
 		else
@@ -268,6 +298,24 @@ int CStage::ScoreComparison()
 			m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
 
 			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
+
+			m_pPlayer[(int)PlayerScore[0].y]->WinnerAnim();
+			
+			if (PLAYER_MAX >= 2)
+			{
+				m_pPlayer[(int)PlayerScore[1].y]->LoserAnim();
+			}
+		
+			if (PLAYER_MAX >= 3)
+			{
+				m_pPlayer[(int)PlayerScore[2].y]->LoserAnim();
+			}
+
+			if (PLAYER_MAX >= 4)
+			{
+				m_pPlayer[(int)PlayerScore[3].y]->LoserAnim();
+			}
+
 			nCnt = 1;
 		}
 	}

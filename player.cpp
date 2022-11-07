@@ -241,6 +241,7 @@ void CPlayer::Update(void)
 	if (CMeshfield::FieldInteraction(this))
 	{
 		m_bJump = false;		//’…’n‚µ‚Ä‚¢‚éó‘Ô‚É‚·‚é
+		m_bHit = false;
 	}
 
 	if (m_pAnimator != nullptr)
@@ -324,6 +325,9 @@ void CPlayer::Update(void)
 			case CHitbox::EFFECT_LAUNCH:
 
 			{
+				m_bHit = true;
+				m_pAnimator->SetPresentAnim(4);
+
 				int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);
 
 				for (int nCnt = 0; nCnt < spawnCoin; nCnt++)
@@ -343,7 +347,6 @@ void CPlayer::Update(void)
 					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
 					m_pHitbox->SetInvincibility(true);
 				}
-
 			}
 
 			break;
@@ -667,14 +670,14 @@ void CPlayer::PlayerController(int nCntPlayer)
 		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f
 		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  > 0.3f)
 	{
-		if (!m_bJump)
+		if (!m_bJump && !m_bHit)
 		{
 			m_pAnimator->SetLoopingAnim(1);
 			bMoving = true;
 		}
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) && !bMoving && !m_bJump)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) && !bMoving && !m_bJump && !m_bHit)
 	{
 		m_pAnimator->SetPresentAnim(3);
 	}
@@ -714,6 +717,16 @@ void CPlayer::MoveWinner()
 void CPlayer::SetWinner(bool bWinner)
 {
 	m_bWinner = bWinner;
+}
+
+void CPlayer::WinnerAnim()
+{
+	m_pAnimator->SetPresentAnim(5);
+}
+
+void CPlayer::LoserAnim()
+{
+	m_pAnimator->SetPresentAnim(6);
 }
 
 void CPlayer::GoalMove()
