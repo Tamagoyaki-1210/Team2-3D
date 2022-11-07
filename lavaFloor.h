@@ -10,14 +10,14 @@
 //=============================================================================
 //インクルードファイル
 //=============================================================================
-#include "object3D.h"
+#include "model.h"
 
 //=============================================================================
 //前方宣言
 //=============================================================================
 class CBoxHitbox;
 
-class CLavaFloor : public CObject_3D
+class CLavaFloor : public CModel
 
 {
 public:
@@ -28,7 +28,7 @@ public:
 	void Uninit(void) override;							//終了処理
 	void Update(void) override;							//更新処理
 														
-	static CLavaFloor* Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size);	//生成処理
+	static CLavaFloor* Create(const D3DXVECTOR3 pos);	//生成処理
 
 private:
 
