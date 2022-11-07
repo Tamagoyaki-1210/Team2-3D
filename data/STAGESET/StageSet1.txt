@@ -46,7 +46,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -150.0 -125.0 200.0
+				POS = -75.0 -125.0 200.0
 			END_COIN
 		END_COINSET	
 #------------------
@@ -54,7 +54,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -150.0 -125.0 100.0
+				POS = -75.0 -125.0 100.0
 			END_COIN
 
 		END_COINSET	
@@ -70,7 +70,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -100.0f -125.0f 200.0f
+				POS = -25.0f -125.0f 200.0f
 			END_COIN
 
 		END_COINSET	
@@ -86,7 +86,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -50.0f -125.0f 200.0f
+				POS = 25.0f -125.0f 200.0f
 			END_COIN
 
 		END_COINSET	
@@ -95,7 +95,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -50.0f -125.0f 50.0f
+				POS = 25.0f -125.0f 50.0f
 			END_COIN
 
 		END_COINSET	
@@ -104,7 +104,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -50.0f -125.0f 100.0f
+				POS = 25.0f -125.0f 100.0f
 			END_COIN
 
 		END_COINSET	
@@ -120,7 +120,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 0.0f -125.0f 200.0f
+				POS = 75.0f -125.0f 200.0f
 			END_COIN
 
 		END_COINSET	
@@ -134,7 +134,7 @@ END_COINALLSET
 #==============================================================================
 MODELALLSET
 #++++++++++++++++++++++++++++++++++++++
-# 障害物モデル[0]
+# 障害物モデル[0] MODEL_SPIKEBALL
 #++++++++++++++++++++++++++++++++++++++
 	MODELTYPESET
 #------------------
@@ -150,14 +150,14 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = -100.0 -125.0 500.0
+				POS = 50.0 -125.0 500.0
 			END_MODEL
 			
 		END_MODELSET
 
 	END_MODELTYPESET
 #++++++++++++++++++++++++++++++++++++++
-# 障害物モデル[1]
+# 障害物モデル[1] MODEL_BOUNCEPOLE
 #++++++++++++++++++++++++++++++++++++++
 	MODELTYPESET
 #------------------
@@ -165,7 +165,7 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = -145.0 -150.0 350.0
+				POS = -125.0 -150.0 350.0
 			END_MODEL
 		END_MODELSET	
 #------------------
@@ -173,10 +173,20 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = -100.0 -150.0 500.0
+				POS = -80.0 -150.0 500.0
 			END_MODEL
 			
 		END_MODELSET
+
+	END_MODELTYPESET
+	
+END_MODELALLSET
+
+
+#++++++++++++++++++++++++++++++++++++++
+# 障害物モデル[2] MODEL_TRAMPOLINE
+#++++++++++++++++++++++++++++++++++++++
+	MODELTYPESET
 
 	END_MODELTYPESET
 	
@@ -187,7 +197,7 @@ END_MODELALLSET
 #==============================================================================
 FLOORALLSET
 #++++++++++++++++++++++++++++++++++++++
-# 床モデル[0]
+# 床モデル[0] FLOOR_LAVA
 #++++++++++++++++++++++++++++++++++++++
 	FLOORTYPESET
 #------------------
@@ -195,12 +205,26 @@ FLOORALLSET
 #------------------
 		FLOORSET
 			FLOOR
-				POS = -100.0 -153.0 350.0
+				POS = 0.0 -153.0 350.0
 			END_FLOOR
 		END_FLOORSET	
 
 	END_FLOORTYPESET
 
 END_FLOORALLSET
+
+#==============================================================================
+# 環境モデル配置情報
+#==============================================================================
+ENVIRONMENTALLSET
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[0] ENVIRONMENT_MOUNT
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET
+
+	END_ENVIRONMENTTYPESET
+	
+END_ENVIRONMENTALLSET
+
 
 END_SCRIPT		# この行は絶対消さないこと！
