@@ -171,7 +171,7 @@ void CPlayer::Update(void)
 		m_pos += m_move;									//位置の更新
 	}
 
-	if (m_pos.y <= -1000.0f)
+	if (m_pos.y <= -500.0f)
 	{
 		D3DXVECTOR3 posCamera = CApplication::GetCamera()->GetPos();
 		m_pos = D3DXVECTOR3(posCamera.x, posCamera.y + 100.0f, posCamera.z + 300.0f);
@@ -311,6 +311,7 @@ void CPlayer::Update(void)
 				}
 
 				m_nInvincibilityCnt = 60;
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);
 
 				if (m_pHitbox != nullptr)
 				{
@@ -337,6 +338,7 @@ void CPlayer::Update(void)
 				m_move.z *= -50.f;
 
 				m_nInvincibilityCnt = 60;
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);
 
 				if (m_pHitbox != nullptr)
 				{
@@ -653,6 +655,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 	{//ジャンプ
 		m_move.y = 18.0f;
  		m_bJump = true;
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_JUMP);
 	}
 
 	bool bMoving = false;
@@ -710,8 +713,6 @@ void CPlayer::MoveWinner()
 		{
 			m_move = Vec3Null;
 			m_bMove = true;
-
-			//CGoal::SetGoal(true, 0);
 		}
 	}
 }

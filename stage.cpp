@@ -25,6 +25,7 @@
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
 {
 	{ "data\\STAGESET\\StageSet1.txt" },
+	{ "data\\STAGESET\\StageSet2.txt" },
 };
 
 CMeshfield *CStage::m_pField = nullptr;
@@ -262,10 +263,13 @@ CStage* CStage::Create(void)
 //=====================================
 void CStage::Load()
 {
+	// 選択されたステージの読み込み処理
+	LoadSelect();
+
 	char aStr[256] = {};		//読み込む用文字列
 
 								//ファイルを開く
-	FILE* pFile = fopen(m_pStagePass[0], "r");
+	FILE* pFile = fopen(m_pStagePass[m_nSelectStage], "r");
 
 	if (pFile != nullptr)
 	{//ファイルが開いた場合
@@ -275,9 +279,8 @@ void CStage::Load()
 		{//文字列の初期化と読み込み
 			fscanf(pFile, "%s", aStr);
 
-			// メッシュフィールド読み込み
 			if (strncmp(aStr, "FIELDSET", 8) == 0)
-			{
+			{// メッシュフィールド読み込み
 				while (strncmp(aStr, "END_FIELDSET", 12) != 0)
 				{
 					fscanf(pFile, "%s", aStr);
@@ -298,7 +301,7 @@ void CStage::Load()
 				}
 			}
 			else if (strncmp(aStr, "SPHERESET", 9) == 0)
-			{
+			{// ハーフスフィアメッシュ読み込み
 				int nSphere = 0;
 				while (strncmp(aStr, "END_SPHERESET", 13) != 0)
 				{
@@ -321,7 +324,7 @@ void CStage::Load()
 				}
 			}
 			else if (strncmp(aStr, "COINALLSET", 10) == 0)
-			{
+			{// コイン読み込み
 				int nCoinType = 0;
 				while (strncmp(aStr, "END_COINALLSET", 14) != 0)
 				{
@@ -369,7 +372,7 @@ void CStage::Load()
 				}
 			}
 			else if (strncmp(aStr, "MODELALLSET", 11) == 0)
-			{
+			{// 障害物モデル読み込み
 				int nModelType = 0;
 				while (strncmp(aStr, "END_MODELALLSET", 15) != 0)
 				{
@@ -417,6 +420,27 @@ void CStage::Load()
 				}
 			}
 		}
+	}
+	//ファイルを閉じる
+	fclose(pFile);
+}
+
+//=====================================
+// 選択されたステージの読み込み処理
+//=====================================
+void CStage::LoadSelect()
+{
+	char aStr[256] = {};		//読み込む用文字列
+
+								//ファイルを開く
+	FILE* pFile = fopen("data\\STAGESET\\SelectStage.txt", "r");
+
+	if (pFile != nullptr)
+	{//ファイルが開いた場合
+		fscanf(pFile, "%s", aStr);		// 選択されたステージを読み込む処理
+		std::string s = aStr;			// std::stringに変換する
+		int nSelect = std::stoi(s);		// intに変換する
+		m_nSelectStage = (StageType)nSelect;
 	}
 	//ファイルを閉じる
 	fclose(pFile);

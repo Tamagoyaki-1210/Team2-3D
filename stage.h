@@ -30,6 +30,7 @@ public:
 	enum StageType
 	{
 		STAGE_TYPE_1 = 0,
+		STAGE_TYPE_2,
 		STAGE_TYPE_MAX
 	};
 
@@ -48,6 +49,7 @@ public:
 	void Update(void);
 
 	void Load(void);
+	void LoadSelect(void);
 
 	static void SetModelType(D3DXVECTOR3 pos, ModelType type);
 
@@ -63,7 +65,7 @@ public:
 	static void ScoreComparison();
 
 private:
-	//int m_nSelectStage;										// 現在選択されているステージ
+	StageType m_nSelectStage;										// 現在選択されているステージ
 	static char* m_pStagePass[STAGE_TYPE_MAX];				//ステージの外部ファイルの相対パス
 	static ModelType m_ModelType;
 

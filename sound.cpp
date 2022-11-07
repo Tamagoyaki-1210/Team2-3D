@@ -13,7 +13,28 @@
 
 CSound::SOUNDPARAM CSound::g_aParam[SOUND_LABEL_MAX] =
 {
-	{ "data/SOUNDS/BGM/GameBGM.wav", -1 },								// SOUND_LABEL_BGM_GAME = 0,
+	{ "data/SOUNDS/BGM/タイトル画面BGM.wav", -1 },		// SOUND_LABEL_BGM_TITLE = 0
+	{ "data/SOUNDS/BGM/セレクト画面BGM.wav", -1 },		// SOUND_LABEL_BGM_SELECT
+	{ "data/SOUNDS/BGM/ゲーム画面BGM01.wav", -1 },		// SOUND_LABEL_BGM_GAME01
+	{ "data/SOUNDS/BGM/ゲーム画面BGM02.wav", -1 },		// SOUND_LABEL_BGM_GAME02
+	{ "data/SOUNDS/BGM/リザルト画面BGM.wav", -1 },		// SOUND_LABEL_BGM_RESULT
+
+	{ "data/SOUNDS/SE/選択/選択SE.wav", 0 },						// SOUND_LABEL_SE_SELECT
+	{ "data/SOUNDS/SE/決定/決定SE.wav", 0 },						// SOUND_LABEL_SE_YES
+	{ "data/SOUNDS/SE/決定/ステージ決定SE.wav", 0 },				// SOUND_LABEL_SE_YES_STAGE,
+	{ "data/SOUNDS/SE/キャンセル/キャンセルSE.wav", 0 },			// SOUND_LABEL_SE_NO
+	{ "data/SOUNDS/SE/ポーズ/笛・開始.wav", 0 },					// SOUND_LABEL_SE_WHISTLE_START
+	{ "data/SOUNDS/SE/ポーズ/笛・終了.wav", 0 },					// SOUND_LABEL_SE_WHISTLE_STOP
+	{ "data/SOUNDS/SE/ポーズ/笛・停止.wav", 0 },					// SOUND_LABEL_SE_WHISTLE_FINISH
+	{ "data/SOUNDS/SE/コイン/コインSE.wav", 0 },					// SOUND_LABEL_SE_COIN_GET
+	{ "data/SOUNDS/SE/Win/Win.wav", 0 },							// SOUND_LABEL_SE_WIN
+	{ "data/SOUNDS/SE/カウントダウン/カウントダウンSE.wav", 0 },	// SOUND_LABEL_SE_COUNTDOWN
+	{ "data/SOUNDS/SE/カウントダウン/ゲーム開始SE.wav", 0 },		// SOUND_LABEL_SE_GAMESTART
+	{ "data/SOUNDS/SE/カウントダウン/ピストルSE.wav", 0 },			// SOUND_LABEL_SE_PISTOL
+	{ "data/SOUNDS/SE/ダメージ/ダメージSE.wav", 0 },				// SOUND_LABEL_SE_DAMAGE
+	{ "data/SOUNDS/SE/歓声/歓声SE1.wav", 0 },						// SOUND_LABEL_SE_CHEERS01
+	{ "data/SOUNDS/SE/歓声/歓声SE2.wav", 0 },						// SOUND_LABEL_SE_CHEERS02
+	{ "data/SOUNDS/SE/ジャンプ/ジャンプSE.wav", 0 },						// SOUND_LABEL_SE_JUMP
 };
 
 //コンストラクタ
