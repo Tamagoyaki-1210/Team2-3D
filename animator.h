@@ -71,7 +71,6 @@ public:
 
 	void SetPresentAnim(int nPresentAnim);
 	void SetLoopingAnim(int nPresentAnim);
-
 private:
 
 	//アニメーションスピード

@@ -47,6 +47,7 @@ public:
 		STATE_RUNNING,
 		STATE_JUMP,
 		STATE_PUNCH,
+		STATE_DAMAGE,
 		STATE_MAX
 	};
 
@@ -75,12 +76,12 @@ public:
 	void SetPos(const D3DXVECTOR3 pos) override { m_pos = pos; }		//位置の設定処理
 	void SetRot(const D3DXVECTOR3 rot) { m_rot = rot; }					//位置の設定処理
 
-	const D3DXVECTOR2 GetSize(void) override { return Vec2Null; }			//サイズの取得処理
+	const D3DXVECTOR2 GetSize(void) override { return Vec2Null; }		//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override { return m_pos; }			//位置の取得処理
 
 	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; }	//目的の角度の取得処理
 
-	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);		//生成処理
+	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);	//生成処理
 	static D3DXCOLOR* GetPlayerColors(void);
 
 	void PlayerController(int nCntPlayer);
@@ -93,6 +94,9 @@ public:
 	void MoveWinner();
 
 	void SetWinner(bool bWinner);
+
+	void WinnerAnim();
+	void LoserAnim();
 
 private:
 	void GoalMove();
@@ -113,6 +117,7 @@ private:
 	bool m_bWinner;
 	bool m_bPos;
 	bool m_bRot;
+	bool m_bHit;
 
 	int m_nScore[PLAYER_MAX];
 

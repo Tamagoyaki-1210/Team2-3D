@@ -69,10 +69,10 @@ HRESULT CStage::Init(void)
 	CGoal::Create();
 
 	// プレイヤーの生成
-	m_pPlayer[0] = CPlayer::Create(D3DXVECTOR3(0.0f, -100.0f, -100.0f), 0);
-	m_pPlayer[1] = CPlayer::Create(D3DXVECTOR3(-50.0f, -100.0f, -100.0f), 1);
-	m_pPlayer[2] = CPlayer::Create(D3DXVECTOR3(-100.0f, -100.0f, -100.0f), 2);
-	m_pPlayer[3] = CPlayer::Create(D3DXVECTOR3(-150.0f, -100.0f, -100.0f), 3);
+	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+	{
+		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-50.0f * nCnt, -100.0f, -100.0f), nCnt);
+	}
 
 	// メッセージの生成
 	m_pMessage = CMessage::Create();
@@ -80,8 +80,6 @@ HRESULT CStage::Init(void)
 	// カウントダウンメッセージ表示
 	m_pMessage->SetCountDown(3);
 
-	//CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_OBSTACLE, nullptr, -30, CHitbox::EFFECT_LAUNCH);
-	//CCylinderHitbox::Create(D3DXVECTOR3(150.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
 
 	if (CApplication::GetCamera() != nullptr)
 	{

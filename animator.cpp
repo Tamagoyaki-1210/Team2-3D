@@ -375,5 +375,3 @@ void CAnimator::SetLoopingAnim(int nPresentAnim)
 		}
 	}
 }
-
-
