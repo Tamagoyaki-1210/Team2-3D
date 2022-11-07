@@ -57,7 +57,7 @@ CStage::~CStage()
 HRESULT CStage::Init(void)
 {
 	// メッシュフィールドの生成
-	m_pField = CMeshfield::Create(D3DXVECTOR3(-200.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
+	m_pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
 
 	// スフィアメッシュ
 	m_pSphere[0] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -2000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
@@ -67,12 +67,12 @@ HRESULT CStage::Init(void)
 	// ステージ読み込み処理
 	Load();
 
-	CGoal::Create();
+	CGoal::Create(D3DXVECTOR3(0.0f, -150.0f, 900.0f));
 
 	// プレイヤーの生成
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
 	{
-		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-50.0f * nCnt, -100.0f, -100.0f), nCnt);
+		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -100.0f, -100.0f), nCnt);
 	}
 
 	// メッセージの生成

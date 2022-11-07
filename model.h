@@ -49,6 +49,8 @@ public:
 		MODEL_SPIKE_BALL,
 		MODEL_LAVA_FLOOR,
 
+		MODEL_GOAL,
+
 		MODEL_MAX
 	};
 

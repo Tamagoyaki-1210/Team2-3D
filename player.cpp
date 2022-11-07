@@ -21,6 +21,7 @@
 #include "CylinderHitbox.h"
 #include "score.h"
 #include "UIString.h"
+#include "gamerace.h"
 #include "stage.h"
 #include "rendering.h"
 #include "silhouette.h"
@@ -268,7 +269,7 @@ void CPlayer::Update(void)
 	if (pCamera != nullptr)
 	{
 		D3DXVECTOR3 wallPos = pCamera->GetPos();
-		wallPos.z += 150.0f;
+		wallPos.z += 160.0f;
 
 		if (m_pos.z <= wallPos.z)
 		{
@@ -610,7 +611,9 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 
 	pModel->m_pModel[BODY]->SetModelColor(2, col);
 	UIcol = col;
-	pModel->m_TargetPos = D3DXVECTOR3(-223.0f + (61.0f * (nCntPlayer + 1)),-149.0f,1009.0f);
+	//pModel->m_TargetPos = D3DXVECTOR3(-223.0f + (61.0f * (nCntPlayer + 1)),-149.0f,1009.0f);
+	D3DXVECTOR3 fieldPos = CGameRace::GetStage()->GetField()->GetPos();
+	pModel->m_TargetPos = D3DXVECTOR3(-75.0f + (50.0f * (nCntPlayer)), -150.0f, fieldPos.z - 100.0f);
 
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
 
