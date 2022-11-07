@@ -200,6 +200,7 @@
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="SpikeBall.cpp" />
     <ClCompile Include="stage.cpp" />
+    <ClCompile Include="stageSelect.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="UIString.cpp" />
   </ItemGroup>
@@ -250,6 +251,7 @@
     <ClInclude Include="sound.h" />
     <ClInclude Include="SpikeBall.h" />
     <ClInclude Include="stage.h" />
+    <ClInclude Include="stageSelect.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="UIString.h" />
   </ItemGroup>

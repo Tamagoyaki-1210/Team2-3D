@@ -37,7 +37,7 @@ public:
 	static CPlayerSelect* Create(void);
 private:
 
-	static CFontString* m_pStr;			// ‘I‘ðŽˆ•¶Žš—ñ
+	static CFontString* m_pStr;			// •¶Žš—ñ
 };
 
 #endif // !_TITLE_H_

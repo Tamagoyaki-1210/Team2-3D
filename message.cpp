@@ -84,6 +84,8 @@ void CMessage::Update(void)
 					{
 						m_nMessageCounter = CountDownLife;
 						m_pObj2D->SetAnimPattern(m_nNum);
+						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_COUNTDOWN);
+						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS01);
 					}
 					else
 					{
@@ -128,6 +130,9 @@ void CMessage::SetCountDown(int nNum)
 		m_pObj2D->SetAnimPattern(nNum);
 		m_nMessageCounter = CountDownLife;
 		m_type = MESSAGE_COUNTDOWN;
+
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_COUNTDOWN);
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS01);
 	}
 }
 
@@ -146,6 +151,9 @@ void CMessage::StartMessage(void)
 		m_nMessageCounter = 120;
 		m_type = MESSAGE_START;
 		m_bStart = true;
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_GAMESTART);
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_PISTOL);
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS02);
 	}
 }
 
@@ -166,6 +174,8 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_bStart = false;
 		// Ÿ”s”Ô†‚ð‘ã“ü‚·‚é
 		m_nMessageIdx = nMessageIdx;
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS02);
 	}
 }
 
@@ -219,7 +229,9 @@ void CMessage::WinMessage()
 		}
 
 		m_type = MESSAGE_WIN;
-		m_nMessageCounter = 120;
+		m_nMessageCounter = 300;
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WIN);
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS02);
 	}
 }
 

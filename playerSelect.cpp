@@ -70,15 +70,19 @@ void CPlayerSelect::Update(void)
 //=====================================
 void CPlayerSelect::Input(void)
 {
+	CSound *pSound = CApplication::GetSound();
+
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK))
 		{// BACKSPACEキーを押したら
 			CApplication::SetMode(CApplication::Mode_Title);
+			pSound->Play(CSound::SOUND_LABEL_SE_NO);
 		}
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
 		{// Enterキーを押したら
-			CApplication::SetMode(CApplication::Mode_Game_Race);
+			CApplication::SetMode(CApplication::Mode_StageSelect);
+			pSound->Play(CSound::SOUND_LABEL_SE_YES);
 		}
 	}
 }

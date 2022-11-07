@@ -15,7 +15,6 @@
 //---------------------------
 //‘O•ûéŒ¾
 //---------------------------
-class CMessage;
 class CStage;
 
 //---------------------------
@@ -31,11 +30,8 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 
-	static CMessage* GetMsg(void) { return m_pMessage; }
-
 	static CGameRace* Create(void);			//¶¬ˆ—
 private:
-	static CMessage* m_pMessage;
 	static CStage* m_pStage;
 };
 

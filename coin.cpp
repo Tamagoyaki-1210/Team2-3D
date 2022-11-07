@@ -11,6 +11,7 @@
 #include "coin.h"
 #include "BoxHitbox.h"
 #include "meshfield.h"
+#include "application.h"
 
 const D3DXVECTOR3 CCoin::m_hitboxSize[COIN_MAX] =
 {
@@ -78,6 +79,7 @@ void CCoin::Update(void)
 		{//何かと当たった場合
 			m_pHitbox->Release();		//ヒットボックスを消す
 			Release();					//コインを消す
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_COIN_GET);
 			return;
 		}
 	}

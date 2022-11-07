@@ -9,13 +9,11 @@
 #include "application.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
-#include "message.h"
 #include "fade.h"
 #include "stage.h"
 #include "lavaFloor.h"
 #include "object3D.h"
 
-CMessage* CGameRace::m_pMessage = nullptr;
 CStage* CGameRace::m_pStage = nullptr;
 
 //=====================================
@@ -42,11 +40,6 @@ HRESULT CGameRace::Init(void)
     CGame::Init();
 
 	m_pStage = CStage::Create();
-	// メッセージの生成
-	m_pMessage = CMessage::Create();
-
-	// カウントダウンメッセージ表示
-	m_pMessage->SetCountDown(3);
 
 	CLavaFloor::Create(D3DXVECTOR3(-100.0f, -149.9f, 500.0f), D3DXVECTOR2(100.0f, 15.0f));
 	
@@ -67,13 +60,6 @@ void CGameRace::Uninit(void)
 		delete m_pStage;
 		m_pStage = nullptr;
 	}
-
-	if (m_pMessage != nullptr)
-	{
-		m_pMessage->Uninit();
-		delete m_pMessage;
-		m_pMessage = nullptr;
-	}
 }
 
 //=====================================
@@ -82,11 +68,6 @@ void CGameRace::Uninit(void)
 void CGameRace::Update(void)
 {
     CGame::Update();
-
-	if (m_pMessage != nullptr)
-	{
-		m_pMessage->Update();
-	}
 
 	if (m_pStage != nullptr)
 	{
@@ -102,10 +83,6 @@ void CGameRace::Update(void)
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK))
 		{// Enterキーを押したら
 			SetEndGame();
-		}
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_G))
-		{// Gキーを押したら
-			m_pMessage->GoalMessage(0);
 		}
 	}
 

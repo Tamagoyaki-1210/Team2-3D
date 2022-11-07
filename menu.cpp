@@ -110,7 +110,29 @@ void CMenu::Uninit(void)
 //=====================================
 void CMenu::Update(void)
 {
-	if (CApplication::GetMode() == CApplication::Mode_Game_Race)
+	ModeType();
+}
+
+//=====================================
+// 入力処理
+//=====================================
+void CMenu::ModeType(void)
+{
+	switch (CApplication::GetMode())
+	{
+	case CApplication::Mode_Title:
+	{
+		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
+		{
+			if (m_pChoice[nCnt] != nullptr)
+			{
+				m_pChoice[nCnt]->Update();
+			}
+		}
+		Input();
+	}
+	break;
+	case CApplication::Mode_Game_Race:
 	{
 		// ポーズ中でない場合のみ更新
 		if (CApplication::GetPause() == true)
@@ -125,7 +147,8 @@ void CMenu::Update(void)
 			Input();
 		}
 	}
-	else
+	break;
+	case CApplication::Mode_Result:
 	{
 		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
 		{
@@ -135,6 +158,10 @@ void CMenu::Update(void)
 			}
 		}
 		Input();
+	}
+	break;
+	default:
+		break;
 	}
 }
 
@@ -156,6 +183,7 @@ void CMenu::Input(void)
 				m_nSelectNum = m_nNumAll - 1;
 			}
 			m_pChoice[m_nSelectNum]->SetSellect();
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 		}
 		else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).y > 0.3f)
 		{// Sキーが押された場合
@@ -168,6 +196,7 @@ void CMenu::Input(void)
 				m_nSelectNum = 0;
 			}
 			m_pChoice[m_nSelectNum]->SetSellect();
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 		}
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
 		{
@@ -183,20 +212,24 @@ void CMenu::Input(void)
 				{
 					ExitExe();
 				}
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
 				break;
 			case CApplication::Mode_Game_Race:
 				if (m_nSelectNum == 0)
 				{
 					CApplication::SetPause(false);
 					PauseChange(false);
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_START);
 				}
 				else if (m_nSelectNum == 1)
 				{
 					CApplication::SetMode(CApplication::Mode_Game_Race);
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 				}
 				else if (m_nSelectNum == 2)
 				{
 					CApplication::SetMode(CApplication::Mode_Title);
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 				}
 				break;
 			case CApplication::Mode_Result:
@@ -208,6 +241,7 @@ void CMenu::Input(void)
 				{
 					CApplication::SetMode(CApplication::Mode_Title);
 				}
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
 				break;
 			default:
 				break;
@@ -242,6 +276,7 @@ void CMenu::PauseChange(bool bPause)
 		m_pObj2D->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.1f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_NULL);
 		m_pObj2D->SetPriority(4);
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_STOP);
 	}
 	else
 	{
@@ -268,6 +303,7 @@ void CMenu::PauseChange(bool bPause)
 
 		m_nSelectNum = 0;
 		m_nNumAll = 0;
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_START);
 	}
 }
 

@@ -70,6 +70,7 @@ public:
 	static CAnimator* Create(std::vector <CModelPart*>* vParts, AnimType type);				//¶¬ˆ—
 
 	void SetPresentAnim(int nPresentAnim);
+	void SetLoopingAnim(int nPresentAnim);
 
 private:
 
