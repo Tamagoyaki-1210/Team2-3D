@@ -116,7 +116,7 @@ void CStageSelect::Input(void)
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x < -0.3f)
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, 0))
 		{// Wキーが押された場合
 			m_nSelectNum--;
 
@@ -128,7 +128,7 @@ void CStageSelect::Input(void)
 			m_pFrame->SetPos(D3DXVECTOR3(240.0f + (240.0f * m_nSelectNum), 300.0f, 0.0f));
 			pSound->Play(CSound::SOUND_LABEL_SE_SELECT);
 		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, 0).x > 0.3f)
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, 0))
 		{// Sキーが押された場合
 			m_nSelectNum++;
 
@@ -140,12 +140,12 @@ void CStageSelect::Input(void)
 			m_pFrame->SetPos(D3DXVECTOR3(240.0f + (240.0f * m_nSelectNum), 300.0f, 0.0f));
 			pSound->Play(CSound::SOUND_LABEL_SE_SELECT);
 		}
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK))
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, 0))
 		{// BACKSPACEキーを押したら
 			CApplication::SetMode(CApplication::Mode_PlayerSelect);
 			pSound->Play(CSound::SOUND_LABEL_SE_NO);
 		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
 		{// Enterキーを押したら
 			Save();
 			CApplication::SetMode(CApplication::Mode_Game_Race);
