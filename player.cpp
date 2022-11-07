@@ -30,6 +30,8 @@
 #include "message.h"
 #include "BoxHitbox.h"
 
+const float CPlayer::m_MaxWalkingSpeed = 7.0f;
+const float CPlayer::m_AccelerationCoeff = 2.0f;
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
 {
 
@@ -59,6 +61,7 @@ CPlayer::CPlayer() : CObject::CObject(1)
 	m_pAttackHitbox = nullptr;
 	m_bAttacking = false;
 	m_nCntAttack = 0;
+	m_fFrictionCoeff = 0.0f;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -100,6 +103,7 @@ HRESULT CPlayer::Init(void)
 	m_pAttackHitbox = nullptr;
 	m_bAttacking = false;
 	m_nCntAttack = 0;
+	m_fFrictionCoeff = 0.1f;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -176,14 +180,17 @@ void CPlayer::Update(void)
 
 	//m_pModel->SetPos(m_pModel->GetPos() + m_move);
 
-	m_move.x += (0.0f - m_move.x) * 0.1f;				//移動量のXコンポネントの更新
-	m_move.y += (0.0f - m_move.y) * 0.1f;				//移動量のYコンポネントの更新
-	m_move.z += (0.0f - m_move.z) * 0.1f;				//移動量のZコンポネントの更新
+	{
+		m_pos += m_move;								//位置の更新
+		CDebugProc::Print("\n%f %f %f", m_move.x, m_move.y, m_move.z);
+	}
+
+	m_move.x += (0.0f - m_move.x) * m_fFrictionCoeff;				//移動量のXコンポネントの更新
+	m_move.y += (0.0f - m_move.y) * m_fFrictionCoeff;				//移動量のYコンポネントの更新
+	m_move.z += (0.0f - m_move.z) * m_fFrictionCoeff;				//移動量のZコンポネントの更新
 
 	//if (!m_bMove)
-	{
-		m_pos += m_move;									//位置の更新
-	}
+	
 
 	if (m_pos.y <= -500.0f)
 	{
@@ -412,6 +419,25 @@ void CPlayer::Update(void)
 				m_move.x *= -50.0f;
 				m_move.y = 10.0f;
 				m_move.z *= -50.f;
+
+				if (m_pHitbox != nullptr)
+				{
+					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
+					m_pHitbox->SetDirection(Vec3Null);
+				}
+			}
+
+			break;
+
+			case CHitbox::EFFECT_JUMP:
+
+			{
+				m_bHit = true;
+				m_bJump = true;
+				m_pAnimator->SetPresentAnim(4);
+
+				D3DXVec3Normalize(&m_move, &m_move);
+				m_move.y = 30.0f;
 
 				if (m_pHitbox != nullptr)
 				{
@@ -676,39 +702,39 @@ void CPlayer::PlayerController(int nCntPlayer)
 		{//Wキーが押された場合
 			if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
 			{//Aキーも押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
-					m_move.x += 0.2f * cosf(D3DX_PI * 0.25f + cameraRot.y);
+					m_move.x += m_AccelerationCoeff * cosf(D3DX_PI * 0.25f + cameraRot.y) * (m_fFrictionCoeff);
 				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
 				{
-					m_move.z += 0.2f * sinf(D3DX_PI * 0.25f + cameraRot.y);
+					m_move.z += m_AccelerationCoeff * sinf(D3DX_PI * 0.25f + cameraRot.y) * (m_fFrictionCoeff);
 				}
 
 				m_DestRot.y = -D3DX_PI * 0.75f + fA;
 			}
 			else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.3f)
 			{//Dキーも押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
-					m_move.x += 0.2f * cosf(-D3DX_PI * 0.25f + cameraRot.y);
+					m_move.x += m_AccelerationCoeff * cosf(-D3DX_PI * 0.25f + cameraRot.y) * (m_fFrictionCoeff);
 				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
 				{
-					m_move.z += 0.2f * sinf(-D3DX_PI * 0.25f + cameraRot.y);
+					m_move.z += m_AccelerationCoeff * sinf(-D3DX_PI * 0.25f + cameraRot.y) * (m_fFrictionCoeff);
 				}
 
 				m_DestRot.y = -D3DX_PI * 0.25f + fA;
 			}
 			else
 			{//Wキーだけが押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
-					m_move.x += 0.2f * cosf(cameraRot.y);
+					m_move.x += m_AccelerationCoeff * cosf(cameraRot.y) * (m_fFrictionCoeff);
 				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
 				{
-					m_move.z += 0.2f * sinf(cameraRot.y);
+					m_move.z += m_AccelerationCoeff * sinf(cameraRot.y) * (m_fFrictionCoeff);
 				}
 
 				m_DestRot.y = -D3DX_PI * 0.5f + fA;
@@ -718,39 +744,39 @@ void CPlayer::PlayerController(int nCntPlayer)
 		{//Sキーが押された場合
 			if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
 			{//Aキーも押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
-					m_move.x += 0.2f * cosf(D3DX_PI * 0.75f + cameraRot.y);
+					m_move.x += m_AccelerationCoeff * cosf(D3DX_PI * 0.75f + cameraRot.y) * (m_fFrictionCoeff);
 				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
 				{
-					m_move.z += 0.2f * sinf(D3DX_PI * 0.75f + cameraRot.y);
+					m_move.z += m_AccelerationCoeff * sinf(D3DX_PI * 0.75f + cameraRot.y) * (m_fFrictionCoeff);
 				}
 
 				m_DestRot.y = D3DX_PI * 0.75f + fA;
 			}
 			else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.5f)
 			{//Dキーも押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
-					m_move.x += 0.2f * cosf(-D3DX_PI * 0.75f + cameraRot.y);
+					m_move.x += m_AccelerationCoeff * cosf(-D3DX_PI * 0.75f + cameraRot.y) * (m_fFrictionCoeff);
 				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
 				{
-					m_move.z += 0.2f * sinf(-D3DX_PI * 0.75f + cameraRot.y);
+					m_move.z += m_AccelerationCoeff * sinf(-D3DX_PI * 0.75f + cameraRot.y) * (m_fFrictionCoeff);
 				}
 
 				m_DestRot.y = D3DX_PI * 0.25f + fA;
 			}
 			else
 			{//Sキーだけが押された場合
-				if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
-					m_move.x += 0.2f * cosf(D3DX_PI + cameraRot.y);
+					m_move.x += m_AccelerationCoeff * cosf(D3DX_PI + cameraRot.y) * (m_fFrictionCoeff);
 				}
-				if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
 				{
-					m_move.z += 0.2f * sinf(D3DX_PI + cameraRot.y);
+					m_move.z += m_AccelerationCoeff * sinf(D3DX_PI + cameraRot.y) * (m_fFrictionCoeff);
 				}
 
 				m_DestRot.y = D3DX_PI * 0.5f + fA;
@@ -758,26 +784,26 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 		else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.3f)
 		{//Dキーだけ押された場合
-			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+			if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 			{
-				m_move.x += 0.2f * cosf(-D3DX_PI * 0.5f + cameraRot.y);
+				m_move.x += m_AccelerationCoeff * cosf(-D3DX_PI * 0.5f + cameraRot.y) * (m_fFrictionCoeff);
 			}
-			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+			if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
 			{
-				m_move.z += 0.2f * sinf(-D3DX_PI * 0.5f + cameraRot.y);
+				m_move.z += m_AccelerationCoeff * sinf(-D3DX_PI * 0.5f + cameraRot.y) * (m_fFrictionCoeff);
 			}
 
 			m_DestRot.y = fA;
 		}
 		else if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
 		{//Aキーだけ押された場合
-			if (m_move.x <= 4.0f && m_move.x >= -4.0f)
+			if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 			{
-				m_move.x += 0.2f * cosf(D3DX_PI * 0.5f + cameraRot.y);
+				m_move.x += m_AccelerationCoeff * cosf(D3DX_PI * 0.5f + cameraRot.y) * (m_fFrictionCoeff);
 			}
-			if (m_move.z <= 4.0f && m_move.z >= -4.0f)
+			if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
 			{
-				m_move.z += 0.2f * sinf(D3DX_PI * 0.5f + cameraRot.y);
+				m_move.z += m_AccelerationCoeff * sinf(D3DX_PI * 0.5f + cameraRot.y) * (m_fFrictionCoeff);
 			}
 			m_DestRot.y = D3DX_PI + fA;
 		}
@@ -816,6 +842,11 @@ void CPlayer::PlayerController(int nCntPlayer)
 void CPlayer::SetPlayerIdx(int nCntPlayer)
 {
 	m_nIdxPlayer = nCntPlayer;
+}
+
+void CPlayer::SetFriction(const float fFriction)
+{
+	m_fFrictionCoeff = fFriction;
 }
 
 bool CPlayer::GetRotCmp()

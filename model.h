@@ -77,6 +77,7 @@ public:
 	void StopRotating(void);
 
 	void SetModelColor(const int nNumMat, const D3DXCOLOR col);
+	void SetShadowDraw(const bool bDraw);
 
 	static void GetModel(ModelType type, LPD3DXMESH* pMesh, LPD3DXBUFFER* pBuffMat, DWORD* numMat);		//モデルのメッシュ情報の取得処理
 	static void GetTextures(std::vector <LPDIRECT3DTEXTURE9>& vTex, CModel::ModelType type);			//マテリアルのテクスチャの取得処理
@@ -100,6 +101,7 @@ private:
 	D3DXMATRIX		m_mtxWorld;												//ワールドマトリックス
 	ModelType		m_type;													//モデルの種類
 	std::vector <ModelColor> m_vCol;										//モデルの色
+	bool			m_bShadow;												//影があるかどうか
 
 	static LPD3DXMESH		m_pMeshAll[MODEL_MAX];							//メッシュ情報へのポインタ
 	static LPD3DXBUFFER		m_pBuffMatAll[MODEL_MAX];						//マテリアル情報へのポインタ
