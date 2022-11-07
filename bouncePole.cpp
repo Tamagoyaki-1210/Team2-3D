@@ -1,42 +1,43 @@
 //=============================================================================
 //
-// boundPole.cpp
+// bouncePole.cpp
 // Author : KAJITA HIROMU
 //
 //=============================================================================
 //=============================================================================
 //インクルードファイル
 //=============================================================================
-#include "boundPole.h"
+#include "bouncePole.h"
 #include "CylinderHitbox.h"
 
 //コンストラクタ
-CBoundPole::CBoundPole()
+CBouncePole::CBouncePole()
 {
 	m_pHitbox = nullptr;
 }
 
 //デストラクタ
-CBoundPole::~CBoundPole()
+CBouncePole::~CBouncePole()
 {
 
 }
 
 //初期化処理
-HRESULT CBoundPole::Init(void)
+HRESULT CBouncePole::Init(void)
 {
 	if (FAILED(CModel::Init()))
 	{
 		return -1;
 	}
 
+	m_Height = 0.0f;
 	m_pHitbox = nullptr;
 
 	return S_OK;
 }
 
 //終了処理
-void CBoundPole::Uninit(void)
+void CBouncePole::Uninit(void)
 {
 	if (m_pHitbox != nullptr)
 	{
@@ -48,19 +49,34 @@ void CBoundPole::Uninit(void)
 }
 
 //更新処理
-void CBoundPole::Update(void)
+void CBouncePole::Update(void)
 {
+	D3DXVECTOR3 pos = CModel::GetPos();
+
 	if (m_pHitbox != nullptr)
 	{
 		D3DXVECTOR3 newPos = GetPos() + m_pHitbox->GetRelativePos();
 		m_pHitbox->SetPos(newPos);
 	}
 
+	m_Height += D3DX_PI * 0.004f;
+
+	m_move.x = sinf((D3DX_PI * 0.25f) + m_Height) * 1.5f;
+
+	pos += m_move;
+	SetPos(pos);
+
+	if (m_pHitbox != nullptr)
+	{
+		m_pHitbox->SetPos(pos);
+		m_pHitbox->Update();
+	}
+
 	CModel::Update();
 }
 
 //描画処理
-void CBoundPole::Draw(void)
+void CBouncePole::Draw(void)
 {
 	CModel::Draw();
 }
@@ -71,9 +87,9 @@ void CBoundPole::Draw(void)
 
 
 //生成処理
-CBoundPole* CBoundPole::Create(const D3DXVECTOR3 pos)
+CBouncePole* CBouncePole::Create(const D3DXVECTOR3 pos)
 {
-	CBoundPole* pObs = new CBoundPole;
+	CBouncePole* pObs = new CBouncePole;
 
 	if (FAILED(pObs->Init()))
 	{

@@ -157,7 +157,7 @@
     <ClCompile Include="animator.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="billboard.cpp" />
-    <ClCompile Include="boundPole.cpp" />
+    <ClCompile Include="bouncePole.cpp" />
     <ClCompile Include="BoxHitbox.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="coin.cpp" />
@@ -209,7 +209,7 @@
     <ClInclude Include="animator.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="billboard.h" />
-    <ClInclude Include="boundPole.h" />
+    <ClInclude Include="bouncePole.h" />
     <ClInclude Include="BoxHitbox.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="coin.h" />
