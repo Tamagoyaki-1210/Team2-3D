@@ -70,7 +70,7 @@ HRESULT CStage::Init(void)
 	// ステージ読み込み処理
 	Load();
 
-	CGoal::Create(D3DXVECTOR3(0.0f, -150.0f, 900.0f));
+	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
 
 	//CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
 
