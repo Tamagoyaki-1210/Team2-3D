@@ -88,6 +88,8 @@ HRESULT CStage::Init(void)
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
+	CBoxHitbox::Create(D3DXVECTOR3(50.0f, -150.0f, 300.0f), Vec3Null, D3DXVECTOR3(25.0f, 100.0f, 100.0f), CHitbox::TYPE_NEUTRAL, nullptr, 0, CHitbox::EFFECT_BOUNCE);
+
 	CSilhouette::Create();
 
 	return S_OK;

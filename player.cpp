@@ -401,6 +401,26 @@ void CPlayer::Update(void)
 
 				break;
 
+			case CHitbox::EFFECT_BOUNCE:
+
+			{
+				m_bHit = true;
+				m_pAnimator->SetPresentAnim(4);
+
+				D3DXVec3Normalize(&m_move, &m_move);
+				m_move.x *= -50.0f;
+				m_move.y = 10.0f;
+				m_move.z *= -50.f;
+
+				if (m_pHitbox != nullptr)
+				{
+					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
+					m_pHitbox->SetDirection(Vec3Null);
+				}
+			}
+
+			break;
+
 			default:
 				break;
 			}
@@ -507,7 +527,7 @@ void CPlayer::Draw(void)
 	if (m_nInvincibilityCnt % 10 <= 5)
 	{
 		//デバイスの取得処理
-		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+		//LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
 		////ステンシルバッファを有効にする
 		//pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
