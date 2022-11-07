@@ -73,7 +73,7 @@ HRESULT CStage::Init(void)
 
 	CGoal::Create(D3DXVECTOR3(0.0f, -150.0f, 900.0f));
 
-	CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
+	//CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
 
 	// ÉvÉåÉCÉÑÅ[ÇÃê∂ê¨
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
@@ -163,7 +163,12 @@ void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 		CSpikeBall::Create(pos);
 	}
 	break;
-
+	case CStage::MODEL_BOUNCEPOLE:
+	{
+		// íµÇÀï‘ÇÈâ~íå
+		CBouncePole::Create(pos);
+	}
+	break;
 	default:
 		break;
 	}
@@ -182,7 +187,6 @@ void CStage::SetFloorType(D3DXVECTOR3 pos, FloorType type)
 		CLavaFloor::Create(pos);
 	}
 	break;
-
 	default:
 		break;
 	}
