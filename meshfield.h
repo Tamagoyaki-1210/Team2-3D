@@ -40,7 +40,8 @@ public:
 	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, 
 		const D3DXVECTOR2 unitSize, const int NumberLines, const int NumberColumns, const int nPriority);		//¶¬ˆ—
 
-	static bool FieldInteraction(CObject* pObj);		//“–‚½‚è”»’è‚Ìˆ—
+	static bool FieldInteraction(CObject* pObj);						//“–‚½‚è”»’è‚Ìˆ—
+	static bool FieldInteraction(CObject* pObj, float* fHeight);		//“–‚½‚è”»’è‚Ìˆ—
 
 	LPDIRECT3DVERTEXBUFFER9 GetBuff();
 

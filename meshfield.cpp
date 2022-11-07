@@ -397,6 +397,107 @@ bool CMeshfield::FieldInteraction(CObject* pObj)
 	return false;
 }
 
+//当たり判定の処理
+bool CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
+{
+	int nFieldNum = m_vMeshfield.size();
+
+	D3DXVECTOR3 pos = pObj->GetPos();
+
+	for (int nCntField = 0; nCntField < nFieldNum; nCntField++)
+	{
+		CMeshfield* pField = m_vMeshfield.data()[nCntField];
+
+		VERTEX_3D* pVtx = nullptr;
+
+		//頂点バッファをロック
+		pField->m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+		WORD*pIdx = nullptr;		//インデックス情報へのポインタ
+
+									//インデックスバッファをロック
+		pField->m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
+
+		for (int nCnt = 0; nCnt < pField->m_nPolygonNumber; nCnt++)
+		{
+			D3DXVECTOR3 Vtx[3] = {};
+			D3DXVECTOR3 Edge[3] = {};
+			D3DXVECTOR3 Distance[3] = {};
+			D3DXVECTOR3 Cross[3] = {};
+
+			Vtx[0] = pVtx[pIdx[nCnt]].pos;
+			Vtx[1] = pVtx[pIdx[nCnt + 1]].pos;
+			Vtx[2] = pVtx[pIdx[nCnt + 2]].pos;
+
+			D3DXMATRIX mtxOut, mtxTrans, mtxRot;
+
+			//ワルドマトリックスの初期化
+			D3DXMatrixIdentity(&mtxOut);
+
+			//向きを反映
+			D3DXMatrixRotationYawPitchRoll(&mtxRot, pField->m_rot.y, pField->m_rot.x, pField->m_rot.z);
+			D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxRot);
+
+			//位置を反映
+			D3DXMatrixTranslation(&mtxTrans, pField->m_pos.x, pField->m_pos.y, pField->m_pos.z);
+			D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxTrans);
+
+			//頂点座標をグローバル座標に変換する
+			D3DXVec3TransformCoord(&Vtx[0], &Vtx[0], &mtxOut);
+			D3DXVec3TransformCoord(&Vtx[1], &Vtx[1], &mtxOut);
+			D3DXVec3TransformCoord(&Vtx[2], &Vtx[2], &mtxOut);
+
+			Edge[0] = Vtx[1] - Vtx[0];
+			Edge[1] = Vtx[2] - Vtx[1];
+			Edge[2] = Vtx[0] - Vtx[2];
+
+			Distance[0] = pos - Vtx[0];
+			Distance[1] = pos - Vtx[1];
+			Distance[2] = pos - Vtx[2];
+
+			D3DXVec3Cross(&Cross[0], &Edge[0], &Distance[0]);
+			D3DXVec3Cross(&Cross[1], &Edge[1], &Distance[1]);
+			D3DXVec3Cross(&Cross[2], &Edge[2], &Distance[2]);
+
+			if (Cross[0].y * Cross[1].y >= 0 && Cross[0].y * Cross[2].y >= 0 && Cross[1].y * Cross[2].y >= 0)
+			{
+				D3DXVECTOR3 Normal = Vec3Null;
+
+				if (nCnt % 2 == 0)
+				{
+					D3DXVec3Cross(&Normal, &Edge[0], &Edge[1]);
+				}
+				else
+				{
+					D3DXVec3Cross(&Normal, &Edge[1], &Edge[0]);
+				}
+
+				D3DXVec3Normalize(&Normal, &Normal);
+
+				float Y = (Vtx[0].y) - ((((pos.x - (Vtx[0].x)) * Normal.x) + ((pos.z - Vtx[0].z) * Normal.z)) / Normal.y);
+
+				if (pos.y < Y && pos.y + 50.0f >= Y)
+				{
+					pos.y = Y;
+					pObj->SetPos(pos);
+					*fHeight = Y;
+					return true;
+					break;
+				}
+			}
+
+		}
+
+		//インデックスバッファをアンロック
+		pField->m_pIdxBuff->Unlock();
+
+		//頂点バッファのアンロック
+		pField->m_pVtxBuff->Unlock();
+	}
+
+	return false;
+}
+
 LPDIRECT3DVERTEXBUFFER9 CMeshfield::GetBuff()
 {
 	return m_pVtxBuff;
@@ -458,6 +559,11 @@ void CMeshfield::SetVertex(void)
 		pVtx[nCnt].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		//テクスチャ座標の設定
 		pVtx[nCnt].tex = D3DXVECTOR2(0.0f + (1.0f * (nCnt % m_nColumnVertex)), 0.0f + (1.0f * (nCnt / m_nColumnVertex)));
+
+		if (nCnt < 60)
+		{
+			pVtx[nCnt].pos.y += 50.0f;
+		}
 	}
 
 	/*pVtx[250].pos.y += (float)random(150, 200);
