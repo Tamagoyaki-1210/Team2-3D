@@ -106,7 +106,7 @@ CBouncePole* CBouncePole::Create(const D3DXVECTOR3 pos)
 	//pObs->StartRotation(rotation);
 	pObs->SetPos(pos);
 
-	pObs->m_pHitbox = CCylinderHitbox::Create(D3DXVECTOR3(pos.x, pos.y - 10.0f, pos.z), Vec3Null, D3DXVECTOR3(8.0f, 20.0f, 8.0f), CHitbox::TYPE_OBSTACLE, 0, pObs, CHitbox::EFFECT_PUSH);
+	pObs->m_pHitbox = CCylinderHitbox::Create(D3DXVECTOR3(pos.x, pos.y - 10.0f, pos.z), Vec3Null, D3DXVECTOR3(8.0f, 20.0f, 8.0f), CHitbox::TYPE_OBSTACLE, 0, pObs, CHitbox::EFFECT_BOUNCE);
 
 	return pObs;
 }
