@@ -29,6 +29,8 @@ public:
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
+
+	void ModeType(void);
 	void Input(void);
 
 	static void PauseChange(bool bPause);

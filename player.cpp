@@ -171,7 +171,7 @@ void CPlayer::Update(void)
 		m_pos += m_move;									//位置の更新
 	}
 
-	if (m_pos.y <= -1000.0f)
+	if (m_pos.y <= -500.0f)
 	{
 		D3DXVECTOR3 posCamera = CApplication::GetCamera()->GetPos();
 		m_pos = D3DXVECTOR3(posCamera.x, posCamera.y + 100.0f, posCamera.z + 300.0f);
@@ -312,6 +312,7 @@ void CPlayer::Update(void)
 				}
 
 				m_nInvincibilityCnt = 60;
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);
 
 				if (m_pHitbox != nullptr)
 				{
@@ -341,6 +342,7 @@ void CPlayer::Update(void)
 				m_move.z *= -50.f;
 
 				m_nInvincibilityCnt = 60;
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);
 
 				if (m_pHitbox != nullptr)
 				{
@@ -356,7 +358,7 @@ void CPlayer::Update(void)
 			}
 		}
 		
-		//MoveWinner();
+		MoveWinner();
 
 		if (m_pHitbox != nullptr)
 		{
@@ -365,7 +367,6 @@ void CPlayer::Update(void)
 				m_pHitbox->SetPos(m_pos);
 				m_pHitbox->Update();
 			}
-			
 		}
 
 		if (m_pScoreUI != nullptr && m_pScore != nullptr)
@@ -657,6 +658,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 	{//ジャンプ
 		m_move.y = 18.0f;
  		m_bJump = true;
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_JUMP);
 	}
 
 	bool bMoving = false;
@@ -693,24 +695,28 @@ bool CPlayer::GetRotCmp()
 	return m_bRot;
 }
 
+//=====================================
+// 勝者の移動処理
+//=====================================
 void CPlayer::MoveWinner()
 {
-	if (!m_bPos)
+	if (m_bWinner)
 	{
-		GoalPos = m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
-		m_bPos = true;
-	}
+		if (!m_bPos)
+		{
+			GoalPos = m_pos - D3DXVECTOR3(0.0f, 0.0f, 50.0f);
+			m_bPos = true;
+		}
 
-	m_fAngle = sqrtf((float)(pow(GoalPos.x - m_pos.x, 2) + pow(GoalPos.z -m_pos.z, 2)));
-	m_move.x = (GoalPos.x - m_pos.x) / (m_fAngle / 1.0f);
-	m_move.z = (GoalPos.z - m_pos.z) / (m_fAngle / 1.0f);
+		m_fAngle = sqrtf((float)(pow(GoalPos.x - m_pos.x, 2) + pow(GoalPos.z - m_pos.z, 2)));
+		m_move.x = (GoalPos.x - m_pos.x) / (m_fAngle / 1.0f);
+		m_move.z = (GoalPos.z - m_pos.z) / (m_fAngle / 1.0f);
 
-	if (m_pos.z <= GoalPos.z)
-	{
-		m_move = Vec3Null;
-		m_bMove = true;
-
-		CGoal::SetGoal(true, 0);
+		if (m_pos.z <= GoalPos.z)
+		{
+			m_move = Vec3Null;
+			m_bMove = true;
+		}
 	}
 }
 

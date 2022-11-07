@@ -402,11 +402,16 @@ LPDIRECT3DVERTEXBUFFER9 CMeshfield::GetBuff()
 	return m_pVtxBuff;
 }
 
+void CMeshfield::LoadTexture(const char * aFileName)
+{
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
-
-
-
-
+	//テクスチャ読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		aFileName,
+		&m_pTexture);
+}
 
 //頂点インデックスの設定処理
 void CMeshfield::SetVertex(void)

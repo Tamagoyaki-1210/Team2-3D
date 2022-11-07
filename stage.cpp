@@ -7,15 +7,9 @@
 #include "stage.h"
 #include "application.h"
 #include "meshfield.h"
-#include "object2D.h"
-#include "object3D.h"
-#include "billboard.h"
 #include "model.h"
 #include "player.h"
-#include "UIString.h"
-#include "Letter.h"
 #include "debugProc.h"
-#include "font.h"
 #include "halfsphere.h"
 #include "CylinderHitbox.h"
 #include "BoxHitbox.h"
@@ -24,10 +18,20 @@
 #include "camera.h"
 #include "SpikeBall.h"
 #include "score.h"
+#include "message.h"
+#include <string>
+
+//アニメーション情報のテキストファイルの相対パス
+char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
+{
+	{ "data\\STAGESET\\StageSet1.txt" },
+	{ "data\\STAGESET\\StageSet2.txt" },
+};
 
 CMeshfield *CStage::m_pField = nullptr;
 CHalfSphere* CStage::m_pSphere[PLAYER_MAX] = {};
 CPlayer* CStage::m_pPlayer[PLAYER_MAX] = {};
+CMessage* CStage::m_pMessage = nullptr;
 bool CStage::m_bResult = false;
 
 //=====================================
@@ -53,15 +57,14 @@ HRESULT CStage::Init(void)
 {
 	// メッシュフィールドの生成
 	m_pField = CMeshfield::Create(D3DXVECTOR3(-200.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
-	m_pField->SetTexture(CObject::TEXTURE_BLOCK);
-	m_pField->SetTextureTiling(0.33f);
 
 	// スフィアメッシュ
 	m_pSphere[0] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -2000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
-	m_pSphere[0]->LoadTexture("data\\TEXTURE\\sky001.jpg");
 
 	m_pSphere[1] = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, D3DX_PI, D3DX_PI), CHalfSphere::SPHERE_DOWN);
-	m_pSphere[1]->LoadTexture("data\\TEXTURE\\89_m.jpg");
+
+	// ステージ読み込み処理
+	Load();
 
 	CGoal::Create();
 
@@ -71,59 +74,12 @@ HRESULT CStage::Init(void)
 		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-50.0f * nCnt, -100.0f, -100.0f), nCnt);
 	}
 
-	CObject_2D* pObj2D = CObject_2D::Create();
-	pObj2D->SetPos(D3DXVECTOR3(100.0f, 100.0f, 0.0f));
-	pObj2D->SetSize(D3DXVECTOR2(20.0f, 20.0f));
-	pObj2D->SetTexture(CObject::TEXTURE_LETTERS);
-	pObj2D->SetTextureParameter(5, 13, 2, 60);
-	pObj2D->SetAnimPattern(15);
-	pObj2D->SetAnimationBase(15);
+	// メッセージの生成
+	m_pMessage = CMessage::Create();
 
-	// オブジェクト3Dの生成
-	//CObject_3D* pObj = CObject_3D::Create();
-	//pObj->SetPos(D3DXVECTOR3(0.0f, -200.0f, 300.0f));
-	//pObj->SetSize(D3DXVECTOR2(100.0f, 100.0f));
-	//pObj->SetColor(D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	//pObj->SetStartingRot(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
-	//pObj->SetTexture(CObject::TEXTURE_BLOCK);
-	//pObj->SetTextureParameter(1, 1, 1, INT_MAX);
+	// カウントダウンメッセージ表示
+	m_pMessage->SetCountDown(3);
 
-	// モデルの生成
-	//CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, -150.0f));
-	//CModel::Create(CModel::MODEL_JEWEL_TEAR, D3DXVECTOR3(0.0f, -100.0f, 150.0f));
-
-	// ビルボードの生成
-	//CBillboard* pBillboard = CBillboard::Create(D3DXVECTOR3(-150.0f, 0.0f, 300.0f), D3DXVECTOR2(50.0f, 50.0f), 3);
-	//pBillboard->SetTexture(CObject::TEXTURE_BLOCK);
-
-	// UIStringの生成
-	CUIString::Create(D3DXVECTOR3(100.0f, 200.0f, 0.0f), D3DXVECTOR2(250.0f, 25.0f), D3DXCOLOR(0.2f, 1.0f, 0.5f, 1.0f), "Sentence A, 125 $%&");
-
-	CLetter::Create(D3DXVECTOR3(200.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 'r', 5);
-
-	CLetter::Create(D3DXVECTOR3(300.0f, 100.0f, 0.0f), D3DXVECTOR2(25.0f, 25.0f), 4, 5);
-
-	CBoxHitbox::Create(D3DXVECTOR3(-200.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(50.0f, 300.0f, 50.0f), CHitbox::TYPE_OBSTACLE, nullptr, -30, CHitbox::EFFECT_LAUNCH);
-	CCylinderHitbox::Create(D3DXVECTOR3(150.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(150.0f, 300.0f, 150.0f), CHitbox::TYPE_NEUTRAL, nullptr);
-
-	CCoin::Create(D3DXVECTOR3(-100.0f, -125.0f, 200.0f), CCoin::COIN_0);
-	CCoin::Create(D3DXVECTOR3(0.0f, -125.0f, 200.0f), CCoin::COIN_1);
-	CCoin::Create(D3DXVECTOR3(100.0f, -125.0f, 200.0f), CCoin::COIN_2);
-	CCoin::Create(D3DXVECTOR3(200.0f, -125.0f, 200.0f), CCoin::COIN_3);
-
-	CSpikeBall::Create(D3DXVECTOR3(-50.0f, -125.0f, 500.0f));
-
-	//CModel::Create(CModel::MODEL_SPIKE_BALL, D3DXVECTOR3(-50.0f, -125.0f, 500.0f));
-
-	//CModel* pModel = nullptr;
-	//CModel::Create(CModel::MODEL_OBSTACLE_0, D3DXVECTOR3(-100.0f, -120.0f, 300.0f));
-	//CModel::Create(CModel::MODEL_OBSTACLE_1, D3DXVECTOR3(0.0f, -120.0f, 300.0f));
-	//CModel::Create(CModel::MODEL_OBSTACLE_2, D3DXVECTOR3(100.0f, -120.0f, 300.0f));
-	//pModel = CModel::Create(CModel::MODEL_OBSTACLE_3, D3DXVECTOR3(200.0f, -120.0f, 300.0f));
-	//pModel->SetModelColor(4, D3DXCOLOR(0.68f, 0.68f, 0.68f, 1.0f));
-
-	//UI
-	//m_pScore = CScore::Create(D3DXVECTOR3(SCREEN_WIDTH - 140.0f, 50.0f, 0.0f));
 
 	if (CApplication::GetCamera() != nullptr)
 	{
@@ -158,6 +114,15 @@ void CStage::Uninit(void)
 		m_pField->Release();
 		m_pField = nullptr;
 	}
+
+	if (m_pMessage != nullptr)
+	{
+		m_pMessage->Uninit();
+		delete m_pMessage;
+		m_pMessage = nullptr;
+	}
+
+	m_bResult = false;
 }
 
 //=====================================
@@ -165,7 +130,115 @@ void CStage::Uninit(void)
 //=====================================
 void CStage::Update(void)
 {
+	if (m_pMessage != nullptr)
+	{
+		m_pMessage->Update();
+	}
+
 	GameResult();
+}
+
+//=====================================
+// 終了処理
+//=====================================
+void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
+{
+	switch (type)
+	{
+	case CStage::MODEL_SPIKEBALL:
+	{
+		// 鉄球
+		CSpikeBall::Create(D3DXVECTOR3(pos));
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+//=====================================
+// ゲームのリザルト処理
+//=====================================
+void CStage::GameResult()
+{
+	// リザルト処理が行われていない場合
+	if (!m_bResult)
+	{
+		bool bGoal[PLAYER_MAX] = {};
+		bool bRot[PLAYER_MAX] = {};
+
+		for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+		{
+			bGoal[nCnt] = m_pPlayer[nCnt]->GetGoal();
+			bRot[nCnt] = m_pPlayer[nCnt]->GetRotCmp();
+		}
+
+		// 全員がゴール & 全員が振り向き完了した場合
+		if (bGoal[0] && bGoal[1] && bGoal[2] && bGoal[3]
+			&& bRot[0] && bRot[1] && bRot[2] && bRot[3])
+		{
+			m_bResult = true;
+			ScoreComparison();
+		}
+	}
+}
+
+//=====================================
+// スコア比較処理
+//=====================================
+void CStage::ScoreComparison()
+{
+	D3DXVECTOR2 PlayerScore[PLAYER_MAX] = {};
+	D3DXVECTOR2 nChange;
+
+	for (int nCount = 0; nCount < PLAYER_MAX; nCount++)
+	{
+		PlayerScore[nCount].x = (float)CScore::GetScore(nCount);
+		PlayerScore[nCount].y = (float)nCount;
+	}
+
+	// 2つのプレイヤースコアをソートする(降順)
+	for (int nCount = 0; nCount < PLAYER_MAX - 1; nCount++)
+	{
+		for (int nCount2 = nCount + 1; nCount2 < PLAYER_MAX; nCount2++)
+		{
+			if (PlayerScore[nCount].x < PlayerScore[nCount2].x)
+			{
+				// スコアの入れ替え
+				nChange = PlayerScore[nCount2];
+				PlayerScore[nCount2] = PlayerScore[nCount];
+				PlayerScore[nCount] = nChange;
+			}
+		}
+	}
+
+	// 勝利人数を求める
+	if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
+	{
+		m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
+		m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
+		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
+		m_pPlayer[(int)PlayerScore[3].y]->SetWinner(true);
+		m_pMessage->GoalMessage(0);
+	}
+	else if ((int)PlayerScore[2].x == (int)PlayerScore[0].x)
+	{
+		m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
+		m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
+		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
+		m_pMessage->GoalMessage(0);
+	}
+	else if ((int)PlayerScore[1].x == (int)PlayerScore[0].x)
+	{
+		m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
+		m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
+		m_pMessage->GoalMessage(0);
+	}
+	else
+	{
+		m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
+		m_pMessage->GoalMessage((int)PlayerScore[0].y + 1);
+	}
 }
 
 //=====================================
@@ -183,142 +256,190 @@ CStage* CStage::Create(void)
 	return pStage;
 }
 
-void CStage::GameResult()
+//=====================================
+//読み込み処理
+//=====================================
+void CStage::Load()
 {
-	bool bGoal[PLAYER_MAX] = {};
-	bool bRot[PLAYER_MAX] = {};
+	// 選択されたステージの読み込み処理
+	LoadSelect();
 
-	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
-	{
-		bGoal[nCnt] = m_pPlayer[nCnt]->GetGoal();
-		bRot[nCnt] = m_pPlayer[nCnt]->GetRotCmp();
-	}
-	
-	if (bGoal[0] && bGoal[1] && bGoal[2] && bGoal[3]
-		&& bRot[0] && bRot[1] && bRot[2] && bRot[3])
-	{
-		m_bResult = true;
-		ScoreComparison();
-	}
-}
+	char aStr[256] = {};		//読み込む用文字列
 
-int CStage::ScoreComparison()
-{
-	int nCnt = 0;
+								//ファイルを開く
+	FILE* pFile = fopen(m_pStagePass[m_nSelectStage], "r");
 
-	if (m_bResult)
-	{
-		D3DXVECTOR2 PlayerScore[PLAYER_MAX] = {};
-		D3DXVECTOR2 nChange;
+	if (pFile != nullptr)
+	{//ファイルが開いた場合
+		fscanf(pFile, "%s", aStr);
 
-		for (int nCount = 0; nCount < PLAYER_MAX; nCount++)
-		{
-			PlayerScore[nCount].x = (float)CScore::GetScore(nCount);
-			PlayerScore[nCount].y = (float)nCount;
-		}
+		while (strncmp(aStr, "END_SCRIPT", 10) != 0)
+		{//文字列の初期化と読み込み
+			fscanf(pFile, "%s", aStr);
 
-		for (int nCount = 0; nCount < PLAYER_MAX - 1; nCount++)
-		{
-			for (int nCount2 = nCount + 1; nCount2 < PLAYER_MAX; nCount2++)
-			{
-				if (PlayerScore[nCount].x < PlayerScore[nCount2].x)
+			if (strncmp(aStr, "FIELDSET", 8) == 0)
+			{// メッシュフィールド読み込み
+				while (strncmp(aStr, "END_FIELDSET", 12) != 0)
 				{
-					nChange = PlayerScore[nCount2];
-					PlayerScore[nCount2] = PlayerScore[nCount];
-					PlayerScore[nCount] = nChange;
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
+					{//この後にコメント
+						fscanf(pFile, "%s", aStr);
+						fscanf(pFile, "%s", aStr);
+						m_pField->LoadTexture(aStr);
+					}
+					else if (strncmp(aStr, "TEXTURE_TILING", 14) == 0)
+					{//この後にコメント
+						fscanf(pFile, "%s", aStr);
+						fscanf(pFile, "%s", aStr);			// メッシュフィールドのタイリングを読み込む処理
+						std::string s = aStr;				// std::stringに変換する
+						float fTaling = std::stof(s);		//floatに変換する
+						m_pField->SetTextureTiling(fTaling);
+					}
+				}
+			}
+			else if (strncmp(aStr, "SPHERESET", 9) == 0)
+			{// ハーフスフィアメッシュ読み込み
+				int nSphere = 0;
+				while (strncmp(aStr, "END_SPHERESET", 13) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					while (strncmp(aStr, "END_SPHERE", 10) != 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						if (strncmp(aStr, "SPHERE", 6) == 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
+							{
+								fscanf(pFile, "%s", aStr);
+								fscanf(pFile, "%s", aStr);
+								m_pSphere[nSphere]->LoadTexture(aStr);
+							}
+						}
+					}
+					nSphere++;
+				}
+			}
+			else if (strncmp(aStr, "COINALLSET", 10) == 0)
+			{// コイン読み込み
+				int nCoinType = 0;
+				while (strncmp(aStr, "END_COINALLSET", 14) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "COINTYPESET", 11) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_COINTYPESET", 15) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "COINSET", 7) == 0)
+							{
+								while (strncmp(aStr, "END_COINSET", 11) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "COIN", 4) == 0)
+									{
+										while (strncmp(aStr, "END_COIN", 8) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												float x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float z = std::stof(s);		//floatに変換する
+
+												CCoin::Create(D3DXVECTOR3(x, y, z), (CCoin::COIN_TYPE)nCoinType);
+											}
+										}
+									}
+								}
+							}
+						}
+						nCoinType++;
+					}
+				}
+			}
+			else if (strncmp(aStr, "MODELALLSET", 11) == 0)
+			{// 障害物モデル読み込み
+				int nModelType = 0;
+				while (strncmp(aStr, "END_MODELALLSET", 15) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "MODELTYPESET", 12) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_MODELTYPESET", 16) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "MODELSET", 8) == 0)
+							{
+								while (strncmp(aStr, "END_MODELSET", 12) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "MODEL", 5) == 0)
+									{
+										while (strncmp(aStr, "END_MODEL", 9) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												float x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float z = std::stof(s);		//floatに変換する
+
+												SetModelType(D3DXVECTOR3(x, y, z), (ModelType)nModelType);
+											}
+										}
+									}
+								}
+							}
+						}
+						nModelType++;
+					}
 				}
 			}
 		}
-
-		if ((int)PlayerScore[3].x == (int)PlayerScore[0].x)
-		{
-			m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
-			m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
-			m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
-			m_pPlayer[(int)PlayerScore[3].y]->SetWinner(true);
-
-			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
-			m_pPlayer[(int)PlayerScore[1].y]->MoveWinner();
-			m_pPlayer[(int)PlayerScore[2].y]->MoveWinner();
-			m_pPlayer[(int)PlayerScore[3].y]->MoveWinner();
-
-			m_pPlayer[(int)PlayerScore[0].y]->WinnerAnim();
-			m_pPlayer[(int)PlayerScore[1].y]->WinnerAnim();
-			m_pPlayer[(int)PlayerScore[2].y]->WinnerAnim();
-			m_pPlayer[(int)PlayerScore[3].y]->WinnerAnim();
-
-			nCnt = 4;
-		}
-		else if ((int)PlayerScore[2].x == (int)PlayerScore[0].x)
-		{
-			m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
-			m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
-			m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
-
-			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
-			m_pPlayer[(int)PlayerScore[1].y]->MoveWinner();
-			m_pPlayer[(int)PlayerScore[2].y]->MoveWinner();
-
-			m_pPlayer[(int)PlayerScore[0].y]->WinnerAnim();
-			m_pPlayer[(int)PlayerScore[1].y]->WinnerAnim();
-			m_pPlayer[(int)PlayerScore[2].y]->WinnerAnim();
-
-			if (PLAYER_MAX >= 4)
-			{
-				m_pPlayer[(int)PlayerScore[3].y]->LoserAnim();
-			}
-
-			nCnt = 3;
-		}
-		else if ((int)PlayerScore[1].x == (int)PlayerScore[0].x)
-		{
-			m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
-			m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
-
-			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
-			m_pPlayer[(int)PlayerScore[1].y]->MoveWinner();
-
-			m_pPlayer[(int)PlayerScore[0].y]->WinnerAnim();
-			m_pPlayer[(int)PlayerScore[1].y]->WinnerAnim();
-
-			if (PLAYER_MAX >= 3)
-			{
-				m_pPlayer[(int)PlayerScore[2].y]->LoserAnim();
-			}
-			
-			if (PLAYER_MAX >= 4)
-			{
-				m_pPlayer[(int)PlayerScore[3].y]->LoserAnim();
-			}
-
-			nCnt = 2;
-		}
-		else
-		{
-			m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
-
-			m_pPlayer[(int)PlayerScore[0].y]->MoveWinner();
-
-			m_pPlayer[(int)PlayerScore[0].y]->WinnerAnim();
-			
-			if (PLAYER_MAX >= 2)
-			{
-				m_pPlayer[(int)PlayerScore[1].y]->LoserAnim();
-			}
-		
-			if (PLAYER_MAX >= 3)
-			{
-				m_pPlayer[(int)PlayerScore[2].y]->LoserAnim();
-			}
-
-			if (PLAYER_MAX >= 4)
-			{
-				m_pPlayer[(int)PlayerScore[3].y]->LoserAnim();
-			}
-
-			nCnt = 1;
-		}
 	}
+	//ファイルを閉じる
+	fclose(pFile);
+}
 
-	return nCnt;
+//=====================================
+// 選択されたステージの読み込み処理
+//=====================================
+void CStage::LoadSelect()
+{
+	char aStr[256] = {};		//読み込む用文字列
+
+								//ファイルを開く
+	FILE* pFile = fopen("data\\STAGESET\\SelectStage.txt", "r");
+
+	if (pFile != nullptr)
+	{//ファイルが開いた場合
+		fscanf(pFile, "%s", aStr);		// 選択されたステージを読み込む処理
+		std::string s = aStr;			// std::stringに変換する
+		int nSelect = std::stoi(s);		// intに変換する
+		m_nSelectStage = (StageType)nSelect;
+	}
+	//ファイルを閉じる
+	fclose(pFile);
 }

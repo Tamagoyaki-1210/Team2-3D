@@ -48,6 +48,7 @@
     <ClCompile Include="SpikeBall.cpp" />
     <ClCompile Include="playerSelect.cpp" />
     <ClCompile Include="playerModel.cpp" />
+    <ClCompile Include="stageSelect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -97,5 +98,6 @@
     <ClInclude Include="SpikeBall.h" />
     <ClInclude Include="playerSelect.h" />
     <ClInclude Include="playerModel.h" />
+    <ClInclude Include="stageSelect.h" />
   </ItemGroup>
 </Project>
