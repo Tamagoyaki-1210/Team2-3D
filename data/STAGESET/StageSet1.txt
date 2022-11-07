@@ -157,21 +157,27 @@ MODELALLSET
 
 	END_MODELTYPESET
 	
+END_MODELALLSET
+
+#==============================================================================
+# 床モデル配置情報
+#==============================================================================
+FLOORALLSET
 #++++++++++++++++++++++++++++++++++++++
-# 障害物モデル[1]
+# 床モデル[0]
 #++++++++++++++++++++++++++++++++++++++
-	MODELTYPESET
+	FLOORTYPESET
 #------------------
 # １個目
 #------------------
-		MODELSET
-			MODEL
-				POS = -150.0 -150.0 500.0
-			END_MODEL
-		END_MODELSET	
+		FLOORSET
+			FLOOR
+				POS = -100.0 -153.0 350.0
+			END_FLOOR
+		END_FLOORSET	
 
-	END_MODELTYPESET
+	END_FLOORTYPESET
 
-END_MODELALLSET
+END_FLOORALLSET
 
 END_SCRIPT		# この行は絶対消さないこと！

@@ -149,7 +149,7 @@ void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 	case CStage::MODEL_SPIKEBALL:
 	{
 		// ìSãÖ
-		CSpikeBall::Create(D3DXVECTOR3(pos));
+		CSpikeBall::Create(pos);
 	}
 	break;
 
@@ -161,14 +161,14 @@ void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 //=====================================
 // è∞ê›íËèàóù
 //=====================================
-void CStage::SetFloorType(D3DXVECTOR3 pos, D3DXVECTOR2 size, FloorType type)
+void CStage::SetFloorType(D3DXVECTOR3 pos, FloorType type)
 {
 	switch (type)
 	{
 	case CStage::FLOOR_LAVA:
 	{
 		// ónä‚è∞
-		CLavaFloor::Create(pos, size);
+		CLavaFloor::Create(pos);
 	}
 	break;
 
@@ -450,7 +450,7 @@ void CStage::Load()
 			}
 			else if (strncmp(aStr, "FLOORALLSET", 11) == 0)
 			{// è·äQï®ÉÇÉfÉãì«Ç›çûÇ›
-				int nModelType = 0;
+				int nFloorType = 0;
 				while (strncmp(aStr, "END_FLOORALLSET", 15) != 0)
 				{
 					fscanf(pFile, "%s", aStr);
@@ -485,14 +485,14 @@ void CStage::Load()
 												s = aStr;					//std::stringÇ…ïœä∑Ç∑ÇÈ
 												float z = std::stof(s);		//floatÇ…ïœä∑Ç∑ÇÈ
 
-												//SetFloorType(D3DXVECTOR3(x, y, z), (ModelType)nModelType);
+												SetFloorType(D3DXVECTOR3(x, y, z), (FloorType)nFloorType);
 											}
 										}
 									}
 								}
 							}
 						}
-						nModelType++;
+						nFloorType++;
 					}
 				}
 			}
