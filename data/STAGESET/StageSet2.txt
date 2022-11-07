@@ -220,4 +220,34 @@ FLOORALLSET
 
 END_FLOORALLSET
 
+#==============================================================================
+# 環境モデル配置情報
+#==============================================================================
+ENVIRONMENTALLSET
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[0]
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET
+#------------------
+# １個目
+#------------------
+		ENVIRONMENTSET
+			ENVIRONMENT
+				POS = -1500.0 -1553.0 3450.0
+			END_ENVIRONMENT
+		END_ENVIRONMENTSET	
+	
+#------------------
+# ２個目
+#------------------
+		ENVIRONMENTSET
+			ENVIRONMENT
+				POS = 1000.0 -1553.0 3050.0
+			END_ENVIRONMENT
+		END_ENVIRONMENTSET	
+
+	END_ENVIRONMENTTYPESET
+
+END_ENVIRONMENTALLSET
+
 END_SCRIPT		# この行は絶対消さないこと！

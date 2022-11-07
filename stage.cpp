@@ -21,8 +21,10 @@
 #include "score.h"
 #include "message.h"
 #include "silhouette.h"
+#include "environment.h"
 #include <string>
 
+#include "trampoline.h"
 #include "bouncePole.h"
 
 //アニメーション情報のテキストファイルの相対パス
@@ -93,6 +95,7 @@ HRESULT CStage::Init(void)
 	}
 
 	CBoxHitbox::Create(D3DXVECTOR3(50.0f, -150.0f, 300.0f), Vec3Null, D3DXVECTOR3(25.0f, 100.0f, 100.0f), CHitbox::TYPE_NEUTRAL, nullptr, 0, CHitbox::EFFECT_BOUNCE);
+	CTrampoline::Create(D3DXVECTOR3(-70.0f, -150.0f, 150.0f));
 
 	CSilhouette::Create();
 
@@ -506,6 +509,54 @@ void CStage::Load()
 							}
 						}
 						nFloorType++;
+					}
+				}
+			}
+			else if (strncmp(aStr, "ENVIRONMENTALLSET", 17) == 0)
+			{// コイン読み込み
+				int nEnvironmentType = 0;
+				while (strncmp(aStr, "END_ENVIRONMENTALLSET", 21) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "ENVIRONMENTTYPESET", 18) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_ENVIRONMENTTYPESET", 22) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "ENVIRONMENTSET", 14) == 0)
+							{
+								while (strncmp(aStr, "END_ENVIRONMENTSET", 18) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "ENVIRONMENT", 11) == 0)
+									{
+										while (strncmp(aStr, "END_ENVIRONMENT", 15) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												float x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float z = std::stof(s);		//floatに変換する
+
+												CEnvironment::Create(D3DXVECTOR3(x, y, z), (CEnvironment::EnvironmentType)nEnvironmentType);
+											}
+										}
+									}
+								}
+							}
+						}
+						nEnvironmentType++;
 					}
 				}
 			}
