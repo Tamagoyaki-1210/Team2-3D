@@ -320,6 +320,8 @@ void CAnimator::SetPresentAnim(int nPresentAnim)
 	if (m_nPresentAnim != nPresentAnim)
 	{
 		m_nPresentAnim = nPresentAnim;
+		m_nPresentFrame = 0;
+		m_nPresentMotionSet = 0;
 
 		for (int nCnt = 0; nCnt < (int)m_vParts.size(); nCnt++)
 		{//パーツ毎のアニメーションスピードの計算
@@ -332,4 +334,44 @@ void CAnimator::SetPresentAnim(int nPresentAnim)
 	}
 }
 
+void CAnimator::SetLoopingAnim(int nPresentAnim)
+{
+	if (m_nPresentAnim == nPresentAnim)
+	{
+		int a, b;
+		a = (int)m_vAnimAll.data()[m_type].vAnimSets[m_nPresentAnim].vAnimKeySet.size();
+		b = (int)m_vAnimAll.data()[m_type].vAnimSets[m_nPresentAnim].vAnimKeySet[m_nPresentMotionSet].nAnimFrames;
 
+		if (m_nPresentMotionSet >= a - 1 &&
+			m_nPresentFrame >= b - 1)
+		{
+			m_nPresentAnim = nPresentAnim;
+			m_nPresentFrame = 0;
+			m_nPresentMotionSet = 0;
+
+			for (int nCnt = 0; nCnt < (int)m_vParts.size(); nCnt++)
+			{//パーツ毎のアニメーションスピードの計算
+
+				m_vAnimSpeed.data()[nCnt].move = (m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].vAnimKey[nCnt].RelativePos - m_vParts.data()[nCnt]->GetPos())
+					/ (float)m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].nAnimFrames;
+				m_vAnimSpeed.data()[nCnt].rotSpeed = (m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].vAnimKey[nCnt].RelativeRot - m_vParts.data()[nCnt]->GetRot())
+					/ (float)m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].nAnimFrames;
+			}
+		}
+	}
+	else
+	{
+		m_nPresentAnim = nPresentAnim;
+		m_nPresentFrame = 0;
+		m_nPresentMotionSet = 0;
+
+		for (int nCnt = 0; nCnt < (int)m_vParts.size(); nCnt++)
+		{//パーツ毎のアニメーションスピードの計算
+
+			m_vAnimSpeed.data()[nCnt].move = (m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].vAnimKey[nCnt].RelativePos - m_vParts.data()[nCnt]->GetPos())
+				/ (float)m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].nAnimFrames;
+			m_vAnimSpeed.data()[nCnt].rotSpeed = (m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].vAnimKey[nCnt].RelativeRot - m_vParts.data()[nCnt]->GetRot())
+				/ (float)m_vAnimAll.data()[m_type].vAnimSets[nPresentAnim].vAnimKeySet[0].nAnimFrames;
+		}
+	}
+}

@@ -384,6 +384,18 @@ D3DXMATRIX CModelPart::GetMatrix(void)
 //ƒJ[ƒ‰[‚Ìİ’èˆ—
 void CModelPart::SetModelColor(const int nNumMat, const D3DXCOLOR col)
 {
+	for (int nCnt = 0; nCnt < (int)m_vCol.size(); nCnt++)
+	{
+		if (m_vCol.data()[nCnt].nMatNumber == nNumMat)
+		{
+			CModel::ModelColor mCol = {};
+			mCol.nMatNumber = nNumMat;
+			mCol.col = col;
+			m_vCol.data()[nCnt] = mCol;
+			return;
+		}
+	}
+
 	CModel::ModelColor mCol = {};
 	mCol.nMatNumber = nNumMat;
 	mCol.col = col;

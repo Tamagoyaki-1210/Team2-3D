@@ -54,7 +54,6 @@ void CGame::Update(void)
 		bool bPause = !CApplication::GetPause();	//ポーズ切り替え処理
 		CApplication::SetPause(bPause);
 		CMenu::PauseChange(bPause);		// ポーズ処理
-
 	}
 
 	//ゲーム終了時の処理
@@ -63,4 +62,12 @@ void CGame::Update(void)
 		CApplication::SetMode(CApplication::Mode_Result);
 		m_bEndGame = false;
 	}
+}
+
+//=====================================
+// 更新処理
+//=====================================
+void CGame::SetEndGame(void)
+{
+	m_bEndGame = true;
 }

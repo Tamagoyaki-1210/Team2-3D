@@ -201,7 +201,6 @@ LPDIRECT3DDEVICE9 CRenderer::GetDevice(void)
 
 #include "camera.h"
 #include "player.h"
-#include "gamedebug.h"
 
 //=============================================================================
 // FPS表示
@@ -213,9 +212,8 @@ void CRenderer::DrawFPS(void)
 	TCHAR str[256];
 
 	float fRot = CApplication::GetCamera()->GetRot().y;
-	float fRotPlayer = CGameDebug::GetPlayer()->GetDestRot().y;
 
-	sprintf(str, _T("FPS : %d\n\n %f\n %f\n"), fps, fRot, fRotPlayer);
+	sprintf(str, _T("FPS : %d\n\n %f\n"), fps, fRot);
 
 	// テキスト描画
 	m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));

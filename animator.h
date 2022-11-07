@@ -70,7 +70,7 @@ public:
 	static CAnimator* Create(std::vector <CModelPart*>* vParts, AnimType type);				//生成処理
 
 	void SetPresentAnim(int nPresentAnim);
-
+	void SetLoopingAnim(int nPresentAnim);
 private:
 
 	//アニメーションスピード

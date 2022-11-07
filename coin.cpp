@@ -11,6 +11,7 @@
 #include "coin.h"
 #include "BoxHitbox.h"
 #include "meshfield.h"
+#include "application.h"
 
 const D3DXVECTOR3 CCoin::m_hitboxSize[COIN_MAX] =
 {
@@ -78,6 +79,7 @@ void CCoin::Update(void)
 		{//何かと当たった場合
 			m_pHitbox->Release();		//ヒットボックスを消す
 			Release();					//コインを消す
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_COIN_GET);
 			return;
 		}
 	}
@@ -101,14 +103,14 @@ void CCoin::Update(void)
 			m_move.y += -0.7f;
 		}
 
-		CMeshfield::FieldInteraction(this);
-
 		D3DXVECTOR3 newPos = GetPos() + m_move;
 		SetPos(newPos);
 		m_pHitbox->SetPos(newPos);
 
 		m_move.x += (0.0f - m_move.x) * 0.05f;
 		m_move.z += (0.0f - m_move.z) * 0.05f;
+
+		CMeshfield::FieldInteraction(this);
 	}
 }
 

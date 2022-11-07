@@ -184,7 +184,24 @@ void CObject_3D::Uninit()
 //=============================================================================
 void CObject_3D::Update()
 {
+	if (m_textureTranslation != Vec2Null)
+	{
+		VERTEX_3D* pVtx = nullptr;					//頂点情報へのポインタ
+		VERTEX_3D  Vtx = {};
 
+		//頂点バッファのロック
+		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+		for (int nCnt = 0; nCnt < 4; nCnt++)
+		{
+			Vtx = pVtx[nCnt];
+			Vtx.tex += m_textureTranslation;
+			pVtx[nCnt] = Vtx;
+		}
+
+		//頂点バッファをアンロックする
+		m_pVtxBuff->Unlock();
+	}
 }
 
 //=============================================================================
@@ -194,6 +211,8 @@ void CObject_3D::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();							//デバイスの取得処理
 	D3DXMATRIX	mtxRot, mtxTrans;					//計算用マトリックス
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	//ワルドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -221,6 +240,8 @@ void CObject_3D::Draw()
 	//四角形を描画する
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 
+	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
 	//テクスチャの設定
 	pDevice->SetTexture(0, nullptr);
 }
@@ -244,10 +265,10 @@ void CObject_3D::SetSize(const D3DXVECTOR2 dim)
 												//頂点バッファのロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].pos = D3DXVECTOR3(-dim.x, dim.y, GetPos().z);
-	pVtx[1].pos = D3DXVECTOR3(dim.x, dim.y, GetPos().z);
-	pVtx[2].pos = D3DXVECTOR3(-dim.x, -dim.y, GetPos().z);
-	pVtx[3].pos = D3DXVECTOR3(dim.x, -dim.y, GetPos().z);
+	pVtx[0].pos = D3DXVECTOR3(-dim.x, dim.y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(dim.x, dim.y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-dim.x, -dim.y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(dim.x, -dim.y, 0.0f);
 
 	//頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
@@ -265,10 +286,10 @@ void CObject_3D::SetSize(const float x, const float y)
 												//頂点バッファのロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].pos = D3DXVECTOR3(-x, y, GetPos().z);
-	pVtx[1].pos = D3DXVECTOR3(x, y, GetPos().z);
-	pVtx[2].pos = D3DXVECTOR3(-x, -y, GetPos().z);
-	pVtx[3].pos = D3DXVECTOR3(x, -y, GetPos().z);
+	pVtx[0].pos = D3DXVECTOR3(-x, y, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(x, y, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-x, -y, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(x, -y, 0.0f);
 
 	//頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
@@ -470,6 +491,12 @@ void CObject_3D::SetVtxColor(const int nVtxIdx, const D3DXCOLOR col)
 
 	//頂点バッファをアンロックする
 	pVtxBuff->Unlock();
+}
+
+//テクスチャの移動量の設定処理
+void CObject_3D::MoveTexCoordinates(const D3DXVECTOR2 move)
+{
+	m_textureTranslation = move;
 }
 
 //テクスチャの種類の設定処理

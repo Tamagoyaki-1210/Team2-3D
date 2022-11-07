@@ -14,7 +14,6 @@
 #include "inputKeyboard.h"
 #include "inputMouse.h"
 #include "inputPad.h"
-#include "sound.h"
 #include "directionalLight.h"
 #include "camera.h"
 #include "model.h"
@@ -23,7 +22,8 @@
 //#include "Letter.h"
 #include "animator.h"
 #include "title.h"
-#include "gamedebug.h"
+#include "playerSelect.h"
+#include "stageSelect.h"
 #include "gamerace.h"
 #include "result.h"
 #include "fade.h"
@@ -86,14 +86,13 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	CAnimator::LoadAllAnimation();
 
+	m_pSound = CSound::Create(hWnd);
+
 	// モードインスタンスの生成処理
 	m_pMode = CTitle::Create();
 	m_mode = Mode_Title;
 	m_modeNext = Mode_Title;
-
-	//m_pMode = CGameRace::Create();
-	//m_mode = Mode_Game_Race;
-	//m_modeNext = Mode_Game_Race;
+	m_pSound->Play(CSound::SOUND_LABEL_BGM_TITLE);
 
 	// フェード生成
 	if (m_pFade == nullptr)
@@ -137,15 +136,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pMenu = CMenu::Create();
 	}
 
-	m_pSound = CSound::Create(hWnd);
-
-	/*if (m_pSound != nullptr)
-	{
-		m_pSound->Play(CSound::SOUND_LABEL_BGM_TITLE);
-	}*/
-
 	CLight::ReleaseAll();
 	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
+	CDirectionalLight::Create(D3DXCOLOR(0.75f, 0.75f, 0.75f, 0.75f), D3DXVECTOR3(-0.2f, 0.2f, 1.0f));
 
 	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 
@@ -433,9 +426,13 @@ void CApplication::ChangeMode()
 
 	m_bPause = false;		// ポーズを未使用にする
 
-	if (m_pSound != nullptr)
+	// 次のモードがステージ選択でなければ
+	if (m_modeNext != Mode_StageSelect)
 	{
-		m_pSound->Stop();
+		if (m_pSound != nullptr)
+		{
+			m_pSound->Stop();
+		}
 	}
 
 	// モードを生成する
@@ -443,15 +440,22 @@ void CApplication::ChangeMode()
 	{
 	case CApplication::Mode_Title:
 		m_pMode = CTitle::Create();
+		m_pSound->Play(CSound::SOUND_LABEL_BGM_TITLE);
+		break;
+	case CApplication::Mode_PlayerSelect:
+		m_pMode = CPlayerSelect ::Create();
+		m_pSound->Play(CSound::SOUND_LABEL_BGM_SELECT);
+		break;
+	case CApplication::Mode_StageSelect:
+		m_pMode = CStageSelect::Create();
 		break;
 	case CApplication::Mode_Game_Race:
 		m_pMode = CGameRace::Create();
+		m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME01);
 		break;
 	case CApplication::Mode_Result:
 		m_pMode = CResult::Create();
-		break;
-	case CApplication::Mode_Game_Debug:
-		m_pMode = CGameDebug::Create();
+		m_pSound->Play(CSound::SOUND_LABEL_BGM_RESULT);
 		break;
 	default:
 		break;

@@ -148,28 +148,28 @@ void CCamera::Update(void)
 
 	DIMOUSESTATE* pMouse = CApplication::GetMouse()->GetMouseState();
 
-	if (pMouse->lY > 0)
-	{
-		if (m_posR.y > m_posV.y - 150.0f)
-		{
-			m_posR.y += -5.0f;
-		}
-	}
-	else if (pMouse->lY < 0)
-	{
-		if (m_posR.y < m_posV.y + 150.0f)
-		{
-			m_posR.y += 5.0f;
-		}
-	}
-	if (pMouse->lX > 0)
-	{
-		m_rot.y += -D3DX_PI * 0.005f;
-	}
-	else if (pMouse->lX < 0)
-	{
-		m_rot.y += D3DX_PI * 0.005f;
-	}
+	//if (pMouse->lY > 0)
+	//{
+	//	if (m_posR.y > m_posV.y - 150.0f)
+	//	{
+	//		m_posR.y += -5.0f;
+	//	}
+	//}
+	//else if (pMouse->lY < 0)
+	//{
+	//	if (m_posR.y < m_posV.y + 150.0f)
+	//	{
+	//		m_posR.y += 5.0f;
+	//	}
+	//}
+	//if (pMouse->lX > 0)
+	//{
+	//	m_rot.y += -D3DX_PI * 0.005f;
+	//}
+	//else if (pMouse->lX < 0)
+	//{
+	//	m_rot.y += D3DX_PI * 0.005f;
+	//}
 
 	if (m_rot.y > D3DX_PI)
 	{

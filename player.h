@@ -16,7 +16,6 @@
 //=============================================================================
 //前方宣言
 //=============================================================================
-class CModel;
 class CModelPart;
 class CAnimator;
 class CCylinderHitbox;
@@ -46,7 +45,24 @@ public:
 	{
 		STATE_NEUTRAL = 0,
 		STATE_RUNNING,
+		STATE_JUMP,
+		STATE_PUNCH,
+		STATE_DAMAGE,
 		STATE_MAX
+	};
+
+	enum PlayerColor
+	{
+		PLAYER_RED = 0,
+		PLAYER_GREEN,
+		PLAYER_BLUE,
+		PLAYER_YELLOW,
+		PLAYER_MAGENTA,
+		PLAYER_CYAN,
+		PLAYER_BLACK,
+		PLAYER_WHITE,
+
+		PLAYER_COLOR_MAX
 	};
 
 	CPlayer();							//コンストラクタ
@@ -57,20 +73,35 @@ public:
 	void Update(void) override;							//更新処理
 	void Draw(void) override;							//描画処理
 
-	void SetPos(const D3DXVECTOR3 pos) override;		//位置の設定処理
-	void SetRot(const D3DXVECTOR3 rot);					//位置の設定処理
+	void SetPos(const D3DXVECTOR3 pos) override { m_pos = pos; }		//位置の設定処理
+	void SetRot(const D3DXVECTOR3 rot) { m_rot = rot; }					//位置の設定処理
 
-	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
-	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
+	const D3DXVECTOR2 GetSize(void) override { return Vec2Null; }		//サイズの取得処理
+	const D3DXVECTOR3 GetPos(void) override { return m_pos; }			//位置の取得処理
 
-	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; };	//目的の角度の取得処理
+	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; }	//目的の角度の取得処理
 
-	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);		//生成処理
+	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);	//生成処理
+	static D3DXCOLOR* GetPlayerColors(void);
 
 	void PlayerController(int nCntPlayer);
 	void SetPlayerIdx(int nCntPlayer);
 
+	bool GetGoal() { return m_bGoal; }
+
+	bool GetRotCmp();
+
+	void MoveWinner();
+
+	void SetWinner(bool bWinner);
+
+	void WinnerAnim();
+	void LoserAnim();
+
 private:
+	void GoalMove();
+
+	static D3DXCOLOR m_playerColor[PLAYER_COLOR_MAX];
 
 	D3DXVECTOR3 m_pos;									//位置
 	D3DXVECTOR3 m_move;									//速度
@@ -85,11 +116,14 @@ private:
 	bool m_bMove;
 	bool m_bWinner;
 	bool m_bPos;
+	bool m_bRot;
+	bool m_bHit;
 
-	D3DXVECTOR3 GoalPos1;
-	D3DXVECTOR3 GoalPos2;
-	D3DXVECTOR3 GoalPos3;
-	D3DXVECTOR3 GoalPos4;
+	int m_nScore[PLAYER_MAX];
+
+	D3DXVECTOR3 m_TargetPos;
+
+	D3DXVECTOR3 GoalPos;
 
 	CModelPart* m_pModel[PARTS_MAX];					//モデルへのポインタ
 	CAnimator* m_pAnimator;
