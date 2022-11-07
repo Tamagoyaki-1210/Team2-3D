@@ -67,9 +67,9 @@ CTrampoline* CTrampoline::Create(const D3DXVECTOR3 pos)
 		return nullptr;
 	}
 
-	pModel->SetModel(CModel::MODEL_HEAD);
+	pModel->SetModel(CModel::MODEL_TRAMPOLINE);
 	pModel->SetPos(pos);
-	pModel->m_pHitbox = CCylinderHitbox::Create(pos, Vec3Null, D3DXVECTOR3(20.0f, 2.0f, 20.0f), CHitbox::TYPE_OBSTACLE, 0, nullptr, CHitbox::EFFECT_JUMP);
+	pModel->m_pHitbox = CCylinderHitbox::Create(pos, Vec3Null, D3DXVECTOR3(20.0f, 3.0f, 20.0f), CHitbox::TYPE_OBSTACLE, 0, nullptr, CHitbox::EFFECT_JUMP);
 
 	return pModel;
 }

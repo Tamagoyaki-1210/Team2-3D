@@ -45,6 +45,7 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\NeedleBall\\NeedleBall.x" },
 	{ "data\\MODELS\\LavaFloor\\Lava.x" },
 	{ "data\\MODELS\\BoundPole\\BoundPole.x" },
+	{ "data\\MODELS\\traps\\jump.x" },
 
 	{ "data\\MODELS\\Goal\\Goal01.x" },
 };
