@@ -27,6 +27,7 @@
 #include "goal.h"
 #include "coin.h"
 #include "playerModel.h"
+#include "message.h"
 #include "BoxHitbox.h"
 
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
@@ -95,6 +96,7 @@ HRESULT CPlayer::Init(void)
 	m_pScoreUI = nullptr;			//スコアのUIへのポインタ
 	m_bJump = false;				//ジャンプしているかどうか
 	m_nInvincibilityCnt = 0;		//無敵状態のカウンター
+	m_nFrame = 0;
 	m_pAttackHitbox = nullptr;
 	m_bAttacking = false;
 	m_nCntAttack = 0;
@@ -167,7 +169,7 @@ void CPlayer::Update(void)
 		fA *= -1.0f;
 	}
 
-	if (!m_bGoal)
+	if (!m_bGoal && CMessage::GetStart())
 	{
 		PlayerController(m_nIdxPlayer);
 	}
@@ -432,7 +434,23 @@ void CPlayer::Update(void)
 			}
 		}
 		
-		MoveWinner();
+		CPlayer *m_pPlayer[PLAYER_MAX] = {};
+
+		for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+		{
+			m_pPlayer[nCnt] = CStage::GetPlayer(nCnt);
+		}
+
+		if (m_pPlayer[0]->m_bGoal &&m_pPlayer[1]->m_bGoal &&m_pPlayer[2]->m_bGoal &&m_pPlayer[3]->m_bGoal
+			&& m_pPlayer[0]->m_bRot &&m_pPlayer[1]->m_bRot &&m_pPlayer[2]->m_bRot &&m_pPlayer[3]->m_bRot)
+		{
+			m_nFrame++;
+
+			if (m_nFrame >= 60)
+			{
+				MoveWinner();
+			}
+		}
 
 		if (m_pHitbox != nullptr)
 		{
@@ -777,7 +795,7 @@ bool CPlayer::GetRotCmp()
 //=====================================
 void CPlayer::MoveWinner()
 {
-	if (m_bWinner)
+	if (m_bWinner && GetRotCmp())
 	{
 		if (!m_bPos)
 		{
@@ -794,6 +812,12 @@ void CPlayer::MoveWinner()
 			m_move = Vec3Null;
 			m_bMove = true;
 		}
+
+		WinnerAnim();
+	}
+	else if(GetRotCmp())
+	{
+		LoserAnim();
 	}
 }
 

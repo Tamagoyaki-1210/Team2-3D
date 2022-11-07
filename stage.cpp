@@ -219,6 +219,7 @@ void CStage::ScoreComparison()
 		m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
 		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
 		m_pPlayer[(int)PlayerScore[3].y]->SetWinner(true);
+
 		m_pMessage->GoalMessage(0);
 	}
 	else if ((int)PlayerScore[2].x == (int)PlayerScore[0].x)
@@ -226,17 +227,26 @@ void CStage::ScoreComparison()
 		m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
 		m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
 		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
+		m_pPlayer[(int)PlayerScore[3].y]->SetWinner(false);
+
 		m_pMessage->GoalMessage(0);
 	}
 	else if ((int)PlayerScore[1].x == (int)PlayerScore[0].x)
 	{
 		m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
 		m_pPlayer[(int)PlayerScore[1].y]->SetWinner(true);
+		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(false);
+		m_pPlayer[(int)PlayerScore[3].y]->SetWinner(false);
+
 		m_pMessage->GoalMessage(0);
 	}
 	else
 	{
 		m_pPlayer[(int)PlayerScore[0].y]->SetWinner(true);
+		m_pPlayer[(int)PlayerScore[1].y]->SetWinner(false);
+		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(false);
+		m_pPlayer[(int)PlayerScore[3].y]->SetWinner(false);
+
 		m_pMessage->GoalMessage((int)PlayerScore[0].y + 1);
 	}
 }
