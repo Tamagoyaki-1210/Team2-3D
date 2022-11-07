@@ -99,6 +99,11 @@ void CCylinderHitbox::Update(void)
 							{
 								SetEffect(pHbx->data()[nCnt]->GetEffect());
 							}
+
+							if (pHbx->data()[nCnt]->GetDirection() != Vec3Null)
+							{
+								SetDirection(pHbx->data()[nCnt]->GetDirection());
+							}
 						}
 					}
 				}

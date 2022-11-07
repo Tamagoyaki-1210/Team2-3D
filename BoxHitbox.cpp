@@ -14,6 +14,7 @@
 //コンストラクタ
 CBoxHitbox::CBoxHitbox()
 {
+
 	for (int nCnt = 0; nCnt < 12; nCnt++)
 	{
 		m_pLine[nCnt] = nullptr;
@@ -66,7 +67,7 @@ void CBoxHitbox::Update(void)
 
 	for (int nCnt = 0; nCnt < (int)pHbx->size(); nCnt++)
 	{
-		if (pHbx->data()[nCnt] != this)
+		if (pHbx->data()[nCnt] != this && pHbx->data()[nCnt]->GetParent() != GetParent())
 		{
 			HITBOX_SHAPE shape = pHbx->data()[nCnt]->GetShape();
 
@@ -298,8 +299,6 @@ CBoxHitbox* CBoxHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 Relative
 
 bool CBoxHitbox::BoxBoxHit(D3DXVECTOR3 pos, D3DXVECTOR3 rot, D3DXVECTOR3 size)
 {
-	//bool bInteraction = false;
-
 	D3DXVECTOR3 thisPos = GetPos();
 	D3DXVECTOR3 thisSize = GetSize();
 	D3DXVECTOR3 thisLastPos = GetLastPos();

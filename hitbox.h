@@ -46,6 +46,7 @@ public:
 	{
 		EFFECT_DAMAGE = 0,
 		EFFECT_LAUNCH,
+		EFFECT_PUSH,
 
 		EFFECT_MAX
 	};
@@ -68,6 +69,7 @@ public:
 	HITBOX_TYPE  GetType(void);
 	CObject*	 GetParent(void);
 	INTERACTION_EFFECT GetEffect(void);
+	const D3DXVECTOR3  GetDirection(void);
 
 	void SetPos(const D3DXVECTOR3 pos);
 	void SetRelativePos(const D3DXVECTOR3 pos);
@@ -81,6 +83,7 @@ public:
 	void SetScore(const int nScore);
 	void SetEffect(INTERACTION_EFFECT effect);
 	void SetInvincibility(const bool bInv);
+	void SetDirection(const D3DXVECTOR3 dir);
 
 	bool GetCollisionState(void);
 	const int GetPlayerIdx(void);
@@ -97,6 +100,7 @@ private:
 	D3DXVECTOR3  m_LastPos;
 	D3DXVECTOR3  m_size;
 	D3DXVECTOR3  m_rot;
+	D3DXVECTOR3  m_dir;
 	HITBOX_SHAPE m_shape;
 	HITBOX_TYPE  m_type;
 	INTERACTION_EFFECT m_effect;
