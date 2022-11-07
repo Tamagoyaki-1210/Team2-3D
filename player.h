@@ -87,6 +87,7 @@ public:
 
 	void PlayerController(int nCntPlayer);
 	void SetPlayerIdx(int nCntPlayer);
+	void SetFriction(const float fFriction);
 
 	bool GetGoal() { return m_bGoal; }
 
@@ -103,6 +104,8 @@ private:
 	void GoalMove();
 
 	static D3DXCOLOR m_playerColor[PLAYER_COLOR_MAX];
+	static const float m_MaxWalkingSpeed;
+	static const float m_AccelerationCoeff;
 
 	D3DXVECTOR3 m_pos;									//位置
 	D3DXVECTOR3 m_move;									//速度
@@ -112,6 +115,7 @@ private:
 	bool		m_bJump;								//ジャンプしているかどうか
 	int			m_nInvincibilityCnt;					//無敵状態のカウンター
 	int			m_nCntAttack;
+	float		m_fFrictionCoeff;						//摩擦係数
 
 	float m_fAngle;
 	bool m_bGoal;
