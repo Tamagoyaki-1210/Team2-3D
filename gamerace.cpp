@@ -41,9 +41,6 @@ HRESULT CGameRace::Init(void)
 
 	m_pStage = CStage::Create();
 
-	CLavaFloor::Create(D3DXVECTOR3(-100.0f, -149.9f, 500.0f), D3DXVECTOR2(100.0f, 15.0f));
-	
-
     return S_OK;
 }
 

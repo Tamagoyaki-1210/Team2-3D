@@ -17,6 +17,7 @@
 #include "goal.h"
 #include "camera.h"
 #include "SpikeBall.h"
+#include "lavaFloor.h"
 #include "score.h"
 #include "message.h"
 #include <string>
@@ -139,7 +140,7 @@ void CStage::Update(void)
 }
 
 //=====================================
-// 終了処理
+// モデル設定処理
 //=====================================
 void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 {
@@ -150,7 +151,27 @@ void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 		// 鉄球
 		CSpikeBall::Create(D3DXVECTOR3(pos));
 	}
+	break;
+
+	default:
 		break;
+	}
+}
+
+//=====================================
+// 床設定処理
+//=====================================
+void CStage::SetFloorType(D3DXVECTOR3 pos, D3DXVECTOR2 size, FloorType type)
+{
+	switch (type)
+	{
+	case CStage::FLOOR_LAVA:
+	{
+		// 溶岩床
+		CLavaFloor::Create(pos, size);
+	}
+	break;
+
 	default:
 		break;
 	}
@@ -407,6 +428,54 @@ void CStage::Load()
 												float z = std::stof(s);		//floatに変換する
 
 												SetModelType(D3DXVECTOR3(x, y, z), (ModelType)nModelType);
+											}
+										}
+									}
+								}
+							}
+						}
+						nModelType++;
+					}
+				}
+			}
+			else if (strncmp(aStr, "FLOORALLSET", 11) == 0)
+			{// 障害物モデル読み込み
+				int nModelType = 0;
+				while (strncmp(aStr, "END_FLOORALLSET", 15) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "FLOORTYPESET", 12) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_FLOORTYPESET", 16) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "FLOORSET", 8) == 0)
+							{
+								while (strncmp(aStr, "END_FLOORSET", 12) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "FLOOR", 5) == 0)
+									{
+										while (strncmp(aStr, "END_FLOOR", 9) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												float x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												float z = std::stof(s);		//floatに変換する
+
+												//SetFloorType(D3DXVECTOR3(x, y, z), (ModelType)nModelType);
 											}
 										}
 									}

@@ -33,9 +33,8 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\UI_PlayerNumber_4P.png",				//TEXTURE_4P_WIN,
 	"data\\TEXTURE\\UI_GameResult_Win.png",					//TEXTURE_WINNER,
 	"data\\TEXTURE\\UI_GameResult_Draw.png",				//TEXTURE_DRAW,
-	"data\\TEXTURE\\Frame.png"								//TEXTURE_SELECT_FRAME,
-	"data\\TEXTURE\\UI_GameResult_Draw.png",				//TEXTURE_DRAW,
-	"data\\TEXTURE\\Lava.jpg"								//TEXTURE_LAVA,
+	"data\\TEXTURE\\Frame.png",								//TEXTURE_SELECT_FRAME,
+	"data\\TEXTURE\\Lava.jpg",								//TEXTURE_LAVA,
 };
 
 //=============================================================================

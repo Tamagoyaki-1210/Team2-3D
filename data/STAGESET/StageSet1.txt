@@ -156,6 +156,21 @@ MODELALLSET
 		END_MODELSET
 
 	END_MODELTYPESET
+	
+#++++++++++++++++++++++++++++++++++++++
+# 障害物モデル[1]
+#++++++++++++++++++++++++++++++++++++++
+	MODELTYPESET
+#------------------
+# １個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -150.0 -150.0 500.0
+			END_MODEL
+		END_MODELSET	
+
+	END_MODELTYPESET
 
 END_MODELALLSET
 
