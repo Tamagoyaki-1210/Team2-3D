@@ -11,6 +11,8 @@
 #include "debugProc.h"
 #include "fade.h"
 #include "stage.h"
+#include "lavaFloor.h"
+#include "object3D.h"
 
 CStage* CGameRace::m_pStage = nullptr;
 
@@ -38,6 +40,9 @@ HRESULT CGameRace::Init(void)
     CGame::Init();
 
 	m_pStage = CStage::Create();
+
+	CLavaFloor::Create(D3DXVECTOR3(-100.0f, -149.9f, 500.0f), D3DXVECTOR2(100.0f, 15.0f));
+	
 
     return S_OK;
 }
