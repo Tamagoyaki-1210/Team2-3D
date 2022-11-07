@@ -30,6 +30,7 @@ CHitbox::CHitbox()
 	m_nPlayerIdx = 0;
 	m_nScore = 0;
 	m_bInvincible = false;
+	m_dir = Vec3Null;
 
 	m_vHitbox.push_back(this);
 }
@@ -56,6 +57,7 @@ HRESULT CHitbox::Init(void)
 	m_nPlayerIdx = -1;
 	m_nScore = 0;
 	m_bInvincible = false;
+	m_dir = Vec3Null;
 
 	return S_OK;
 }
@@ -137,6 +139,11 @@ CHitbox::INTERACTION_EFFECT CHitbox::GetEffect(void)
 	return m_effect;
 }
 
+const D3DXVECTOR3 CHitbox::GetDirection(void)
+{
+	return m_dir;
+}
+
 
 void CHitbox::SetPos(const D3DXVECTOR3 pos)
 {
@@ -198,6 +205,11 @@ void CHitbox::SetEffect(INTERACTION_EFFECT effect)
 void CHitbox::SetInvincibility(const bool bInv)
 {
 	m_bInvincible = bInv;
+}
+
+void CHitbox::SetDirection(const D3DXVECTOR3 dir)
+{
+	m_dir = dir;
 }
 
 //‰½‚©‚Æ“–‚½‚Á‚½‚©‚Ç‚¤‚©

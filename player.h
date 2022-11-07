@@ -21,6 +21,7 @@ class CAnimator;
 class CCylinderHitbox;
 class CScore;
 class CUIString;
+class CBoxHitbox;
 
 class CPlayer : public CObject
 {
@@ -110,6 +111,7 @@ private:
 	D3DXMATRIX  m_mtxWorld;								//ワールドマトリックス
 	bool		m_bJump;								//ジャンプしているかどうか
 	int			m_nInvincibilityCnt;					//無敵状態のカウンター
+	int			m_nCntAttack;
 
 	float m_fAngle;
 	bool m_bGoal;
@@ -118,6 +120,7 @@ private:
 	bool m_bPos;
 	bool m_bRot;
 	bool m_bHit;
+	bool m_bAttacking;
 
 	int m_nScore[PLAYER_MAX];
 
@@ -129,7 +132,8 @@ private:
 	CAnimator* m_pAnimator;
 
 	STATE m_State;
-	CCylinderHitbox* m_pHitbox;
+	CCylinderHitbox* m_pHitbox;							//ヒットボックス
+	CBoxHitbox*       m_pAttackHitbox;					//攻撃ヒットボックス
 	CScore* m_pScore;
 	CUIString* m_pScoreUI;
 
