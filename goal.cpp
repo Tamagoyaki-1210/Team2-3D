@@ -10,8 +10,6 @@
 #include "application.h"
 #include "goal.h"
 #include "rendering.h"
-#include "gamerace.h"
-#include "stage.h"
 
 bool CGoal::m_bGoal = false;									//ゴールしたかどうか
 int CGoal::m_nWinnerIdx = 0;
@@ -29,9 +27,11 @@ CGoal::~CGoal()
 //初期化
 HRESULT CGoal::Init(void)
 {
-	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//初期化処理
+	if (FAILED(CModel::Init()))
+	{
+		return -1;
+	}
 	m_bGoal = false;
 
 	return S_OK;
@@ -40,35 +40,21 @@ HRESULT CGoal::Init(void)
 //終了
 void CGoal::Uninit(void)
 {
+	//基本クラスの終了処理
+	CModel::Uninit();
 }
 
 //更新
 void CGoal::Update(void)
 {
-
+	//基本クラスの更新処理
+	CModel::Update();
 }
 
 //描画
 void CGoal::Draw(void)
 {
-}
-
-//位置
-void CGoal::SetPos(const D3DXVECTOR3 pos)
-{
-	m_pos = pos;
-}
-
-//サイズの情報
-const D3DXVECTOR2 CGoal::GetSize(void)
-{
-	return (D3DXVECTOR2)m_size;
-}
-
-//位置の情報
-const D3DXVECTOR3 CGoal::GetPos(void)
-{
-	return m_pos;
+	CModel::Draw();
 }
 
 void CGoal::SetGoal(bool bGoal,int nWinnerIdx)
@@ -78,7 +64,7 @@ void CGoal::SetGoal(bool bGoal,int nWinnerIdx)
 }
 
 //生成
-CGoal * CGoal::Create()
+CGoal * CGoal::Create(D3DXVECTOR3 pos)
 {
 	//インスタンスを生成する
 	CGoal* pGoal = new CGoal;		
@@ -88,6 +74,9 @@ CGoal * CGoal::Create()
 	{
 		return nullptr;
 	}
+
+	pGoal->SetModel(MODEL_GOAL);	//モデルの設定処理
+	pGoal->SetPos(pos);				//位置の設定処理
 
 	return pGoal;
 }

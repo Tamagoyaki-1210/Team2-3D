@@ -69,7 +69,7 @@ void CBouncePole::Update(void)
 	if (m_pHitbox != nullptr)
 	{
 		m_pHitbox->SetPos(pos);
-		m_pHitbox->Update();
+		//m_pHitbox->Update();
 	}
 
 	CModel::Update();
@@ -96,17 +96,17 @@ CBouncePole* CBouncePole::Create(const D3DXVECTOR3 pos)
 		return nullptr;
 	}
 
-	pObs->SetModel(CModel::MODEL_SPIKE_BALL);
+	pObs->SetModel(CModel::MODEL_BOUNCE_POLE);
 
-	D3DXVECTOR3 rotation = D3DXVECTOR3((float)random(-100, 100), (float)random(-100, 100), (float)random(-100, 100));
-	D3DXVec3Normalize(&rotation, &rotation);
-	rotation.x *= 0.1f;
-	rotation.y *= 0.1f;
-	rotation.z *= 0.1f;
-	pObs->StartRotation(rotation);
+	//D3DXVECTOR3 rotation = D3DXVECTOR3((float)random(-100, 100), (float)random(-100, 100), (float)random(-100, 100));
+	//D3DXVec3Normalize(&rotation, &rotation);
+	//rotation.x *= 0.1f;
+	//rotation.y *= 0.1f;
+	//rotation.z *= 0.1f;
+	//pObs->StartRotation(rotation);
 	pObs->SetPos(pos);
 
-	pObs->m_pHitbox = CCylinderHitbox::Create(D3DXVECTOR3(pos.x, pos.y - 10.0f, pos.z), Vec3Null, D3DXVECTOR3(8.0f, 20.0f, 8.0f), CHitbox::TYPE_OBSTACLE, 0, pObs, CHitbox::EFFECT_LAUNCH);
+	pObs->m_pHitbox = CCylinderHitbox::Create(D3DXVECTOR3(pos.x, pos.y - 10.0f, pos.z), Vec3Null, D3DXVECTOR3(8.0f, 20.0f, 8.0f), CHitbox::TYPE_OBSTACLE, 0, pObs, CHitbox::EFFECT_BOUNCE);
 
 	return pObs;
 }
