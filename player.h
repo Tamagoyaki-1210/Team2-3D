@@ -118,6 +118,7 @@ private:
 	bool m_bPos;
 	bool m_bRot;
 	bool m_bHit;
+	bool m_bPunch;
 
 	int m_nScore[PLAYER_MAX];
 
@@ -134,6 +135,7 @@ private:
 	CUIString* m_pScoreUI;
 
 	int m_nIdxPlayer;
+	int m_nFrame;
 	//CModel* m_pModel;									//ƒ‚ƒfƒ‹
 };
 
