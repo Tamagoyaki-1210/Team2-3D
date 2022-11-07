@@ -50,7 +50,7 @@
     <ClCompile Include="playerModel.cpp" />
     <ClCompile Include="stageSelect.cpp" />
     <ClCompile Include="lavaFloor.cpp" />
-    <ClCompile Include="boundPole.cpp" />
+    <ClCompile Include="bouncePole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -102,6 +102,6 @@
     <ClInclude Include="playerModel.h" />
     <ClInclude Include="stageSelect.h" />
     <ClInclude Include="lavaFloor.h" />
-    <ClInclude Include="boundPole.h" />
+    <ClInclude Include="bouncePole.h" />
   </ItemGroup>
 </Project>

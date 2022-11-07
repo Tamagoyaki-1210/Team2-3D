@@ -1,11 +1,11 @@
 //=============================================================================
 //
-// boundPole.h
+// bouncePole.h
 // Author : KAJITA HIROMU
 //
 //=============================================================================
-#ifndef _BOUNDPOLE_H
-#define _BOUNDPOLE_H
+#ifndef _BOUNCEPOLE_H
+#define _BOUNCEPOLE_H
 
 //=============================================================================
 //インクルードファイル
@@ -17,23 +17,25 @@
 //=============================================================================
 class CCylinderHitbox;
 
-class CBoundPole : public CModel
+class CBouncePole : public CModel
 {
 public:
 
-	CBoundPole();											//コンストラクタ
-	~CBoundPole() override;									//デストラクタ
+	CBouncePole();											//コンストラクタ
+	~CBouncePole() override;									//デストラクタ
 
 	HRESULT Init(void) override;							//初期化処理
 	void Uninit(void) override;								//終了処理
 	void Update(void) override;								//更新処理
 	void Draw(void) override;								//描画処理
 
-	static CBoundPole* Create(const D3DXVECTOR3 pos);		//生成処理
+	static CBouncePole* Create(const D3DXVECTOR3 pos);		//生成処理
 
 private:
 
 	CCylinderHitbox* m_pHitbox;
+	D3DXVECTOR3 m_move;
+	float m_Height;
 };
 
 
