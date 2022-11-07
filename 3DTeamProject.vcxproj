@@ -175,6 +175,7 @@
     <ClCompile Include="inputKeyboard.cpp" />
     <ClCompile Include="inputMouse.cpp" />
     <ClCompile Include="inputPad.cpp" />
+    <ClCompile Include="lavaFloor.cpp" />
     <ClCompile Include="Letter.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="line.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="inputKeyboard.h" />
     <ClInclude Include="inputMouse.h" />
     <ClInclude Include="inputPad.h" />
+    <ClInclude Include="lavaFloor.h" />
     <ClInclude Include="Letter.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="line.h" />

@@ -58,6 +58,7 @@ public:
 	const D3DXCOLOR GetColor(void);													//カーラーの取得処理
 	void SetColor(const D3DXCOLOR col);												//カーラーの設定処理
 	void SetVtxColor(const int nVtxIdx, const D3DXCOLOR col);						//頂点１つのカーラー設定処理
+	void MoveTexCoordinates(const D3DXVECTOR2 move);								//テクスチャの移動量の設定処理
 
 	void SetTexture(TextType textType);												//テクスチャの種類の設定処理
 	void SetAnimationBase(const int FirstPattern);									//アニメーションの最初のパターンの設定処理

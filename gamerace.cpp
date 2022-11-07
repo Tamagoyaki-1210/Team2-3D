@@ -12,6 +12,8 @@
 #include "message.h"
 #include "fade.h"
 #include "stage.h"
+#include "lavaFloor.h"
+#include "object3D.h"
 
 CMessage* CGameRace::m_pMessage = nullptr;
 CStage* CGameRace::m_pStage = nullptr;
@@ -45,6 +47,9 @@ HRESULT CGameRace::Init(void)
 
 	// カウントダウンメッセージ表示
 	m_pMessage->SetCountDown(3);
+
+	CLavaFloor::Create(D3DXVECTOR3(-100.0f, -149.9f, 500.0f), D3DXVECTOR2(100.0f, 15.0f));
+	
 
     return S_OK;
 }

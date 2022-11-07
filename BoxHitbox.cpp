@@ -125,6 +125,17 @@ void CBoxHitbox::Update(void)
 	CHitbox::Update();
 }
 
+void CBoxHitbox::SetLinePos(D3DXVECTOR3 RelativePos)
+{
+	for (int nCnt = 0; nCnt < 12; nCnt++)
+	{
+		if (m_pLine[nCnt] != nullptr)
+		{
+			m_pLine[nCnt]->SetPos(GetPos() + RelativePos);
+		}
+	}
+}
+
 
 
 
@@ -157,20 +168,20 @@ CBoxHitbox* CBoxHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 Relative
 	VtxPos[6] = D3DXVECTOR3(size.x, size.y, -size.z);
 	VtxPos[7] = D3DXVECTOR3(-size.x, size.y, -size.z);
 
-	pHitbox->m_pLine[0] = CLine::Create(pos, Vec3Null, VtxPos[0], VtxPos[1], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[1] = CLine::Create(pos, Vec3Null, VtxPos[1], VtxPos[2], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[2] = CLine::Create(pos, Vec3Null, VtxPos[2], VtxPos[3], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[3] = CLine::Create(pos, Vec3Null, VtxPos[3], VtxPos[0], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-																   
-	pHitbox->m_pLine[4] = CLine::Create(pos, Vec3Null, VtxPos[0], VtxPos[4], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[5] = CLine::Create(pos, Vec3Null, VtxPos[1], VtxPos[5], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[6] = CLine::Create(pos, Vec3Null, VtxPos[2], VtxPos[6], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[7] = CLine::Create(pos, Vec3Null, VtxPos[3], VtxPos[7], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-																	   
-	pHitbox->m_pLine[8] = CLine::Create(pos, Vec3Null, VtxPos[4], VtxPos[5], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[9] = CLine::Create(pos, Vec3Null, VtxPos[5], VtxPos[6], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[10] = CLine::Create(pos, Vec3Null, VtxPos[6], VtxPos[7], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[11] = CLine::Create(pos, Vec3Null, VtxPos[7], VtxPos[4], D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[0] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[0], VtxPos[1], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[1] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[1], VtxPos[2], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[2] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[2], VtxPos[3], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[3] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[3], VtxPos[0], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+
+	pHitbox->m_pLine[4] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[0], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[5] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[1], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[6] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[2], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[7] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[3], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+
+	pHitbox->m_pLine[8] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[4], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[9] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[5], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[10] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[6], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[11] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[7], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
 #endif // !DEBUG
 
@@ -208,20 +219,20 @@ CBoxHitbox* CBoxHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 Relative
 	VtxPos[6] = D3DXVECTOR3(size.x, size.y, -size.z);
 	VtxPos[7] = D3DXVECTOR3(-size.x, size.y, -size.z);
 
-	pHitbox->m_pLine[0] = CLine::Create(pos, Vec3Null, VtxPos[0], VtxPos[1], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[1] = CLine::Create(pos, Vec3Null, VtxPos[1], VtxPos[2], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[2] = CLine::Create(pos, Vec3Null, VtxPos[2], VtxPos[3], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[3] = CLine::Create(pos, Vec3Null, VtxPos[3], VtxPos[0], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[0] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[0], VtxPos[1], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[1] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[1], VtxPos[2], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[2] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[2], VtxPos[3], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[3] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[3], VtxPos[0], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
-	pHitbox->m_pLine[4] = CLine::Create(pos, Vec3Null, VtxPos[0], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[5] = CLine::Create(pos, Vec3Null, VtxPos[1], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[6] = CLine::Create(pos, Vec3Null, VtxPos[2], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[7] = CLine::Create(pos, Vec3Null, VtxPos[3], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[4] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[0], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[5] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[1], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[6] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[2], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[7] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[3], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
-	pHitbox->m_pLine[8] = CLine::Create(pos, Vec3Null, VtxPos[4], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[9] = CLine::Create(pos, Vec3Null, VtxPos[5], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[10] = CLine::Create(pos, Vec3Null, VtxPos[6], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[11] = CLine::Create(pos, Vec3Null, VtxPos[7], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[8] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[4], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[9] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[5], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[10] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[6], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[11] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[7], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
 #endif // !DEBUG
 
@@ -260,20 +271,20 @@ CBoxHitbox* CBoxHitbox::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 Relative
 	VtxPos[6] = D3DXVECTOR3(size.x, size.y, -size.z);
 	VtxPos[7] = D3DXVECTOR3(-size.x, size.y, -size.z);
 
-	pHitbox->m_pLine[0] = CLine::Create(pos, Vec3Null, VtxPos[0], VtxPos[1], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[1] = CLine::Create(pos, Vec3Null, VtxPos[1], VtxPos[2], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[2] = CLine::Create(pos, Vec3Null, VtxPos[2], VtxPos[3], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[3] = CLine::Create(pos, Vec3Null, VtxPos[3], VtxPos[0], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[0] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[0], VtxPos[1], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[1] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[1], VtxPos[2], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[2] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[2], VtxPos[3], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[3] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[3], VtxPos[0], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
-	pHitbox->m_pLine[4] = CLine::Create(pos, Vec3Null, VtxPos[0], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[5] = CLine::Create(pos, Vec3Null, VtxPos[1], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[6] = CLine::Create(pos, Vec3Null, VtxPos[2], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[7] = CLine::Create(pos, Vec3Null, VtxPos[3], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[4] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[0], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[5] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[1], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[6] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[2], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[7] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[3], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
-	pHitbox->m_pLine[8] = CLine::Create(pos, Vec3Null, VtxPos[4], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[9] = CLine::Create(pos, Vec3Null, VtxPos[5], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[10] = CLine::Create(pos, Vec3Null, VtxPos[6], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-	pHitbox->m_pLine[11] = CLine::Create(pos, Vec3Null, VtxPos[7], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[8] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[4], VtxPos[5], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[9] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[5], VtxPos[6], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[10] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[6], VtxPos[7], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	pHitbox->m_pLine[11] = CLine::Create(pos + RelativePos, Vec3Null, VtxPos[7], VtxPos[4], D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
 #endif // !DEBUG
 
