@@ -21,6 +21,8 @@
 #include "message.h"
 #include <string>
 
+#include "bouncePole.h"
+
 //アニメーション情報のテキストファイルの相対パス
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
 {
@@ -67,6 +69,8 @@ HRESULT CStage::Init(void)
 	Load();
 
 	CGoal::Create();
+
+	CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
 
 	// プレイヤーの生成
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
