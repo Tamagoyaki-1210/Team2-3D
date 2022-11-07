@@ -164,6 +164,7 @@
     <ClCompile Include="CylinderHitbox.cpp" />
     <ClCompile Include="debugProc.cpp" />
     <ClCompile Include="directionalLight.cpp" />
+    <ClCompile Include="environment.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="font.cpp" />
     <ClCompile Include="fontString.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="CylinderHitbox.h" />
     <ClInclude Include="debugProc.h" />
     <ClInclude Include="directionalLight.h" />
+    <ClInclude Include="environment.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="font.h" />
     <ClInclude Include="fontString.h" />

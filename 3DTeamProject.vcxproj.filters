@@ -51,6 +51,7 @@
     <ClCompile Include="stageSelect.cpp" />
     <ClCompile Include="lavaFloor.cpp" />
     <ClCompile Include="bouncePole.cpp" />
+    <ClCompile Include="environment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -103,5 +104,6 @@
     <ClInclude Include="stageSelect.h" />
     <ClInclude Include="lavaFloor.h" />
     <ClInclude Include="bouncePole.h" />
+    <ClInclude Include="environment.h" />
   </ItemGroup>
 </Project>
