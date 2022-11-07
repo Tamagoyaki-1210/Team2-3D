@@ -49,6 +49,7 @@
     <ClCompile Include="playerSelect.cpp" />
     <ClCompile Include="playerModel.cpp" />
     <ClCompile Include="stageSelect.cpp" />
+    <ClCompile Include="lavaFloor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -99,5 +100,6 @@
     <ClInclude Include="playerSelect.h" />
     <ClInclude Include="playerModel.h" />
     <ClInclude Include="stageSelect.h" />
+    <ClInclude Include="lavaFloor.h" />
   </ItemGroup>
 </Project>
