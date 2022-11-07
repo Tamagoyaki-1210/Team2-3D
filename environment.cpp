@@ -80,6 +80,7 @@ CEnvironment * CEnvironment::Create(D3DXVECTOR3 pos, EnvironmentType type)
 		break;
 	}
 	pEnvironment->SetPos(pos);				//ˆÊ’u‚ÌÝ’èˆ—
+	pEnvironment->SetShadowDraw(false);
 
 	return pEnvironment;
 }

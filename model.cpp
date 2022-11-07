@@ -154,8 +154,7 @@ void CModel::Draw(void)
 	D3DXVECTOR3 pos, Normal;
 	D3DXPLANE planeField;
 
-	if (m_bShadow)
-	{
+	
 		D3DXVECTOR3 dir = CDirectionalLight::GetPrincipalLightDir();
 		D3DXVec3Normalize(&dir, &dir);
 
@@ -176,6 +175,9 @@ void CModel::Draw(void)
 		//ˆÊ’u‚ð”½‰f
 		D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
 		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
+
+		if (m_bShadow)
+		{
 
 		D3DXPlaneFromPointNormal(&planeField, &pos, &Normal);
 		D3DXMatrixShadow(&mtxShadow, &vecLight, &planeField);
