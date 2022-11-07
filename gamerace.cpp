@@ -13,6 +13,7 @@
 #include "stage.h"
 #include "lavaFloor.h"
 #include "object3D.h"
+#include "BoxHitbox.h"
 
 CStage* CGameRace::m_pStage = nullptr;
 
@@ -42,6 +43,7 @@ HRESULT CGameRace::Init(void)
 	m_pStage = CStage::Create();
 
 	CLavaFloor::Create(D3DXVECTOR3(-100.0f, -149.9f, 500.0f), D3DXVECTOR2(100.0f, 15.0f));
+	CBoxHitbox::Create(D3DXVECTOR3(50.0f, -150.0f, 200.0f), Vec3Null, D3DXVECTOR3(25.0f, 100.0f, 100.0f), CHitbox::TYPE_NEUTRAL, nullptr);
 	
 
     return S_OK;

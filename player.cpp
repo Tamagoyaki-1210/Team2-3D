@@ -28,6 +28,7 @@
 #include "coin.h"
 #include "playerModel.h"
 #include "message.h"
+#include "BoxHitbox.h"
 
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
 {
@@ -55,6 +56,9 @@ CPlayer::CPlayer()
 	m_pScoreUI = nullptr;				//スコアのUIへのポインタ
 	m_bJump = false;					//ジャンプしているかどうか
 	m_nInvincibilityCnt = 0;			//無敵状態のカウンター
+	m_pAttackHitbox = nullptr;
+	m_bAttacking = false;
+	m_nCntAttack = 0;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -93,6 +97,9 @@ HRESULT CPlayer::Init(void)
 	m_bJump = false;				//ジャンプしているかどうか
 	m_nInvincibilityCnt = 0;		//無敵状態のカウンター
 	m_nFrame = 0;
+	m_pAttackHitbox = nullptr;
+	m_bAttacking = false;
+	m_nCntAttack = 0;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -140,6 +147,11 @@ void CPlayer::Uninit(void)
 	{
 		m_pScoreUI->Uninit();
 		m_pScoreUI = nullptr;
+	}
+	if (m_pAttackHitbox != nullptr)
+	{
+		m_pAttackHitbox->Release();
+		m_pAttackHitbox = nullptr;
 	}
 }
 
@@ -355,8 +367,70 @@ void CPlayer::Update(void)
 
 			break;
 
+			case CHitbox::EFFECT_PUSH:
+
+			{
+				m_bHit = true;
+				m_pAnimator->SetPresentAnim(4);
+
+				m_move = m_pHitbox->GetDirection();
+				D3DXVec3Normalize(&m_move, &m_move);
+				m_move.x *= 5.0f;
+				m_move.y = 10.0f;
+				m_move.z *= 5.f;
+
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);
+
+				if (m_pHitbox != nullptr)
+				{
+					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
+					m_pHitbox->SetDirection(Vec3Null);
+				}
+			}
+
+				break;
+
 			default:
 				break;
+			}
+		}
+		if (m_nCntAttack > 0)
+		{
+			m_nCntAttack--;
+
+			if (m_nCntAttack == 40 && m_pAttackHitbox == nullptr)
+			{
+				D3DXVECTOR3 Rot = Vec3Null;
+
+				if (m_pModel[0] != nullptr)
+				{
+					Rot = m_pModel[0]->GetRot();
+				}
+				D3DXVECTOR3 dir = D3DXVECTOR3(0.0f, 20.0f, 20.0f);
+				D3DXMATRIX mtxOut ,mtxTrans ,mtxRot;
+				D3DXMatrixIdentity(&mtxOut);
+				D3DXMatrixRotationYawPitchRoll(&mtxRot, Rot.y, 0.0f, 0.0f);
+				D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxRot);
+				/*D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
+				D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxTrans);*/
+				D3DXVec3TransformCoord(&dir, &dir, &mtxOut);
+
+				m_pAttackHitbox = CBoxHitbox::Create(dir + m_pos, Vec3Null, D3DXVECTOR3(8.0f, 8.0f, 8.0f), CHitbox::TYPE_OBSTACLE, this, 0, CHitbox::EFFECT_PUSH);
+				
+				if (m_pAttackHitbox != nullptr)
+				{
+					dir.y = 0.0f;
+					D3DXVec3Normalize(&dir, &dir);
+					m_pAttackHitbox->SetDirection(dir);
+				}
+			}
+
+			if (m_nCntAttack <= 0)
+			{
+				m_pAttackHitbox->Release();
+				m_pAttackHitbox = nullptr;
+				m_nCntAttack = 0;
+				m_bAttacking = false;
 			}
 		}
 		
@@ -697,9 +771,12 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) && !bMoving && !m_bJump && !m_bHit)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) && !bMoving && !m_bJump && !m_bHit && !m_bAttacking)
 	{
 		m_pAnimator->SetPresentAnim(3);
+
+		m_bAttacking = true;
+		m_nCntAttack = 50;
 	}
 }
 
