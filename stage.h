@@ -38,6 +38,7 @@ public:
 	enum ModelType
 	{
 		MODEL_SPIKEBALL = 0,
+		MODEL_BOUNCEPOLE,
 		MODEL_TYPE_MAX
 	};
 
