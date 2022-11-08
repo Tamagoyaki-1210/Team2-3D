@@ -32,6 +32,7 @@ char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
 {
 	{ "data\\STAGESET\\StageSet1.txt" },
 	{ "data\\STAGESET\\StageSet2.txt" },
+	{ "data\\STAGESET\\StageSet3.txt" },
 };
 
 CMeshfield *CStage::m_pField = nullptr;
@@ -470,7 +471,7 @@ void CStage::Load()
 				}
 			}
 			else if (strncmp(aStr, "FLOORALLSET", 11) == 0)
-			{// 障害物モデル読み込み
+			{// 床モデル読み込み
 				int nFloorType = 0;
 				while (strncmp(aStr, "END_FLOORALLSET", 15) != 0)
 				{
@@ -518,7 +519,7 @@ void CStage::Load()
 				}
 			}
 			else if (strncmp(aStr, "ENVIRONMENTALLSET", 17) == 0)
-			{// コイン読み込み
+			{// 環境モデル読み込み
 				int nEnvironmentType = 0;
 				while (strncmp(aStr, "END_ENVIRONMENTALLSET", 21) != 0)
 				{
