@@ -783,27 +783,27 @@ MOTION_SET					#アニメーション 6
 
 			KEY			#Key 1
 				POS = 0.0 7.0 0.0
-				ROT = -0.3 0.0 0.0
+				ROT = -0.5 0.0 0.0
 			END_KEY
 
 			KEY			#Key 2
 				POS = 8.0 3.0 0.0
-				ROT = 0.5 0.0 -1.4
+				ROT = -1.0 0.0 1.8
 			END_KEY
 
 			KEY			#Key 3
 				POS = 9.0 0.0 0.0
-				ROT = 0.0 0.0 0.0
+				ROT = 0.0 0.0 0.3
 			END_KEY
 
 			KEY			#Key 4
 				POS = -8.0 3.0 0.0
-				ROT = 0.5 0.0 1.4
+				ROT = -1.0 0.0 -1.8
 			END_KEY
 
 			KEY			#Key 5
 				POS = -9.0 0.0 0.0
-				ROT = 0.0 0.0 0.0
+				ROT = 0.0 0.0 -0.3
 			END_KEY
 
 			KEY			#Key 6
@@ -837,27 +837,27 @@ MOTION_SET					#アニメーション 6
 
 			KEY			#Key 1
 				POS = 0.0 7.00 0.0
-				ROT = -0.5 0.0 0.0
+				ROT = -0.3 0.0 0.0
 			END_KEY
 
 			KEY			#Key 2
 				POS = 8.0 3.0 0.0
-				ROT = 0.5 0.0 -1.4
+				ROT = -1.0 0.0 1.8
 			END_KEY
 
 			KEY			#Key 3
 				POS = 9.0 0.0 0.0
-				ROT = 0.0 -0.5 0.0
+				ROT = 0.0 0.0 0.0
 			END_KEY
 
 			KEY			#Key 4
 				POS = -8.0 3.0 0.0
-				ROT = 0.5 0.0 1.4
+				ROT = -1.0 0.0 -1.8
 			END_KEY
 
 			KEY			#Key 5
 				POS = -9.0 0.0 0.0
-				ROT = 0.0 0.5 0.0
+				ROT = 0.0 0.0 0.0
 			END_KEY
 
 			KEY			#Key 6
