@@ -54,6 +54,11 @@ void CMessage::Uninit(void)
 		m_pObj2D->Release();
 		m_pObj2D = nullptr;
 	}
+	if (m_pPlayer2D != nullptr)
+	{
+		m_pPlayer2D->Release();
+		m_pPlayer2D = nullptr;
+	}
 	m_nMessageIdx = 0;
 	m_nMessageCounter = 0;
 	m_nNum = 0;
@@ -125,7 +130,7 @@ void CMessage::SetCountDown(int nNum)
 		m_pObj2D->SetSize(D3DXVECTOR2(200.0f, 150.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_NUMBERS);
 		m_pObj2D->SetTextureParameter(1, 5, 3, INT_MAX);
-		m_pObj2D->SetPriority(3);
+		m_pObj2D->SetPriority(5);
 		m_nNum = nNum;
 		m_pObj2D->SetAnimPattern(nNum);
 		m_nMessageCounter = CountDownLife;
@@ -147,7 +152,7 @@ void CMessage::StartMessage(void)
 		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
 		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_START);
-		m_pObj2D->SetPriority(4);
+		m_pObj2D->SetPriority(5);
 		m_nMessageCounter = 30;
 		m_type = MESSAGE_START;
 		m_bStart = true;
@@ -165,10 +170,10 @@ void CMessage::GoalMessage(int nMessageIdx)
 	if (m_pObj2D == nullptr)
 	{
 		m_pObj2D = CObject_2D::Create();
-		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
+		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 100.0f, 0.0f));
+		m_pObj2D->SetSize(D3DXVECTOR2(300.0f, 100.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_GOAL);
-		m_pObj2D->SetPriority(4);
+		m_pObj2D->SetPriority(5);
 		m_nMessageCounter = 120;
 		m_type = MESSAGE_GOAL;
 		m_bStart = false;
@@ -192,46 +197,50 @@ void CMessage::WinMessage()
 		{
 			// WIN生成
 			m_pObj2D = CObject_2D::Create();
-			m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f));
-			m_pObj2D->SetSize(D3DXVECTOR2(240.0f, 100.0f));
+			m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 200.0f, 0.0f));
+			m_pObj2D->SetSize(D3DXVECTOR2(180.0f, 60.0f));
 			m_pObj2D->SetTexture(CObject::TEXTURE_WINNER);
-			m_pObj2D->SetPriority(4);
+			m_pObj2D->SetPriority(5);
 		}
 
-		// 勝敗メッセージ生成
-		CObject_2D *pObject2D = CObject_2D::Create();
-		pObject2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
-		pObject2D->SetSize(D3DXVECTOR2(150.0f, 100.0f));
-		pObject2D->SetPriority(4);
-
-		// 番号でプレイヤーを変更する
-		switch (m_nMessageIdx)
+		if (m_pPlayer2D == nullptr)
 		{
-		case 0:
-			pObject2D->SetTexture(CObject::TEXTURE_DRAW);
-			pObject2D->SetSize(D3DXVECTOR2(400.0f, 150.0f));
-			break;
-		case 1:
-			pObject2D->SetTexture(CObject::TEXTURE_1P_WIN);
-			break;
-		case 2:
-			pObject2D->SetTexture(CObject::TEXTURE_2P_WIN);
-			break;
-		case 3:
-			pObject2D->SetTexture(CObject::TEXTURE_3P_WIN);
-			break;
-		case 4:
-			pObject2D->SetTexture(CObject::TEXTURE_4P_WIN);
-			break;
-		default:
-			pObject2D->SetTexture(CObject::TEXTURE_NULL);
-			break;
-		}
+			// 勝敗メッセージ生成
+			m_pPlayer2D = CObject_2D::Create();
+			m_pPlayer2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 90.0f, 0.0f));
+			m_pPlayer2D->SetSize(D3DXVECTOR2(100.0f, 60.0f));
+			m_pPlayer2D->SetPriority(5);
 
-		m_type = MESSAGE_WIN;
-		m_nMessageCounter = 300;
-		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WIN);
-		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS02);
+			// 番号でプレイヤーを変更する
+			switch (m_nMessageIdx)
+			{
+			case 0:
+				m_pPlayer2D->SetTexture(CObject::TEXTURE_DRAW);
+				m_pPlayer2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 100.0f, 0.0f));
+				m_pPlayer2D->SetSize(D3DXVECTOR2(240.0f, 80.0f));
+				break;
+			case 1:
+				m_pPlayer2D->SetTexture(CObject::TEXTURE_1P_WIN);
+				break;
+			case 2:
+				m_pPlayer2D->SetTexture(CObject::TEXTURE_2P_WIN);
+				break;
+			case 3:
+				m_pPlayer2D->SetTexture(CObject::TEXTURE_3P_WIN);
+				break;
+			case 4:
+				m_pPlayer2D->SetTexture(CObject::TEXTURE_4P_WIN);
+				break;
+			default:
+				m_pPlayer2D->SetTexture(CObject::TEXTURE_NULL);
+				break;
+			}
+
+			m_type = MESSAGE_WIN;
+			m_nMessageCounter = 300;
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WIN);
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS02);
+		}
 	}
 }
 

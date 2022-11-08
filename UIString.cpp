@@ -68,6 +68,19 @@ void CUIString::ChangeString(const char* pString)
 	}
 }
 
+void CUIString::ChangeColor(const D3DXCOLOR col)
+{
+	CLetter* pLetter = m_pTop;
+	int nCnt = 0;
+
+	while (pLetter != nullptr)
+	{
+		pLetter->SetColor(col);
+		pLetter = pLetter->GetNextLetter();
+		nCnt++;
+	}
+}
+
 //ˆÊ’u‚Ìİ’èˆ—
 void CUIString::SetPos(const D3DXVECTOR3 pos)
 {

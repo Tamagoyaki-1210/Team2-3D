@@ -1,6 +1,6 @@
 #==============================================================================
 #
-# ステージ配置の設定 [StageSet１.txt]
+# ステージ配置の設定 [StageSet3.txt]
 # Author : TANIMOTO KOSUKE
 #
 #==============================================================================
@@ -9,7 +9,7 @@
 #******************************************************************************
 FIELDSET
 
-	TEXTURE_NAME = data\\TEXTURE\\Block.png			# [0]ステージの床テクスチャ
+	TEXTURE_NAME = data\\TEXTURE\\MeshField001.png			# [0]ステージの床テクスチャ
 	TEXTURE_TILING = 0.33							# [0]ステージの床テクスチャタイリング
 
 END_FIELDSET
@@ -22,7 +22,7 @@ SPHERESET
 # １個目
 #------------------
 	SPHERE
-		TEXTURE_NAME = data\\TEXTURE\\sky001.jpg		# [0]ステージの空テクスチャ
+		TEXTURE_NAME = data\\TEXTURE\\MeshField003.png		# [0]ステージの空テクスチャ
 	END_SPHERE
 #------------------
 # ２個目
@@ -46,17 +46,8 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -75.0 -125.0 200.0
+				POS = 100.0 -125.0 200.0
 			END_COIN
-		END_COINSET	
-#------------------
-# ２個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 100.0
-			END_COIN
-
 		END_COINSET	
 
 	END_COINTYPESET
@@ -70,7 +61,26 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -25.0f -125.0f 200.0f
+				POS = 50.0f -125.0f 200.0f
+			END_COIN
+
+		END_COINSET	
+#------------------
+# ２個目
+#------------------
+		COINSET
+			COIN
+				POS = 50.0f -125.0f 250.0f
+			END_COIN
+
+		END_COINSET	
+
+#------------------
+# ３個目
+#------------------
+		COINSET
+			COIN
+				POS = 50.0f -125.0f 300.0f
 			END_COIN
 
 		END_COINSET	
@@ -86,7 +96,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 25.0f -125.0f 200.0f
+				POS = -50.0f -125.0f 200.0f
 			END_COIN
 
 		END_COINSET	
@@ -95,16 +105,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 25.0f -125.0f 50.0f
-			END_COIN
-
-		END_COINSET	
-#------------------
-# ３個目
-#------------------
-		COINSET
-			COIN
-				POS = 25.0f -125.0f 100.0f
+				POS = -50.0f -125.0f 150.0f
 			END_COIN
 
 		END_COINSET	
@@ -120,7 +121,17 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 75.0f -125.0f 200.0f
+				POS = -100.0f -125.0f 200.0f
+			END_COIN
+
+		END_COINSET	
+		
+#------------------
+# ２個目
+#------------------
+		COINSET
+			COIN
+				POS = -100.0f -125.0f 100.0f
 			END_COIN
 
 		END_COINSET	
@@ -142,22 +153,50 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = -50.0 -125.0 500.0
+				POS = -100.0 -125.0 500.0
 			END_MODEL
+			
 		END_MODELSET	
 #------------------
 # ２個目
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 500.0
+				POS = -50.0 -125.0 500.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# ３個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -50.0 -125.0 600.0
+			END_MODEL
+			
+		END_MODELSET	
+#------------------
+# ４個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 100.0 -125.0 600.0
 			END_MODEL
 			
 		END_MODELSET
 
 	END_MODELTYPESET
+
 #++++++++++++++++++++++++++++++++++++++
 # 障害物モデル[1] MODEL_BOUNCEPOLE
+#++++++++++++++++++++++++++++++++++++++
+	MODELTYPESET
+
+	END_MODELTYPESET
+
+#++++++++++++++++++++++++++++++++++++++
+# 障害物モデル[2] MODEL_TRAMPOLINE
 #++++++++++++++++++++++++++++++++++++++
 	MODELTYPESET
 #------------------
@@ -165,28 +204,10 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = -125.0 -150.0 350.0
-			END_MODEL
-		END_MODELSET	
-#------------------
-# ２個目
-#------------------
-		MODELSET
-			MODEL
-				POS = -80.0 -150.0 500.0
+				POS = -70.0 -150.0 150.0
 			END_MODEL
 			
 		END_MODELSET
-
-	END_MODELTYPESET
-	
-END_MODELALLSET
-
-
-#++++++++++++++++++++++++++++++++++++++
-# 障害物モデル[2] MODEL_TRAMPOLINE
-#++++++++++++++++++++++++++++++++++++++
-	MODELTYPESET
 
 	END_MODELTYPESET
 	
@@ -205,7 +226,16 @@ FLOORALLSET
 #------------------
 		FLOORSET
 			FLOOR
-				POS = 0.0 -153.0 350.0
+				POS = -100.0 -153.0 450.0
+			END_FLOOR
+		END_FLOORSET	
+	
+#------------------
+# ２個目
+#------------------
+		FLOORSET
+			FLOOR
+				POS = 100.0 -153.0 550.0
 			END_FLOOR
 		END_FLOORSET	
 
@@ -221,10 +251,26 @@ ENVIRONMENTALLSET
 # 環境モデル[0] ENVIRONMENT_MOUNT
 #++++++++++++++++++++++++++++++++++++++
 	ENVIRONMENTTYPESET
+#------------------
+# １個目
+#------------------
+		ENVIRONMENTSET
+			ENVIRONMENT
+				POS = -1500.0 -1553.0 3450.0
+			END_ENVIRONMENT
+		END_ENVIRONMENTSET	
+	
+#------------------
+# ２個目
+#------------------
+		ENVIRONMENTSET
+			ENVIRONMENT
+				POS = 1000.0 -1553.0 3050.0
+			END_ENVIRONMENT
+		END_ENVIRONMENTSET	
 
 	END_ENVIRONMENTTYPESET
 	
 END_ENVIRONMENTALLSET
-
 
 END_SCRIPT		# この行は絶対消さないこと！
