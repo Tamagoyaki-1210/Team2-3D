@@ -70,6 +70,7 @@ CModel::CModel()
 	m_type = CModel::MODEL_BODY;
 	m_vCol.clear();
 	m_bShadow = true;
+	m_fShadowHeight = 0.0f;
 }
 
 CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
@@ -88,6 +89,7 @@ CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
 	m_type = CModel::MODEL_BODY;
 	m_vCol.clear();
 	m_bShadow = true;
+	m_fShadowHeight = 0.0f;
 }
 
 //デストラクタ
@@ -112,6 +114,7 @@ HRESULT CModel::Init(void)
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
 	m_vCol.clear();
 	m_bShadow = true;
+	m_fShadowHeight = -149.9f;
 
 	/*std::vector <LPDIRECT3DTEXTURE9> v;
 
@@ -161,7 +164,7 @@ void CModel::Draw(void)
 		D3DXVec3Normalize(&dir, &dir);
 
 		vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
-		pos = D3DXVECTOR3(0.0f, -149.0f, 0.0f);
+		pos = D3DXVECTOR3(0.0f, m_fShadowHeight, 0.0f);
 		Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 		//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -395,6 +398,11 @@ void CModel::SetModelColor(const int nNumMat, const D3DXCOLOR col)
 void CModel::SetShadowDraw(const bool bDraw)
 {
 	m_bShadow = bDraw;
+}
+
+void CModel::SetShadowHeight(const float fHeight)
+{
+	m_fShadowHeight = fHeight;
 }
 
 
