@@ -77,6 +77,7 @@ CGoal * CGoal::Create(D3DXVECTOR3 pos)
 
 	pGoal->SetModel(MODEL_GOAL);	//ƒ‚ƒfƒ‹‚ÌÝ’èˆ—
 	pGoal->SetPos(pos);				//ˆÊ’u‚ÌÝ’èˆ—
+	pGoal->SetShadowDraw(false);
 
 	return pGoal;
 }
