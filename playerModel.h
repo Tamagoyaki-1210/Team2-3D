@@ -13,6 +13,7 @@
 #include "object.h"
 #include "player.h"
 #include "stage.h"
+#include "model.h"
 
 //=============================================================================
 //インクルードファイル
@@ -25,6 +26,16 @@ class CUIString;
 class CPlayerModel : public CObject
 {
 public:
+
+	enum PlayerHeadStyle
+	{
+		HEAD_NORMAL = 0,
+		HEAD_SANTA,
+		HEAD_PUMPKIN,
+
+		HEAD_MAX
+	};
+
 	CPlayerModel();										//コンストラクタ
 	~CPlayerModel() override;							//デストラクタ
 
@@ -40,22 +51,27 @@ public:
 	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
 	static const D3DXCOLOR*  GetPlayerColors(void);		//カーラーの取得処理
 
+	static CModel::ModelType GetHeadType(int nIdx);
+
 	static CPlayerModel* Create(const D3DXVECTOR3 pos, int nIdx);		//生成処理
 
 private:
+
+	static CModel::ModelType m_HeadTypeAll[HEAD_MAX];
 
 	D3DXVECTOR3 m_pos;									//位置
 	D3DXVECTOR3 m_rot;									//向き
 	D3DXMATRIX  m_mtxWorld;								//ワールドマトリックス
 	CModelPart* m_pModel[CPlayer::PARTS_MAX];			//モデルへのポインタ
 	CAnimator* m_pAnimator;								//アニメーター
+	int m_nPresentHead;									//頭の種類
 	int m_nPresentColor;								//現在のカーラーインデックス
 	D3DXCOLOR m_presentColor;							//現在のカーラー
 	int m_nIdx;											//インデックス
 	CObject_2D* m_pIcon;								//アイコン
 	CUIString*  m_pUiString;
 
-
+	static CModel::ModelType m_HeadType[PLAYER_MAX];
 	static D3DXCOLOR m_playersCol[PLAYER_MAX];
 
 };

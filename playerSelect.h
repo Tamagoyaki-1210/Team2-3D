@@ -26,6 +26,7 @@ class CDirectionalLight;
 class CPlayerSelect : public CMode
 {
 public:
+
 	CPlayerSelect();
 	~CPlayerSelect() override;
 

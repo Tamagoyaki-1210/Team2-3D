@@ -96,8 +96,8 @@ HRESULT CStage::Init(void)
 	}
 
 	//CTrampoline::Create(D3DXVECTOR3(-70.0f, -150.0f, 150.0f));
-	//CStoneSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 30);
-	CIcePillarSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 150);
+	CStoneSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 30);
+	//CIcePillarSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 150);
 
 	CSilhouette::Create();
 

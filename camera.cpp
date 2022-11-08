@@ -149,8 +149,6 @@ void CCamera::Update(void)
 		m_posR.z += sinf(fAngle) * 5.0f;
 	}
 
-	DIMOUSESTATE* pMouse = CApplication::GetMouse()->GetMouseState();
-
 	//if (pMouse->lY > 0)
 	//{
 	//	if (m_posR.y > m_posV.y - 150.0f)
