@@ -100,6 +100,7 @@ public:
 	void WinnerAnim();
 	void LoserAnim();
 
+	void PlayerRespawn();
 private:
 	void GoalMove();
 
