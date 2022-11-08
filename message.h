@@ -52,6 +52,7 @@ private:
 	int m_nMessageCounter;		// メッセージ表示時間
 	int m_nNum;					// カウントダウン現在位置
 	CObject_2D* m_pObj2D;
+	CObject_2D* m_pPlayer2D;
 	MESSAGE m_type;
 };
 
