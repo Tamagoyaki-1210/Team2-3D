@@ -1,0 +1,7 @@
+needleball
+needlepanel
+boundpole
+trap
+lavafloor
+goal
+coin
