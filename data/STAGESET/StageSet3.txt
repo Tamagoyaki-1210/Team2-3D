@@ -1,6 +1,6 @@
 #==============================================================================
 #
-# ステージ配置の設定 [StageSet2.txt]
+# ステージ配置の設定 [StageSet3.txt]
 # Author : TANIMOTO KOSUKE
 #
 #==============================================================================
@@ -9,7 +9,7 @@
 #******************************************************************************
 FIELDSET
 
-	TEXTURE_NAME = data\\TEXTURE\\MeshField001.png			# [0]ステージの床テクスチャ
+	TEXTURE_NAME = data\\TEXTURE\\snow.png			# [0]ステージの床テクスチャ
 	TEXTURE_TILING = 0.33							# [0]ステージの床テクスチャタイリング
 
 END_FIELDSET
@@ -28,7 +28,7 @@ SPHERESET
 # ２個目
 #------------------
 	SPHERE
-		TEXTURE_NAME = data\\TEXTURE\\MagmaArea.png			# [1]ステージの底テクスチャ
+		TEXTURE_NAME = data\\TEXTURE\\89_m.jpg			# [1]ステージの底テクスチャ
 	END_SPHERE
 	
 END_SPHERESET
