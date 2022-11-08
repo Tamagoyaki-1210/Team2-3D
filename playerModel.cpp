@@ -16,6 +16,7 @@
 #include "inputKeyboard.h"
 #include "debugProc.h"
 #include "object2D.h"
+#include "UIString.h"
 
 D3DXCOLOR CPlayerModel::m_playersCol[PLAYER_MAX] =
 {
@@ -36,6 +37,7 @@ CPlayerModel::CPlayerModel()
 	m_nIdx = 0;
 
 	m_pIcon = nullptr;
+	m_pUiString = nullptr;
 
 	for (int nCnt = 0; nCnt < CPlayer::PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -59,6 +61,7 @@ HRESULT CPlayerModel::Init(void)
 	m_nIdx = 0;
 
 	m_pIcon = nullptr;
+	m_pUiString = nullptr;
 
 	for (int nCnt = 0; nCnt < CPlayer::PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -96,6 +99,11 @@ void CPlayerModel::Uninit(void)
 		m_pIcon->Release();
 		m_pIcon = nullptr;
 	}
+	if (m_pUiString != nullptr)
+	{
+		m_pUiString->Release();
+		m_pUiString = nullptr;
+	}
 }
 
 //更新処理
@@ -125,6 +133,10 @@ void CPlayerModel::Update(void)
 		{
 			m_pIcon->SetColor(m_presentColor);
 		}
+		if (m_pUiString != nullptr)
+		{
+			m_pUiString->ChangeColor(m_presentColor);
+		}
 	}
 	else if (CInputKeyboard::GetKeyboardTrigger(DIK_A))
 	{
@@ -145,6 +157,10 @@ void CPlayerModel::Update(void)
 		{
 			m_pIcon->SetColor(m_presentColor);
 		}
+		if (m_pUiString != nullptr)
+		{
+			m_pUiString->ChangeColor(m_presentColor);
+		}
 	}
 
 	CDebugProc::Print("\nColor: %d", m_nPresentColor);
@@ -153,9 +169,6 @@ void CPlayerModel::Update(void)
 //描画処理
 void CPlayerModel::Draw(void)
 {
-	//デバイスの取得処理
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
-
 	D3DXMATRIX mtxTrans, mtxRot;												//計算用のマトリックス
 	D3DXMatrixIdentity(&m_mtxWorld);											//ワールドマトリックスの初期化処理
 
@@ -187,6 +200,12 @@ void CPlayerModel::Draw(void)
 void CPlayerModel::SetPos(const D3DXVECTOR3 pos)
 {
 	m_pos = pos;
+}
+
+//向きの設定処理
+void CPlayerModel::SetRot(const D3DXVECTOR3 rot)
+{
+	m_rot = rot;
 }
 
 //サイズの取得処理
@@ -285,6 +304,13 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx)
 	pModel->m_pIcon->SetSize(D3DXVECTOR2(100.0f, 15.0f));
 	pModel->m_pIcon->SetTexture(CObject::TEXTURE_NULL);
 	pModel->m_pIcon->SetColor(pModel->m_presentColor);
+
+	std::string str;
+	str.clear();
+	str = std::to_string(nIdx + 1);
+	str += "P";
+	const char* pStr = str.c_str();
+	pModel->m_pUiString = CUIString::Create(D3DXVECTOR3((((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1)) - 50.0f, (float)SCREEN_HEIGHT * 0.25f, 0.0f), D3DXVECTOR2(100.0f, 60.0f), pModel->m_presentColor, pStr);
 
 	return pModel;
 }

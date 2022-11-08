@@ -20,6 +20,7 @@
 class CModelPart;
 class CAnimator;
 class CObject_2D;
+class CUIString;
 
 class CPlayerModel : public CObject
 {
@@ -33,6 +34,7 @@ public:
 	void Draw(void) override;							//描画処理
 
 	void SetPos(const D3DXVECTOR3 pos) override;		//位置の設定処理
+	void SetRot(const D3DXVECTOR3 rot);					//向きの設定処理
 
 	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
@@ -51,6 +53,8 @@ private:
 	D3DXCOLOR m_presentColor;							//現在のカーラー
 	int m_nIdx;											//インデックス
 	CObject_2D* m_pIcon;								//アイコン
+	CUIString*  m_pUiString;
+
 
 	static D3DXCOLOR m_playersCol[PLAYER_MAX];
 
