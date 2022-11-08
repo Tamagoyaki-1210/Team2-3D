@@ -671,8 +671,7 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 	//pModel->m_TargetPos = D3DXVECTOR3(-223.0f + (61.0f * (nCntPlayer + 1)),-149.0f,1009.0f);
 	D3DXVECTOR3 fieldPos = CGameRace::GetStage()->GetField()->GetPos();
 	pModel->m_TargetPos = D3DXVECTOR3(-75.0f + (50.0f * (nCntPlayer)), -150.0f, fieldPos.z - 100.0f);
-
-	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(50.0f + 200.0f * nCntPlayer, 50.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
+	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(100.0f + (320.0f * nCntPlayer), SCREEN_HEIGHT - 80.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
 
 	//CSilhouette::Create();
 

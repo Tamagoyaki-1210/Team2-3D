@@ -169,6 +169,12 @@ void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 		CBouncePole::Create(pos);
 	}
 	break;
+	case CStage::MODEL_TRAMPOLINE:
+	{
+		// ’µ‚Ë•Ô‚é‰~’Œ
+		CTrampoline::Create(pos);
+	}
+	break;
 	default:
 		break;
 	}
