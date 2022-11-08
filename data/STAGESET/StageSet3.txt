@@ -28,7 +28,7 @@ SPHERESET
 # ２個目
 #------------------
 	SPHERE
-		TEXTURE_NAME = data\\TEXTURE\\89_m.jpg			# [1]ステージの底テクスチャ
+		TEXTURE_NAME = data\\TEXTURE\\snowarea.png			# [1]ステージの底テクスチャ
 	END_SPHERE
 	
 END_SPHERESET
@@ -251,23 +251,6 @@ ENVIRONMENTALLSET
 # 環境モデル[0] ENVIRONMENT_MOUNT
 #++++++++++++++++++++++++++++++++++++++
 	ENVIRONMENTTYPESET
-#------------------
-# １個目
-#------------------
-		ENVIRONMENTSET
-			ENVIRONMENT
-				POS = -1500.0 -1553.0 3450.0
-			END_ENVIRONMENT
-		END_ENVIRONMENTSET	
-	
-#------------------
-# ２個目
-#------------------
-		ENVIRONMENTSET
-			ENVIRONMENT
-				POS = 1000.0 -1553.0 3050.0
-			END_ENVIRONMENT
-		END_ENVIRONMENTSET	
 
 	END_ENVIRONMENTTYPESET
 	

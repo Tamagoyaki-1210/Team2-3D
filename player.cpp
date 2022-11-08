@@ -191,24 +191,7 @@ void CPlayer::Update(void)
 
 	//if (!m_bMove)
 	
-
-	if (m_pos.y <= -500.0f)
-	{
-		D3DXVECTOR3 posCamera = CApplication::GetCamera()->GetPos();
-		m_pos = D3DXVECTOR3(posCamera.x, posCamera.y + 100.0f, posCamera.z + 300.0f);
-		
-		if (m_pHitbox != nullptr)
-		{
-			m_pHitbox->SetInvincibility(true);
-		}
-
-		if (m_pScore != nullptr)
-		{
-			m_pScore->AddScore(-30);
-		}
-
-		m_nInvincibilityCnt = 180;
-	}
+	PlayerRespawn();
 
 	//–Ú“I‚ÌŠp“x‚Ì³‹K‰»ˆ—
 	if (m_DestRot.y - (m_pModel[BODY]->GetRot().y) > D3DX_PI)
@@ -502,6 +485,8 @@ void CPlayer::Update(void)
 		if (m_pPlayer[0]->m_bGoal &&m_pPlayer[1]->m_bGoal &&m_pPlayer[2]->m_bGoal &&m_pPlayer[3]->m_bGoal
 			&& m_pPlayer[0]->m_bRot &&m_pPlayer[1]->m_bRot &&m_pPlayer[2]->m_bRot &&m_pPlayer[3]->m_bRot)
 		{
+			pCamera->SetPos(D3DXVECTOR3(pCamera->GetPos().x, -80.0f, 800.0f), pCamera->GetPos());
+
 			m_nFrame++;
 
 			if (m_nFrame >= 60)
@@ -897,6 +882,28 @@ void CPlayer::WinnerAnim()
 void CPlayer::LoserAnim()
 {
 	m_pAnimator->SetPresentAnim(6);
+}
+
+//•œŠˆˆ—
+void CPlayer::PlayerRespawn()
+{
+	if (m_pos.y <= -500.0f)
+	{
+		D3DXVECTOR3 posCamera = CApplication::GetCamera()->GetPos();
+		m_pos = D3DXVECTOR3(posCamera.x, posCamera.y + 100.0f, posCamera.z + 100.0f);
+
+		if (m_pHitbox != nullptr)
+		{
+			m_pHitbox->SetInvincibility(true);
+		}
+
+		if (m_pScore != nullptr)
+		{
+			m_pScore->AddScore(-30);
+		}
+
+		m_nInvincibilityCnt = 180;
+	}
 }
 
 void CPlayer::GoalMove()

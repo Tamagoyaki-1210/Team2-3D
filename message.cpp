@@ -237,7 +237,7 @@ void CMessage::WinMessage()
 			}
 
 			m_type = MESSAGE_WIN;
-			m_nMessageCounter = 300;
+			m_nMessageCounter = 240;
 			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WIN);
 			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS02);
 		}

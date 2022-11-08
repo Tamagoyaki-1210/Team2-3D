@@ -16,6 +16,7 @@
 #include "debugProc.h"
 #include "goal.h"
 #include "message.h"
+#include "stage.h"
 //#include "BoxHitbox.h"
 
 //コンストラクタ
@@ -187,7 +188,7 @@ void CCamera::Update(void)
 
 #endif // DEBUG
 
-	if (CMessage::GetStart())
+	if (CMessage::GetStart() && m_posV.z <= 750.0f)
 	{
 		D3DXVECTOR3 v = m_posR - m_posV;
 		v.y = 0.0f;
@@ -206,10 +207,12 @@ void CCamera::Update(void)
 		m_posR.z += sinf(fAngle) * 1.0f;
 	}
 
-	if (m_posV.z >= 750.0f)
-	{
-		m_posV.z = 750.0f;
-	}
+	//CStage::GetPlayer();
+
+	//if (m_posV.z >= 750.0f)
+	//{
+	//	m_posV.z = 750.0f;
+	//}
 }
 
 //設定処理
