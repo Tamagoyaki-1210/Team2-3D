@@ -35,6 +35,8 @@ public:
 
 	static void PauseChange(bool bPause);
 
+	static void SetResult(void);
+
 	static CMenu* Create(void);
 private:
 	static const int MaxChoice = 10;			// ‘I‘ğˆ”

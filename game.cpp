@@ -49,19 +49,16 @@ void CGame::Uninit(void)
 //=====================================
 void CGame::Update(void)
 {
-	//Pでポーズ切り替え
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_P) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
+	//ゲーム中の処理
+	if (m_bEndGame == false)
 	{
-		bool bPause = !CApplication::GetPause();	//ポーズ切り替え処理
-		CApplication::SetPause(bPause);
-		CMenu::PauseChange(bPause);		// ポーズ処理
-	}
-
-	//ゲーム終了時の処理
-	if (m_bEndGame == true)
-	{
-		CApplication::SetMode(CApplication::Mode_Result);
-		m_bEndGame = false;
+		//Pでポーズ切り替え
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_P) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
+		{
+			bool bPause = !CApplication::GetPause();	//ポーズ切り替え処理
+			CApplication::SetPause(bPause);
+			CMenu::PauseChange(bPause);		// ポーズ処理
+		}
 	}
 }
 

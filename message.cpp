@@ -11,6 +11,7 @@
 #include "message.h"
 #include "game.h"
 #include "application.h"
+#include "menu.h"
 
 //静的メンバー変数宣言
 bool CMessage::m_bStart;
@@ -105,9 +106,7 @@ void CMessage::Update(void)
 				}
 				else if (m_type == MESSAGE_WIN)
 				{
-					Uninit();
-					// ゲーム終了判定
-					CGame::SetEndGame();
+					CMenu::SetResult();
 				}
 				else
 				{
@@ -181,6 +180,9 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_nMessageIdx = nMessageIdx;
 		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS02);
+
+		// ゲーム終了判定
+		CGame::SetEndGame();
 	}
 }
 

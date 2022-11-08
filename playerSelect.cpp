@@ -11,6 +11,7 @@
 #include "fade.h"
 #include "playerModel.h"
 #include "camera.h"
+#include "halfsphere.h"
 
 CFontString* CPlayerSelect::m_pStr = nullptr;
 //=====================================
@@ -34,13 +35,23 @@ CPlayerSelect::~CPlayerSelect()
 //=====================================
 HRESULT CPlayerSelect::Init(void)
 {
-	m_pStr = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 50.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), "キャラクターセレクト");
+	CHalfSphere* m_pSphere = CHalfSphere::Create(D3DXVECTOR3(0.0f, -8000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
+	
+	m_pSphere->BindTexture(CObject_2D::GetTexturePointer(CObject::TEXTURE_BLOCK));
 
 	CObject_2D* pObj2D = CObject_2D::Create();
 	pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 	pObj2D->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 	pObj2D->SetTexture(CObject::TEXTURE_CHARASET_FRAM);
 	pObj2D->SetPriority(5);
+
+	m_pStr = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 50.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), "キャラクターセレクト");
+
+	//CObject_2D* pObjBack = CObject_2D::Create();
+	//pObjBack->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	//pObjBack->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+	//pObjBack->SetTexture(CObject::TEXTURE_SE);
+	//pObjBack->SetPriority(1);
 
 	CCamera* pCamera = CApplication::GetCamera();
 	pCamera->SetPos(D3DXVECTOR3(50.0f, 230.0f, -200.0f), D3DXVECTOR3(50.0f, 220.0f, 100.0f));

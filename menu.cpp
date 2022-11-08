@@ -134,8 +134,22 @@ void CMenu::ModeType(void)
 	break;
 	case CApplication::Mode_Game_Race:
 	{
-		// ポーズ中でない場合のみ更新
-		if (CApplication::GetPause() == true)
+		if (CGame::GetEndGame() == false)
+		{
+			// ポーズ中でない場合のみ更新
+			if (CApplication::GetPause() == true)
+			{
+				for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
+				{
+					if (m_pChoice[nCnt] != nullptr)
+					{
+						m_pChoice[nCnt]->Update();
+					}
+				}
+				Input();
+			}
+		}
+		else
 		{
 			for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
 			{
@@ -146,18 +160,6 @@ void CMenu::ModeType(void)
 			}
 			Input();
 		}
-	}
-	break;
-	case CApplication::Mode_Result:
-	{
-		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
-		{
-			if (m_pChoice[nCnt] != nullptr)
-			{
-				m_pChoice[nCnt]->Update();
-			}
-		}
-		Input();
 	}
 	break;
 	default:
@@ -215,33 +217,38 @@ void CMenu::Input(void)
 				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
 				break;
 			case CApplication::Mode_Game_Race:
-				if (m_nSelectNum == 0)
+				// ゲーム中の場合
+				if (CGame::GetEndGame() == false)
 				{
-					CApplication::SetPause(false);
-					PauseChange(false);
-					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_START);
+					if (m_nSelectNum == 0)
+					{
+						CApplication::SetPause(false);
+						PauseChange(false);
+						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_START);
+					}
+					else if (m_nSelectNum == 1)
+					{
+						CApplication::SetMode(CApplication::Mode_Game_Race);
+						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
+					}
+					else if (m_nSelectNum == 2)
+					{
+						CApplication::SetMode(CApplication::Mode_Title);
+						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
+					}
 				}
-				else if (m_nSelectNum == 1)
+				else
 				{
-					CApplication::SetMode(CApplication::Mode_Game_Race);
-					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
+					if (m_nSelectNum == 0)
+					{
+						CApplication::SetMode(CApplication::Mode_Game_Race);
+					}
+					else if (m_nSelectNum == 1)
+					{
+						CApplication::SetMode(CApplication::Mode_Title);
+					}
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
 				}
-				else if (m_nSelectNum == 2)
-				{
-					CApplication::SetMode(CApplication::Mode_Title);
-					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
-				}
-				break;
-			case CApplication::Mode_Result:
-				if (m_nSelectNum == 0)
-				{
-					CApplication::SetMode(CApplication::Mode_PlayerSelect);
-				}
-				else if (m_nSelectNum == 1)
-				{
-					CApplication::SetMode(CApplication::Mode_Title);
-				}
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
 				break;
 			default:
 				break;
@@ -305,6 +312,20 @@ void CMenu::PauseChange(bool bPause)
 		m_nNumAll = 0;
 		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_START);
 	}
+}
+
+//=====================================
+// ポーズ選択肢処理
+//=====================================
+void CMenu::SetResult(void)
+{
+	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
+	m_nNumAll++;
+
+	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
+	m_nNumAll++;
+
+	m_pChoice[m_nSelectNum]->SetSellect();
 }
 
 //=====================================
