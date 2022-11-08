@@ -36,6 +36,12 @@ HRESULT CPlayerSelect::Init(void)
 {
 	m_pStr = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 50.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), "キャラクターセレクト");
 
+	CObject_2D* pObj2D = CObject_2D::Create();
+	pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
+	pObj2D->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+	pObj2D->SetTexture(CObject::TEXTURE_CHARASET_FRAM);
+	pObj2D->SetPriority(5);
+
 	CCamera* pCamera = CApplication::GetCamera();
 	pCamera->SetPos(D3DXVECTOR3(50.0f, 230.0f, -200.0f), D3DXVECTOR3(50.0f, 220.0f, 100.0f));
 
