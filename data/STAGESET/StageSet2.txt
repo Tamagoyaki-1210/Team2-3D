@@ -28,7 +28,7 @@ SPHERESET
 # ２個目
 #------------------
 	SPHERE
-		TEXTURE_NAME = data\\TEXTURE\\89_m.jpg			# [1]ステージの底テクスチャ
+		TEXTURE_NAME = data\\TEXTURE\\MagmaArea.png			# [1]ステージの底テクスチャ
 	END_SPHERE
 	
 END_SPHERESET

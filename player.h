@@ -107,6 +107,7 @@ private:
 	static D3DXCOLOR m_playerColor[PLAYER_COLOR_MAX];
 	static const float m_MaxWalkingSpeed;
 	static const float m_AccelerationCoeff;
+	static int m_nRanking;								//順位
 
 	D3DXVECTOR3 m_pos;									//位置
 	D3DXVECTOR3 m_move;									//速度
@@ -116,6 +117,7 @@ private:
 	bool		m_bJump;								//ジャンプしているかどうか
 	int			m_nInvincibilityCnt;					//無敵状態のカウンター
 	int			m_nCntAttack;
+	int			m_nPlayerRanking;						//プレイヤーの順位
 	float		m_fFrictionCoeff;						//摩擦係数
 
 	float m_fAngle;
@@ -127,8 +129,6 @@ private:
 	bool m_bHit;
 	bool m_bPunch;
 	bool m_bAttacking;
-
-	int m_nScore[PLAYER_MAX];
 
 	D3DXVECTOR3 m_TargetPos;
 
