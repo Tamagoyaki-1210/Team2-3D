@@ -61,7 +61,8 @@ void CCylinderHitbox::Uninit(void)
 //çXêVèàóù
 void CCylinderHitbox::Update(void)
 {
-	
+	if (GetType() == TYPE_PLAYER)
+	{
 		std::vector <CHitbox*>* pHbx = GetAllHitbox();
 
 		for (int nCnt = 0; nCnt < (int)pHbx->size(); nCnt++)
@@ -159,7 +160,7 @@ void CCylinderHitbox::Update(void)
 				}
 			}
 		}
-	
+	}
 
 	for (int nCnt = 0; nCnt < 18; nCnt++)
 	{

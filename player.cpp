@@ -30,8 +30,6 @@
 #include "message.h"
 #include "BoxHitbox.h"
 
-
-int CPlayer::m_nRanking = 0;
 const float CPlayer::m_MaxWalkingSpeed = 7.0f;
 const float CPlayer::m_AccelerationCoeff = 2.0f;
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
@@ -106,7 +104,6 @@ HRESULT CPlayer::Init(void)
 	m_bAttacking = false;
 	m_nCntAttack = 0;
 	m_fFrictionCoeff = 0.1f;
-
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -194,24 +191,7 @@ void CPlayer::Update(void)
 
 	//if (!m_bMove)
 	
-
-	if (m_pos.y <= -500.0f)
-	{
-		D3DXVECTOR3 posCamera = CApplication::GetCamera()->GetPos();
-		m_pos = D3DXVECTOR3(posCamera.x, posCamera.y + 100.0f, posCamera.z + 300.0f);
-		
-		if (m_pHitbox != nullptr)
-		{
-			m_pHitbox->SetInvincibility(true);
-		}
-
-		if (m_pScore != nullptr)
-		{
-			m_pScore->AddScore(-30);
-		}
-
-		m_nInvincibilityCnt = 180;
-	}
+	PlayerRespawn();
 
 	//目的の角度の正規化処理
 	if (m_DestRot.y - (m_pModel[BODY]->GetRot().y) > D3DX_PI)
@@ -306,33 +286,9 @@ void CPlayer::Update(void)
 			pPlayer[nCnt] = CStage::GetPlayer(nCnt);
 		}
 
-		//ゴールした時
 		if (m_pos.z >= 900.0f && m_bGoal == false)
 		{
 			m_bGoal = true;
-			//順位付け
-			m_nRanking++;
-			m_nPlayerRanking = m_nRanking;
-			//順位によってスコアの加算
-			if (m_pScore != nullptr)
-			{
-				if (m_nPlayerRanking == 1)
-				{
-					m_pScore->AddScore(30);
-				}
-				else if (m_nPlayerRanking == 2)
-				{
-					m_pScore->AddScore(20);
-				}
-				else if (m_nPlayerRanking == 3)
-				{
-					m_pScore->AddScore(10);
-				}
-				else if (m_nPlayerRanking == 4)
-				{
-					m_pScore->AddScore(5);
-				}
-			}
 		}
 
 		GoalMove();
@@ -529,6 +485,8 @@ void CPlayer::Update(void)
 		if (m_pPlayer[0]->m_bGoal &&m_pPlayer[1]->m_bGoal &&m_pPlayer[2]->m_bGoal &&m_pPlayer[3]->m_bGoal
 			&& m_pPlayer[0]->m_bRot &&m_pPlayer[1]->m_bRot &&m_pPlayer[2]->m_bRot &&m_pPlayer[3]->m_bRot)
 		{
+			pCamera->SetPos(D3DXVECTOR3(pCamera->GetPos().x, -80.0f, 800.0f), pCamera->GetPos());
+
 			m_nFrame++;
 
 			if (m_nFrame >= 60)
@@ -924,6 +882,28 @@ void CPlayer::WinnerAnim()
 void CPlayer::LoserAnim()
 {
 	m_pAnimator->SetPresentAnim(6);
+}
+
+//復活処理
+void CPlayer::PlayerRespawn()
+{
+	if (m_pos.y <= -500.0f)
+	{
+		D3DXVECTOR3 posCamera = CApplication::GetCamera()->GetPos();
+		m_pos = D3DXVECTOR3(posCamera.x, posCamera.y + 100.0f, posCamera.z + 100.0f);
+
+		if (m_pHitbox != nullptr)
+		{
+			m_pHitbox->SetInvincibility(true);
+		}
+
+		if (m_pScore != nullptr)
+		{
+			m_pScore->AddScore(-30);
+		}
+
+		m_nInvincibilityCnt = 180;
+	}
 }
 
 void CPlayer::GoalMove()
