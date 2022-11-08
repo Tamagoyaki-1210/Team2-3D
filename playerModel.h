@@ -31,6 +31,7 @@ public:
 	{
 		HEAD_NORMAL = 0,
 		HEAD_SANTA,
+		HEAD_PUMPKIN,
 
 		HEAD_MAX
 	};

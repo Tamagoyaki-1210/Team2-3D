@@ -22,7 +22,8 @@
 CModel::ModelType CPlayerModel::m_HeadTypeAll[HEAD_MAX]
 {
 	CModel::MODEL_HEAD,
-	CModel::MODEL_HEAD_SANTA
+	CModel::MODEL_HEAD_SANTA,
+	CModel::MODEL_HEAD_PUMPKIN
 	
 };
 
@@ -132,7 +133,7 @@ void CPlayerModel::Update(void)
 		m_pAnimator->Update();
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
 	{
 		m_nPresentColor++;
 
@@ -156,7 +157,7 @@ void CPlayerModel::Update(void)
 			m_pUiString->ChangeColor(m_presentColor);
 		}
 	}
-	else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
+	else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
 	{
 		m_nPresentColor--;
 
@@ -181,7 +182,7 @@ void CPlayerModel::Update(void)
 		}
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_1) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
 	{
 		m_nPresentHead--;
 
@@ -197,7 +198,7 @@ void CPlayerModel::Update(void)
 
 		m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
 	}
-	else if (CInputKeyboard::GetKeyboardTrigger(DIK_2) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
+	else if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
 	{
 		m_nPresentHead++;
 
@@ -215,7 +216,6 @@ void CPlayerModel::Update(void)
 	}
 
 	CDebugProc::Print("\nColor: %d", m_nPresentColor);
-	CDebugProc::Print("\n POS: %f %f %f", m_pModel[CPlayer::HEAD]->GetPos().x, m_pModel[CPlayer::HEAD]->GetPos().y, m_pModel[CPlayer::HEAD]->GetPos().z);
 }
 
 //•`‰æˆ—
