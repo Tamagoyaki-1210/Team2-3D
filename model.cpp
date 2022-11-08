@@ -41,6 +41,7 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Coin\\Coin03.x" },
 
 	{ "data\\MODELS\\Mountains\\Fuji.x" },
+	{ "data\\MODELS\\Mountains\\FujiYuki.x" },
 
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade.x" },
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Ball.x" },

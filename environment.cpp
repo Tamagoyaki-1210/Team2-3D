@@ -74,8 +74,11 @@ CEnvironment * CEnvironment::Create(D3DXVECTOR3 pos, EnvironmentType type)
 		pEnvironment->SetModel(MODEL_MOUNT_FUJI);	//ƒ‚ƒfƒ‹‚Ìİ’èˆ—
 	}
 		break;
-	case CEnvironment::ENVIRONMENT_TYPE_MAX:
-		break;
+	case CEnvironment::ENVIRONMENT_MOUNT_YUKI:
+	{
+		pEnvironment->SetModel(MODEL_MOUNT_FUJI_YUKI);	//ƒ‚ƒfƒ‹‚Ìİ’èˆ—
+	}
+	break;
 	default:
 		break;
 	}

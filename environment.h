@@ -24,6 +24,7 @@ public:
 	enum EnvironmentType
 	{
 		ENVIRONMENT_MOUNT = 0,
+		ENVIRONMENT_MOUNT_YUKI,
 		ENVIRONMENT_TYPE_MAX
 	};
 

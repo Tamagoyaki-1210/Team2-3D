@@ -34,8 +34,6 @@ public:
 
 	void Input(void);
 
-	void Save(void);
-
 	static CStageSelect* Create(void);
 private:
 	int m_nNumAll;						// ‘I‘ğˆ‚Ì‘S‘Ì”

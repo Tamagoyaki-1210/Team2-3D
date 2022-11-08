@@ -59,7 +59,6 @@ public:
 	void Update(void);
 
 	void Load(void);
-	void LoadSelect(void);
 
 	static void SetModelType(D3DXVECTOR3 pos, ModelType type);
 	static void SetFloorType(D3DXVECTOR3 pos, FloorType type);
@@ -76,7 +75,6 @@ public:
 	static void ScoreComparison();
 
 private:
-	StageType m_nSelectStage;										// 現在選択されているステージ
 	static char* m_pStagePass[STAGE_TYPE_MAX];				//ステージの外部ファイルの相対パス
 	static ModelType m_ModelType;
 

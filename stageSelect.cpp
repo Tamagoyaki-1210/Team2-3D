@@ -154,7 +154,7 @@ void CStageSelect::Input(void)
 				m_nSelectNum = rand() % (m_nNumAll - 2);
 			}
 
-			Save();
+			CApplication::SetStageSelect(m_nSelectNum);
 			CApplication::SetMode(CApplication::Mode_Game_Race);
 			pSound->Play(CSound::SOUND_LABEL_SE_YES_STAGE);
 		}
@@ -174,22 +174,4 @@ CStageSelect* CStageSelect::Create(void)
 	}
 
 	return pStaeSelect;
-}
-
-//=====================================
-// 選択されたステージの読み込み処理
-//=====================================
-void CStageSelect::Save()
-{
-	char aStr[256] = {};		//読み込む用文字列
-
-								//ファイルを開く
-	FILE* pFile = fopen("data\\STAGESET\\SelectStage.txt", "w");
-
-	if (pFile != nullptr)
-	{//ファイルが開いた場合
-		fprintf(pFile, "%d\n", m_nSelectNum);
-	}
-	//ファイルを閉じる
-	fclose(pFile);
 }

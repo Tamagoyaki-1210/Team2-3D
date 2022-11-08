@@ -22,6 +22,7 @@
 #include "message.h"
 #include "silhouette.h"
 #include "environment.h"
+#include "warning.h"
 #include <string>
 
 #include "trampoline.h"
@@ -64,9 +65,6 @@ CStage::~CStage()
 //=====================================
 HRESULT CStage::Init(void)
 {
-	// メッシュフィールドの生成
-	m_pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
-
 	// スフィアメッシュ
 	m_pSphere[0] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -2000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
 
@@ -82,7 +80,7 @@ HRESULT CStage::Init(void)
 	// プレイヤーの生成
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
 	{
-		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -100.0f, -100.0f), nCnt);
+		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -100.0f, ((m_pField->GetLine() - 20) * -70.0f) - 200.0f), nCnt);
 	}
 
 	// メッセージの生成
@@ -91,13 +89,14 @@ HRESULT CStage::Init(void)
 	// カウントダウンメッセージ表示
 	m_pMessage->SetCountDown(3);
 
+	CWarning::Create(D3DXVECTOR3(1225.0f, 55.0f, 0.0f));
 
 	if (CApplication::GetCamera() != nullptr)
 	{
-		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField->GetLine() - 20) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
-	CTrampoline::Create(D3DXVECTOR3(-70.0f, -150.0f, 150.0f));
+	//CTrampoline::Create(D3DXVECTOR3(-70.0f, -150.0f, 150.0f));
 	CStoneSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 30);
 	//CIcePillarSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 150);
 
@@ -318,13 +317,9 @@ CStage* CStage::Create(void)
 //=====================================
 void CStage::Load()
 {
-	// 選択されたステージの読み込み処理
-	LoadSelect();
-
 	char aStr[256] = {};		//読み込む用文字列
-
 								//ファイルを開く
-	FILE* pFile = fopen(m_pStagePass[m_nSelectStage], "r");
+	FILE* pFile = fopen(m_pStagePass[(StageType)CApplication::GetStageSelect()], "r");
 
 	if (pFile != nullptr)
 	{//ファイルが開いた場合
@@ -339,7 +334,19 @@ void CStage::Load()
 				while (strncmp(aStr, "END_FIELDSET", 12) != 0)
 				{
 					fscanf(pFile, "%s", aStr);
-					if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
+
+					if (strncmp(aStr, "LINE", 3) == 0)
+					{//この後にコメント
+						fscanf(pFile, "%s", aStr);
+						fscanf(pFile, "%s", aStr);
+
+						std::string s = aStr;			// std::stringに変換する
+						int nLine = std::stoi(s);		//intに変換する
+
+						// メッシュフィールドの生成
+						m_pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), nLine, 10, 3);
+					}
+					else if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
 					{//この後にコメント
 						fscanf(pFile, "%s", aStr);
 						fscanf(pFile, "%s", aStr);
@@ -571,27 +578,6 @@ void CStage::Load()
 				}
 			}
 		}
-	}
-	//ファイルを閉じる
-	fclose(pFile);
-}
-
-//=====================================
-// 選択されたステージの読み込み処理
-//=====================================
-void CStage::LoadSelect()
-{
-	char aStr[256] = {};		//読み込む用文字列
-
-								//ファイルを開く
-	FILE* pFile = fopen("data\\STAGESET\\SelectStage.txt", "r");
-
-	if (pFile != nullptr)
-	{//ファイルが開いた場合
-		fscanf(pFile, "%s", aStr);		// 選択されたステージを読み込む処理
-		std::string s = aStr;			// std::stringに変換する
-		int nSelect = std::stoi(s);		// intに変換する
-		m_nSelectStage = (StageType)nSelect;
 	}
 	//ファイルを閉じる
 	fclose(pFile);

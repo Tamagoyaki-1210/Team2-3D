@@ -9,6 +9,7 @@
 #******************************************************************************
 FIELDSET
 
+	LINE = 60										# [0]ステージの縦メッシュ数
 	TEXTURE_NAME = data\\TEXTURE\\snow.png			# [0]ステージの床テクスチャ
 	TEXTURE_TILING = 0.33							# [0]ステージの床テクスチャタイリング
 
@@ -251,6 +252,30 @@ ENVIRONMENTALLSET
 # 環境モデル[0] ENVIRONMENT_MOUNT
 #++++++++++++++++++++++++++++++++++++++
 	ENVIRONMENTTYPESET
+
+	END_ENVIRONMENTTYPESET
+	
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[1] ENVIRONMENT_MOUNT_YUKI
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET
+#------------------
+# １個目
+#------------------
+		ENVIRONMENTSET
+			ENVIRONMENT
+				POS = -1500.0 -1553.0 3450.0
+			END_ENVIRONMENT
+		END_ENVIRONMENTSET	
+	
+#------------------
+# ２個目
+#------------------
+		ENVIRONMENTSET
+			ENVIRONMENT
+				POS = 1000.0 -1553.0 3050.0
+			END_ENVIRONMENT
+		END_ENVIRONMENTSET	
 
 	END_ENVIRONMENTTYPESET
 	
