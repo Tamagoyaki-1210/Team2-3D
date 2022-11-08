@@ -46,7 +46,7 @@ HRESULT CStageSelect::Init(void)
 		m_pFrame->SetPriority(4);
 	}
 
-	m_nNumAll = 2;
+	m_nNumAll = 4;
 
 	for(int nCnt = 0; nCnt < m_nNumAll; nCnt++)
 	{
@@ -147,6 +147,13 @@ void CStageSelect::Input(void)
 		}
 		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
 		{// Enterキーを押したら
+
+			// ランダムが選ばれた場合
+			if (m_nSelectNum == m_nNumAll - 1)
+			{
+				m_nSelectNum = rand() % (m_nNumAll - 2);
+			}
+
 			Save();
 			CApplication::SetMode(CApplication::Mode_Game_Race);
 			pSound->Play(CSound::SOUND_LABEL_SE_YES_STAGE);
