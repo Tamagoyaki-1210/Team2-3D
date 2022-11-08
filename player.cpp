@@ -596,10 +596,12 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 		return nullptr;
 	}
 
+	CModel::ModelType pType = CPlayerModel::GetHeadType(nCntPlayer);
+
 	pModel->m_pos = pos;
 	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 17.0f, 0.0f), Vec3Null);				//体のモデルを生成する
 
-	pModel->m_pModel[HEAD] = CModelPart::Create(CModel::MODEL_HEAD, D3DXVECTOR3(0.0f, 7.0f, 0.0f), Vec3Null);				//頭のモデルを生成する
+	pModel->m_pModel[HEAD] = CModelPart::Create(pType, D3DXVECTOR3(0.0f, 7.0f, 0.0f), Vec3Null);				//頭のモデルを生成する
 	pModel->m_pModel[HEAD]->SetParent(pModel->m_pModel[BODY]);																//頭の親を設定する
 
 	pModel->m_pModel[LEFT_ARM] = CModelPart::Create(CModel::MODEL_LEFT_ARM, D3DXVECTOR3(8.0f, 3.0f, 0.0f), Vec3Null);		//左腕のモデルを生成する

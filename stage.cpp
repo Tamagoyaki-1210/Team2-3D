@@ -29,6 +29,7 @@
 #include "bouncePole.h"
 #include "stoneSpawner.h"
 #include "icePillarSpawner.h"
+#include "inputKeyboard.h"
 
 //アニメーション情報のテキストファイルの相対パス
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
@@ -89,16 +90,14 @@ HRESULT CStage::Init(void)
 	// カウントダウンメッセージ表示
 	m_pMessage->SetCountDown(3);
 
-	CWarning::Create(D3DXVECTOR3(1225.0f, 55.0f, 0.0f));
-
 	if (CApplication::GetCamera() != nullptr)
 	{
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField->GetLine() - 20) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
 	//CTrampoline::Create(D3DXVECTOR3(-70.0f, -150.0f, 150.0f));
-	//CStoneSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 30);
-	CIcePillarSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 150);
+	CStoneSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 30);
+	//CIcePillarSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, 150.0f), -149.9f, 135.0f, 100.0f, 150);
 
 	CSilhouette::Create();
 
@@ -150,6 +149,13 @@ void CStage::Update(void)
 	{
 		m_pMessage->Update();
 	}
+
+	//Pでポーズ切り替え
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_O))
+	{
+		CWarning::Create(D3DXVECTOR3(1225.0f, 55.0f, 0.0f));
+	}
+
 
 	GameResult();
 }

@@ -106,13 +106,13 @@ CPlayerSelect* CPlayerSelect::Create(void)
 		return nullptr;
 	}
 
-	CPlayerModel* pModel = CPlayerModel::Create(D3DXVECTOR3(-85.0f, 220.0f, 100.0f), 0);
+	CPlayerModel* pModel = CPlayerModel::Create(D3DXVECTOR3(-85.0f, 200.0f, 100.0f), 0);
 	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.125f, 0.0f));
-	pModel = CPlayerModel::Create(D3DXVECTOR3(5.0f, 220.0f, 100.0f), 1);
+	pModel = CPlayerModel::Create(D3DXVECTOR3(5.0f, 200.0f, 100.0f), 1);
 	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.025f, 0.0f));
-	pModel = CPlayerModel::Create(D3DXVECTOR3(92.0f, 220.0f, 100.0f), 2);
+	pModel = CPlayerModel::Create(D3DXVECTOR3(92.0f, 200.0f, 100.0f), 2);
 	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * 0.025f, 0.0f));
-	pModel = CPlayerModel::Create(D3DXVECTOR3(182.0f, 220.0f, 100.0f), 3);
+	pModel = CPlayerModel::Create(D3DXVECTOR3(182.0f, 200.0f, 100.0f), 3);
 	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * 0.125f, 0.0f));
 
 	return pPlayerSelect;

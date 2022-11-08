@@ -34,7 +34,8 @@ CSound::SOUNDPARAM CSound::g_aParam[SOUND_LABEL_MAX] =
 	{ "data/SOUNDS/SE/ダメージ/ダメージSE.wav", 0 },				// SOUND_LABEL_SE_DAMAGE
 	{ "data/SOUNDS/SE/歓声/歓声SE1.wav", 0 },						// SOUND_LABEL_SE_CHEERS01
 	{ "data/SOUNDS/SE/歓声/歓声SE2.wav", 0 },						// SOUND_LABEL_SE_CHEERS02
-	{ "data/SOUNDS/SE/ジャンプ/ジャンプSE.wav", 0 },						// SOUND_LABEL_SE_JUMP
+	{ "data/SOUNDS/SE/ジャンプ/ジャンプSE.wav", 0 },				// SOUND_LABEL_SE_JUMP
+	{ "data/SOUNDS/SE/警報/WarningSE.wav", 0 },						// SOUND_LABEL_SE_WARNINGS
 };
 
 //コンストラクタ
