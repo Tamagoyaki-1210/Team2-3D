@@ -51,6 +51,8 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\traps\\fallstone.x" },
 	{ "data\\MODELS\\traps\\IcePillar_TrapType.x" },
 
+	{ "data\\MODELS\\sign\\fallstonesign.x" },
+
 	{ "data\\MODELS\\Goal\\Goal01.x" },
 };
 

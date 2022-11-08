@@ -135,5 +135,11 @@ CStoneSpawner* CStoneSpawner::Create(const D3DXVECTOR3 pos, const float fShadowH
 	pSpawner->m_nCntTime = 400;
 	pSpawner->m_fAreaLength = fLength;
 
+	CModel* pModel = CModel::Create(CModel::MODEL_CAUTION_SIGNAL, D3DXVECTOR3(pos.x - fLaterlBounds, fShadowHeight, pos.z - fLength));
+	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI, 0.0f));
+
+	pModel = CModel::Create(CModel::MODEL_CAUTION_SIGNAL, D3DXVECTOR3(pos.x + fLaterlBounds, fShadowHeight, pos.z - fLength));
+	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI, 0.0f));
+
 	return pSpawner;
 }
