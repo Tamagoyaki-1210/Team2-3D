@@ -130,7 +130,7 @@ void CMessage::SetCountDown(int nNum)
 		m_pObj2D->SetSize(D3DXVECTOR2(200.0f, 150.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_NUMBERS);
 		m_pObj2D->SetTextureParameter(1, 5, 3, INT_MAX);
-		m_pObj2D->SetPriority(3);
+		m_pObj2D->SetPriority(5);
 		m_nNum = nNum;
 		m_pObj2D->SetAnimPattern(nNum);
 		m_nMessageCounter = CountDownLife;
@@ -152,7 +152,7 @@ void CMessage::StartMessage(void)
 		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f));
 		m_pObj2D->SetSize(D3DXVECTOR2(360.0f, 200.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_START);
-		m_pObj2D->SetPriority(4);
+		m_pObj2D->SetPriority(5);
 		m_nMessageCounter = 30;
 		m_type = MESSAGE_START;
 		m_bStart = true;
@@ -173,7 +173,7 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 100.0f, 0.0f));
 		m_pObj2D->SetSize(D3DXVECTOR2(300.0f, 100.0f));
 		m_pObj2D->SetTexture(CObject::TEXTURE_MESSAGE_GOAL);
-		m_pObj2D->SetPriority(4);
+		m_pObj2D->SetPriority(5);
 		m_nMessageCounter = 120;
 		m_type = MESSAGE_GOAL;
 		m_bStart = false;
@@ -200,7 +200,7 @@ void CMessage::WinMessage()
 			m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 200.0f, 0.0f));
 			m_pObj2D->SetSize(D3DXVECTOR2(180.0f, 60.0f));
 			m_pObj2D->SetTexture(CObject::TEXTURE_WINNER);
-			m_pObj2D->SetPriority(4);
+			m_pObj2D->SetPriority(5);
 		}
 
 		if (m_pPlayer2D == nullptr)
@@ -209,7 +209,7 @@ void CMessage::WinMessage()
 			m_pPlayer2D = CObject_2D::Create();
 			m_pPlayer2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 90.0f, 0.0f));
 			m_pPlayer2D->SetSize(D3DXVECTOR2(100.0f, 60.0f));
-			m_pPlayer2D->SetPriority(4);
+			m_pPlayer2D->SetPriority(5);
 
 			// 番号でプレイヤーを変更する
 			switch (m_nMessageIdx)

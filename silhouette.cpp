@@ -14,7 +14,7 @@
 
 
 //コンストラクタ
-CSilhouette::CSilhouette() : CObject_2D(5)
+CSilhouette::CSilhouette() : CObject_2D(4)
 {
 
 }
