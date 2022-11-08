@@ -52,6 +52,8 @@ public:
 		MODEL_LAVA_FLOOR,
 		MODEL_BOUNCE_POLE,
 		MODEL_TRAMPOLINE,
+		MODEL_FALLING_STONE,
+		MODEL_ICE_PILLAR,
 
 		MODEL_GOAL,
 
@@ -81,6 +83,7 @@ public:
 
 	void SetModelColor(const int nNumMat, const D3DXCOLOR col);
 	void SetShadowDraw(const bool bDraw);
+	void SetShadowHeight(const float fHeight);
 
 	static void GetModel(ModelType type, LPD3DXMESH* pMesh, LPD3DXBUFFER* pBuffMat, DWORD* numMat);		//モデルのメッシュ情報の取得処理
 	static void GetTextures(std::vector <LPDIRECT3DTEXTURE9>& vTex, CModel::ModelType type);			//マテリアルのテクスチャの取得処理
@@ -105,6 +108,7 @@ private:
 	ModelType		m_type;													//モデルの種類
 	std::vector <ModelColor> m_vCol;										//モデルの色
 	bool			m_bShadow;												//影があるかどうか
+	float			m_fShadowHeight;
 
 	static LPD3DXMESH		m_pMeshAll[MODEL_MAX];							//メッシュ情報へのポインタ
 	static LPD3DXBUFFER		m_pBuffMatAll[MODEL_MAX];						//マテリアル情報へのポインタ
