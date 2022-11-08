@@ -32,6 +32,7 @@ char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
 {
 	{ "data\\STAGESET\\StageSet1.txt" },
 	{ "data\\STAGESET\\StageSet2.txt" },
+	{ "data\\STAGESET\\StageSet3.txt" },
 };
 
 CMeshfield *CStage::m_pField = nullptr;
@@ -94,7 +95,7 @@ HRESULT CStage::Init(void)
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
-	//CBoxHitbox::Create(D3DXVECTOR3(50.0f, -150.0f, 300.0f), Vec3Null, D3DXVECTOR3(25.0f, 100.0f, 100.0f), CHitbox::TYPE_NEUTRAL, nullptr, 0, CHitbox::EFFECT_BOUNCE);
+	CTrampoline::Create(D3DXVECTOR3(-70.0f, -150.0f, 150.0f));
 
 	CSilhouette::Create();
 
@@ -470,7 +471,7 @@ void CStage::Load()
 				}
 			}
 			else if (strncmp(aStr, "FLOORALLSET", 11) == 0)
-			{// 障害物モデル読み込み
+			{// 床モデル読み込み
 				int nFloorType = 0;
 				while (strncmp(aStr, "END_FLOORALLSET", 15) != 0)
 				{
@@ -518,7 +519,7 @@ void CStage::Load()
 				}
 			}
 			else if (strncmp(aStr, "ENVIRONMENTALLSET", 17) == 0)
-			{// コイン読み込み
+			{// 環境モデル読み込み
 				int nEnvironmentType = 0;
 				while (strncmp(aStr, "END_ENVIRONMENTALLSET", 21) != 0)
 				{

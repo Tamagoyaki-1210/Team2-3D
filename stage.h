@@ -31,6 +31,7 @@ public:
 	{
 		STAGE_TYPE_1 = 0,
 		STAGE_TYPE_2,
+		STAGE_TYPE_3,
 		STAGE_TYPE_MAX
 	};
 
