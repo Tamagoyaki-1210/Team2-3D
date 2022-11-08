@@ -479,6 +479,17 @@ void CModelPart::SetModelColor(const int nNumMat, const D3DXCOLOR col)
 	m_vCol.push_back(mCol);
 }
 
+void CModelPart::SetModel(CModel::ModelType model)
+{
+	m_pMesh = nullptr;
+	m_pBuffMat = nullptr;
+	m_nNumMat = 0;
+	m_vModelTexture.clear();
+
+	CModel::GetModel(model, &m_pMesh, &m_pBuffMat, &m_nNumMat);
+	CModel::GetTextures(m_vModelTexture, model);
+}
+
 
 
 

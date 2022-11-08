@@ -17,6 +17,22 @@
 #include "debugProc.h"
 #include "object2D.h"
 #include "UIString.h"
+#include "inputPad.h"
+
+CModel::ModelType CPlayerModel::m_HeadTypeAll[HEAD_MAX]
+{
+	CModel::MODEL_HEAD,
+	CModel::MODEL_HEAD_SANTA
+	
+};
+
+CModel::ModelType CPlayerModel::m_HeadType[PLAYER_MAX] =
+{
+	CModel::MODEL_HEAD,
+	CModel::MODEL_HEAD,
+	CModel::MODEL_HEAD,
+	CModel::MODEL_HEAD
+};
 
 D3DXCOLOR CPlayerModel::m_playersCol[PLAYER_MAX] =
 {
@@ -35,6 +51,7 @@ CPlayerModel::CPlayerModel()
 	m_rot = Vec3Null;						//向き
 	m_nPresentColor = ColorNull;			//現在のカーラーインデックス
 	m_nIdx = 0;
+	m_nPresentHead = 0;
 
 	m_pIcon = nullptr;
 	m_pUiString = nullptr;
@@ -59,6 +76,7 @@ HRESULT CPlayerModel::Init(void)
 	m_rot = Vec3Null;						//向き
 	m_nPresentColor = ColorWhite;			//現在のカーラーインデックス
 	m_nIdx = 0;
+	m_nPresentHead = 0;
 
 	m_pIcon = nullptr;
 	m_pUiString = nullptr;
@@ -114,7 +132,7 @@ void CPlayerModel::Update(void)
 		m_pAnimator->Update();
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_D))
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
 	{
 		m_nPresentColor++;
 
@@ -138,7 +156,7 @@ void CPlayerModel::Update(void)
 			m_pUiString->ChangeColor(m_presentColor);
 		}
 	}
-	else if (CInputKeyboard::GetKeyboardTrigger(DIK_A))
+	else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
 	{
 		m_nPresentColor--;
 
@@ -163,7 +181,41 @@ void CPlayerModel::Update(void)
 		}
 	}
 
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_1) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
+	{
+		m_nPresentHead--;
+
+		if (m_nPresentHead < 0)
+		{
+			m_nPresentHead = HEAD_MAX - 1;
+		}
+
+		if (m_pModel[CPlayer::HEAD] != nullptr)
+		{
+			m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
+		}
+
+		m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
+	}
+	else if (CInputKeyboard::GetKeyboardTrigger(DIK_2) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
+	{
+		m_nPresentHead++;
+
+		if (m_nPresentHead >= HEAD_MAX)
+		{
+			m_nPresentHead = 0;
+		}
+
+		if (m_pModel[CPlayer::HEAD] != nullptr)
+		{
+			m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
+		}
+
+		m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
+	}
+
 	CDebugProc::Print("\nColor: %d", m_nPresentColor);
+	CDebugProc::Print("\n POS: %f %f %f", m_pModel[CPlayer::HEAD]->GetPos().x, m_pModel[CPlayer::HEAD]->GetPos().y, m_pModel[CPlayer::HEAD]->GetPos().z);
 }
 
 //描画処理
@@ -229,6 +281,12 @@ const D3DXCOLOR*  CPlayerModel::GetPlayerColors(void)
 
 
 
+
+
+CModel::ModelType CPlayerModel::GetHeadType(int nIdx)
+{
+	return m_HeadType[nIdx];
+}
 
 
 //生成処理
@@ -311,6 +369,8 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx)
 	str += "P";
 	const char* pStr = str.c_str();
 	pModel->m_pUiString = CUIString::Create(D3DXVECTOR3((((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1)) - 50.0f, (float)SCREEN_HEIGHT * 0.25f, 0.0f), D3DXVECTOR2(100.0f, 60.0f), pModel->m_presentColor, pStr);
+
+	m_HeadType[nIdx] = m_HeadTypeAll[0];
 
 	return pModel;
 }

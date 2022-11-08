@@ -41,6 +41,7 @@ public:
 	void SetShadowHeight(const float fHeight);											//‰e‚Ì‚‚³‚Ìİ’èˆ—
 
 	void SetModelColor(const int nNumMat, const D3DXCOLOR col);
+	void SetModel(CModel::ModelType model);
 
 	static CModelPart* Create(CModel::ModelType type, const D3DXVECTOR3 pos, const D3DXVECTOR3 rot);								//¶¬ˆ—
 
