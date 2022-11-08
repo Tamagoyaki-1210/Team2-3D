@@ -259,7 +259,7 @@ Mesh {
    0.100000;0.100000;0.100000;;
    0.100000;0.100000;0.100000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\Team2-3D\\data\\TEXTURE\\ice.png";
+    "data\\TEXTURE\\ice.png";
    }
   }
   Material {
@@ -268,7 +268,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\Team2-3D\\data\\TEXTURE\\ice.png";
+    "data\\TEXTURE\\ice.png";
    }
   }
   Material {
@@ -277,7 +277,7 @@ Mesh {
    0.090000;0.090000;0.090000;;
    0.146400;0.142950;0.150000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\Team2-3D\\data\\TEXTURE\\ice.png";
+    "data\\TEXTURE\\ice.png";
    }
   }
  }

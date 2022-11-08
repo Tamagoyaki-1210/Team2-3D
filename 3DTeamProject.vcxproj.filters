@@ -55,6 +55,8 @@
     <ClCompile Include="trampoline.cpp" />
     <ClCompile Include="fallingStone.cpp" />
     <ClCompile Include="stoneSpawner.cpp" />
+    <ClCompile Include="icePillar.cpp" />
+    <ClCompile Include="icePillarSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -111,5 +113,7 @@
     <ClInclude Include="environment.h" />
     <ClInclude Include="fallingStone.h" />
     <ClInclude Include="stoneSpawner.h" />
+    <ClInclude Include="icePillar.h" />
+    <ClInclude Include="icePillarSpawner.h" />
   </ItemGroup>
 </Project>

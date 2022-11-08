@@ -174,6 +174,8 @@
     <ClCompile Include="goal.cpp" />
     <ClCompile Include="hitbox.cpp" />
     <ClCompile Include="halfsphere.cpp" />
+    <ClCompile Include="icePillar.cpp" />
+    <ClCompile Include="icePillarSpawner.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="inputKeyboard.cpp" />
     <ClCompile Include="inputMouse.cpp" />
@@ -230,6 +232,8 @@
     <ClInclude Include="goal.h" />
     <ClInclude Include="hitbox.h" />
     <ClInclude Include="halfsphere.h" />
+    <ClInclude Include="icePillar.h" />
+    <ClInclude Include="icePillarSpawner.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="inputKeyboard.h" />
     <ClInclude Include="inputMouse.h" />
