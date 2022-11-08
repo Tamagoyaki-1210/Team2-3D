@@ -62,7 +62,11 @@ public:
 	static void SetPause(const bool bPause);			// ポーズの設定処理
 	void ChangeMode();
 
+	static int GetStageSelect() { return m_nStageSelect; }
+	static void SetStageSelect(int StageSelect) { m_nStageSelect = StageSelect; }
+
 private:
+	static int m_nStageSelect;							//選択中のステージセレクト
 	static bool m_bPause;								//ポーズ中であるかどうか
 
 	static HWND m_hWnd;									//クライエント画面

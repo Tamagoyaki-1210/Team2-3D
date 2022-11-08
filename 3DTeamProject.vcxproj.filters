@@ -53,6 +53,7 @@
     <ClCompile Include="bouncePole.cpp" />
     <ClCompile Include="environment.cpp" />
     <ClCompile Include="trampoline.cpp" />
+    <ClCompile Include="warning.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -107,5 +108,6 @@
     <ClInclude Include="bouncePole.h" />
     <ClInclude Include="trampoline.h" />
     <ClInclude Include="environment.h" />
+    <ClInclude Include="warning.h" />
   </ItemGroup>
 </Project>

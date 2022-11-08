@@ -18,6 +18,8 @@
 #include "message.h"
 //#include "BoxHitbox.h"
 
+#define CAMERA_SPEED	(1.5f);
+
 //コンストラクタ
 CCamera::CCamera()
 {
@@ -200,10 +202,10 @@ void CCamera::Update(void)
 			fAngle *= -1.0f;
 		}
 
-		m_posV.x += cosf(fAngle) * 1.0f;
-		m_posV.z += sinf(fAngle) * 1.0f;
-		m_posR.x += cosf(fAngle) * 1.0f;
-		m_posR.z += sinf(fAngle) * 1.0f;
+		m_posV.x += cosf(fAngle) * CAMERA_SPEED;
+		m_posV.z += sinf(fAngle) * CAMERA_SPEED;
+		m_posR.x += cosf(fAngle) * CAMERA_SPEED;
+		m_posR.z += sinf(fAngle) * CAMERA_SPEED;
 	}
 
 	if (m_posV.z >= 750.0f)

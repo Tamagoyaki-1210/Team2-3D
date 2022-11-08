@@ -206,6 +206,7 @@
     <ClCompile Include="title.cpp" />
     <ClCompile Include="trampoline.cpp" />
     <ClCompile Include="UIString.cpp" />
+    <ClCompile Include="warning.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -260,6 +261,7 @@
     <ClInclude Include="title.h" />
     <ClInclude Include="trampoline.h" />
     <ClInclude Include="UIString.h" />
+    <ClInclude Include="warning.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -46,6 +46,7 @@ CDebugProc* CApplication::m_pDebug = nullptr;
 CApplication::Mode CApplication::m_mode = CApplication::Mode_Title;
 CApplication::Mode CApplication::m_modeNext = CApplication::Mode_Title;
 bool CApplication::m_bPause = false;
+int CApplication::m_nStageSelect = 0;
 
 //コンストラクタ
 CApplication::CApplication()
@@ -176,6 +177,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//}
 
 	m_bPause = false;	//ポーズを未使用にする
+
+	m_nStageSelect = 0;
 
 	return S_OK;
 }

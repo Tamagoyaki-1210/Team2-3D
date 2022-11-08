@@ -30,6 +30,7 @@ public:
 
 	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
+	const int GetLine(void) { return m_nLineVertex; }
 
 	void SetTexture(CObject::TextType texture);			//テクスチャの設定処理
 	void SetTextureTiling(D3DXVECTOR2 TileSize);		//テクスチャの大きさの設定処理
