@@ -36,8 +36,9 @@ public:
 	void Input(void);
 
 	static CPlayerSelect* Create(void);
-private:
+	static int m_nPlayerCount;
 
+private:
 	static CFontString* m_pStr;			// •¶Žš—ñ
 };
 
