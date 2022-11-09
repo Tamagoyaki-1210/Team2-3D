@@ -17,6 +17,7 @@ CSound::SOUNDPARAM CSound::g_aParam[SOUND_LABEL_MAX] =
 	{ "data/SOUNDS/BGM/セレクト画面BGM.wav", -1 },		// SOUND_LABEL_BGM_SELECT
 	{ "data/SOUNDS/BGM/ゲーム画面BGM01.wav", -1 },		// SOUND_LABEL_BGM_GAME01
 	{ "data/SOUNDS/BGM/ゲーム画面BGM02.wav", -1 },		// SOUND_LABEL_BGM_GAME02
+	{ "data/SOUNDS/BGM/ゲーム画面BGM03.wav", -1 },		// SOUND_LABEL_BGM_GAME03
 	{ "data/SOUNDS/BGM/リザルト画面BGM.wav", -1 },		// SOUND_LABEL_BGM_RESULT
 
 	{ "data/SOUNDS/SE/選択/選択SE.wav", 0 },						// SOUND_LABEL_SE_SELECT

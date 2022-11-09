@@ -212,7 +212,7 @@ void CMessage::WinMessage()
 		{
 			// 勝敗メッセージ生成
 			m_pPlayer2D = CObject_2D::Create();
-			m_pPlayer2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 100.0f, 0.0f));
+			m_pPlayer2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 90.0f, 0.0f));
 			m_pPlayer2D->SetSize(D3DXVECTOR2(100.0f, 60.0f));
 			m_pPlayer2D->SetPriority(5);
 
