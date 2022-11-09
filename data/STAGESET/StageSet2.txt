@@ -310,7 +310,7 @@ ENVIRONMENTALLSET
 #------------------
 		ENVIRONMENTSET
 			ENVIRONMENT
-				POS = -1500.0 -2000.0 3450.0
+				POS = -1400.0 -2050.0 50.0
 			END_ENVIRONMENT
 		END_ENVIRONMENTSET	
 	
@@ -319,12 +319,19 @@ ENVIRONMENTALLSET
 #------------------
 		ENVIRONMENTSET
 			ENVIRONMENT
-				POS = 6000.0 -2000.0 16050.0
+				POS = 2460.0 -2050.0 5050.0
 			END_ENVIRONMENT
 		END_ENVIRONMENTSET	
 
 	END_ENVIRONMENTTYPESET
 	
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[1] ENVIRONMENT_MOUNT_YUKI
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET:
+
+	END_ENVIRONMENTTYPESET
+
 #++++++++++++++++++++++++++++++++++++++
 # 環境モデル[2] ENVIRONMENT_BALLOON
 #++++++++++++++++++++++++++++++++++++++
@@ -353,6 +360,43 @@ ENVIRONMENTALLSET
 
 	END_ENVIRONMENTTYPESET
 	
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[6] ENVIRONMENT_AIRSHIP
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET
+
+	END_ENVIRONMENTTYPESET
+	
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[7] ENVIRONMENT_STONE
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET
+#------------------
+# １個目
+#------------------
+		ENVIRONMENTSET
+			ENVIRONMENT
+				POS = 2000.0 -2000.0 1145.0
+			END_ENVIRONMENT
+		END_ENVIRONMENTSET	
+#------------------
+# ２個目
+#------------------
+		ENVIRONMENTSET
+			ENVIRONMENT
+				POS = -2000.0 -2000.0 5145.0
+			END_ENVIRONMENT
+		END_ENVIRONMENTSET	
+#------------------
+# ３個目
+#------------------
+		ENVIRONMENTSET
+			ENVIRONMENT
+				POS = -1400.0 -2000.0 4545.0
+			END_ENVIRONMENT
+		END_ENVIRONMENTSET	
+	END_ENVIRONMENTTYPESET
+
 END_ENVIRONMENTALLSET
 
 END_SCRIPT		# この行は絶対消さないこと！
