@@ -35,6 +35,8 @@ CMeshfield::CMeshfield()
 	m_nColumnVertex = 0;
 	m_fFriction = 0.0f;									//摩擦係数
 	m_nPriority = 0;									//プライオリティ
+	m_bAnim = false;
+	m_animSpeed = Vec2Null;
 
 	m_vMeshfield.push_back(this);
 }
@@ -56,6 +58,8 @@ CMeshfield::CMeshfield(const int nPriority) : CObject::CObject(nPriority)
 	m_nColumnVertex = 0;
 	m_fFriction = 0.0f;									//摩擦係数
 	m_nPriority = 0;									//プライオリティ
+	m_animSpeed = Vec2Null;
+	m_bAnim = false;
 
 	m_vMeshfield.push_back(this);
 }
@@ -83,6 +87,8 @@ HRESULT CMeshfield::Init(void)
 	m_nColumnVertex = 0;
 	m_fFriction = 0.1f;									//摩擦係数
 	m_nPriority = 0;									//プライオリティ
+	m_animSpeed = Vec2Null;
+	m_bAnim = false;
 
 	return S_OK;
 }
@@ -153,6 +159,28 @@ void CMeshfield::Uninit(void)
 void CMeshfield::Update(void)
 {
 	//Interaction();
+
+	if (m_bAnim)
+	{
+		//頂点情報へのポインタ
+		VERTEX_3D*pVtx = nullptr;
+		VERTEX_3D Vtx;
+		ZeroMemory(&Vtx, sizeof(VERTEX_3D));
+
+		//頂点バッファをロック
+		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+		//頂点情報の設定
+		for (int nCnt = 0; nCnt < m_nVertexNumber; nCnt++)
+		{
+			Vtx.tex = pVtx[nCnt].tex;
+			Vtx.tex += m_animSpeed;
+			pVtx[nCnt].tex = Vtx.tex;
+		}
+
+		//頂点バッファのアンロック
+		m_pVtxBuff->Unlock();
+	}
 }
 
 //描画処理
@@ -279,6 +307,27 @@ void CMeshfield::SetTextureTiling(float fTileSize)
 
 	//頂点バッファのアンロック
 	m_pVtxBuff->Unlock();
+}
+
+//テクスチャアニメーションの設定処理
+void CMeshfield::SetTextureAnim(const D3DXVECTOR2 animSpeed)
+{
+	m_bAnim = true;
+	m_animSpeed = animSpeed;
+}
+
+//テクスチャアニメーションの設定処理
+void CMeshfield::SetTextureAnim(const float fX, const float fY)
+{
+	m_bAnim = true;
+	m_animSpeed = D3DXVECTOR2(fX, fY);
+}
+
+//テクスチャアニメーションの停止処理
+void CMeshfield::StopTextureAnim(void)
+{
+	m_bAnim = false;
+	m_animSpeed = Vec2Null;
 }
 
 

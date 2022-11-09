@@ -37,6 +37,9 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Player02\\PlayerParts\\TopHatHead.x" },
 	{ "data\\MODELS\\Player02\\PlayerParts\\KatanaHead.x" },
 	{ "data\\MODELS\\Player02\\PlayerParts\\DragonHead.x" },
+	{ "data\\MODELS\\Player02\\PlayerParts\\oqtoHead.x" },
+	{ "data\\MODELS\\Player02\\PlayerParts\\snowman.x" },
+	{ "data\\MODELS\\Player02\\PlayerParts\\ToyBoxHead.x" },
 
 	{ "data\\MODELS\\Coin\\Coin00.x" },
 	{ "data\\MODELS\\Coin\\Coin01.x" },
