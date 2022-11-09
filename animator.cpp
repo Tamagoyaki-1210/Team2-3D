@@ -30,12 +30,12 @@ std::vector <CAnimator::ModelAnimationSet> CAnimator::m_vAnimAll;			//全部のアニ
 CAnimator::CAnimator()
 {
 	//メンバー変数をクリアする
-	m_vParts.clear();
-	m_vAnimSpeed.clear();
-	m_nPresentFrame = 0;
-	m_nPresentMotionSet = 0;
-	m_nPresentAnim = 0;
-	m_type = (AnimType)0;
+	m_vParts.clear();					//パーツのベクトルをクリアする
+	m_vAnimSpeed.clear();				//アニメーションスピードのベクトルをクリアする
+	m_nPresentFrame = 0;				//現在のフレーム
+	m_nPresentMotionSet = 0;			//現在のモーションセット
+	m_nPresentAnim = 0;					//現在のアニメーション
+	m_type = (AnimType)0;				//アニメーションの種類
 }
 
 //デストラクタ
@@ -48,12 +48,12 @@ CAnimator::~CAnimator()
 HRESULT CAnimator::Init(void)
 {
 	//メンバー変数の初期化処理
-	m_vParts.clear();
-	m_vAnimSpeed.clear();
-	m_nPresentFrame = 0;
-	m_nPresentMotionSet = 0;
-	m_nPresentAnim = 0;
-	m_type = (AnimType)0;
+	m_vParts.clear();					//パーツのベクトルをクリアする
+	m_vAnimSpeed.clear();				//アニメーションスピードのベクトルをクリアする
+	m_nPresentFrame = 0;				//現在のフレーム
+	m_nPresentMotionSet = 0;			//現在のモーションセット
+	m_nPresentAnim = 0;					//現在のアニメーション
+	m_type = (AnimType)0;				//アニメーションの種類
 
 	return S_OK;
 }
@@ -315,6 +315,7 @@ CAnimator* CAnimator::Create(std::vector <CModelPart*>* vParts, AnimType type)
 	return pAnimator;					//生成したアニメーターを返す
 }
 
+//アニメーションの設定処理
 void CAnimator::SetPresentAnim(int nPresentAnim)
 {
 	if (m_nPresentAnim != nPresentAnim)
@@ -334,6 +335,7 @@ void CAnimator::SetPresentAnim(int nPresentAnim)
 	}
 }
 
+//アニメーションの設定処理
 void CAnimator::SetLoopingAnim(int nPresentAnim)
 {
 	if (m_nPresentAnim == nPresentAnim)
