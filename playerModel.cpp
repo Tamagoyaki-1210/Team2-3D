@@ -220,7 +220,7 @@ void CPlayerModel::Update(void)
 		}
 
 		if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, m_nIdx))
-		{
+		{//€”õŠ®—¹
 			m_bDecision = true;
 			CPlayerSelect::m_nPlayerCount++;
 		}
@@ -228,7 +228,7 @@ void CPlayerModel::Update(void)
 	else
 	{
 		if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, m_nIdx))
-		{
+		{//€”õ’†’f
 			m_bDecision = false;
 			CPlayerSelect::m_nPlayerCount--;
 		}
