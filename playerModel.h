@@ -57,7 +57,7 @@ public:
 
 	static CModel::ModelType GetHeadType(int nIdx);
 
-	static CPlayerModel* Create(const D3DXVECTOR3 pos, int nIdx);		//ê∂ê¨èàóù
+	static CPlayerModel* Create(const D3DXVECTOR3 pos, int nIdx, bool bUi);		//ê∂ê¨èàóù
 
 private:
 
@@ -80,6 +80,7 @@ private:
 	static D3DXCOLOR m_playersCol[PLAYER_MAX];
 
 	bool m_bDecision;
+	bool m_bSelect;
 
 };
 

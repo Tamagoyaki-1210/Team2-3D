@@ -475,13 +475,13 @@ CMeshfield* CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
 
 	D3DXVECTOR3 pos = pObj->GetPos();
 
-	for (int nCnt = 0; nCnt < MAX_FIELD_PRIORITY; nCnt++)
+	for (int nCntPriority = 0; nCntPriority < MAX_FIELD_PRIORITY; nCntPriority++)
 	{
 		for (int nCntField = 0; nCntField < nFieldNum; nCntField++)
 		{
 			CMeshfield* pField = m_vMeshfield.data()[nCntField];
 
-			if (pField->m_nPriority == nCnt)
+			if (pField->m_nPriority == nCntPriority)
 			{
 				VERTEX_3D* pVtx = nullptr;
 
@@ -642,14 +642,6 @@ void CMeshfield::SetVertex(void)
 			pVtx[nCnt].pos.y += 50.0f;
 		}
 	}
-
-	/*pVtx[250].pos.y += (float)random(150, 200);
-	pVtx[251].pos.y += (float)random(150, 200);
-	pVtx[252].pos.y += (float)random(150, 200);
-	pVtx[253].pos.y += (float)random(150, 200);
-	pVtx[254].pos.y += (float)random(150, 200);
-	pVtx[255].pos.y += (float)random(150, 200);
-	pVtx[256].pos.y += (float)random(150, 200);*/
 
 	//頂点バッファのアンロック
 	m_pVtxBuff->Unlock();
