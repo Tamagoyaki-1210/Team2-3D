@@ -50,10 +50,10 @@ HRESULT CMenu::Init(void)
 	{
 	case CApplication::Mode_Title :
 
-		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3((SCREEN_WIDTH / 2) + 50.0f, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "スタート");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "スタート");
 		m_nNumAll++;
 
-		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3((SCREEN_WIDTH / 2) + 50.0f, 600.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "おわり");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 600.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "おわり");
 		m_nNumAll++;
 
 		m_pChoice[m_nSelectNum]->SetSellect();

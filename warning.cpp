@@ -111,7 +111,7 @@ void CWarning::BlinkColor(void)
 //=====================================
 // 生成処理
 //=====================================
-CWarning* CWarning::Create(const D3DXVECTOR3 pos)
+CWarning* CWarning::Create()
 {
 	CWarning* pWarning = new CWarning(5);		//生成(Priority = 5)
 
@@ -121,7 +121,7 @@ CWarning* CWarning::Create(const D3DXVECTOR3 pos)
 		return nullptr;
 	}
 
-	pWarning->SetPos(pos);									//位置の設定
+	pWarning->SetPos(D3DXVECTOR3(1225.0f, 55.0f, 0.0f));									//位置の設定
 	pWarning->SetSize(D3DXVECTOR2(50.0f, 50.0f));			//サイズの設定
 	pWarning->SetTexture(CObject::TEXTURE_EXCLAMATION);		//テクスチャの設定
 

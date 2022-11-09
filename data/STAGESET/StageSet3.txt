@@ -251,6 +251,30 @@ FLOORALLSET
 		END_FLOORSET	
 
 	END_FLOORTYPESET
+	
+#++++++++++++++++++++++++++++++++++++++
+# 床モデル[1] FLOOR_SRIP
+#++++++++++++++++++++++++++++++++++++++
+	FLOORTYPESET
+#------------------
+# １個目
+#------------------
+		FLOORSET
+			FLOOR
+				POS = 100.0 -199.0 -1000.0f
+			END_FLOOR
+		END_FLOORSET	
+	
+#------------------
+# ２個目
+#------------------
+		FLOORSET
+			FLOOR
+				POS = 0.0f, -199.0f, -1500.0f
+			END_FLOOR
+		END_FLOORSET	
+
+	END_FLOORTYPESET
 
 END_FLOORALLSET
 

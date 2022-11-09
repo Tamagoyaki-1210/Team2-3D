@@ -7,12 +7,9 @@
 #include "stage.h"
 #include "application.h"
 #include "meshfield.h"
-#include "model.h"
 #include "player.h"
 #include "debugProc.h"
 #include "halfsphere.h"
-#include "CylinderHitbox.h"
-#include "BoxHitbox.h"
 #include "coin.h"
 #include "goal.h"
 #include "camera.h"
@@ -22,15 +19,12 @@
 #include "message.h"
 #include "silhouette.h"
 #include "environment.h"
-#include "warning.h"
 #include <string>
 
 #include "trampoline.h"
 #include "bouncePole.h"
 #include "stoneSpawner.h"
 #include "icePillarSpawner.h"
-#include "inputKeyboard.h"
-#include "effect.h"
 
 //アニメーション情報のテキストファイルの相対パス
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
@@ -70,8 +64,6 @@ HRESULT CStage::Init(void)
 	// スフィアメッシュ
 	m_pSphere = CHalfSphere::Create(D3DXVECTOR3(0.0f, -8000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
 
-	//m_pSphere[1] = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, D3DX_PI, D3DX_PI), CHalfSphere::SPHERE_DOWN);
-
 	// ステージ読み込み処理
 	Load();
 
@@ -85,8 +77,6 @@ HRESULT CStage::Init(void)
 	}
 
 	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
-
-	//CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
 
 	// プレイヤーの生成
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
@@ -104,11 +94,6 @@ HRESULT CStage::Init(void)
 	{
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField[0]->GetLine() - 21) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
-
-	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(200.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.005f);
-	pField->SetTexture(CObject::TEXTURE_ICE);
-	pField = CMeshfield::Create(D3DXVECTOR3(0.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.01f);
-	pField->SetTexture(CObject::TEXTURE_ICE);
 
 	CSilhouette::Create();
 
@@ -164,11 +149,11 @@ void CStage::Update(void)
 		m_pMessage->Update();
 	}
 
-	//Pでポーズ切り替え
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_O))
-	{
-		CWarning::Create(D3DXVECTOR3(1225.0f, 55.0f, 0.0f));
-	}
+	////Pでポーズ切り替え
+	//if (CInputKeyboard::GetKeyboardTrigger(DIK_O))
+	//{
+	//	CWarning::Create(D3DXVECTOR3(1225.0f, 55.0f, 0.0f));
+	//}
 
 	GameResult();
 }
@@ -214,6 +199,12 @@ void CStage::SetFloorType(D3DXVECTOR3 pos, FloorType type)
 	{
 		// 溶岩床
 		CLavaFloor::Create(pos);
+	}
+	break;
+	case CStage::FLOOR_SRIP:
+	{
+		CMeshfield* pField = CMeshfield::Create(pos, Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.005f);
+		pField->SetTexture(CObject::TEXTURE_ICE);
 	}
 	break;
 	default:

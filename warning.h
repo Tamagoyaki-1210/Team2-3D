@@ -35,7 +35,7 @@ public:
 
 	void BlinkColor(void);
 
-	static CWarning* Create(const D3DXVECTOR3 pos);			//¶¬ˆ—
+	static CWarning* Create();			//¶¬ˆ—
 
 private:
 	int m_nLife;			// õ–½

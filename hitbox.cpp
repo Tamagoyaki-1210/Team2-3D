@@ -9,7 +9,6 @@
 //インクルードファイル
 //=============================================================================
 #include "hitbox.h"
-#include "object.h"
 
 
 std::vector <CHitbox*> CHitbox::m_vHitbox;

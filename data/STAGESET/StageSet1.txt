@@ -221,6 +221,14 @@ FLOORALLSET
 		END_FLOORSET	
 
 	END_FLOORTYPESET
+	
+#++++++++++++++++++++++++++++++++++++++
+# 床モデル[1] FLOOR_SRIP
+#++++++++++++++++++++++++++++++++++++++
+	FLOORTYPESET	
+
+	END_FLOORTYPESET
+
 
 END_FLOORALLSET
 

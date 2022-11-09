@@ -11,7 +11,6 @@
 #include "player.h"
 #include "inputKeyboard.h"
 #include "inputPad.h"
-#include "model.h"
 #include "camera.h"
 #include "application.h"
 #include "debugProc.h"
@@ -24,7 +23,6 @@
 #include "gamerace.h"
 #include "stage.h"
 #include "rendering.h"
-#include "goal.h"
 #include "coin.h"
 #include "playerModel.h"
 #include "message.h"
@@ -416,8 +414,7 @@ void CPlayer::Update(void)
 				m_move.x *= 5.0f;
 				m_move.y = 10.0f;
 				m_move.z *= 5.f;
-
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE_PUNCH);
 
 				if (m_pHitbox != nullptr)
 				{
@@ -438,6 +435,7 @@ void CPlayer::Update(void)
 				m_move.x *= -50.0f;
 				m_move.y = 10.0f;
 				m_move.z *= -50.f;
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE_PUNCH);
 
 				if (m_pHitbox != nullptr)
 				{
@@ -457,6 +455,7 @@ void CPlayer::Update(void)
 
 				D3DXVec3Normalize(&m_move, &m_move);
 				m_move.y = 30.0f;
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_JUMP);
 
 				if (m_pHitbox != nullptr)
 				{
@@ -852,6 +851,8 @@ void CPlayer::PlayerController(int nCntPlayer)
 
 		m_bAttacking = true;
 		m_nCntAttack = 50;
+
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_PUNCH);
 	}
 }
 

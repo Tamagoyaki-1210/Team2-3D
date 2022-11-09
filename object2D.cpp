@@ -11,7 +11,7 @@
 #include "object2D.h"
 #include "rendering.h"
 #include "application.h"
-#include "inputKeyboard.h"
+//#include "inputKeyboard.h"
 
 //Ã“Iƒƒ“ƒo[•Ï”‚ÌéŒ¾
 LPDIRECT3DTEXTURE9 CObject_2D::m_pTextureAll[CObject_2D::TEXTURE_TYPE_MAX] = {};

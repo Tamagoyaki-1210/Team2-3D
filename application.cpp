@@ -8,9 +8,6 @@
 //インクルードファイル
 #include "application.h"
 #include "rendering.h"
-#include "object.h"
-#include "object2D.h"
-#include "input.h"
 #include "inputKeyboard.h"
 #include "inputMouse.h"
 #include "inputPad.h"
@@ -18,8 +15,6 @@
 #include "camera.h"
 #include "model.h"
 #include "debugProc.h"
-#include "object2D.h"
-//#include "Letter.h"
 #include "animator.h"
 #include "title.h"
 #include "playerSelect.h"

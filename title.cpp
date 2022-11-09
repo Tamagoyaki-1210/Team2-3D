@@ -11,7 +11,6 @@
 #include "playerModel.h"
 #include "AnimateUI.h"
 #include "halfsphere.h"
-#include "model.h"
 #include "coin.h"
 #include "SpikeBall.h"
 #include "bouncePole.h"

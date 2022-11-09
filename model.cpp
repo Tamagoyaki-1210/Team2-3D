@@ -10,7 +10,6 @@
 //=============================================================================
 #include "model.h"
 #include "application.h"
-#include "object2D.h"
 #include "rendering.h"
 #include "directionalLight.h"
 

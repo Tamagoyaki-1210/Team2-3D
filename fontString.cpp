@@ -136,6 +136,7 @@ CFontString* CFontString::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, 
 	int nTex = strlen(letter.c_str());
 
 	int nCnt = 0;
+	float maxSizeX = size.x * 2;
 	for (int nLatter = 0; nLatter < nTex; nLatter += 2)
 	{
 		// 現在位置から1文字進む処理
@@ -144,11 +145,11 @@ CFontString* CFontString::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, 
 		// 文字を中央に配置し、string型から*char型を1文字ずつ取り出す
 		if (nTex / 2 % 2 == 1)
 		{
-			pFontString->m_pFont[nCnt++] = CFont::Create(D3DXVECTOR3(pos.x - (size.x * (nTex / 4) * 2) + ((size.x * nCnt) * 2), pos.y, pos.z), size, sLatter.c_str());
+			pFontString->m_pFont[nCnt++] = CFont::Create(D3DXVECTOR3(pos.x - (maxSizeX * (nTex / 4)) + ((maxSizeX * nCnt)), pos.y, pos.z), size, sLatter.c_str());
 		}
 		else
 		{
-			pFontString->m_pFont[nCnt++] = CFont::Create(D3DXVECTOR3(pos.x - (size.x * ((nTex / 4) - 1) * 2) + ((size.x * nCnt) * 2) - ((size.x / 2) * 2), pos.y, pos.z), size, sLatter.c_str());
+			pFontString->m_pFont[nCnt++] = CFont::Create(D3DXVECTOR3(pos.x - (maxSizeX * ((nTex / 4) - 1)) + (maxSizeX * nCnt) - (maxSizeX / 2), pos.y, pos.z), size, sLatter.c_str());
 		}
 
 		// 最初のサイズを登録する

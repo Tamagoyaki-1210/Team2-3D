@@ -6,9 +6,7 @@
 //-------------------------------------
 #include "application.h"
 #include "halfsphere.h"
-#include "Input.h"
 #include "rendering.h"
-#include "object.h"
 
 CHalfSphere::CHalfSphere() : CObject::CObject(3)
 {

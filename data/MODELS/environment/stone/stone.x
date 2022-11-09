@@ -1117,7 +1117,7 @@ Mesh {
    0.100000;0.100000;0.100000;;
    0.100000;0.098800;0.098800;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\Team2-3D\\data\\TEXTURE\\MeshField001.png";
+    "data\\TEXTURE\\MeshField001.png";
    }
   }
  }

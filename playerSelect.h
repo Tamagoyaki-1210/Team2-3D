@@ -18,7 +18,6 @@
 //---------------------------
 class CFontString;
 class CPlayerModel;
-class CDirectionalLight;
 
 //---------------------------
 //ƒNƒ‰ƒXéŒ¾

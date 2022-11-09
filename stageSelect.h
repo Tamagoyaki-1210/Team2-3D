@@ -23,7 +23,6 @@ class CFontString;
 //---------------------------
 class CStageSelect : public CMode
 {
-	//const int Max_Stage = 2;
 public:
 	CStageSelect();
 	~CStageSelect() override;

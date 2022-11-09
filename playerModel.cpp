@@ -15,11 +15,11 @@
 #include "rendering.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
-#include "object2D.h"
 #include "UIString.h"
 #include "inputPad.h"
 #include "playerSelect.h"
 #include "AnimateUI.h"
+#include "fade.h"
 
 CModel::ModelType CPlayerModel::m_HeadTypeAll[HEAD_MAX]
 {
@@ -149,119 +149,122 @@ void CPlayerModel::Update(void)
 		m_pAnimator->Update();
 	}
 
-	if (m_bSelect)
+	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		if (!m_bDecision)
+		if (m_bSelect)
 		{
-			if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
+			if (!m_bDecision)
 			{
-				m_nPresentColor++;
-
-				if (m_nPresentColor >= CPlayer::PLAYER_COLOR_MAX)
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
 				{
-					m_nPresentColor = 0;
+					m_nPresentColor++;
+
+					if (m_nPresentColor >= CPlayer::PLAYER_COLOR_MAX)
+					{
+						m_nPresentColor = 0;
+					}
+
+					m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+
+					if (m_pModel[CPlayer::BODY] != nullptr)
+					{
+						m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
+					}
+					if (m_pIcon != nullptr)
+					{
+						m_pIcon->SetColor(m_presentColor);
+					}
+					if (m_pUiString != nullptr)
+					{
+						m_pUiString->ChangeColor(m_presentColor);
+					}
+				}
+				else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
+				{
+					m_nPresentColor--;
+
+					if (m_nPresentColor < 0)
+					{
+						m_nPresentColor = CPlayer::PLAYER_COLOR_MAX - 1;
+					}
+
+					m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+
+					if (m_pModel[CPlayer::BODY] != nullptr)
+					{
+						m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
+					}
+					if (m_pIcon != nullptr)
+					{
+						m_pIcon->SetColor(m_presentColor);
+					}
+					if (m_pUiString != nullptr)
+					{
+						m_pUiString->ChangeColor(m_presentColor);
+					}
 				}
 
-				m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
+				{
+					m_nPresentHead--;
 
-				if (m_pModel[CPlayer::BODY] != nullptr)
-				{
-					m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
+					if (m_nPresentHead < 0)
+					{
+						m_nPresentHead = HEAD_MAX - 1;
+					}
+
+					if (m_pModel[CPlayer::HEAD] != nullptr)
+					{
+						m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
+					}
+
+					m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
 				}
-				if (m_pIcon != nullptr)
+				else if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
 				{
-					m_pIcon->SetColor(m_presentColor);
+					m_nPresentHead++;
+
+					if (m_nPresentHead >= HEAD_MAX)
+					{
+						m_nPresentHead = 0;
+					}
+
+					if (m_pModel[CPlayer::HEAD] != nullptr)
+					{
+						m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
+					}
+
+					m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
 				}
-				if (m_pUiString != nullptr)
-				{
-					m_pUiString->ChangeColor(m_presentColor);
+
+				if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, m_nIdx))
+				{//èÄîıäÆóπ
+					m_bDecision = true;
+					CPlayerSelect::m_nPlayerCount++;
+
+					if (m_pOK == nullptr)
+					{
+						CAnimateUI::UIAnimation animInfo;
+						animInfo.deltaSize = D3DXVECTOR2(0.5f, 0.5f);
+						animInfo.nChangeTime = 30;
+						m_pOK = CAnimateUI::Create(CObject::TEXTURE_OK_UI, D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (m_nIdx + 1), (float)SCREEN_HEIGHT * 0.425f, 0.0f), D3DXVECTOR2(65.0f, 40.0f),
+							D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.75f), animInfo);
+						m_pOK->AnimateColor(true);
+					}
 				}
 			}
-			else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
+			else
 			{
-				m_nPresentColor--;
+				if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, m_nIdx))
+				{//èÄîıíÜíf
+					m_bDecision = false;
+					CPlayerSelect::m_nPlayerCount--;
 
-				if (m_nPresentColor < 0)
-				{
-					m_nPresentColor = CPlayer::PLAYER_COLOR_MAX - 1;
-				}
-
-				m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
-
-				if (m_pModel[CPlayer::BODY] != nullptr)
-				{
-					m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
-				}
-				if (m_pIcon != nullptr)
-				{
-					m_pIcon->SetColor(m_presentColor);
-				}
-				if (m_pUiString != nullptr)
-				{
-					m_pUiString->ChangeColor(m_presentColor);
-				}
-			}
-
-			if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
-			{
-				m_nPresentHead--;
-
-				if (m_nPresentHead < 0)
-				{
-					m_nPresentHead = HEAD_MAX - 1;
-				}
-
-				if (m_pModel[CPlayer::HEAD] != nullptr)
-				{
-					m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
-				}
-
-				m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
-			}
-			else if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
-			{
-				m_nPresentHead++;
-
-				if (m_nPresentHead >= HEAD_MAX)
-				{
-					m_nPresentHead = 0;
-				}
-
-				if (m_pModel[CPlayer::HEAD] != nullptr)
-				{
-					m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
-				}
-
-				m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
-			}
-
-			if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, m_nIdx))
-			{//èÄîıäÆóπ
-				m_bDecision = true;
-				CPlayerSelect::m_nPlayerCount++;
-
-				if (m_pOK == nullptr)
-				{
-					CAnimateUI::UIAnimation animInfo;
-					animInfo.deltaSize = D3DXVECTOR2(0.5f, 0.5f);
-					animInfo.nChangeTime = 30;
-					m_pOK = CAnimateUI::Create(CObject::TEXTURE_OK_UI, D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (m_nIdx + 1), (float)SCREEN_HEIGHT * 0.425f, 0.0f), D3DXVECTOR2(65.0f, 40.0f),
-						D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.75f), animInfo);
-					m_pOK->AnimateColor(true);
-				}
-			}
-		}
-		else
-		{
-			if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, m_nIdx))
-			{//èÄîıíÜíf
-				m_bDecision = false;
-				CPlayerSelect::m_nPlayerCount--;
-
-				if (m_pOK != nullptr)
-				{
-					m_pOK->Release();
-					m_pOK = nullptr;
+					if (m_pOK != nullptr)
+					{
+						m_pOK->Release();
+						m_pOK = nullptr;
+					}
 				}
 			}
 		}

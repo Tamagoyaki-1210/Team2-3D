@@ -14,10 +14,7 @@
 #include "inputMouse.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
-#include "goal.h"
 #include "message.h"
-#include "stage.h"
-//#include "BoxHitbox.h"
 
 const float CCamera::CAMERA_SPEED = 1.5f;
 

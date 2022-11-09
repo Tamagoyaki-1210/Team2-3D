@@ -9,7 +9,6 @@
 #include "inputKeyboard.h"
 #include "inputPad.h"
 #include "fade.h"
-#include <stdio.h>
 #include <random>
 #include <iostream>//用いるヘッダファイルが変わります。
 
