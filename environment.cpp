@@ -88,6 +88,7 @@ CEnvironment * CEnvironment::Create(D3DXVECTOR3 pos, EnvironmentType type)
 	{
 		pEnvironment->SetModel(MODEL_TREE1);	//モデルの設定処理
 	}
+	break;
 	case CEnvironment::ENVIRONMENT_TREE2:
 	{
 		pEnvironment->SetModel(MODEL_TREE2);	//モデルの設定処理
@@ -96,6 +97,16 @@ CEnvironment * CEnvironment::Create(D3DXVECTOR3 pos, EnvironmentType type)
 	case CEnvironment::ENVIRONMENT_WINDMILL:
 	{
 		pEnvironment->SetModel(MODEL_WINDMILL);	//モデルの設定処理
+	}
+	break;
+	case CEnvironment::ENVIRONMENT_AIRSHIP:
+	{
+		pEnvironment->SetModel(MODEL_AIRSHIP);	//モデルの設定処理
+	}
+	break;
+	case CEnvironment::ENVIRONMENT_STONE:
+	{
+		pEnvironment->SetModel(MODEL_STONE);	//モデルの設定処理
 	}
 	break;
 	default:

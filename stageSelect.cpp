@@ -10,6 +10,9 @@
 #include "inputPad.h"
 #include "fade.h"
 #include <stdio.h>
+#include <random>
+#include <iostream>//用いるヘッダファイルが変わります。
+
 
 CFontString* CStageSelect::m_pStr = nullptr;
 CObject_2D* CStageSelect::m_pFrame = nullptr;
@@ -167,7 +170,12 @@ void CStageSelect::Input(void)
 			// ランダムが選ばれた場合
 			if (m_nSelectNum == m_nNumAll - 1)
 			{
-				m_nSelectNum = rand() % (m_nNumAll - 2);
+				std::random_device rnd;     // 非決定的な乱数生成器を生成
+				std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
+				std::uniform_int_distribution<> rand100(0, m_nNumAll - 2);   // [0, 99] 範囲の一様乱数
+
+				//m_nSelectNum = rand() % (m_nNumAll - 2);
+				m_nSelectNum = rand100(mt);
 			}
 
 			CApplication::SetStageSelect(m_nSelectNum);

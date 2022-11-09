@@ -49,9 +49,11 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Environment\\Mountains\\Fuji.x" },
 	{ "data\\MODELS\\Environment\\Mountains\\FujiYuki.x" },
 	{ "data\\MODELS\\Environment\\Balloon\\Balloon.x" },
-	{ "data\\MODELS\\Environment\\tree\\tree.x" },
+	{ "data\\MODELS\\Environment\\tree\\tree1.x" },
 	{ "data\\MODELS\\Environment\\tree\\tree2.x" },
 	{ "data\\MODELS\\Environment\\windmill\\windmill.x" },
+	{ "data\\MODELS\\Environment\\airship\\airship.x" },
+	{ "data\\MODELS\\Environment\\stone\\stone.x" },
 
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade.x" },
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Ball.x" },
