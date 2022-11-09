@@ -244,11 +244,14 @@ void CPlayer::Update(void)
 	{
 		float fHeight = 0.0f;
 
+		CMeshfield* pField = CMeshfield::FieldInteraction(this, &fHeight);
+
 			//’n–Ê‚Æ‚Ì“–‚½‚è”»’è
-			if (CMeshfield::FieldInteraction(this, &fHeight))
+			if (pField != nullptr)
 			{
 				m_bJump = false;		//’…’n‚µ‚Ä‚¢‚éó‘Ô‚É‚·‚é
 				m_bHit = false;
+				m_fFrictionCoeff = pField->GetFriction();
 
 				for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 				{
