@@ -22,6 +22,7 @@ class CModelPart;
 class CAnimator;
 class CObject_2D;
 class CUIString;
+class CAnimateUI;
 
 class CPlayerModel : public CObject
 {
@@ -33,6 +34,8 @@ public:
 		HEAD_SANTA,
 		HEAD_PUMPKIN,
 		HEAD_TOPHAT,
+		HEAD_KATANA,
+		HEAD_DRAGON,
 
 		HEAD_MAX
 	};
@@ -71,6 +74,7 @@ private:
 	int m_nIdx;											//インデックス
 	CObject_2D* m_pIcon;								//アイコン
 	CUIString*  m_pUiString;
+	CAnimateUI* m_pOK;
 
 	static CModel::ModelType m_HeadType[PLAYER_MAX];
 	static D3DXCOLOR m_playersCol[PLAYER_MAX];
