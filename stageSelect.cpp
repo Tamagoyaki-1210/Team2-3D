@@ -36,12 +36,13 @@ HRESULT CStageSelect::Init(void)
 {
 	m_pStr = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 50.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), "ステージセレクト");
 
-	m_pFrame = CObject_2D::Create();
-	m_pFrame->SetPos(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
-	m_pFrame->SetSize(D3DXVECTOR2((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f));
-	m_pFrame->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-	m_pFrame->SetTexture(CObject::TEXTURE_NULL);
-	m_pFrame->SetPriority(3);
+	CObject_2D* pObj = CObject_2D::Create();
+	pObj->SetPos(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
+	pObj->SetSize(D3DXVECTOR2(6400.0, (float)SCREEN_HEIGHT * 0.5f));
+	pObj->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	pObj->SetTexture(CObject::TEXTURE_STAGE_SELECT_BG);
+	pObj->MoveTexCoordinates(D3DXVECTOR2(0.00002f, 0.0f));
+	pObj->SetPriority(3);
 
 	if (m_pFrame == nullptr)
 	{

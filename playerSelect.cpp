@@ -49,7 +49,14 @@ HRESULT CPlayerSelect::Init(void)
 	m_pStr = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 50.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), "キャラクターセレクト");
 
 	CCamera* pCamera = CApplication::GetCamera();
-	pCamera->SetPos(D3DXVECTOR3(50.0f, 230.0f, -200.0f), D3DXVECTOR3(50.0f, 220.0f, 100.0f));
+	pCamera->SetPos(D3DXVECTOR3(50.0f, 230.0f, -140.0f), D3DXVECTOR3(50.0f, 220.0f, 100.0f));
+
+	pObj2D = CObject_2D::Create();
+	pObj2D->SetPos(D3DXVECTOR3(675.0f, 635.0f, 0.0f));
+	pObj2D->SetSize(D3DXVECTOR2(200.0f, 66.7f));
+	pObj2D->SetTexture(CObject::TEXTURE_BUTTON_SELECT_UI);
+	pObj2D->SetTextureParameter(2, 1, 2, 20);
+	pObj2D->SetPriority(5);
 
 	return S_OK;
 }
@@ -114,14 +121,14 @@ CPlayerSelect* CPlayerSelect::Create(void)
 		return nullptr;
 	}
 
-	CPlayerModel* pModel = CPlayerModel::Create(D3DXVECTOR3(-85.0f, 180.0f, 100.0f), 0, true);
-	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.125f, 0.0f));
-	pModel = CPlayerModel::Create(D3DXVECTOR3(5.0f, 180.0f, 100.0f), 1, true);
-	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.025f, 0.0f));
-	pModel = CPlayerModel::Create(D3DXVECTOR3(92.0f, 180.0f, 100.0f), 2, true);
-	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * 0.025f, 0.0f));
-	pModel = CPlayerModel::Create(D3DXVECTOR3(182.0f, 180.0f, 100.0f), 3, true);
-	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * 0.125f, 0.0f));
+	CPlayerModel* pModel = CPlayerModel::Create(D3DXVECTOR3(-55.0f, 186.0f, 100.0f), 0, true);
+	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.12f, 0.0f));
+	pModel = CPlayerModel::Create(D3DXVECTOR3(15.0f, 186.0f, 100.0f), 1, true);
+	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.03f, 0.0f));
+	pModel = CPlayerModel::Create(D3DXVECTOR3(82.5f, 186.0f, 100.0f), 2, true);
+	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * 0.03f, 0.0f));
+	pModel = CPlayerModel::Create(D3DXVECTOR3(155.0f, 186.0f, 100.0f), 3, true);
+	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * 0.12f, 0.0f));
 
 	return pPlayerSelect;
 }
