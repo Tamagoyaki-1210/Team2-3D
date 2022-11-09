@@ -12,6 +12,7 @@
 #include "BoxHitbox.h"
 #include "meshfield.h"
 #include "application.h"
+#include "effect.h"
 
 const D3DXVECTOR3 CCoin::m_hitboxSize[COIN_MAX] =
 {
@@ -80,6 +81,13 @@ void CCoin::Update(void)
 			m_pHitbox->Release();		//ヒットボックスを消す
 			Release();					//コインを消す
 			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_COIN_GET);
+
+			for (int nCnt = 0; nCnt < 50; nCnt++)
+			{
+				CEffect* pEffect = CEffect::Create(GetPos(), D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * ((float)CObject::random(-100, 100) * 0.001f)), D3DXVECTOR3((float)CObject::random(-50, 50) * 0.05f, (float)CObject::random(-50, 50) * 0.05f, (float)CObject::random(-50, 50) * 0.05f), D3DXCOLOR(1.0f, 1.0f, 0.0f, 0.25f), D3DXCOLOR(-0.005f, -0.005f, 0.001f, 0.0f), 1.0f, -0.03f, 30);
+			
+			}
+
 			return;
 		}
 	}

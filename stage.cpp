@@ -29,6 +29,7 @@
 #include "bouncePole.h"
 #include "stoneSpawner.h"
 #include "icePillarSpawner.h"
+#include "effect.h"
 
 //アニメーション情報のテキストファイルの相対パス
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =

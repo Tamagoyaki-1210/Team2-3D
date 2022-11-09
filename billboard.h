@@ -18,18 +18,24 @@ class CBillboard : public CObject
 public:
 	CBillboard();										//コンストラクタ
 	CBillboard(const int nPriority);					//コンストラクタ
-	~CBillboard() override;								//デストラクタ
+	virtual ~CBillboard() override;						//デストラクタ
 
-	HRESULT Init(void) override;						//初期化処理
-	void Uninit(void) override;							//終了処理
-	void Update(void) override;							//更新処理
-	void Draw(void) override;							//描画処理
+	virtual HRESULT Init(void) override;				//初期化処理
+	virtual void Uninit(void) override;					//終了処理
+	virtual void Update(void) override;					//更新処理
+	virtual void Draw(void) override;					//描画処理
 
 	void SetSize(const D3DXVECTOR2 size);				//サイズの設定処理
 	void SetPos(const D3DXVECTOR3 pos) override;		//位置の設定処理
 	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
 
+	void SetRot(const D3DXVECTOR3 rot);
+	const D3DXVECTOR3 GetRot(void);
+
+	void SetColor(const D3DXCOLOR col);
+	const D3DXCOLOR GetColor(void);
+		
 	void SetTexture(TextType textType);														//テクスチャの種類の設定処理
 
 	static CBillboard* Create(D3DXVECTOR3 pos, D3DXVECTOR2 size);							//生成処理
@@ -42,7 +48,7 @@ private:
 
 	D3DXVECTOR3 m_pos;									//ポリゴンの位置
 	D3DXVECTOR3 m_rot;									//ポリゴンの回転角度
-	D3DXVECTOR3 m_fFrameRot;							//1フレームの回転角度
+	D3DXCOLOR	m_col;
 	D3DXVECTOR2 m_size;									//ポリゴンの幅と高さ
 	D3DXMATRIX m_mtxWorld;								//ワールドマトリックス
 };

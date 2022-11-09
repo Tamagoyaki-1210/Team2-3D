@@ -96,7 +96,7 @@ void CWarning::BlinkColor(void)
 		SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 	m_bBlink = !m_bBlink;
-	m_nLife = 20.0f;
+	m_nLife = 20;
 	m_nMaxBlink--;
 
 	if (m_nMaxBlink <= 0)

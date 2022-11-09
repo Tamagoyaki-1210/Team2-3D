@@ -58,6 +58,7 @@
     <ClCompile Include="icePillar.cpp" />
     <ClCompile Include="icePillarSpawner.cpp" />
     <ClCompile Include="warning.cpp" />
+    <ClCompile Include="effect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animator.h" />
@@ -117,5 +118,6 @@
     <ClInclude Include="icePillar.h" />
     <ClInclude Include="icePillarSpawner.h" />
     <ClInclude Include="warning.h" />
+    <ClInclude Include="effect.h" />
   </ItemGroup>
 </Project>
