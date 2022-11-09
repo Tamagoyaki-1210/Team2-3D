@@ -19,12 +19,16 @@
 #include "UIString.h"
 #include "inputPad.h"
 #include "playerSelect.h"
+#include "AnimateUI.h"
 
 CModel::ModelType CPlayerModel::m_HeadTypeAll[HEAD_MAX]
 {
 	CModel::MODEL_HEAD,
 	CModel::MODEL_HEAD_SANTA,
-	CModel::MODEL_HEAD_PUMPKIN
+	CModel::MODEL_HEAD_PUMPKIN,
+	CModel::MODEL_HEAD_TOPHAT,
+	CModel::MODEL_HEAD_KATANA,
+	CModel::MODEL_HEAD_DRAGON
 	
 };
 
@@ -57,6 +61,7 @@ CPlayerModel::CPlayerModel()
 
 	m_pIcon = nullptr;
 	m_pUiString = nullptr;
+	m_pOK = nullptr;
 
 	for (int nCnt = 0; nCnt < CPlayer::PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -83,6 +88,7 @@ HRESULT CPlayerModel::Init(void)
 
 	m_pIcon = nullptr;
 	m_pUiString = nullptr;
+	m_pOK = nullptr;
 
 	for (int nCnt = 0; nCnt < CPlayer::PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -124,6 +130,11 @@ void CPlayerModel::Uninit(void)
 	{
 		m_pUiString->Release();
 		m_pUiString = nullptr;
+	}
+	if (m_pOK != nullptr)
+	{
+		m_pOK->Release();
+		m_pOK = nullptr;
 	}
 }
 
@@ -223,6 +234,16 @@ void CPlayerModel::Update(void)
 		{//準備完了
 			m_bDecision = true;
 			CPlayerSelect::m_nPlayerCount++;
+
+			if (m_pOK == nullptr)
+			{
+				CAnimateUI::UIAnimation animInfo;
+				animInfo.deltaSize = D3DXVECTOR2(1.0f, 1.0f);
+				animInfo.nChangeTime = 30;
+				m_pOK = CAnimateUI::Create(CObject::TEXTURE_OK_UI, D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (m_nIdx + 1), (float)SCREEN_HEIGHT * 0.425f, 0.0f), D3DXVECTOR2(75.0f, 50.0f),
+					D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.75f), animInfo);
+				m_pOK->AnimateColor(true);
+			}
 		}
 	}
 	else
@@ -231,6 +252,12 @@ void CPlayerModel::Update(void)
 		{//準備中断
 			m_bDecision = false;
 			CPlayerSelect::m_nPlayerCount--;
+
+			if (m_pOK != nullptr)
+			{
+				m_pOK->Release();
+				m_pOK = nullptr;
+			}
 		}
 	}
 
@@ -377,7 +404,7 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx)
 	pModel->m_pModel[CPlayer::BODY]->SetModelColor(2, pModel->m_presentColor);
 
 	pModel->m_pIcon = CObject_2D::Create();
-	pModel->m_pIcon->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1), (float)SCREEN_HEIGHT * 0.75f, 0.0f));
+	pModel->m_pIcon->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1), (float)SCREEN_HEIGHT * 0.725f, 0.0f));
 	pModel->m_pIcon->SetSize(D3DXVECTOR2(100.0f, 15.0f));
 	pModel->m_pIcon->SetTexture(CObject::TEXTURE_NULL);
 	pModel->m_pIcon->SetColor(pModel->m_presentColor);

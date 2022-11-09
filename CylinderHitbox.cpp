@@ -67,7 +67,7 @@ void CCylinderHitbox::Update(void)
 
 		for (int nCnt = 0; nCnt < (int)pHbx->size(); nCnt++)
 		{
-			if (pHbx->data()[nCnt] != this)
+			if (pHbx->data()[nCnt] != this && pHbx->data()[nCnt]->GetParent() != GetParent())
 			{
 				HITBOX_SHAPE shape = pHbx->data()[nCnt]->GetShape();
 
