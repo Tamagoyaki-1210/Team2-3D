@@ -84,7 +84,7 @@ void CCoin::Update(void)
 
 			for (int nCnt = 0; nCnt < 50; nCnt++)
 			{
-				CEffect* pEffect = CEffect::Create(GetPos(), D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * ((float)CObject::random(-100, 100) * 0.001f)), D3DXVECTOR3((float)CObject::random(-50, 50) * 0.05f, (float)CObject::random(-50, 50) * 0.05f, (float)CObject::random(-50, 50) * 0.05f), D3DXCOLOR(1.0f, 1.0f, 0.0f, 0.25f), D3DXCOLOR(-0.005f, -0.005f, 0.001f, 0.0f), 1.0f, -0.03f, 30);
+				CEffect::Create(GetPos(), D3DXVECTOR3(0.0f, 0.0f, D3DX_PI * ((float)CObject::random(-100, 100) * 0.001f)), D3DXVECTOR3((float)CObject::random(-50, 50) * 0.05f, (float)CObject::random(-50, 50) * 0.05f, (float)CObject::random(-50, 50) * 0.05f), D3DXCOLOR(1.0f, 1.0f, 0.0f, 0.25f), D3DXCOLOR(-0.005f, -0.005f, 0.001f, 0.0f), 1.0f, -0.03f, 30);
 			
 			}
 

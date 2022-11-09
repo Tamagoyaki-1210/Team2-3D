@@ -139,6 +139,7 @@ private:
 
 	STATE m_State;
 	CCylinderHitbox* m_pHitbox;							//ヒットボックス
+	CCylinderHitbox* m_pHeadHitbox;						//
 	CBoxHitbox*       m_pAttackHitbox;					//攻撃ヒットボックス
 	CScore* m_pScore;
 	CUIString* m_pScoreUI;

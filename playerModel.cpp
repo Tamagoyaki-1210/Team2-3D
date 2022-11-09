@@ -23,7 +23,8 @@ CModel::ModelType CPlayerModel::m_HeadTypeAll[HEAD_MAX]
 {
 	CModel::MODEL_HEAD,
 	CModel::MODEL_HEAD_SANTA,
-	CModel::MODEL_HEAD_PUMPKIN
+	CModel::MODEL_HEAD_PUMPKIN,
+	CModel::MODEL_HEAD_TOPHAT
 	
 };
 
