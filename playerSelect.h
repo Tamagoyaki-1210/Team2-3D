@@ -36,9 +36,10 @@ public:
 	void Input(void);
 
 	static CPlayerSelect* Create(void);
+	
 private:
-
 	static CFontString* m_pStr;			// •¶Žš—ñ
+	bool m_bDecision;
 };
 
 #endif // !_TITLE_H_

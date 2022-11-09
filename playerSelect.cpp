@@ -91,11 +91,27 @@ void CPlayerSelect::Input(void)
 			CApplication::SetMode(CApplication::Mode_Title);
 			pSound->Play(CSound::SOUND_LABEL_SE_NO);
 		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
-		{// Enterキーを押したら
-			CApplication::SetMode(CApplication::Mode_StageSelect);
-			pSound->Play(CSound::SOUND_LABEL_SE_YES);
+
+		if (!m_bDecision)
+		{
+			if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0)
+				||CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0)
+				||CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 1)
+				||CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 2)
+				||CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 3)
+				)
+			{// Enterキーを押したら
+				//if ()
+				{//全員が準備おｋだったら
+					CApplication::SetMode(CApplication::Mode_StageSelect);
+					pSound->Play(CSound::SOUND_LABEL_SE_YES);
+				}
+
+				m_bDecision = true;
+			}
 		}
+		
+		
 	}
 }
 
