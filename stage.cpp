@@ -106,9 +106,9 @@ HRESULT CStage::Init(void)
 	}
 
 	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(200.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.005f);
-	pField->SetTexture(CObject::TEXTURE_LAVA);
+	pField->SetTexture(CObject::TEXTURE_ICE);
 	pField = CMeshfield::Create(D3DXVECTOR3(0.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.01f);
-	pField->SetTexture(CObject::TEXTURE_LAVA);
+	pField->SetTexture(CObject::TEXTURE_ICE);
 
 	CSilhouette::Create();
 

@@ -243,9 +243,9 @@ void CPlayerModel::Update(void)
 				if (m_pOK == nullptr)
 				{
 					CAnimateUI::UIAnimation animInfo;
-					animInfo.deltaSize = D3DXVECTOR2(1.0f, 1.0f);
+					animInfo.deltaSize = D3DXVECTOR2(0.5f, 0.5f);
 					animInfo.nChangeTime = 30;
-					m_pOK = CAnimateUI::Create(CObject::TEXTURE_OK_UI, D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (m_nIdx + 1), (float)SCREEN_HEIGHT * 0.425f, 0.0f), D3DXVECTOR2(75.0f, 50.0f),
+					m_pOK = CAnimateUI::Create(CObject::TEXTURE_OK_UI, D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (m_nIdx + 1), (float)SCREEN_HEIGHT * 0.425f, 0.0f), D3DXVECTOR2(65.0f, 40.0f),
 						D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.75f), animInfo);
 					m_pOK->AnimateColor(true);
 				}
@@ -428,7 +428,7 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx, bool bUi)
 		str = std::to_string(nIdx + 1);
 		str += "P";
 		const char* pStr = str.c_str();
-		pModel->m_pUiString = CUIString::Create(D3DXVECTOR3((((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1)) - 50.0f, (float)SCREEN_HEIGHT * 0.25f, 0.0f), D3DXVECTOR2(100.0f, 60.0f), pModel->m_presentColor, pStr);
+		pModel->m_pUiString = CUIString::Create(D3DXVECTOR3((((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1)) - 50.0f, (float)SCREEN_HEIGHT * 0.275f, 0.0f), D3DXVECTOR2(100.0f, 60.0f), pModel->m_presentColor, pStr);
 	
 	}
 	else

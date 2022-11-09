@@ -109,6 +109,7 @@ private:
 	int m_nFirstPattern;										//アニメーションの最初のパターン
 	int m_nAnimFrame;											//アニメーションパターンの変更フレーム数
 	D3DXVECTOR2 m_textureTranslation;							//テクスチャの移動量
+	D3DXVECTOR2 m_textureAnimSpeed;
 	bool m_bFlipX;												//テクスチャのX座標が反転しているかどうか
 	bool m_bFlipY;												//テクスチャのY座標が反転しているかどうか
 	D3DXCOLOR m_col;											//カーラー
