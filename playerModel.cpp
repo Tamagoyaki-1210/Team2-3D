@@ -240,8 +240,9 @@ void CPlayerModel::Update(void)
 				CAnimateUI::UIAnimation animInfo;
 				animInfo.deltaSize = D3DXVECTOR2(1.0f, 1.0f);
 				animInfo.nChangeTime = 30;
-				m_pOK = CAnimateUI::Create(CObject::TEXTURE_OK_UI, D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (m_nIdx + 1), (float)SCREEN_HEIGHT * 0.55f, 0.0f), D3DXVECTOR2(75.0f, 75.0f),
+				m_pOK = CAnimateUI::Create(CObject::TEXTURE_OK_UI, D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (m_nIdx + 1), (float)SCREEN_HEIGHT * 0.425f, 0.0f), D3DXVECTOR2(75.0f, 50.0f),
 					D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.75f), animInfo);
+				m_pOK->AnimateColor(true);
 			}
 		}
 	}
@@ -251,6 +252,12 @@ void CPlayerModel::Update(void)
 		{//€”õ’†’f
 			m_bDecision = false;
 			CPlayerSelect::m_nPlayerCount--;
+
+			if (m_pOK != nullptr)
+			{
+				m_pOK->Release();
+				m_pOK = nullptr;
+			}
 		}
 	}
 
@@ -397,7 +404,7 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx)
 	pModel->m_pModel[CPlayer::BODY]->SetModelColor(2, pModel->m_presentColor);
 
 	pModel->m_pIcon = CObject_2D::Create();
-	pModel->m_pIcon->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1), (float)SCREEN_HEIGHT * 0.75f, 0.0f));
+	pModel->m_pIcon->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1), (float)SCREEN_HEIGHT * 0.725f, 0.0f));
 	pModel->m_pIcon->SetSize(D3DXVECTOR2(100.0f, 15.0f));
 	pModel->m_pIcon->SetTexture(CObject::TEXTURE_NULL);
 	pModel->m_pIcon->SetColor(pModel->m_presentColor);

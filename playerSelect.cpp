@@ -42,7 +42,7 @@ HRESULT CPlayerSelect::Init(void)
 
 	CObject_2D* pObj2D = CObject_2D::Create();
 	pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-	pObj2D->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+	pObj2D->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 5));
 	pObj2D->SetTexture(CObject::TEXTURE_CHARASET_FRAM);
 	pObj2D->SetPriority(5);
 
@@ -87,7 +87,7 @@ void CPlayerSelect::Input(void)
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-#ifndef DEBUG
+#ifdef _DEBUG
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
 		{
 			CApplication::SetMode(CApplication::Mode_StageSelect);
@@ -114,13 +114,13 @@ CPlayerSelect* CPlayerSelect::Create(void)
 		return nullptr;
 	}
 
-	CPlayerModel* pModel = CPlayerModel::Create(D3DXVECTOR3(-85.0f, 200.0f, 100.0f), 0);
+	CPlayerModel* pModel = CPlayerModel::Create(D3DXVECTOR3(-85.0f, 180.0f, 100.0f), 0);
 	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.125f, 0.0f));
-	pModel = CPlayerModel::Create(D3DXVECTOR3(5.0f, 200.0f, 100.0f), 1);
+	pModel = CPlayerModel::Create(D3DXVECTOR3(5.0f, 180.0f, 100.0f), 1);
 	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * -0.025f, 0.0f));
-	pModel = CPlayerModel::Create(D3DXVECTOR3(92.0f, 200.0f, 100.0f), 2);
+	pModel = CPlayerModel::Create(D3DXVECTOR3(92.0f, 180.0f, 100.0f), 2);
 	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * 0.025f, 0.0f));
-	pModel = CPlayerModel::Create(D3DXVECTOR3(182.0f, 200.0f, 100.0f), 3);
+	pModel = CPlayerModel::Create(D3DXVECTOR3(182.0f, 180.0f, 100.0f), 3);
 	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI * 0.125f, 0.0f));
 
 	return pPlayerSelect;

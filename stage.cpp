@@ -91,7 +91,7 @@ HRESULT CStage::Init(void)
 	// プレイヤーの生成
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
 	{
-		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -100.0f, ((m_pField[0]->GetLine() - 20) * -70.0f) - 200.0f), nCnt);
+		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((m_pField[0]->GetLine() - 20) * -70.0f) - 200.0f), nCnt);
 	}
 
 	// メッセージの生成
@@ -102,7 +102,7 @@ HRESULT CStage::Init(void)
 
 	if (CApplication::GetCamera() != nullptr)
 	{
-		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField[0]->GetLine() - 20) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField[0]->GetLine() - 21) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
 	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(200.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.005f);
