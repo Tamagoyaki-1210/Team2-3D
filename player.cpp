@@ -30,6 +30,7 @@
 #include "message.h"
 #include "BoxHitbox.h"
 
+int CPlayer::m_nRanking = 0;
 const float CPlayer::m_MaxWalkingSpeed = 7.0f;
 const float CPlayer::m_AccelerationCoeff = 2.0f;
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
@@ -299,6 +300,29 @@ void CPlayer::Update(void)
 		if (m_pos.z >= 900.0f && m_bGoal == false)
 		{
 			m_bGoal = true;
+			//順位付け
+			m_nRanking++;
+			m_nPlayerRanking = m_nRanking;
+			//順位によってスコアの加算
+			if (m_pScore != nullptr)
+			{
+				if (m_nPlayerRanking == 1)
+				{
+					m_pScore->AddScore(30);
+				}
+				else if (m_nPlayerRanking == 2)
+				{
+					m_pScore->AddScore(20);
+				}
+				else if (m_nPlayerRanking == 3)
+				{
+					m_pScore->AddScore(10);
+				}
+				else if (m_nPlayerRanking == 4)
+				{
+					m_pScore->AddScore(5);
+				}
+			}
 		}
 
 		GoalMove();

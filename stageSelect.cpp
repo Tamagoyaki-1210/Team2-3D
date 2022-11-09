@@ -58,11 +58,19 @@ HRESULT CStageSelect::Init(void)
 
 		if (nCnt == 0)
 		{
-			pObj2D->SetTexture(CObject::TEXTURE_NULL);
+			pObj2D->SetTexture(CObject::TEXTURE_STAGESEL01);
 		}
 		else if (nCnt == 1)
 		{
-			pObj2D->SetTexture(CObject::TEXTURE_BLOCK);
+			pObj2D->SetTexture(CObject::TEXTURE_STAGESEL02);
+		}
+		else if (nCnt == 2)
+		{
+			pObj2D->SetTexture(CObject::TEXTURE_STAGESEL03);
+		}
+		else if (nCnt == 3)
+		{
+			pObj2D->SetTexture(CObject::TEXTURE_STAGESELR);
 		}
 	}
 
