@@ -297,7 +297,7 @@ MOTION_SET					#アニメーション 2
 		END_KEY_SET	
 		
 		KEY_SET				#KeySet 1/2	
-			FRAME = 30
+			FRAME = 20
 			
 			KEY			#Key 0
 				POS = 0.0 17.0 0.0

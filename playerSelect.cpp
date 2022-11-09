@@ -87,7 +87,7 @@ void CPlayerSelect::Input(void)
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-#ifndef DEBUG
+#ifdef _DEBUG
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
 		{
 			CApplication::SetMode(CApplication::Mode_StageSelect);

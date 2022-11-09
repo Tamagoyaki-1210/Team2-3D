@@ -30,7 +30,7 @@
 #include "message.h"
 #include "BoxHitbox.h"
 
-int CPlayer::m_nRanking = 0;
+int CPlayer::m_nRanking;
 const float CPlayer::m_MaxWalkingSpeed = 7.0f;
 const float CPlayer::m_AccelerationCoeff = 2.0f;
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
@@ -107,6 +107,8 @@ HRESULT CPlayer::Init(void)
 	m_bAttacking = false;
 	m_nCntAttack = 0;
 	m_fFrictionCoeff = 0.1f;
+	m_nPlayerRanking = 0;
+	m_nRanking = 0;
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -826,9 +828,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
-	bool bMoving = false;
-
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A,nCntPlayer)) && !m_bJump && !m_bAttacking)
+	if ((CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A,nCntPlayer))) && !m_bJump && !m_bAttacking)
 	{//ジャンプ
 		m_move.y = 18.0f;
  		m_bJump = true;
@@ -843,11 +843,10 @@ void CPlayer::PlayerController(int nCntPlayer)
 		if (!m_bJump && !m_bHit && !m_bAttacking)
 		{
 			m_pAnimator->SetLoopingAnim(1);
-			bMoving = true;
 		}
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, nCntPlayer)) && !bMoving && !m_bJump && !m_bHit && !m_bAttacking)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, nCntPlayer)) &&  !m_bJump && !m_bHit && !m_bAttacking)
 	{
 		m_pAnimator->SetPresentAnim(3);
 
