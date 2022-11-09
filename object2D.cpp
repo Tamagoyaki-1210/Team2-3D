@@ -25,7 +25,7 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\Alphabet.png",							//TEXTURE_LETTERS,
 	"data\\TEXTURE\\Numbers.png",							//TEXTURE_NUMBERS,
 	"data\\TEXTURE\\Japanese2000unicode.png",				//TEXTURE_JAPANESE,
-	"data\\TEXTURE\\CharacterSelect_Frame.png",				//TEXTURE_CHARASET_FRAM,
+	"data\\TEXTURE\\sele.png",								//TEXTURE_CHARASET_FRAM,
 	"data\\TEXTURE\\UI_Debug_Start.png",					//TEXTURE_MESSAGE_START,
 	"data\\TEXTURE\\UI_Debug_Goal.png",						//TEXTURE_MESSAGE_GOAL,
 	"data\\TEXTURE\\UI_PlayerNumber_1P.png",				//TEXTURE_1P_WIN,
@@ -37,6 +37,7 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\Frame.png",								//TEXTURE_SELECT_FRAME,
 	"data\\TEXTURE\\Lava.jpg",								//TEXTURE_LAVA,
 	"data\\TEXTURE\\exclamation.png",						//TEXTURE_EXCLAMATION,
+	"data\\TEXTURE\\se.png",								//TEXTURE_BACKGROUND,
 	"data\\TEXTURE\\Particle02.png",						//TEXTURE_PARTICLE_EFFECT,
 };
 

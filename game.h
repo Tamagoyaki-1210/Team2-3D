@@ -26,6 +26,7 @@ public:
 	void Update(void) override;
 
 	static void SetEndGame();			// ƒQ[ƒ€I—¹‚ğİ’è‚·‚é
+	static bool GetEndGame() { return m_bEndGame; }
 
 private:
 	static bool m_bEndGame;

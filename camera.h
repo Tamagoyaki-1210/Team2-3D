@@ -37,6 +37,7 @@ public:
 	static CCamera* Create(D3DXVECTOR3 pos, D3DXVECTOR3 focalPoint);		//¶¬ˆ—
 
 private:
+	static const float CAMERA_SPEED;
 
 	D3DXVECTOR3 m_posV;						//‹“_
 	D3DXVECTOR3 m_posR;						//’‹“_

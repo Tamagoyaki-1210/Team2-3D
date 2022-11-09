@@ -9,6 +9,7 @@
 //インクルードファイル
 //=============================================================================
 #include "warning.h"
+#include "application.h"
 
 //=====================================
 // デフォルトコンストラクタ
@@ -43,6 +44,8 @@ HRESULT CWarning::Init(void)
 	}
 
 	m_nMaxBlink = 10;
+
+	CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WARNINGS);
 	return S_OK;
 }
 
