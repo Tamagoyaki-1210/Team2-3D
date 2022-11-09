@@ -30,6 +30,7 @@
 #include "message.h"
 #include "BoxHitbox.h"
 
+int CPlayer::m_nRanking = 0;
 const float CPlayer::m_MaxWalkingSpeed = 7.0f;
 const float CPlayer::m_AccelerationCoeff = 2.0f;
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
@@ -244,11 +245,14 @@ void CPlayer::Update(void)
 	{
 		float fHeight = 0.0f;
 
+		CMeshfield* pField = CMeshfield::FieldInteraction(this, &fHeight);
+
 			//地面との当たり判定
-			if (CMeshfield::FieldInteraction(this, &fHeight))
+			if (pField != nullptr)
 			{
 				m_bJump = false;		//着地している状態にする
 				m_bHit = false;
+				m_fFrictionCoeff = pField->GetFriction();
 
 				for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 				{
@@ -289,6 +293,29 @@ void CPlayer::Update(void)
 		if (m_pos.z >= 900.0f && m_bGoal == false)
 		{
 			m_bGoal = true;
+			//順位付け
+			m_nRanking++;
+			m_nPlayerRanking = m_nRanking;
+			//順位によってスコアの加算
+			if (m_pScore != nullptr)
+			{
+				if (m_nPlayerRanking == 1)
+				{
+					m_pScore->AddScore(30);
+				}
+				else if (m_nPlayerRanking == 2)
+				{
+					m_pScore->AddScore(20);
+				}
+				else if (m_nPlayerRanking == 3)
+				{
+					m_pScore->AddScore(10);
+				}
+				else if (m_nPlayerRanking == 4)
+				{
+					m_pScore->AddScore(5);
+				}
+			}
 		}
 
 		GoalMove();
@@ -797,7 +824,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 
 	bool bMoving = false;
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) && !m_bJump && !m_bAttacking)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A,nCntPlayer)) && !m_bJump && !m_bAttacking)
 	{//ジャンプ
 		m_move.y = 18.0f;
  		m_bJump = true;
@@ -816,7 +843,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) && !bMoving && !m_bJump && !m_bHit && !m_bAttacking)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, nCntPlayer)) && !bMoving && !m_bJump && !m_bHit && !m_bAttacking)
 	{
 		m_pAnimator->SetPresentAnim(3);
 

@@ -30,6 +30,7 @@
 #include "stoneSpawner.h"
 #include "icePillarSpawner.h"
 #include "inputKeyboard.h"
+#include "effect.h"
 
 //アニメーション情報のテキストファイルの相対パス
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
@@ -74,6 +75,11 @@ HRESULT CStage::Init(void)
 	// ステージ読み込み処理
 	Load();
 
+	if (m_pField != nullptr)
+	{
+		m_pField->SetPriority(1);
+	}
+
 	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
 
 	//CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
@@ -94,6 +100,11 @@ HRESULT CStage::Init(void)
 	{
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField[0]->GetLine() - 20) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
+
+	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(200.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.005f);
+	pField->SetTexture(CObject::TEXTURE_LAVA);
+	pField = CMeshfield::Create(D3DXVECTOR3(0.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.01f);
+	pField->SetTexture(CObject::TEXTURE_LAVA);
 
 	//CTrampoline::Create(D3DXVECTOR3(-70.0f, -150.0f, 150.0f));
 	//CStoneSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, -350.0f), -149.9f, 135.0f, 400.0f, 30);

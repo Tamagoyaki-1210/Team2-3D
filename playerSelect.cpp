@@ -14,6 +14,7 @@
 #include "halfsphere.h"
 
 CFontString* CPlayerSelect::m_pStr = nullptr;
+int CPlayerSelect::m_nPlayerCount = 0;
 //=====================================
 // デフォルトコンストラクタ
 //=====================================
@@ -86,13 +87,15 @@ void CPlayerSelect::Input(void)
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, 0))
-		{// BACKSPACEキーを押したら
-			CApplication::SetMode(CApplication::Mode_Title);
-			pSound->Play(CSound::SOUND_LABEL_SE_NO);
+#ifndef DEBUG
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		{
+			CApplication::SetMode(CApplication::Mode_StageSelect);
+			pSound->Play(CSound::SOUND_LABEL_SE_YES);
 		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
-		{// Enterキーを押したら
+#endif // !DEBUG
+		if (m_nPlayerCount >= 4)
+		{//全員が準備おｋだったら
 			CApplication::SetMode(CApplication::Mode_StageSelect);
 			pSound->Play(CSound::SOUND_LABEL_SE_YES);
 		}

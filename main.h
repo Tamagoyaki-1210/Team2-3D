@@ -67,6 +67,13 @@ const D3DXCOLOR ColorNull = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
 
 const D3DXCOLOR ColorWhite = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
+const D3DXCOLOR ColorRed = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);				//赤
+const D3DXCOLOR ColorGreen = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);				//緑
+const D3DXCOLOR ColorBlue = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);				//青
+const D3DXCOLOR ColorMagenta = D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f);			//マゼンタ
+const D3DXCOLOR ColorCyan = D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f);				//シアン
+const D3DXCOLOR ColorYellow = D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f);			//黄
+
 //*****************************************************************************
 // 構造体定義
 //*****************************************************************************
