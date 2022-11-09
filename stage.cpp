@@ -75,9 +75,13 @@ HRESULT CStage::Init(void)
 	// ステージ読み込み処理
 	Load();
 
-	if (m_pField != nullptr)
+	if (m_pField[0] != nullptr)
 	{
-		m_pField->SetPriority(1);
+		m_pField[0]->SetPriority(1);
+	}
+	if (m_pField[1] != nullptr)
+	{
+		m_pField[1]->SetPriority(1);
 	}
 
 	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
