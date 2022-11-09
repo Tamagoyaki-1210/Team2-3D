@@ -92,7 +92,7 @@ void CPlayerSelect::Input(void)
 			pSound->Play(CSound::SOUND_LABEL_SE_NO);
 		}
 
-		if (!m_bDecision)
+		if (!m_bDecision || CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
 		{
 			if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0)
 				||CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0)
