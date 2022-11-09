@@ -70,7 +70,7 @@ void CCamera::Uninit(void)
 //çXêVèàóù
 void CCamera::Update(void)
 {
-#ifndef DEBUG
+#ifdef _DEBUG
 
 	if (CInputKeyboard::GetKeyboardPress(DIK_LEFT))
 	{
@@ -206,6 +206,9 @@ void CCamera::Update(void)
 		m_posR.x += cosf(fAngle) * CAMERA_SPEED;
 		m_posR.z += sinf(fAngle) * CAMERA_SPEED;
 	}
+
+	m_posR.x = m_posV.x + m_fLenght * cosf(m_rot.y);
+	m_posR.z = m_posV.z + m_fLenght * sinf(m_rot.y);
 
 	//CStage::GetPlayer();
 
