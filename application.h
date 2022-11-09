@@ -36,7 +36,6 @@ public:
 		Mode_PlayerSelect,	// プレイヤー選択画面
 		Mode_StageSelect,	// ステージ選択画面
 		Mode_Game_Race,		// ゲーム_競争
-		Mode_Result,		// リザルト
 		Mode_Max
 	};
 

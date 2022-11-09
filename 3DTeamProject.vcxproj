@@ -201,7 +201,6 @@
     <ClCompile Include="playerSelect.cpp" />
     <ClCompile Include="pointLight.cpp" />
     <ClCompile Include="rendering.cpp" />
-    <ClCompile Include="result.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="silhouette.cpp" />
     <ClCompile Include="sound.cpp" />
@@ -262,7 +261,6 @@
     <ClInclude Include="playerSelect.h" />
     <ClInclude Include="pointLight.h" />
     <ClInclude Include="rendering.h" />
-    <ClInclude Include="result.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="silhouette.h" />
     <ClInclude Include="sound.h" />
