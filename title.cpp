@@ -116,14 +116,6 @@ HRESULT CTitle::Init(void)
 
 	CBouncePole::Create(D3DXVECTOR3(-90.0f, 75.0f, 300.0f));
 
-	/*CLavaFloor::Create(D3DXVECTOR3(-175.0f, 50.0f, -420.0f));
-	CLavaFloor::Create(D3DXVECTOR3(-125.0f, 50.0f, -420.0f));
-	CLavaFloor::Create(D3DXVECTOR3(- 75.0f, 50.0f, -420.0f));
-	CLavaFloor::Create(D3DXVECTOR3(- 25.0f, 50.0f, -420.0f));
-	CLavaFloor::Create(D3DXVECTOR3(  25.0f, 50.0f, -420.0f));
-	CLavaFloor::Create(D3DXVECTOR3(  75.0f, 50.0f, -420.0f));
-	CLavaFloor::Create(D3DXVECTOR3(  125.0f, 50.0f, -420.0f));
-	CLavaFloor::Create(D3DXVECTOR3(  175.0f, 50.0f, -420.0f));*/
 	pField = CMeshfield::Create(D3DXVECTOR3(-175.0f, 1.0f, -401.0f), Vec3Null, D3DXVECTOR2(400.0f, 100.0f), 2, 2);
 	pField->SetTexture(CObject::TEXTURE_LAVA);
 	pField->SetTextureTiling(D3DXVECTOR2(5.0f, 0.5f));

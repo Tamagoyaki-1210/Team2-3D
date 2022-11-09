@@ -36,6 +36,7 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\UI_GameResult_Draw.png",				//TEXTURE_DRAW,
 	"data\\TEXTURE\\Frame.png",								//TEXTURE_SELECT_FRAME,
 	"data\\TEXTURE\\Lava.jpg",								//TEXTURE_LAVA,
+	"data\\TEXTURE\\ice.png",								//TEXTURE_ICE,
 	"data\\TEXTURE\\exclamation.png",						//TEXTURE_EXCLAMATION,
 	"data\\TEXTURE\\se.png",								//TEXTURE_BACKGROUND,
 	"data\\TEXTURE\\Particle02.png",						//TEXTURE_PARTICLE_EFFECT,
@@ -45,6 +46,8 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\StageSelect\\stageR.png",				//TEXTURE_STAGESELR,
 	"data\\TEXTURE\\UI_OK.png",								//TEXTURE_OK_UI,
 	"data\\TEXTURE\\UI_TitleLogo.png",						//TEXTURE_TITLE_UI,
+	"data\\TEXTURE\\unve.png",								//TEXTURE_STAGE_SELECT_BG,
+	"data\\TEXTURE\\ButtonPress.png",						//TEXTURE_BUTTON_SELECT_UI,
 };
 
 //=============================================================================
@@ -73,6 +76,7 @@ CObject_2D::CObject_2D()
 	m_nFirstPattern = 0;
 	m_nAnimFrame = 0;									//アニメーションパターンの変更フレーム数
 	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);
+	m_textureAnimSpeed = Vec2Null;
 	m_bFlipX = false;
 	m_bFlipY = false;
 	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
@@ -107,6 +111,7 @@ CObject_2D::CObject_2D(const int nPriority) : CObject::CObject(nPriority)
 	m_nFirstPattern = 0;
 	m_nAnimFrame = 0;									//アニメーションパターンの変更フレーム数
 	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);
+	m_textureAnimSpeed = Vec2Null;
 	m_bFlipX = false;
 	m_bFlipY = false;
 	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
@@ -153,6 +158,7 @@ HRESULT CObject_2D::Init(void)
 	m_nTexLine = 1;												//テクスチャの列数
 	m_nFirstPattern = 0;
 	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);
+	m_textureAnimSpeed = Vec2Null;
 	m_bFlipX = false;
 	m_bFlipY = false;
 	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -269,6 +275,11 @@ void CObject_2D::Update()
 	pVtx[3].pos.z = 0.0f;
 
 	m_fRevolutionAngle += m_fRevolutionSpeed;
+
+	if (m_textureAnimSpeed != Vec2Null)
+	{
+		m_textureTranslation += m_textureAnimSpeed;
+	}
 
 	UpdateTexture();
 
@@ -467,7 +478,7 @@ void CObject_2D::SetAnimationBase(const int FirstPattern)
 
 void CObject_2D::MoveTexCoordinates(const D3DXVECTOR2 move)
 {
-	m_textureTranslation += move;
+	m_textureAnimSpeed = move;
 }
 
 bool CObject_2D::GetFlipX(void)

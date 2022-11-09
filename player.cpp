@@ -196,7 +196,7 @@ void CPlayer::Update(void)
 	}
 
 	m_move.x += (0.0f - m_move.x) * m_fFrictionCoeff;				//移動量のXコンポネントの更新
-	m_move.y += (0.0f - m_move.y) * m_fFrictionCoeff;				//移動量のYコンポネントの更新
+	m_move.y += (0.0f - m_move.y) * 0.1f;							//移動量のYコンポネントの更新
 	m_move.z += (0.0f - m_move.z) * m_fFrictionCoeff;				//移動量のZコンポネントの更新
 
 	//if (!m_bMove)
@@ -828,7 +828,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
-	if ((CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A,nCntPlayer))) && !m_bJump && !m_bAttacking)
+	if ((CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A,nCntPlayer))) && !m_bJump && !m_bAttacking && m_move.y < 0.0f)
 	{//ジャンプ
 		m_move.y = 18.0f;
  		m_bJump = true;

@@ -10,6 +10,9 @@
 #include "inputPad.h"
 #include "fade.h"
 #include <stdio.h>
+#include <random>
+#include <iostream>//用いるヘッダファイルが変わります。
+
 
 CFontString* CStageSelect::m_pStr = nullptr;
 CObject_2D* CStageSelect::m_pFrame = nullptr;
@@ -35,6 +38,14 @@ CStageSelect::~CStageSelect()
 HRESULT CStageSelect::Init(void)
 {
 	m_pStr = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 50.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), "ステージセレクト");
+
+	CObject_2D* pObj = CObject_2D::Create();
+	pObj->SetPos(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
+	pObj->SetSize(D3DXVECTOR2(6400.0, (float)SCREEN_HEIGHT * 0.5f));
+	pObj->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+	pObj->SetTexture(CObject::TEXTURE_STAGE_SELECT_BG);
+	pObj->MoveTexCoordinates(D3DXVECTOR2(0.00002f, 0.0f));
+	pObj->SetPriority(3);
 
 	if (m_pFrame == nullptr)
 	{
@@ -159,7 +170,12 @@ void CStageSelect::Input(void)
 			// ランダムが選ばれた場合
 			if (m_nSelectNum == m_nNumAll - 1)
 			{
-				m_nSelectNum = rand() % (m_nNumAll - 2);
+				std::random_device rnd;     // 非決定的な乱数生成器を生成
+				std::mt19937 mt(rnd());     //  メルセンヌ・ツイスタの32ビット版、引数は初期シード値
+				std::uniform_int_distribution<> rand100(0, m_nNumAll - 2);   // [0, 99] 範囲の一様乱数
+
+				//m_nSelectNum = rand() % (m_nNumAll - 2);
+				m_nSelectNum = rand100(mt);
 			}
 
 			CApplication::SetStageSelect(m_nSelectNum);

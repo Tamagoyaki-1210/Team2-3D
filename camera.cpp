@@ -17,9 +17,8 @@
 #include "goal.h"
 #include "message.h"
 #include "stage.h"
-//#include "BoxHitbox.h"
 
-const float CCamera::CAMERA_SPEED = 1.5f;
+const float CCamera::CAMERA_SPEED = 0.75f;
 
 //コンストラクタ
 CCamera::CCamera()
