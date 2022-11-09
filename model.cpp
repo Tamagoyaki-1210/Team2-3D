@@ -40,20 +40,25 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Coin\\Coin02.x" },
 	{ "data\\MODELS\\Coin\\Coin03.x" },
 
-	{ "data\\MODELS\\Mountains\\Fuji.x" },
-	{ "data\\MODELS\\Mountains\\FujiYuki.x" },
+	{ "data\\MODELS\\Environment\\Mountains\\Fuji.x" },
+	{ "data\\MODELS\\Environment\\Mountains\\FujiYuki.x" },
+	{ "data\\MODELS\\Environment\\Balloon\\Balloon.x" },
+	{ "data\\MODELS\\Environment\\tree\\tree.x" },
+	{ "data\\MODELS\\Environment\\tree\\tree2.x" },
+	{ "data\\MODELS\\Environment\\windmill\\windmill.x" },
 
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade.x" },
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Ball.x" },
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Cylinder.x" },
 	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Needle.x" },
 
-	{ "data\\MODELS\\NeedleBall\\NeedleBall.x" },
-	{ "data\\MODELS\\LavaFloor\\Lava.x" },
-	{ "data\\MODELS\\BoundPole\\BoundPole.x" },
-	{ "data\\MODELS\\traps\\jump.x" },
-	{ "data\\MODELS\\traps\\fallstone.x" },
-	{ "data\\MODELS\\traps\\IcePillar_TrapType.x" },
+	{ "data\\MODELS\\Stage_gimmick\\NeedleBall\\NeedleBall.x" },
+	{ "data\\MODELS\\Stage_gimmick\\LavaFloor\\Lava.x" },
+	{ "data\\MODELS\\Stage_gimmick\\BoundPole\\BoundPole.x" },
+
+	{ "data\\MODELS\\traps\\jump\\jump.x" },
+	{ "data\\MODELS\\traps\\fallstone\\fallstone.x" },
+	{ "data\\MODELS\\traps\\IcePillar\\IcePillar_TrapType.x" },
 
 	{ "data\\MODELS\\sign\\fallstonesign.x" },
 

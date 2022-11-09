@@ -19,7 +19,7 @@
 #include "stage.h"
 //#include "BoxHitbox.h"
 
-const float CCamera::CAMERA_SPEED = 1.0f;
+const float CCamera::CAMERA_SPEED = 1.5f;
 
 //コンストラクタ
 CCamera::CCamera()

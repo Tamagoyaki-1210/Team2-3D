@@ -15,6 +15,7 @@
 
 int CMenu::m_nNumAll = 0;
 int CMenu::m_nSelectNum = 0;
+bool CMenu::m_bResult = false;
 CFontString* CMenu::m_pChoice[MaxChoice] = {};
 CFontString* CMenu::m_pPause = nullptr;
 CObject_2D* CMenu::m_pObj2D = nullptr;
@@ -103,6 +104,7 @@ void CMenu::Uninit(void)
 
 	m_nSelectNum = 0;
 	m_nNumAll = 0;
+	m_bResult = false;
 }
 
 //=====================================
@@ -237,7 +239,7 @@ void CMenu::Input(void)
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 					}
 				}
-				else
+				else if(m_bResult)
 				{
 					if (m_nSelectNum == 0)
 					{
@@ -326,6 +328,8 @@ void CMenu::SetResult(void)
 	m_nNumAll++;
 
 	m_pChoice[m_nSelectNum]->SetSellect();
+
+	m_bResult = true;
 }
 
 //=====================================
