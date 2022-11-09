@@ -18,6 +18,7 @@
 #include "object2D.h"
 #include "UIString.h"
 #include "inputPad.h"
+#include "playerSelect.h"
 
 CModel::ModelType CPlayerModel::m_HeadTypeAll[HEAD_MAX]
 {
@@ -78,6 +79,7 @@ HRESULT CPlayerModel::Init(void)
 	m_nPresentColor = ColorWhite;			//現在のカーラーインデックス
 	m_nIdx = 0;
 	m_nPresentHead = 0;
+	m_bDecision = false;
 
 	m_pIcon = nullptr;
 	m_pUiString = nullptr;
@@ -133,86 +135,103 @@ void CPlayerModel::Update(void)
 		m_pAnimator->Update();
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
+	if (!m_bDecision)
 	{
-		m_nPresentColor++;
-
-		if (m_nPresentColor >= CPlayer::PLAYER_COLOR_MAX)
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
 		{
-			m_nPresentColor = 0;
+			m_nPresentColor++;
+
+			if (m_nPresentColor >= CPlayer::PLAYER_COLOR_MAX)
+			{
+				m_nPresentColor = 0;
+			}
+
+			m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+
+			if (m_pModel[CPlayer::BODY] != nullptr)
+			{
+				m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
+			}
+			if (m_pIcon != nullptr)
+			{
+				m_pIcon->SetColor(m_presentColor);
+			}
+			if (m_pUiString != nullptr)
+			{
+				m_pUiString->ChangeColor(m_presentColor);
+			}
+		}
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
+		{
+			m_nPresentColor--;
+
+			if (m_nPresentColor < 0)
+			{
+				m_nPresentColor = CPlayer::PLAYER_COLOR_MAX - 1;
+			}
+
+			m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+
+			if (m_pModel[CPlayer::BODY] != nullptr)
+			{
+				m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
+			}
+			if (m_pIcon != nullptr)
+			{
+				m_pIcon->SetColor(m_presentColor);
+			}
+			if (m_pUiString != nullptr)
+			{
+				m_pUiString->ChangeColor(m_presentColor);
+			}
 		}
 
-		m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
+		{
+			m_nPresentHead--;
 
-		if (m_pModel[CPlayer::BODY] != nullptr)
-		{
-			m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
+			if (m_nPresentHead < 0)
+			{
+				m_nPresentHead = HEAD_MAX - 1;
+			}
+
+			if (m_pModel[CPlayer::HEAD] != nullptr)
+			{
+				m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
+			}
+
+			m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
 		}
-		if (m_pIcon != nullptr)
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
 		{
-			m_pIcon->SetColor(m_presentColor);
+			m_nPresentHead++;
+
+			if (m_nPresentHead >= HEAD_MAX)
+			{
+				m_nPresentHead = 0;
+			}
+
+			if (m_pModel[CPlayer::HEAD] != nullptr)
+			{
+				m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
+			}
+
+			m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
 		}
-		if (m_pUiString != nullptr)
+
+		if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, m_nIdx))
 		{
-			m_pUiString->ChangeColor(m_presentColor);
+			m_bDecision = true;
+			CPlayerSelect::m_nPlayerCount++;
 		}
 	}
-	else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
+	else
 	{
-		m_nPresentColor--;
-
-		if (m_nPresentColor < 0)
+		if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, m_nIdx))
 		{
-			m_nPresentColor = CPlayer::PLAYER_COLOR_MAX - 1;
+			m_bDecision = false;
+			CPlayerSelect::m_nPlayerCount--;
 		}
-
-		m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
-
-		if (m_pModel[CPlayer::BODY] != nullptr)
-		{
-			m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
-		}
-		if (m_pIcon != nullptr)
-		{
-			m_pIcon->SetColor(m_presentColor);
-		}
-		if (m_pUiString != nullptr)
-		{
-			m_pUiString->ChangeColor(m_presentColor);
-		}
-	}
-
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
-	{
-		m_nPresentHead--;
-
-		if (m_nPresentHead < 0)
-		{
-			m_nPresentHead = HEAD_MAX - 1;
-		}
-
-		if (m_pModel[CPlayer::HEAD] != nullptr)
-		{
-			m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
-		}
-
-		m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
-	}
-	else if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
-	{
-		m_nPresentHead++;
-
-		if (m_nPresentHead >= HEAD_MAX)
-		{
-			m_nPresentHead = 0;
-		}
-
-		if (m_pModel[CPlayer::HEAD] != nullptr)
-		{
-			m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
-		}
-
-		m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
 	}
 
 	CDebugProc::Print("\nColor: %d", m_nPresentColor);

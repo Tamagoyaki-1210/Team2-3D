@@ -74,6 +74,8 @@ private:
 	static CModel::ModelType m_HeadType[PLAYER_MAX];
 	static D3DXCOLOR m_playersCol[PLAYER_MAX];
 
+	bool m_bDecision;
+
 };
 
 
