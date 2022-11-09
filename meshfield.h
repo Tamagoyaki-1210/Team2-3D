@@ -36,7 +36,10 @@ public:
 
 	void SetTexture(CObject::TextType texture);			//テクスチャの設定処理
 	void SetTextureTiling(D3DXVECTOR2 TileSize);		//テクスチャの大きさの設定処理
-	void SetTextureTiling(float fTileSize);				//テクスチャの大きさの設定処理		
+	void SetTextureTiling(float fTileSize);				//テクスチャの大きさの設定処理	
+	void SetTextureAnim(const D3DXVECTOR2 animSpeed);	//テクスチャアニメーションの設定処理
+	void SetTextureAnim(const float fX, const float fY);//テクスチャアニメーションの設定処理
+	void StopTextureAnim(void);							//テクスチャアニメーションの停止処理
 
 	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot,
 		const D3DXVECTOR2 unitSize, const int NumberLines, const int NumberColumns);							//生成処理
@@ -71,6 +74,8 @@ private:
 	int m_nLineVertex;									//計算用のグローバル変数(列数 + 1)
 	int m_nColumnVertex;								//計算用のグローバル変数(行数 + 1)
 	float m_fFriction;									//摩擦係数
+	bool m_bAnim;
+	D3DXVECTOR2 m_animSpeed;
 
 	int m_nPriority;									//プライオリティ
 

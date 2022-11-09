@@ -28,7 +28,10 @@ CModel::ModelType CPlayerModel::m_HeadTypeAll[HEAD_MAX]
 	CModel::MODEL_HEAD_PUMPKIN,
 	CModel::MODEL_HEAD_TOPHAT,
 	CModel::MODEL_HEAD_KATANA,
-	CModel::MODEL_HEAD_DRAGON
+	CModel::MODEL_HEAD_DRAGON,
+	CModel::MODEL_HEAD_OCTOPUS,
+	CModel::MODEL_HEAD_SNOWMAN,
+	CModel::MODEL_HEAD_TOYBOX,
 	
 };
 
@@ -146,122 +149,126 @@ void CPlayerModel::Update(void)
 		m_pAnimator->Update();
 	}
 
-	if (!m_bDecision)
+	if (m_bSelect)
 	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
+		if (!m_bDecision)
 		{
-			m_nPresentColor++;
-
-			if (m_nPresentColor >= CPlayer::PLAYER_COLOR_MAX)
+			if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
 			{
-				m_nPresentColor = 0;
+				m_nPresentColor++;
+
+				if (m_nPresentColor >= CPlayer::PLAYER_COLOR_MAX)
+				{
+					m_nPresentColor = 0;
+				}
+
+				m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+
+				if (m_pModel[CPlayer::BODY] != nullptr)
+				{
+					m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
+				}
+				if (m_pIcon != nullptr)
+				{
+					m_pIcon->SetColor(m_presentColor);
+				}
+				if (m_pUiString != nullptr)
+				{
+					m_pUiString->ChangeColor(m_presentColor);
+				}
+			}
+			else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
+			{
+				m_nPresentColor--;
+
+				if (m_nPresentColor < 0)
+				{
+					m_nPresentColor = CPlayer::PLAYER_COLOR_MAX - 1;
+				}
+
+				m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+
+				if (m_pModel[CPlayer::BODY] != nullptr)
+				{
+					m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
+				}
+				if (m_pIcon != nullptr)
+				{
+					m_pIcon->SetColor(m_presentColor);
+				}
+				if (m_pUiString != nullptr)
+				{
+					m_pUiString->ChangeColor(m_presentColor);
+				}
 			}
 
-			m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+			if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
+			{
+				m_nPresentHead--;
 
-			if (m_pModel[CPlayer::BODY] != nullptr)
-			{
-				m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
+				if (m_nPresentHead < 0)
+				{
+					m_nPresentHead = HEAD_MAX - 1;
+				}
+
+				if (m_pModel[CPlayer::HEAD] != nullptr)
+				{
+					m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
+				}
+
+				m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
 			}
-			if (m_pIcon != nullptr)
+			else if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
 			{
-				m_pIcon->SetColor(m_presentColor);
+				m_nPresentHead++;
+
+				if (m_nPresentHead >= HEAD_MAX)
+				{
+					m_nPresentHead = 0;
+				}
+
+				if (m_pModel[CPlayer::HEAD] != nullptr)
+				{
+					m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
+				}
+
+				m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
 			}
-			if (m_pUiString != nullptr)
-			{
-				m_pUiString->ChangeColor(m_presentColor);
+
+			if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, m_nIdx))
+			{//èÄîıäÆóπ
+				m_bDecision = true;
+				CPlayerSelect::m_nPlayerCount++;
+
+				if (m_pOK == nullptr)
+				{
+					CAnimateUI::UIAnimation animInfo;
+					animInfo.deltaSize = D3DXVECTOR2(1.0f, 1.0f);
+					animInfo.nChangeTime = 30;
+					m_pOK = CAnimateUI::Create(CObject::TEXTURE_OK_UI, D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (m_nIdx + 1), (float)SCREEN_HEIGHT * 0.425f, 0.0f), D3DXVECTOR2(75.0f, 50.0f),
+						D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.75f), animInfo);
+					m_pOK->AnimateColor(true);
+				}
 			}
 		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
+		else
 		{
-			m_nPresentColor--;
+			if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, m_nIdx))
+			{//èÄîıíÜíf
+				m_bDecision = false;
+				CPlayerSelect::m_nPlayerCount--;
 
-			if (m_nPresentColor < 0)
-			{
-				m_nPresentColor = CPlayer::PLAYER_COLOR_MAX - 1;
-			}
-
-			m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
-
-			if (m_pModel[CPlayer::BODY] != nullptr)
-			{
-				m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
-			}
-			if (m_pIcon != nullptr)
-			{
-				m_pIcon->SetColor(m_presentColor);
-			}
-			if (m_pUiString != nullptr)
-			{
-				m_pUiString->ChangeColor(m_presentColor);
-			}
-		}
-
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
-		{
-			m_nPresentHead--;
-
-			if (m_nPresentHead < 0)
-			{
-				m_nPresentHead = HEAD_MAX - 1;
-			}
-
-			if (m_pModel[CPlayer::HEAD] != nullptr)
-			{
-				m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
-			}
-
-			m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
-		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
-		{
-			m_nPresentHead++;
-
-			if (m_nPresentHead >= HEAD_MAX)
-			{
-				m_nPresentHead = 0;
-			}
-
-			if (m_pModel[CPlayer::HEAD] != nullptr)
-			{
-				m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
-			}
-
-			m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
-		}
-
-		if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, m_nIdx))
-		{//èÄîıäÆóπ
-			m_bDecision = true;
-			CPlayerSelect::m_nPlayerCount++;
-
-			if (m_pOK == nullptr)
-			{
-				CAnimateUI::UIAnimation animInfo;
-				animInfo.deltaSize = D3DXVECTOR2(1.0f, 1.0f);
-				animInfo.nChangeTime = 30;
-				m_pOK = CAnimateUI::Create(CObject::TEXTURE_OK_UI, D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (m_nIdx + 1), (float)SCREEN_HEIGHT * 0.425f, 0.0f), D3DXVECTOR2(75.0f, 50.0f),
-					D3DXCOLOR(1.0f, 0.0f, 1.0f, 0.75f), animInfo);
-				m_pOK->AnimateColor(true);
-			}
-		}
-	}
-	else
-	{
-		if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, m_nIdx))
-		{//èÄîıíÜíf
-			m_bDecision = false;
-			CPlayerSelect::m_nPlayerCount--;
-
-			if (m_pOK != nullptr)
-			{
-				m_pOK->Release();
-				m_pOK = nullptr;
+				if (m_pOK != nullptr)
+				{
+					m_pOK->Release();
+					m_pOK = nullptr;
+				}
 			}
 		}
 	}
 
 	CDebugProc::Print("\nColor: %d", m_nPresentColor);
+	CDebugProc::Print("\nPos: %f, %f, %f", m_pos.x, m_pos.y, m_pos.z);
 }
 
 //ï`âÊèàóù
@@ -336,7 +343,7 @@ CModel::ModelType CPlayerModel::GetHeadType(int nIdx)
 
 
 //ê∂ê¨èàóù
-CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx)
+CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx, bool bUi)
 {
 	if (nIdx >= PLAYER_MAX)
 	{
@@ -355,6 +362,7 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx)
 	pModel->m_nIdx = nIdx;
 	pModel->m_nPresentColor = nIdx;
 	pModel->m_presentColor = CPlayer::GetPlayerColors()[nIdx];
+	pModel->m_bSelect = bUi;
 
 	pModel->m_pos = pos;
 	pModel->m_pModel[CPlayer::BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 17.0f, 0.0f), Vec3Null);				//ëÃÇÃÉÇÉfÉãÇê∂ê¨Ç∑ÇÈ
@@ -401,20 +409,35 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx)
 
 	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_PLAYER);
 
+	pModel->m_pAnimator->SetPresentAnim(5);
+
 	pModel->m_pModel[CPlayer::BODY]->SetModelColor(2, pModel->m_presentColor);
 
-	pModel->m_pIcon = CObject_2D::Create();
-	pModel->m_pIcon->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1), (float)SCREEN_HEIGHT * 0.725f, 0.0f));
-	pModel->m_pIcon->SetSize(D3DXVECTOR2(100.0f, 15.0f));
-	pModel->m_pIcon->SetTexture(CObject::TEXTURE_NULL);
-	pModel->m_pIcon->SetColor(pModel->m_presentColor);
+	if (bUi)
+	{
+		pModel->m_pIcon = CObject_2D::Create();
+		pModel->m_pIcon->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1), (float)SCREEN_HEIGHT * 0.725f, 0.0f));
+		pModel->m_pIcon->SetSize(D3DXVECTOR2(100.0f, 15.0f));
+		pModel->m_pIcon->SetTexture(CObject::TEXTURE_NULL);
+		pModel->m_pIcon->SetColor(pModel->m_presentColor);
 
-	std::string str;
-	str.clear();
-	str = std::to_string(nIdx + 1);
-	str += "P";
-	const char* pStr = str.c_str();
-	pModel->m_pUiString = CUIString::Create(D3DXVECTOR3((((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1)) - 50.0f, (float)SCREEN_HEIGHT * 0.25f, 0.0f), D3DXVECTOR2(100.0f, 60.0f), pModel->m_presentColor, pStr);
+		pModel->m_pAnimator->SetPresentAnim(0);
+
+		std::string str;
+		str.clear();
+		str = std::to_string(nIdx + 1);
+		str += "P";
+		const char* pStr = str.c_str();
+		pModel->m_pUiString = CUIString::Create(D3DXVECTOR3((((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1)) - 50.0f, (float)SCREEN_HEIGHT * 0.25f, 0.0f), D3DXVECTOR2(100.0f, 60.0f), pModel->m_presentColor, pStr);
+	
+	}
+	else
+	{
+		int nColor = random(0, (int)CPlayer::PLAYER_COLOR_MAX - 1);
+
+		pModel->m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[random(0, (int)HEAD_MAX - 1)]);
+		pModel->m_pModel[CPlayer::BODY]->SetModelColor(2, CPlayer::GetPlayerColors()[nColor]);
+	}
 
 	m_HeadType[nIdx] = m_HeadTypeAll[0];
 

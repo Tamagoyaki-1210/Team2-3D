@@ -44,6 +44,7 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\StageSelect\\stage03.png",				//TEXTURE_STAGESEL03,
 	"data\\TEXTURE\\StageSelect\\stageR.png",				//TEXTURE_STAGESELR,
 	"data\\TEXTURE\\UI_OK.png",								//TEXTURE_OK_UI,
+	"data\\TEXTURE\\UI_TitleLogo.png",						//TEXTURE_TITLE_UI,
 };
 
 //=============================================================================

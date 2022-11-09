@@ -12,6 +12,12 @@
 //=============================================================================
 #include "mode.h"
 
+//=============================================================================
+//ëOï˚êÈåæ
+//=============================================================================
+class CPlayerModel;
+class CAnimateUI;
+
 //---------------------------
 //ÉNÉâÉXêÈåæ
 //---------------------------
@@ -27,6 +33,12 @@ public:
 
 	static CTitle* Create(void);
 private:
+
+	static const int MAX_TITLE_MODEL = 7;
+
+	CPlayerModel* m_pModel[MAX_TITLE_MODEL];
+	CAnimateUI*   m_pTitle;
+
 };
 
 #endif // !_TITLE_H_
