@@ -466,7 +466,7 @@ void CApplication::ChangeMode()
 		}
 		else if (m_nStageSelect == 2)
 		{
-			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME02);
+			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME03);
 		}
 		break;
 	case CApplication::Mode_Result:
