@@ -24,13 +24,6 @@ class CObject
 {
 public:
 
-	const D3DXCOLOR ColorRed = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);				//赤
-	const D3DXCOLOR ColorGreen = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);				//緑
-	const D3DXCOLOR ColorBlue = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);				//青
-	const D3DXCOLOR ColorMagenta = D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f);			//マゼンタ
-	const D3DXCOLOR ColorCyan = D3DXCOLOR(0.0f, 1.0f, 1.0f, 1.0f);				//シアン
-	const D3DXCOLOR ColorYellow = D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f);			//黄
-
 	// 頂点データ
 	struct VERTEX_2D
 	{
@@ -77,6 +70,7 @@ public:
 		TEXTURE_LAVA,
 		TEXTURE_EXCLAMATION,
 		TEXTURE_BACKGROUND,
+		TEXTURE_PARTICLE_EFFECT,
 
 		TEXTURE_TYPE_MAX
 	};

@@ -20,6 +20,7 @@ std::vector <CMeshfield*> CMeshfield::m_vMeshfield;
 //コンストラクタ
 CMeshfield::CMeshfield()
 {
+	//メンバー変数をクリアする
 	m_pVtxBuff = nullptr;
 	m_pIdxBuff = nullptr;
 	m_pTexture = nullptr;
@@ -32,12 +33,15 @@ CMeshfield::CMeshfield()
 	m_nPolygonNumber = 0;
 	m_nLineVertex = 0;
 	m_nColumnVertex = 0;
+	m_fFriction = 0.0f;									//摩擦係数
+	m_nPriority = 0;									//プライオリティ
 
 	m_vMeshfield.push_back(this);
 }
 
 CMeshfield::CMeshfield(const int nPriority) : CObject::CObject(nPriority)
 {
+	//メンバー変数をクリアする
 	m_pVtxBuff = nullptr;
 	m_pIdxBuff = nullptr;
 	m_pTexture = nullptr;
@@ -50,6 +54,8 @@ CMeshfield::CMeshfield(const int nPriority) : CObject::CObject(nPriority)
 	m_nPolygonNumber = 0;
 	m_nLineVertex = 0;
 	m_nColumnVertex = 0;
+	m_fFriction = 0.0f;									//摩擦係数
+	m_nPriority = 0;									//プライオリティ
 
 	m_vMeshfield.push_back(this);
 }
@@ -75,6 +81,8 @@ HRESULT CMeshfield::Init(void)
 	m_nPolygonNumber = 0;
 	m_nLineVertex = 0;
 	m_nColumnVertex = 0;
+	m_fFriction = 0.1f;									//摩擦係数
+	m_nPriority = 0;									//プライオリティ
 
 	return S_OK;
 }
@@ -195,6 +203,21 @@ void CMeshfield::SetPos(const D3DXVECTOR3 pos)
 	m_pos = pos;
 }
 
+//プライオリティの設定処理
+void CMeshfield::SetPriority(const int nPriority)
+{
+	m_nPriority = nPriority;
+
+	if (m_nPriority < 0)
+	{
+		m_nPriority = 0;
+	}
+	else if (m_nPriority >= MAX_FIELD_PRIORITY)
+	{
+		m_nPriority = MAX_FIELD_PRIORITY - 1;
+	}
+}
+
 //サイズの取得処理
 const D3DXVECTOR2 CMeshfield::GetSize(void)
 {
@@ -205,6 +228,12 @@ const D3DXVECTOR2 CMeshfield::GetSize(void)
 const D3DXVECTOR3 CMeshfield::GetPos(void)
 {
 	return m_pos;
+}
+
+//摩擦係数の取得処理
+const float CMeshfield::GetFriction(void)
+{
+	return m_fFriction;
 }
 
 //テクスチャの設定処理
@@ -276,6 +305,7 @@ CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, con
 	pField->m_nLineVertex = nColumn;
 	pField->SetVertex();
 
+
 	return pField;
 }
 
@@ -294,6 +324,47 @@ CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, con
 	pField->m_nColumnVertex = nLine;
 	pField->m_nLineVertex = nColumn;
 	pField->SetVertex();
+
+	return pField;
+}
+
+CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR2 unitSize, const int nColumn, const int nLine, const float fFriction)
+{
+	CMeshfield* pField = new CMeshfield(3);
+
+	if (FAILED(pField->Init()))
+	{
+		return nullptr;
+	}
+
+	pField->m_pos = pos;
+	pField->m_rot = rot;
+	pField->m_size = unitSize;
+	pField->m_nColumnVertex = nLine;
+	pField->m_nLineVertex = nColumn;
+	pField->SetVertex();
+	pField->m_fFriction = fFriction;
+
+
+	return pField;
+}
+
+CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR2 unitSize, const int nColumn, const int nLine, const int nPriority, const float fFriction)
+{
+	CMeshfield* pField = new CMeshfield(nPriority);
+
+	if (FAILED(pField->Init()))
+	{
+		return nullptr;
+	}
+
+	pField->m_pos = pos;
+	pField->m_rot = rot;
+	pField->m_size = unitSize;
+	pField->m_nColumnVertex = nLine;
+	pField->m_nLineVertex = nColumn;
+	pField->SetVertex();
+	pField->m_fFriction = fFriction;
 
 	return pField;
 }
@@ -398,104 +469,110 @@ bool CMeshfield::FieldInteraction(CObject* pObj)
 }
 
 //当たり判定の処理
-bool CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
+CMeshfield* CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
 {
 	int nFieldNum = m_vMeshfield.size();
 
 	D3DXVECTOR3 pos = pObj->GetPos();
 
-	for (int nCntField = 0; nCntField < nFieldNum; nCntField++)
+	for (int nCnt = 0; nCnt < MAX_FIELD_PRIORITY; nCnt++)
 	{
-		CMeshfield* pField = m_vMeshfield.data()[nCntField];
-
-		VERTEX_3D* pVtx = nullptr;
-
-		//頂点バッファをロック
-		pField->m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-		WORD*pIdx = nullptr;		//インデックス情報へのポインタ
-
-									//インデックスバッファをロック
-		pField->m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
-
-		for (int nCnt = 0; nCnt < pField->m_nPolygonNumber; nCnt++)
+		for (int nCntField = 0; nCntField < nFieldNum; nCntField++)
 		{
-			D3DXVECTOR3 Vtx[3] = {};
-			D3DXVECTOR3 Edge[3] = {};
-			D3DXVECTOR3 Distance[3] = {};
-			D3DXVECTOR3 Cross[3] = {};
+			CMeshfield* pField = m_vMeshfield.data()[nCntField];
 
-			Vtx[0] = pVtx[pIdx[nCnt]].pos;
-			Vtx[1] = pVtx[pIdx[nCnt + 1]].pos;
-			Vtx[2] = pVtx[pIdx[nCnt + 2]].pos;
-
-			D3DXMATRIX mtxOut, mtxTrans, mtxRot;
-
-			//ワルドマトリックスの初期化
-			D3DXMatrixIdentity(&mtxOut);
-
-			//向きを反映
-			D3DXMatrixRotationYawPitchRoll(&mtxRot, pField->m_rot.y, pField->m_rot.x, pField->m_rot.z);
-			D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxRot);
-
-			//位置を反映
-			D3DXMatrixTranslation(&mtxTrans, pField->m_pos.x, pField->m_pos.y, pField->m_pos.z);
-			D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxTrans);
-
-			//頂点座標をグローバル座標に変換する
-			D3DXVec3TransformCoord(&Vtx[0], &Vtx[0], &mtxOut);
-			D3DXVec3TransformCoord(&Vtx[1], &Vtx[1], &mtxOut);
-			D3DXVec3TransformCoord(&Vtx[2], &Vtx[2], &mtxOut);
-
-			Edge[0] = Vtx[1] - Vtx[0];
-			Edge[1] = Vtx[2] - Vtx[1];
-			Edge[2] = Vtx[0] - Vtx[2];
-
-			Distance[0] = pos - Vtx[0];
-			Distance[1] = pos - Vtx[1];
-			Distance[2] = pos - Vtx[2];
-
-			D3DXVec3Cross(&Cross[0], &Edge[0], &Distance[0]);
-			D3DXVec3Cross(&Cross[1], &Edge[1], &Distance[1]);
-			D3DXVec3Cross(&Cross[2], &Edge[2], &Distance[2]);
-
-			if (Cross[0].y * Cross[1].y >= 0 && Cross[0].y * Cross[2].y >= 0 && Cross[1].y * Cross[2].y >= 0)
+			if (pField->m_nPriority == nCnt)
 			{
-				D3DXVECTOR3 Normal = Vec3Null;
+				VERTEX_3D* pVtx = nullptr;
 
-				if (nCnt % 2 == 0)
+				//頂点バッファをロック
+				pField->m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+				WORD*pIdx = nullptr;		//インデックス情報へのポインタ
+
+											//インデックスバッファをロック
+				pField->m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
+
+				for (int nCnt = 0; nCnt < pField->m_nPolygonNumber; nCnt++)
 				{
-					D3DXVec3Cross(&Normal, &Edge[0], &Edge[1]);
-				}
-				else
-				{
-					D3DXVec3Cross(&Normal, &Edge[1], &Edge[0]);
+					D3DXVECTOR3 Vtx[3] = {};
+					D3DXVECTOR3 Edge[3] = {};
+					D3DXVECTOR3 Distance[3] = {};
+					D3DXVECTOR3 Cross[3] = {};
+
+					Vtx[0] = pVtx[pIdx[nCnt]].pos;
+					Vtx[1] = pVtx[pIdx[nCnt + 1]].pos;
+					Vtx[2] = pVtx[pIdx[nCnt + 2]].pos;
+
+					D3DXMATRIX mtxOut, mtxTrans, mtxRot;
+
+					//ワルドマトリックスの初期化
+					D3DXMatrixIdentity(&mtxOut);
+
+					//向きを反映
+					D3DXMatrixRotationYawPitchRoll(&mtxRot, pField->m_rot.y, pField->m_rot.x, pField->m_rot.z);
+					D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxRot);
+
+					//位置を反映
+					D3DXMatrixTranslation(&mtxTrans, pField->m_pos.x, pField->m_pos.y, pField->m_pos.z);
+					D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxTrans);
+
+					//頂点座標をグローバル座標に変換する
+					D3DXVec3TransformCoord(&Vtx[0], &Vtx[0], &mtxOut);
+					D3DXVec3TransformCoord(&Vtx[1], &Vtx[1], &mtxOut);
+					D3DXVec3TransformCoord(&Vtx[2], &Vtx[2], &mtxOut);
+
+					Edge[0] = Vtx[1] - Vtx[0];
+					Edge[1] = Vtx[2] - Vtx[1];
+					Edge[2] = Vtx[0] - Vtx[2];
+
+					Distance[0] = pos - Vtx[0];
+					Distance[1] = pos - Vtx[1];
+					Distance[2] = pos - Vtx[2];
+
+					D3DXVec3Cross(&Cross[0], &Edge[0], &Distance[0]);
+					D3DXVec3Cross(&Cross[1], &Edge[1], &Distance[1]);
+					D3DXVec3Cross(&Cross[2], &Edge[2], &Distance[2]);
+
+					if (Cross[0].y * Cross[1].y >= 0 && Cross[0].y * Cross[2].y >= 0 && Cross[1].y * Cross[2].y >= 0)
+					{
+						D3DXVECTOR3 Normal = Vec3Null;
+
+						if (nCnt % 2 == 0)
+						{
+							D3DXVec3Cross(&Normal, &Edge[0], &Edge[1]);
+						}
+						else
+						{
+							D3DXVec3Cross(&Normal, &Edge[1], &Edge[0]);
+						}
+
+						D3DXVec3Normalize(&Normal, &Normal);
+
+						float Y = (Vtx[0].y) - ((((pos.x - (Vtx[0].x)) * Normal.x) + ((pos.z - Vtx[0].z) * Normal.z)) / Normal.y);
+
+						if (pos.y < Y && pos.y + 50.0f >= Y)
+						{
+							pos.y = Y;
+							pObj->SetPos(pos);
+							*fHeight = Y;
+							return pField;
+							break;
+						}
+					}
+
 				}
 
-				D3DXVec3Normalize(&Normal, &Normal);
+				//インデックスバッファをアンロック
+				pField->m_pIdxBuff->Unlock();
 
-				float Y = (Vtx[0].y) - ((((pos.x - (Vtx[0].x)) * Normal.x) + ((pos.z - Vtx[0].z) * Normal.z)) / Normal.y);
-
-				if (pos.y < Y && pos.y + 50.0f >= Y)
-				{
-					pos.y = Y;
-					pObj->SetPos(pos);
-					*fHeight = Y;
-					return true;
-					break;
-				}
+				//頂点バッファのアンロック
+				pField->m_pVtxBuff->Unlock();
 			}
-
 		}
-
-		//インデックスバッファをアンロック
-		pField->m_pIdxBuff->Unlock();
-
-		//頂点バッファのアンロック
-		pField->m_pVtxBuff->Unlock();
 	}
 
-	return false;
+	return nullptr;
 }
 
 LPDIRECT3DVERTEXBUFFER9 CMeshfield::GetBuff()

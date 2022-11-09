@@ -21,8 +21,8 @@ CBillboard::CBillboard()
 
 	m_pos = Vec3Null;
 	m_rot = Vec3Null;
-	m_fFrameRot = Vec3Null;
 	m_size = Vec2Null;
+	m_col = ColorNull;
 	D3DXMatrixIdentity(&m_mtxWorld);
 }
 
@@ -33,8 +33,8 @@ CBillboard::CBillboard(const int nPriority) : CObject::CObject(nPriority)
 
 	m_pos = Vec3Null;
 	m_rot = Vec3Null;
-	m_fFrameRot = Vec3Null;
 	m_size = Vec2Null;
+	m_col = ColorNull;
 	D3DXMatrixIdentity(&m_mtxWorld);
 }
 
@@ -52,9 +52,9 @@ HRESULT CBillboard::Init(void)
 
 	m_pos = Vec3Null;
 	m_rot = Vec3Null;
-	m_fFrameRot = Vec3Null;
 	m_size = Vec2Null;
 	D3DXMatrixIdentity(&m_mtxWorld);
+	m_col = ColorWhite;
 
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();		//デバイスの取得
 
@@ -77,7 +77,7 @@ HRESULT CBillboard::Init(void)
 			pVtx[nCnt].pos = Vec3Null;					//頂点座標の設定
 			pVtx[nCnt].nor = Vec3Null;					//法線ベクトルの設定
 			pVtx[nCnt].nor.y = 1.0f;					//法線ベクトルの設定
-			pVtx[nCnt].col = ColorWhite;					//頂点カラーの設定
+			pVtx[nCnt].col = m_col;						//頂点カラーの設定
 		}
 
 		//テクスチャ座標の設定
@@ -109,52 +109,52 @@ void CBillboard::Uninit(void)
 //更新処理
 void CBillboard::Update(void)
 {
-	//頂点情報へのポインタ
-	VERTEX_3D*pVtx = NULL;
+	////頂点情報へのポインタ
+	//VERTEX_3D*pVtx = NULL;
 
-	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
-	D3DXMATRIX	mtxRot, mtxOut;											//計算用マトリックス
-	D3DXMATRIX mtxView;														//ビューマトリックス
+	////デバイスの取得
+	//LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+	//D3DXMATRIX	mtxRot, mtxOut;											//計算用マトリックス
+	//D3DXMATRIX mtxView;														//ビューマトリックス
 
-	//頂点バッファをロック
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+	////頂点バッファをロック
+	//m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	pDevice->GetTransform(D3DTS_VIEW, &mtxView);
+	//pDevice->GetTransform(D3DTS_VIEW, &mtxView);
 
-	//カメラの逆行列を設定
-	mtxOut._11 = mtxView._11;
-	mtxOut._13 = mtxView._31;
-	mtxOut._31 = mtxView._13;
-	mtxOut._33 = mtxView._33;
+	////カメラの逆行列を設定
+	//mtxOut._11 = mtxView._11;
+	//mtxOut._13 = mtxView._31;
+	//mtxOut._31 = mtxView._13;
+	//mtxOut._33 = mtxView._33;
 
-	//ワルドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &mtxOut);
+	////ワルドマトリックスの設定
+	//pDevice->SetTransform(D3DTS_WORLD, &mtxOut);
 
-	D3DXVECTOR3 Vtx[3] = {};
-	Vtx[0] = pVtx[0].pos;
-	Vtx[1] = pVtx[1].pos;
-	Vtx[2] = pVtx[2].pos;
+	//D3DXVECTOR3 Vtx[3] = {};
+	//Vtx[0] = pVtx[0].pos;
+	//Vtx[1] = pVtx[1].pos;
+	//Vtx[2] = pVtx[2].pos;
 
-	D3DXVec3TransformCoord(&Vtx[0], &Vtx[0], &mtxOut);
-	D3DXVec3TransformCoord(&Vtx[1], &Vtx[1], &mtxOut);
-	D3DXVec3TransformCoord(&Vtx[2], &Vtx[2], &mtxOut);
+	//D3DXVec3TransformCoord(&Vtx[0], &Vtx[0], &mtxOut);
+	//D3DXVec3TransformCoord(&Vtx[1], &Vtx[1], &mtxOut);
+	//D3DXVec3TransformCoord(&Vtx[2], &Vtx[2], &mtxOut);
 
-	D3DXVECTOR3 V1, V2, N;
+	//D3DXVECTOR3 V1, V2, N;
 
-	V1 = Vtx[1] - Vtx[0];
-	V2 = Vtx[2] - Vtx[1];
+	//V1 = Vtx[1] - Vtx[0];
+	//V2 = Vtx[2] - Vtx[1];
 
-	D3DXVec3Cross(&N, &V2, &V1);
-	D3DXVec3Normalize(&N, &N);
+	//D3DXVec3Cross(&N, &V2, &V1);
+	//D3DXVec3Normalize(&N, &N);
 
-	pVtx[0].nor = N;
-	pVtx[1].nor = N;
-	pVtx[2].nor = N;
-	pVtx[3].nor = N;
+	//pVtx[0].nor = N;
+	//pVtx[1].nor = N;
+	//pVtx[2].nor = N;
+	//pVtx[3].nor = N;
 
-	//頂点バッファのアンロック
-	m_pVtxBuff->Unlock();
+	////頂点バッファのアンロック
+	//m_pVtxBuff->Unlock();
 }
 
 //描画処理
@@ -188,6 +188,9 @@ void CBillboard::Draw(void)
 
 	//ワルドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
+
+	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
 
 	//カメラの逆行列を設定
 	m_mtxWorld._11 = mtxView._11;
@@ -256,6 +259,40 @@ const D3DXVECTOR2 CBillboard::GetSize(void)
 const D3DXVECTOR3 CBillboard::GetPos(void)
 {
 	return m_pos;
+}
+
+void CBillboard::SetRot(const D3DXVECTOR3 rot)
+{
+	m_rot = rot;
+}
+
+const D3DXVECTOR3 CBillboard::GetRot(void)
+{
+	return m_rot;
+}
+
+void CBillboard::SetColor(const D3DXCOLOR col)
+{
+	m_col = col;
+
+	//頂点情報へのポインタ
+	VERTEX_3D*pVtx = NULL;
+
+	//頂点バッファをロック
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
+
+	//頂点バッファのアンロック
+	m_pVtxBuff->Unlock();
+}
+
+const D3DXCOLOR CBillboard::GetColor(void)
+{
+	return m_col;
 }
 
 //テクスチャの種類の設定処理
