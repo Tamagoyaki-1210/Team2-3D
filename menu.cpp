@@ -60,15 +60,6 @@ HRESULT CMenu::Init(void)
 		break;
 	case CApplication::Mode_Game_Race:
 		break;
-	case CApplication::Mode_Result:
-		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
-		m_nNumAll++;
-
-		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
-		m_nNumAll++;
-
-		m_pChoice[m_nSelectNum]->SetSellect();
-		break;
 	default:
 		break;
 	}
@@ -147,6 +138,11 @@ void CMenu::ModeType(void)
 					{
 						m_pChoice[nCnt]->Update();
 					}
+
+				}
+				if (m_pPause != nullptr)
+				{
+					m_pPause->Update();
 				}
 				Input();
 			}
@@ -176,38 +172,38 @@ void CMenu::Input(void)
 {
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
-		{// Wキーが押された場合
-			m_pChoice[m_nSelectNum]->SizeReset();
-			m_nSelectNum--;
-
-			// 現在位置が0より下の場合
-			if (m_nSelectNum < 0)
-			{
-				m_nSelectNum = m_nNumAll - 1;
-			}
-			m_pChoice[m_nSelectNum]->SetSellect();
-			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
-		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
-		{// Sキーが押された場合
-			m_pChoice[m_nSelectNum]->SizeReset();
-			m_nSelectNum++;
-
-			// 現在位置が最大数より大きい場合
-			if (m_nSelectNum >= m_nNumAll)
-			{
-				m_nSelectNum = 0;
-			}
-			m_pChoice[m_nSelectNum]->SetSellect();
-			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
-		}
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
+		switch (CApplication::GetMode())
 		{
-			switch (CApplication::GetMode())
-			{
-			case CApplication::Mode_Title:
+		case CApplication::Mode_Title:
+		{
+			if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
+			{// Wキーが押された場合
+				m_pChoice[m_nSelectNum]->SizeReset();
+				m_nSelectNum--;
 
+				// 現在位置が0より下の場合
+				if (m_nSelectNum < 0)
+				{
+					m_nSelectNum = m_nNumAll - 1;
+				}
+				m_pChoice[m_nSelectNum]->SetSellect();
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+			}
+			else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
+			{// Sキーが押された場合
+				m_pChoice[m_nSelectNum]->SizeReset();
+				m_nSelectNum++;
+
+				// 現在位置が最大数より大きい場合
+				if (m_nSelectNum >= m_nNumAll)
+				{
+					m_nSelectNum = 0;
+				}
+				m_pChoice[m_nSelectNum]->SetSellect();
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+			}
+			if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
+			{
 				if (m_nSelectNum == 0)
 				{
 					CApplication::SetMode(CApplication::Mode_PlayerSelect);
@@ -217,10 +213,41 @@ void CMenu::Input(void)
 					ExitExe();
 				}
 				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
-				break;
-			case CApplication::Mode_Game_Race:
-				// ゲーム中の場合
-				if (CGame::GetEndGame() == false)
+			}
+		}
+		break;
+		case CApplication::Mode_Game_Race:
+		{
+			// ゲーム中の場合
+			if (CGame::GetEndGame() == false)
+			{
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
+				{// Wキーが押された場合
+					m_pChoice[m_nSelectNum]->SizeReset();
+					m_nSelectNum--;
+
+					// 現在位置が0より下の場合
+					if (m_nSelectNum < 0)
+					{
+						m_nSelectNum = m_nNumAll - 1;
+					}
+					m_pChoice[m_nSelectNum]->SetSellect();
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+				}
+				else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
+				{// Sキーが押された場合
+					m_pChoice[m_nSelectNum]->SizeReset();
+					m_nSelectNum++;
+
+					// 現在位置が最大数より大きい場合
+					if (m_nSelectNum >= m_nNumAll)
+					{
+						m_nSelectNum = 0;
+					}
+					m_pChoice[m_nSelectNum]->SetSellect();
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+				}
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
 				{
 					if (m_nSelectNum == 0)
 					{
@@ -235,26 +262,65 @@ void CMenu::Input(void)
 					}
 					else if (m_nSelectNum == 2)
 					{
+						CApplication::SetMode(CApplication::Mode_PlayerSelect);
+						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
+					}
+					else if (m_nSelectNum == 3)
+					{
 						CApplication::SetMode(CApplication::Mode_Title);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 					}
 				}
-				else if(m_bResult)
+			}
+			else if (m_bResult)
+			{
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
+				{// Wキーが押された場合
+					m_pChoice[m_nSelectNum]->SizeReset();
+					m_nSelectNum--;
+
+					// 現在位置が0より下の場合
+					if (m_nSelectNum < 0)
+					{
+						m_nSelectNum = m_nNumAll - 1;
+					}
+					m_pChoice[m_nSelectNum]->SetSellect();
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+				}
+				else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
+				{// Sキーが押された場合
+					m_pChoice[m_nSelectNum]->SizeReset();
+					m_nSelectNum++;
+
+					// 現在位置が最大数より大きい場合
+					if (m_nSelectNum >= m_nNumAll)
+					{
+						m_nSelectNum = 0;
+					}
+					m_pChoice[m_nSelectNum]->SetSellect();
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+				}
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
 				{
 					if (m_nSelectNum == 0)
 					{
-						CApplication::SetMode(CApplication::Mode_Game_Race);
+						CApplication::SetMode(CApplication::Mode_PlayerSelect);
 					}
 					else if (m_nSelectNum == 1)
+					{
+						CApplication::SetMode(CApplication::Mode_Game_Race);
+					}
+					else if (m_nSelectNum == 2)
 					{
 						CApplication::SetMode(CApplication::Mode_Title);
 					}
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
 				}
-				break;
-			default:
-				break;
 			}
+		}
+		break;
+		default:
+			break;
 		}
 	}
 }
@@ -266,10 +332,13 @@ void CMenu::PauseChange(bool bPause)
 {
 	if (bPause == true)
 	{
-		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "つづける");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "つづける");
 		m_nNumAll++;
 
-		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "やりなおす");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "やりなおす");
+		m_nNumAll++;
+
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "キャラをえらびなおす");
 		m_nNumAll++;
 
 		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 600.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
@@ -277,7 +346,7 @@ void CMenu::PauseChange(bool bPause)
 
 		m_pChoice[m_nSelectNum]->SetSellect();
 
-		m_pPause = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 200.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), "ポーズ");
+		m_pPause = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 150.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), "ポーズ");
 
 		m_pObj2D = CObject_2D::Create();
 		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
@@ -321,10 +390,13 @@ void CMenu::PauseChange(bool bPause)
 //=====================================
 void CMenu::SetResult(void)
 {
-	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
+	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 350.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "キャラをえらびなおす");
 	m_nNumAll++;
 
-	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
+	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 450.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
+	m_nNumAll++;
+
+	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 550.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
 	m_nNumAll++;
 
 	m_pChoice[m_nSelectNum]->SetSellect();

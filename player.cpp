@@ -60,6 +60,7 @@ CPlayer::CPlayer() : CObject::CObject(1)
 	m_bJump = false;					//ジャンプしているかどうか
 	m_nInvincibilityCnt = 0;			//無敵状態のカウンター
 	m_pAttackHitbox = nullptr;
+	m_pHeadHitbox = nullptr;
 	m_bAttacking = false;
 	m_nCntAttack = 0;
 	m_fFrictionCoeff = 0.0f;
@@ -102,6 +103,7 @@ HRESULT CPlayer::Init(void)
 	m_nInvincibilityCnt = 0;		//無敵状態のカウンター
 	m_nFrame = 0;
 	m_pAttackHitbox = nullptr;
+	m_pHeadHitbox = nullptr;
 	m_bAttacking = false;
 	m_nCntAttack = 0;
 	m_fFrictionCoeff = 0.1f;
@@ -154,6 +156,11 @@ void CPlayer::Uninit(void)
 	{
 		m_pScoreUI->Uninit();
 		m_pScoreUI = nullptr;
+	}
+	if (m_pHeadHitbox != nullptr)
+	{
+		m_pHeadHitbox->Release();
+		m_pHeadHitbox = nullptr;
 	}
 	if (m_pAttackHitbox != nullptr)
 	{
@@ -503,6 +510,11 @@ void CPlayer::Update(void)
 				m_bAttacking = false;
 			}
 		}
+		if (m_pHeadHitbox != nullptr)
+		{
+			m_pHeadHitbox->SetPos(m_pos);
+			m_pHeadHitbox->Update();
+		}
 		
 		CPlayer *m_pPlayer[PLAYER_MAX] = {};
 
@@ -521,15 +533,6 @@ void CPlayer::Update(void)
 			if (m_nFrame >= 60)
 			{
 				MoveWinner();
-			}
-		}
-
-		if (m_pHitbox != nullptr)
-		{
-			if (!m_bGoal)
-			{
-				m_pHitbox->SetPos(m_pos);
-				m_pHitbox->Update();
 			}
 		}
 
@@ -673,6 +676,7 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_PLAYER);
 
 	pModel->m_pHitbox = CCylinderHitbox::Create(pos, Vec3Null, D3DXVECTOR3(10.0f, 35.0f, 10.0f), CHitbox::TYPE_PLAYER, pModel, nCntPlayer);
+	pModel->m_pHeadHitbox = CCylinderHitbox::Create(pos, D3DXVECTOR3(0.0f, 35.0f, 0.0f), D3DXVECTOR3(1.0f, 2.0f, 1.0f), CHitbox::TYPE_PLAYER, pModel);
 
 	pModel->SetPlayerIdx(nCntPlayer);
 

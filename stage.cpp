@@ -40,8 +40,8 @@ char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
 	{ "data\\STAGESET\\StageSet3.txt" },
 };
 
-CMeshfield *CStage::m_pField = nullptr;
-CHalfSphere* CStage::m_pSphere[PLAYER_MAX] = {};
+CMeshfield *CStage::m_pField[2] = {};
+CHalfSphere* CStage::m_pSphere = nullptr;
 CPlayer* CStage::m_pPlayer[PLAYER_MAX] = {};
 CMessage* CStage::m_pMessage = nullptr;
 bool CStage::m_bResult = false;
@@ -68,16 +68,20 @@ CStage::~CStage()
 HRESULT CStage::Init(void)
 {
 	// スフィアメッシュ
-	m_pSphere[0] = CHalfSphere::Create(D3DXVECTOR3(0.0f, -2000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
+	m_pSphere = CHalfSphere::Create(D3DXVECTOR3(0.0f, -8000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
 
-	m_pSphere[1] = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, D3DX_PI, D3DX_PI), CHalfSphere::SPHERE_DOWN);
+	//m_pSphere[1] = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, D3DX_PI, D3DX_PI), CHalfSphere::SPHERE_DOWN);
 
 	// ステージ読み込み処理
 	Load();
 
-	if (m_pField != nullptr)
+	if (m_pField[0] != nullptr)
 	{
-		m_pField->SetPriority(1);
+		m_pField[0]->SetPriority(1);
+	}
+	if (m_pField[1] != nullptr)
+	{
+		m_pField[1]->SetPriority(1);
 	}
 
 	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
@@ -87,7 +91,7 @@ HRESULT CStage::Init(void)
 	// プレイヤーの生成
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
 	{
-		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -100.0f, ((m_pField->GetLine() - 20) * -70.0f) - 200.0f), nCnt);
+		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((m_pField[0]->GetLine() - 20) * -70.0f) - 200.0f), nCnt);
 	}
 
 	// メッセージの生成
@@ -98,7 +102,7 @@ HRESULT CStage::Init(void)
 
 	if (CApplication::GetCamera() != nullptr)
 	{
-		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField->GetLine() - 20) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField[0]->GetLine() - 21) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
 	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(200.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.005f);
@@ -129,16 +133,19 @@ void CStage::Uninit(void)
 		}
 	}
 
-	if (m_pSphere[0] != nullptr)
+	if (m_pSphere != nullptr)
 	{
-		m_pSphere[0]->Release();
-		m_pSphere[0] = nullptr;
+		m_pSphere->Release();
+		m_pSphere = nullptr;
 	}
 
-	if (m_pField != nullptr)
+	for (int nField = 0; nField < 2; nField++)
 	{
-		m_pField->Release();
-		m_pField = nullptr;
+		if (m_pField[nField] != nullptr)
+		{
+			m_pField[nField]->Release();
+			m_pField[nField] = nullptr;
+		}
 	}
 
 	if (m_pMessage != nullptr)
@@ -166,7 +173,6 @@ void CStage::Update(void)
 	{
 		CWarning::Create(D3DXVECTOR3(1225.0f, 55.0f, 0.0f));
 	}
-
 
 	GameResult();
 }
@@ -370,36 +376,59 @@ void CStage::Load()
 		{//文字列の初期化と読み込み
 			fscanf(pFile, "%s", aStr);
 
-			if (strncmp(aStr, "FIELDSET", 8) == 0)
-			{// メッシュフィールド読み込み
-				while (strncmp(aStr, "END_FIELDSET", 12) != 0)
+			if (strncmp(aStr, "FIELDALLSET", 11) == 0)
+			{// 生成モデル読み込み
+				int nField = 0;
+				while (strncmp(aStr, "END_FIELDALLSET", 15) != 0)
 				{
 					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "FIELDSET", 8) == 0)
+					{// ハーフスフィアメッシュ読み込み
+						while (strncmp(aStr, "END_FIELDSET", 12) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "FIELD", 5) == 0)
+							{
+								while (strncmp(aStr, "END_FIELD", 9) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "LINE", 4) == 0)
+									{
+										fscanf(pFile, "%s", aStr);
+										fscanf(pFile, "%s", aStr);
 
-					if (strncmp(aStr, "LINE", 3) == 0)
-					{//この後にコメント
-						fscanf(pFile, "%s", aStr);
-						fscanf(pFile, "%s", aStr);
+										std::string s = aStr;			// std::stringに変換する
+										int nLine = std::stoi(s);		//intに変換する
 
-						std::string s = aStr;			// std::stringに変換する
-						int nLine = std::stoi(s);		//intに変換する
-
-						// メッシュフィールドの生成
-						m_pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), nLine, 10, 3);
-					}
-					else if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
-					{//この後にコメント
-						fscanf(pFile, "%s", aStr);
-						fscanf(pFile, "%s", aStr);
-						m_pField->LoadTexture(aStr);
-					}
-					else if (strncmp(aStr, "TEXTURE_TILING", 14) == 0)
-					{//この後にコメント
-						fscanf(pFile, "%s", aStr);
-						fscanf(pFile, "%s", aStr);			// メッシュフィールドのタイリングを読み込む処理
-						std::string s = aStr;				// std::stringに変換する
-						float fTaling = std::stof(s);		//floatに変換する
-						m_pField->SetTextureTiling(fTaling);
+										if (nField == 0)
+										{
+											// メッシュフィールドの生成
+											m_pField[nField] = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), nLine, 10, 3);
+										}
+										else
+										{
+											// メッシュフィールドの生成
+											m_pField[nField] = CMeshfield::Create(D3DXVECTOR3(-10000.0f, -2000.0f, 10000.0f), Vec3Null, D3DXVECTOR2(20000.0f, 20000.0f), nLine, nLine, 3);
+										}
+									}
+									else if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
+									{//この後にコメント
+										fscanf(pFile, "%s", aStr);
+										fscanf(pFile, "%s", aStr);
+										m_pField[nField]->LoadTexture(aStr);
+									}
+									else if (strncmp(aStr, "TEXTURE_TILING", 14) == 0)
+									{//この後にコメント
+										fscanf(pFile, "%s", aStr);
+										fscanf(pFile, "%s", aStr);			// メッシュフィールドのタイリングを読み込む処理
+										std::string s = aStr;				// std::stringに変換する
+										float fTaling = std::stof(s);		//floatに変換する
+										m_pField[nField]->SetTextureTiling(fTaling);
+									}
+								}
+							}
+						}
+						nField++;
 					}
 				}
 			}
@@ -419,7 +448,7 @@ void CStage::Load()
 							{
 								fscanf(pFile, "%s", aStr);
 								fscanf(pFile, "%s", aStr);
-								m_pSphere[nSphere]->LoadTexture(aStr);
+								m_pSphere->LoadTexture(aStr);
 							}
 						}
 					}
