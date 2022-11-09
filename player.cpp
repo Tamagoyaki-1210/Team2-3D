@@ -800,7 +800,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 
 	bool bMoving = false;
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) && !m_bJump && !m_bAttacking)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A,nCntPlayer)) && !m_bJump && !m_bAttacking)
 	{//ƒWƒƒƒ“ƒv
 		m_move.y = 18.0f;
  		m_bJump = true;
@@ -819,7 +819,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) && !bMoving && !m_bJump && !m_bHit && !m_bAttacking)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, nCntPlayer)) && !bMoving && !m_bJump && !m_bHit && !m_bAttacking)
 	{
 		m_pAnimator->SetPresentAnim(3);
 
