@@ -95,6 +95,7 @@ HRESULT CStage::Init(void)
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField[0]->GetLine() - 21) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
+
 	CSilhouette::Create();
 
 	return S_OK;
