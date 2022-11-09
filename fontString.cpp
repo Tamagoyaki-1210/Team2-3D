@@ -142,8 +142,15 @@ CFontString* CFontString::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, 
 		std::string sLatter = letter.substr(nLatter , 2);
 
 		// •¶Žš‚ð’†‰›‚É”z’u‚µAstringŒ^‚©‚ç*charŒ^‚ð1•¶Žš‚¸‚ÂŽæ‚èo‚·
-		pFontString->m_pFont[nCnt++] = CFont::Create(D3DXVECTOR3(pos.x + (nLatter * size.x) - (nTex * size.x / 2), pos.y, pos.z), size, sLatter.c_str());
-		
+		if (nTex / 2 % 2 == 1)
+		{
+			pFontString->m_pFont[nCnt++] = CFont::Create(D3DXVECTOR3(pos.x - (size.x * (nTex / 4) * 2) + ((size.x * nCnt) * 2), pos.y, pos.z), size, sLatter.c_str());
+		}
+		else
+		{
+			pFontString->m_pFont[nCnt++] = CFont::Create(D3DXVECTOR3(pos.x - (size.x * ((nTex / 4) - 1) * 2) + ((size.x * nCnt) * 2) - ((size.x / 2) * 2), pos.y, pos.z), size, sLatter.c_str());
+		}
+
 		// Å‰‚ÌƒTƒCƒY‚ð“o˜^‚·‚é
 		pFontString->m_sizeYuan = size;
 

@@ -25,7 +25,6 @@
 #include "playerSelect.h"
 #include "stageSelect.h"
 #include "gamerace.h"
-#include "result.h"
 #include "fade.h"
 #include "menu.h"
 #include "hitbox.h"
@@ -468,10 +467,6 @@ void CApplication::ChangeMode()
 		{
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME03);
 		}
-		break;
-	case CApplication::Mode_Result:
-		m_pMode = CResult::Create();
-		m_pSound->Play(CSound::SOUND_LABEL_BGM_RESULT);
 		break;
 	default:
 		break;
