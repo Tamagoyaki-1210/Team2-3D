@@ -89,7 +89,7 @@ void CAnimateUI::Update(void)
 				m_deltaCol.r /= m_AnimInfo.nChangeTime;
 				m_deltaCol.g /= m_AnimInfo.nChangeTime;
 				m_deltaCol.b /= m_AnimInfo.nChangeTime;
-				m_deltaCol.a /= m_AnimInfo.nChangeTime;
+				m_deltaCol.a = 0.0f;
 			}
 		}
 
@@ -119,6 +119,12 @@ void CAnimateUI::Update(void)
 	}
 
 	CObject_2D::Update();
+}
+
+
+void CAnimateUI::AnimateColor(const bool bAnim)
+{
+	m_bAnimateColor = bAnim;
 }
 
 

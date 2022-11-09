@@ -29,6 +29,8 @@ public:
 	HRESULT Init(void) override;												//‰Šú‰»ˆ—
 	void Uninit(void) override;													//I—¹ˆ—
 	void Update(void) override;													//XVˆ—
+
+	void AnimateColor(const bool bAnim);
 																				
 	static CAnimateUI* Create(CObject::TextType texture, const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const D3DXCOLOR col, UIAnimation animInfo);		//¶¬ˆ—
 
