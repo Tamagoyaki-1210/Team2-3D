@@ -35,6 +35,14 @@ public:
 		STAGE_TYPE_MAX
 	};
 
+	//メッシュフィールドの種類
+	enum FieldType
+	{
+		FIELD_NORMAL = 0,
+		FIELD_SRIP,
+		FIELD_TYPE_MAX
+	};
+
 	//障害物の種類
 	enum ModelType
 	{
@@ -68,11 +76,12 @@ public:
 
 	void Load(void);
 
+	static void SetFieldType(D3DXVECTOR3 pos, int line, float tiling, char* str, FieldType type);
 	static void SetModelType(D3DXVECTOR3 pos, ModelType type);
 	static void SetFloorType(D3DXVECTOR3 pos, FloorType type);
 	static void SetSpawnerType(D3DXVECTOR3 pos, float width, float length, int collDown, SpawnerType type);
 
-	static CMeshfield* GetField(void) { return m_pField; }			// メッシュフィールドの取得処理
+	static CMeshfield* GetField(void) { return m_pField[0]; }			// メッシュフィールドの取得処理
 	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; }	// プレイヤーの取得処理
 	static CMessage* GetMsg(void) { return m_pMessage; }
 
@@ -87,9 +96,9 @@ private:
 	static char* m_pStagePass[STAGE_TYPE_MAX];				//ステージの外部ファイルの相対パス
 	static ModelType m_ModelType;
 
-	static CMeshfield* m_pField;
+	static CMeshfield* m_pField[2];
 	static CPlayer* m_pPlayer[PLAYER_MAX];					//プレイヤーのインスタンスへのポインタ
-	static CHalfSphere* m_pSphere[PLAYER_MAX];
+	static CHalfSphere* m_pSphere;
 	static CMessage* m_pMessage;
 
 	static bool m_bResult;

@@ -176,38 +176,38 @@ void CMenu::Input(void)
 {
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
-		{// Wキーが押された場合
-			m_pChoice[m_nSelectNum]->SizeReset();
-			m_nSelectNum--;
-
-			// 現在位置が0より下の場合
-			if (m_nSelectNum < 0)
-			{
-				m_nSelectNum = m_nNumAll - 1;
-			}
-			m_pChoice[m_nSelectNum]->SetSellect();
-			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
-		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
-		{// Sキーが押された場合
-			m_pChoice[m_nSelectNum]->SizeReset();
-			m_nSelectNum++;
-
-			// 現在位置が最大数より大きい場合
-			if (m_nSelectNum >= m_nNumAll)
-			{
-				m_nSelectNum = 0;
-			}
-			m_pChoice[m_nSelectNum]->SetSellect();
-			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
-		}
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
+		switch (CApplication::GetMode())
 		{
-			switch (CApplication::GetMode())
-			{
-			case CApplication::Mode_Title:
+		case CApplication::Mode_Title:
+		{
+			if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
+			{// Wキーが押された場合
+				m_pChoice[m_nSelectNum]->SizeReset();
+				m_nSelectNum--;
 
+				// 現在位置が0より下の場合
+				if (m_nSelectNum < 0)
+				{
+					m_nSelectNum = m_nNumAll - 1;
+				}
+				m_pChoice[m_nSelectNum]->SetSellect();
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+			}
+			else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
+			{// Sキーが押された場合
+				m_pChoice[m_nSelectNum]->SizeReset();
+				m_nSelectNum++;
+
+				// 現在位置が最大数より大きい場合
+				if (m_nSelectNum >= m_nNumAll)
+				{
+					m_nSelectNum = 0;
+				}
+				m_pChoice[m_nSelectNum]->SetSellect();
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+			}
+			if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
+			{
 				if (m_nSelectNum == 0)
 				{
 					CApplication::SetMode(CApplication::Mode_PlayerSelect);
@@ -217,10 +217,41 @@ void CMenu::Input(void)
 					ExitExe();
 				}
 				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
-				break;
-			case CApplication::Mode_Game_Race:
-				// ゲーム中の場合
-				if (CGame::GetEndGame() == false)
+			}
+		}
+		break;
+		case CApplication::Mode_Game_Race:
+		{
+			// ゲーム中の場合
+			if (CGame::GetEndGame() == false)
+			{
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
+				{// Wキーが押された場合
+					m_pChoice[m_nSelectNum]->SizeReset();
+					m_nSelectNum--;
+
+					// 現在位置が0より下の場合
+					if (m_nSelectNum < 0)
+					{
+						m_nSelectNum = m_nNumAll - 1;
+					}
+					m_pChoice[m_nSelectNum]->SetSellect();
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+				}
+				else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
+				{// Sキーが押された場合
+					m_pChoice[m_nSelectNum]->SizeReset();
+					m_nSelectNum++;
+
+					// 現在位置が最大数より大きい場合
+					if (m_nSelectNum >= m_nNumAll)
+					{
+						m_nSelectNum = 0;
+					}
+					m_pChoice[m_nSelectNum]->SetSellect();
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+				}
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
 				{
 					if (m_nSelectNum == 0)
 					{
@@ -239,7 +270,36 @@ void CMenu::Input(void)
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 					}
 				}
-				else if(m_bResult)
+			}
+			else if (m_bResult)
+			{
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
+				{// Wキーが押された場合
+					m_pChoice[m_nSelectNum]->SizeReset();
+					m_nSelectNum--;
+
+					// 現在位置が0より下の場合
+					if (m_nSelectNum < 0)
+					{
+						m_nSelectNum = m_nNumAll - 1;
+					}
+					m_pChoice[m_nSelectNum]->SetSellect();
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+				}
+				else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
+				{// Sキーが押された場合
+					m_pChoice[m_nSelectNum]->SizeReset();
+					m_nSelectNum++;
+
+					// 現在位置が最大数より大きい場合
+					if (m_nSelectNum >= m_nNumAll)
+					{
+						m_nSelectNum = 0;
+					}
+					m_pChoice[m_nSelectNum]->SetSellect();
+					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
+				}
+				if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
 				{
 					if (m_nSelectNum == 0)
 					{
@@ -251,10 +311,11 @@ void CMenu::Input(void)
 					}
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
 				}
-				break;
-			default:
-				break;
 			}
+		}
+		break;
+		default:
+			break;
 		}
 	}
 }
