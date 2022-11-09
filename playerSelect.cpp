@@ -37,7 +37,7 @@ HRESULT CPlayerSelect::Init(void)
 {
 	CHalfSphere* m_pSphere = CHalfSphere::Create(D3DXVECTOR3(0.0f, -8000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(0.0f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
 	
-	m_pSphere->BindTexture(CObject_2D::GetTexturePointer(CObject::TEXTURE_BLOCK));
+	m_pSphere->BindTexture(CObject_2D::GetTexturePointer(CObject::TEXTURE_BACKGROUND));
 
 	CObject_2D* pObj2D = CObject_2D::Create();
 	pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
@@ -46,12 +46,6 @@ HRESULT CPlayerSelect::Init(void)
 	pObj2D->SetPriority(5);
 
 	m_pStr = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 50.0f, 0.0f), D3DXVECTOR2(30.0f, 30.0f), "キャラクターセレクト");
-
-	//CObject_2D* pObjBack = CObject_2D::Create();
-	//pObjBack->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-	//pObjBack->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
-	//pObjBack->SetTexture(CObject::TEXTURE_SE);
-	//pObjBack->SetPriority(1);
 
 	CCamera* pCamera = CApplication::GetCamera();
 	pCamera->SetPos(D3DXVECTOR3(50.0f, 230.0f, -200.0f), D3DXVECTOR3(50.0f, 220.0f, 100.0f));
@@ -97,11 +91,27 @@ void CPlayerSelect::Input(void)
 			CApplication::SetMode(CApplication::Mode_Title);
 			pSound->Play(CSound::SOUND_LABEL_SE_NO);
 		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
-		{// Enterキーを押したら
-			CApplication::SetMode(CApplication::Mode_StageSelect);
-			pSound->Play(CSound::SOUND_LABEL_SE_YES);
+
+		if (!m_bDecision || CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+		{
+			if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0)
+				||CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0)
+				||CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 1)
+				||CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 2)
+				||CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 3)
+				)
+			{// Enterキーを押したら
+				//if ()
+				{//全員が準備おｋだったら
+					CApplication::SetMode(CApplication::Mode_StageSelect);
+					pSound->Play(CSound::SOUND_LABEL_SE_YES);
+				}
+
+				m_bDecision = true;
+			}
 		}
+		
+		
 	}
 }
 

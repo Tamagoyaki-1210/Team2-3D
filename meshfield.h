@@ -27,10 +27,12 @@ public:
 	void Draw(void) override;							//描画処理
 
 	void SetPos(const D3DXVECTOR3 pos) override;		//位置の設定処理
+	void SetPriority(const int nPriority);				//プライオリティの設定処理
 
 	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
 	const int GetLine(void) { return m_nLineVertex; }
+	const float GetFriction(void);						//摩擦係数の取得処理
 
 	void SetTexture(CObject::TextType texture);			//テクスチャの設定処理
 	void SetTextureTiling(D3DXVECTOR2 TileSize);		//テクスチャの大きさの設定処理
@@ -38,17 +40,23 @@ public:
 
 	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot,
 		const D3DXVECTOR2 unitSize, const int NumberLines, const int NumberColumns);							//生成処理
-	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, 
+	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot,
 		const D3DXVECTOR2 unitSize, const int NumberLines, const int NumberColumns, const int nPriority);		//生成処理
+	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot,
+		const D3DXVECTOR2 unitSize, const int NumberLines, const int NumberColumns, const float fFriction);							//生成処理
+	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, 
+		const D3DXVECTOR2 unitSize, const int NumberLines, const int NumberColumns, const int nPriority, const float fFriction);		//生成処理
 
-	static bool FieldInteraction(CObject* pObj);						//当たり判定の処理
-	static bool FieldInteraction(CObject* pObj, float* fHeight);		//当たり判定の処理
+	static bool FieldInteraction(CObject* pObj);							//当たり判定の処理
+	static CMeshfield* FieldInteraction(CObject* pObj, float* fHeight);		//当たり判定の処理
 
 	LPDIRECT3DVERTEXBUFFER9 GetBuff();
 
 	void LoadTexture(const char *aFileName);				//テクスチャの読み込み
 private:
 	void SetVertex(void);								//頂点インデックスの設定処理
+
+	static const int MAX_FIELD_PRIORITY = 2;
 
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;					//頂点バッファへのポインタ
 	LPDIRECT3DINDEXBUFFER9 m_pIdxBuff;					//インデックスバッファへのポインタ
@@ -62,6 +70,9 @@ private:
 	int m_nPolygonNumber;								//メッシュフィールドのポリゴン数
 	int m_nLineVertex;									//計算用のグローバル変数(列数 + 1)
 	int m_nColumnVertex;								//計算用のグローバル変数(行数 + 1)
+	float m_fFriction;									//摩擦係数
+
+	int m_nPriority;									//プライオリティ
 
 	static std::vector <CObject*> m_vLandedObj;			//一時的
 	static std::vector <CMeshfield*> m_vMeshfield;		//メッシュフィールドへのポインタのベクトル

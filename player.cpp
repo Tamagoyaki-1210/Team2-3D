@@ -244,11 +244,14 @@ void CPlayer::Update(void)
 	{
 		float fHeight = 0.0f;
 
+		CMeshfield* pField = CMeshfield::FieldInteraction(this, &fHeight);
+
 			//地面との当たり判定
-			if (CMeshfield::FieldInteraction(this, &fHeight))
+			if (pField != nullptr)
 			{
 				m_bJump = false;		//着地している状態にする
 				m_bHit = false;
+				m_fFrictionCoeff = pField->GetFriction();
 
 				for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 				{
@@ -797,7 +800,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 
 	bool bMoving = false;
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) && !m_bJump && !m_bAttacking)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A,nCntPlayer)) && !m_bJump && !m_bAttacking)
 	{//ジャンプ
 		m_move.y = 18.0f;
  		m_bJump = true;
@@ -816,7 +819,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) && !bMoving && !m_bJump && !m_bHit && !m_bAttacking)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, nCntPlayer)) && !bMoving && !m_bJump && !m_bHit && !m_bAttacking)
 	{
 		m_pAnimator->SetPresentAnim(3);
 

@@ -43,6 +43,7 @@ private:
 
 	static int m_nNumAll;						// 選択肢の全体数
 	static int m_nSelectNum;					// 現在選択されている番号
+	static bool m_bResult;						// リザルト判定
 	static CFontString* m_pChoice[MaxChoice];	// 選択肢文字列
 	static CFontString* m_pPause;				// ポーズ文字列
 	static CObject_2D* m_pObj2D;				// 半透明ポリゴン

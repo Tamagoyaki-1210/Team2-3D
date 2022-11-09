@@ -9,7 +9,7 @@
 #******************************************************************************
 FIELDSET
 
-	LINE = 20										# [0]ステージの縦メッシュ数
+	LINE = 60										# [0]ステージの縦メッシュ数
 	TEXTURE_NAME = data\\TEXTURE\\MeshField001.png			# [0]ステージの床テクスチャ
 	TEXTURE_TILING = 0.33							# [0]ステージの床テクスチャタイリング
 
@@ -245,6 +245,49 @@ FLOORALLSET
 END_FLOORALLSET
 
 #==============================================================================
+# 生成モデル配置情報
+#==============================================================================
+SPAWNERALLSET
+#++++++++++++++++++++++++++++++++++++++
+# 生成モデル[0] SPAWNER_FALLSTONE
+#++++++++++++++++++++++++++++++++++++++
+	SPAWNERTYPESET
+#------------------
+# １個目
+#------------------
+		SPAWNERSET
+			SPAWNER
+				POS = 0.0 400.0 -350.0
+				WIDTH = 135.0
+				LENGTH = 400.0
+				COLL = 30
+			END_SPAWNER
+		END_SPAWNERSET
+
+#------------------
+# ２個目
+#------------------
+		SPAWNERSET
+			SPAWNER
+				POS = 0.0 400.0 -1650.0
+				WIDTH = 135.0
+				LENGTH = 600.0
+				COLL = 60
+			END_SPAWNER
+		END_SPAWNERSET
+
+	END_SPAWNERTYPESET
+
+#++++++++++++++++++++++++++++++++++++++
+# 生成モデル[1] SPAWNER_ICEPILLAR
+#++++++++++++++++++++++++++++++++++++++
+	SPAWNERTYPESET
+
+	END_SPAWNERTYPESET
+
+END_SPAWNERALLSET
+
+#==============================================================================
 # 環境モデル配置情報
 #==============================================================================
 ENVIRONMENTALLSET
@@ -266,9 +309,37 @@ ENVIRONMENTALLSET
 #------------------
 		ENVIRONMENTSET
 			ENVIRONMENT
-				POS = 1000.0 -1553.0 3050.0
+				POS = 6000.0 -3553.0 16050.0
 			END_ENVIRONMENT
 		END_ENVIRONMENTSET	
+
+	END_ENVIRONMENTTYPESET
+	
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[2] ENVIRONMENT_BALLOON
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET
+
+	END_ENVIRONMENTTYPESET
+	
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[3] ENVIRONMENT_TREE1
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET
+
+	END_ENVIRONMENTTYPESET
+	
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[4] ENVIRONMENT_TREE2
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET
+
+	END_ENVIRONMENTTYPESET
+	
+#++++++++++++++++++++++++++++++++++++++
+# 環境モデル[5] ENVIRONMENT_WINDMILL
+#++++++++++++++++++++++++++++++++++++++
+	ENVIRONMENTTYPESET
 
 	END_ENVIRONMENTTYPESET
 	

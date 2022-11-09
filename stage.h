@@ -51,6 +51,14 @@ public:
 		FLOOR_TYPE_MAX
 	};
 
+	//生成オブジェクトの種類
+	enum SpawnerType
+	{
+		SPAWNER_FALLSTONE = 0,
+		SPAWNER_ICEPILLAR,
+		SPAWNER_TYPE_MAX
+	};
+
 	CStage();
 	~CStage();
 
@@ -62,6 +70,7 @@ public:
 
 	static void SetModelType(D3DXVECTOR3 pos, ModelType type);
 	static void SetFloorType(D3DXVECTOR3 pos, FloorType type);
+	static void SetSpawnerType(D3DXVECTOR3 pos, float width, float length, int collDown, SpawnerType type);
 
 	static CMeshfield* GetField(void) { return m_pField; }			// メッシュフィールドの取得処理
 	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; }	// プレイヤーの取得処理

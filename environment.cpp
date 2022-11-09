@@ -73,10 +73,29 @@ CEnvironment * CEnvironment::Create(D3DXVECTOR3 pos, EnvironmentType type)
 	{
 		pEnvironment->SetModel(MODEL_MOUNT_FUJI);	//モデルの設定処理
 	}
-		break;
+	break;
 	case CEnvironment::ENVIRONMENT_MOUNT_YUKI:
 	{
 		pEnvironment->SetModel(MODEL_MOUNT_FUJI_YUKI);	//モデルの設定処理
+	}
+	break;
+	case CEnvironment::ENVIRONMENT_BALLOON:
+	{
+		pEnvironment->SetModel(MODEL_BALLOON);	//モデルの設定処理
+	}
+	break;
+	case CEnvironment::ENVIRONMENT_TREE1:
+	{
+		pEnvironment->SetModel(MODEL_TREE1);	//モデルの設定処理
+	}
+	case CEnvironment::ENVIRONMENT_TREE2:
+	{
+		pEnvironment->SetModel(MODEL_TREE2);	//モデルの設定処理
+	}
+	break;
+	case CEnvironment::ENVIRONMENT_WINDMILL:
+	{
+		pEnvironment->SetModel(MODEL_WINDMILL);	//モデルの設定処理
 	}
 	break;
 	default:

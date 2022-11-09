@@ -30,6 +30,7 @@
 #include "stoneSpawner.h"
 #include "icePillarSpawner.h"
 #include "inputKeyboard.h"
+#include "effect.h"
 
 //アニメーション情報のテキストファイルの相対パス
 char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
@@ -74,6 +75,11 @@ HRESULT CStage::Init(void)
 	// ステージ読み込み処理
 	Load();
 
+	if (m_pField != nullptr)
+	{
+		m_pField->SetPriority(1);
+	}
+
 	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
 
 	//CBouncePole::Create(D3DXVECTOR3(-145.0f, -150.0f, 350.0f));
@@ -95,9 +101,14 @@ HRESULT CStage::Init(void)
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField->GetLine() - 20) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
+	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(200.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.005f);
+	pField->SetTexture(CObject::TEXTURE_LAVA);
+	pField = CMeshfield::Create(D3DXVECTOR3(0.0f, -199.0f, -1500.0f), Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.01f);
+	pField->SetTexture(CObject::TEXTURE_LAVA);
+
 	//CTrampoline::Create(D3DXVECTOR3(-70.0f, -150.0f, 150.0f));
 	//CStoneSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, -350.0f), -149.9f, 135.0f, 400.0f, 30);
-	CIcePillarSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, -350.0f), -149.9f, 135.0f, 400.0f, 90);
+	//CIcePillarSpawner::Create(D3DXVECTOR3(0.0f, 400.0f, -350.0f), -149.9f, 135.0f, 400.0f, 90);
 
 	CSilhouette::Create();
 
@@ -201,6 +212,30 @@ void CStage::SetFloorType(D3DXVECTOR3 pos, FloorType type)
 	{
 		// 溶岩床
 		CLavaFloor::Create(pos);
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+//=====================================
+// 床設定処理
+//=====================================
+void CStage::SetSpawnerType(D3DXVECTOR3 pos, float width, float length, int collDown, SpawnerType type)
+{
+	switch (type)
+	{
+	case CStage::SPAWNER_FALLSTONE:
+	{
+		// 落石の生成オブジェクト
+		CStoneSpawner::Create(pos, -149.9f, width, length, collDown);
+	}
+	break;
+	case CStage::SPAWNER_ICEPILLAR:
+	{
+		// 氷柱の生成オブジェクト
+		CIcePillarSpawner::Create(pos, -149.9f, width, length, collDown);
 	}
 	break;
 	default:
@@ -532,6 +567,76 @@ void CStage::Load()
 							}
 						}
 						nFloorType++;
+					}
+				}
+			}
+			else if (strncmp(aStr, "SPAWNERALLSET", 13) == 0)
+			{// 生成モデル読み込み
+				int nSpawnerType = 0;
+				while (strncmp(aStr, "END_SPAWNERALLSET", 17) != 0)
+				{
+					fscanf(pFile, "%s", aStr);
+					if (strncmp(aStr, "SPAWNERTYPESET", 14) == 0)
+					{
+						fscanf(pFile, "%s", aStr);
+						while (strncmp(aStr, "END_SPAWNERTYPESET", 18) != 0)
+						{
+							fscanf(pFile, "%s", aStr);
+							if (strncmp(aStr, "SPAWNERSET", 10) == 0)
+							{
+								while (strncmp(aStr, "END_SPAWNERSET", 14) != 0)
+								{
+									fscanf(pFile, "%s", aStr);
+									if (strncmp(aStr, "SPAWNER", 7) == 0)
+									{
+										int nCollDown = 0;
+										float x, y, z, fWidth, fLength = {};
+										while (strncmp(aStr, "END_SPAWNER", 11) != 0)
+										{
+											fscanf(pFile, "%s", aStr);
+											if (strncmp(aStr, "POS", 3) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//X座標の読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												x = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Y座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												y = std::stof(s);		//floatに変換する
+
+												fscanf(pFile, "%s", aStr);	//Z座標の読み込む処理
+												s = aStr;					//std::stringに変換する
+												z = std::stof(s);		//floatに変換する
+											}
+											else if (strncmp(aStr, "WIDTH", 5) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//横長さの読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												fWidth = std::stof(s);		//floatに変換する
+											}
+											else if (strncmp(aStr, "LENGTH", 6) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//距離の長さの読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												fLength = std::stof(s);		//floatに変換する
+											}
+											else if (strncmp(aStr, "COLL", 4) == 0)
+											{
+												fscanf(pFile, "%s", aStr);
+												fscanf(pFile, "%s", aStr);	//クールタイムの長さの読み込む処理
+												std::string s = aStr;		//std::stringに変換する
+												nCollDown = std::stoi(s);	//intに変換する
+											}
+										}
+										SetSpawnerType(D3DXVECTOR3(x, y, z), fWidth, fLength, nCollDown, (SpawnerType)nSpawnerType);
+									}
+								}
+							}
+						}
+						nSpawnerType++;
 					}
 				}
 			}
