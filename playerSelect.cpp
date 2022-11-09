@@ -42,7 +42,7 @@ HRESULT CPlayerSelect::Init(void)
 
 	CObject_2D* pObj2D = CObject_2D::Create();
 	pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
-	pObj2D->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
+	pObj2D->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 5));
 	pObj2D->SetTexture(CObject::TEXTURE_CHARASET_FRAM);
 	pObj2D->SetPriority(5);
 
