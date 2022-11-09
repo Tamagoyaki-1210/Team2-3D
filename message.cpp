@@ -178,6 +178,9 @@ void CMessage::GoalMessage(int nMessageIdx)
 		m_bStart = false;
 		// Ÿ”s”Ô†‚ð‘ã“ü‚·‚é
 		m_nMessageIdx = nMessageIdx;
+
+		CApplication::GetSound()->Stop();
+
 		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS02);
 
@@ -209,7 +212,7 @@ void CMessage::WinMessage()
 		{
 			// Ÿ”sƒƒbƒZ[ƒW¶¬
 			m_pPlayer2D = CObject_2D::Create();
-			m_pPlayer2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 90.0f, 0.0f));
+			m_pPlayer2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 100.0f, 0.0f));
 			m_pPlayer2D->SetSize(D3DXVECTOR2(100.0f, 60.0f));
 			m_pPlayer2D->SetPriority(5);
 
@@ -239,9 +242,11 @@ void CMessage::WinMessage()
 			}
 
 			m_type = MESSAGE_WIN;
-			m_nMessageCounter = 250;
+			m_nMessageCounter = 120;
 			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WIN);
 			CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_CHEERS02);
+
+			CApplication::GetSound()->Play(CSound::SOUND_LABEL_BGM_RESULT);
 		}
 	}
 }

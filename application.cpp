@@ -89,6 +89,13 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	m_pSound = CSound::Create(hWnd);
 
+
+	CLight::ReleaseAll();
+	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
+	CDirectionalLight::Create(D3DXCOLOR(0.75f, 0.75f, 0.75f, 0.75f), D3DXVECTOR3(-0.2f, 0.2f, 1.0f));
+
+	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+
 	// モードインスタンスの生成処理
 	m_pMode = CTitle::Create();
 	m_mode = Mode_Title;
@@ -137,11 +144,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pMenu = CMenu::Create();
 	}
 
-	CLight::ReleaseAll();
-	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
-	CDirectionalLight::Create(D3DXCOLOR(0.75f, 0.75f, 0.75f, 0.75f), D3DXVECTOR3(-0.2f, 0.2f, 1.0f));
-
-	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 
 	//m_pSphear->Init();
 
@@ -454,7 +456,18 @@ void CApplication::ChangeMode()
 		break;
 	case CApplication::Mode_Game_Race:
 		m_pMode = CGameRace::Create();
-		m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME01);
+		if (m_nStageSelect == 0)
+		{
+			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME01);
+		}
+		else if (m_nStageSelect == 1)
+		{
+			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME02);
+		}
+		else if (m_nStageSelect == 2)
+		{
+			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME02);
+		}
 		break;
 	case CApplication::Mode_Result:
 		m_pMode = CResult::Create();
