@@ -25,7 +25,7 @@ public:
 	//アニメーションの種類
 	enum AnimType
 	{
-		ANIM_TYPE_PLAYER = 0,
+		ANIM_TYPE_PLAYER = 0,					//プレイヤーアニメーション
 		ANIM_TYPE_MAX
 	};
 
@@ -69,15 +69,15 @@ public:
 	static void DestroyLoadedAnimation(void);				//全部のアニメーションの破棄処理
 	static CAnimator* Create(std::vector <CModelPart*>* vParts, AnimType type);				//生成処理
 
-	void SetPresentAnim(int nPresentAnim);
-	void SetLoopingAnim(int nPresentAnim);
+	void SetPresentAnim(int nPresentAnim);					//アニメーションの設定処理
+	void SetLoopingAnim(int nPresentAnim);					//アニメーションの設定処理(アニメーションが終わった場合、元に戻す)
 private:
 
 	//アニメーションスピード
 	struct animSpeed
 	{
-		D3DXVECTOR3 move;				//移動量
-		D3DXVECTOR3 rotSpeed;			//回転スピード
+		D3DXVECTOR3 move;									//移動量
+		D3DXVECTOR3 rotSpeed;								//回転スピード
 	};
 
 	static char* m_pAnimPass[ANIM_TYPE_MAX];				//アニメーションの外部ファイルの相対パス
