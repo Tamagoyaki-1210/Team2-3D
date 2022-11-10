@@ -18,6 +18,7 @@
 class CMeshfield;
 class CPlayer;
 class CMessage;
+class CObject_2D;
 
 
 //---------------------------
@@ -34,19 +35,25 @@ public:
 	void Update(void) override;
 
 	static void SetEndTutorial();			// ゲーム終了を設定する
-	static bool GetEndTutorial() { return m_bEndTutorial; }
+	static bool GetEndTutorial() { return m_bEndTutorial; };
 
-	static CMeshfield* GetField(void) { return m_pField; }			// メッシュフィールドの取得処理
-	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; }	// プレイヤーの取得処理
-	static CMessage* GetMsg(void) { return m_pMessage; }
+	static CMeshfield* GetField(void) { return m_pField; };			// メッシュフィールドの取得処理
+	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; };	// プレイヤーの取得処理
+	static CMessage* GetMsg(void) { return m_pMessage; };
 
 	static CTutorial* Create(void);			//生成処理
 private:
+
+	void SetObject(void);
+
 	static CMeshfield* m_pField;
 	static CPlayer* m_pPlayer[PLAYER_MAX];					//プレイヤーのインスタンスへのポインタ
 	static CMessage* m_pMessage;
 
 	static bool m_bEndTutorial;
+
+	CObject_2D* m_pUi;
+	bool m_bChange;
 };
 
 #endif // !_GAME_H_

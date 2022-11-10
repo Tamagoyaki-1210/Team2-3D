@@ -41,6 +41,8 @@ public:
 	void SetTextureAnim(const float fX, const float fY);//テクスチャアニメーションの設定処理
 	void StopTextureAnim(void);							//テクスチャアニメーションの停止処理
 
+	void ChangeHeight(const int nStartVtx, const int nEndVtx, const float fHeight);
+
 	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot,
 		const D3DXVECTOR2 unitSize, const int NumberLines, const int NumberColumns);							//生成処理
 	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot,
