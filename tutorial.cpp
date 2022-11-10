@@ -83,7 +83,7 @@ HRESULT CTutorial::Init(void)
 	}
 
 	// カウントダウンメッセージ表示
-	CApplication::GetMsg()->SetCountDown(3);
+	//CApplication::GetMsg()->SetCountDown(3);
 
 	if (CApplication::GetCamera() != nullptr)
 	{
@@ -178,10 +178,10 @@ void CTutorial::Update(void)
 	}
 
 
-	if (m_pMessage != nullptr)
+	/*if (m_pMessage != nullptr)
 	{
 		m_pMessage->Update();
-	}
+	}*/
 }
 
 //=====================================

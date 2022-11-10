@@ -46,6 +46,24 @@ COINALLSET
 				POS = 100.0 -125.0 200.0
 			END_COIN
 		END_COINSET	
+	
+	COINSET
+			COIN
+				POS = 0.0 -125.0 -2900.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 25.0 -125.0 -2800.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -2700.0
+			END_COIN
+		END_COINSET	
 
 	END_COINTYPESET
 	
@@ -69,6 +87,12 @@ COINALLSET
 			COIN
 				POS = 50.0f -125.0f 250.0f
 			END_COIN
+			
+			COINSET
+			COIN
+				POS = -50.0 -125.0 -2700.0
+			END_COIN
+		END_COINSET	
 
 		END_COINSET	
 
@@ -80,6 +104,18 @@ COINALLSET
 				POS = 50.0f -125.0f 300.0f
 			END_COIN
 
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -25.0 -125.0 -2800.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 50.0 -125.0 -2700.0
+			END_COIN
 		END_COINSET	
 
 	END_COINTYPESET
@@ -95,8 +131,15 @@ COINALLSET
 			COIN
 				POS = -50.0f -125.0f 200.0f
 			END_COIN
+			
+			COINSET
+			COIN
+				POS = -100.0 25.0 -2200.0
+			END_COIN
+		END_COINSET	
 
 		END_COINSET	
+		
 #------------------
 # ２個目
 #------------------
@@ -105,6 +148,24 @@ COINALLSET
 				POS = -50.0f -125.0f 150.0f
 			END_COIN
 
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -50.0 -125.0 -2900.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -2800.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -100.0 -25.0 -2200.0
+			END_COIN
 		END_COINSET	
 
 	END_COINTYPESET
@@ -120,8 +181,16 @@ COINALLSET
 			COIN
 				POS = -100.0f -125.0f 200.0f
 			END_COIN
-
+		END_COINSET
+			
+			COINSET			
+			COIN
+				POS = 50.0 -125.0 -2900.0
+			END_COIN
 		END_COINSET	
+		
+
+
 		
 #------------------
 # ２個目
@@ -131,6 +200,18 @@ COINALLSET
 				POS = -100.0f -125.0f 100.0f
 			END_COIN
 
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 -125.0 -2800.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -100.0 -75.0 -2200.0
+			END_COIN
 		END_COINSET	
 
 	END_COINTYPESET
@@ -182,6 +263,45 @@ MODELALLSET
 			END_MODEL
 			
 		END_MODELSET
+		
+		
+		
+		
+		
+		MODELSET
+			MODEL
+				POS = -100.0 -125.0 -2500.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -50.0 -125.0 -2500.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -0.0 -125.0 -2500.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 -2500.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 100.0 -125.0 -2500.0
+			END_MODEL
+			
+		END_MODELSET
 
 	END_MODELTYPESET
 
@@ -189,7 +309,17 @@ MODELALLSET
 # 障害物モデル[1] MODEL_BOUNCEPOLE
 #++++++++++++++++++++++++++++++++++++++
 	MODELTYPESET
-
+	
+#------------------
+# １個目
+#------------------
+	
+		MODELSET
+			MODEL
+				POS = -75.0 -150.0 -2300.0
+			END_MODEL
+		END_MODELSET
+			
 	END_MODELTYPESET
 
 #++++++++++++++++++++++++++++++++++++++
@@ -202,6 +332,13 @@ MODELALLSET
 		MODELSET
 			MODEL
 				POS = -70.0 -150.0 150.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -100.0 -150.0 -2200.0
 			END_MODEL
 			
 		END_MODELSET

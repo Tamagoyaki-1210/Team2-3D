@@ -185,7 +185,7 @@ void CCamera::Update(void)
 
 #endif // DEBUG
 
-	if (CMessage::GetStart() && m_posV.z <= 750.0f)
+	if (CMessage::GetStart() && m_posV.z <= 750.0f || CApplication::GetMode() == CApplication::Mode_Tutorial)
 	{
 		D3DXVECTOR3 v = m_posR - m_posV;
 		v.y = 0.0f;
