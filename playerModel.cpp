@@ -32,6 +32,7 @@ CModel::ModelType CPlayerModel::m_HeadTypeAll[HEAD_MAX]
 	CModel::MODEL_HEAD_OCTOPUS,
 	CModel::MODEL_HEAD_SNOWMAN,
 	CModel::MODEL_HEAD_TOYBOX,
+	CModel::MODEL_HEAD_SUMMER
 	
 };
 
