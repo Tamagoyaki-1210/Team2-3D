@@ -94,13 +94,18 @@ void CPlayerSelect::Input(void)
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-#ifdef _DEBUG
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
+//#ifdef _DEBUG
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, 0))
+		{// BACKSPACEƒL[‚ğ‰Ÿ‚µ‚½‚ç
+			CApplication::SetMode(CApplication::Mode_Title);
+			pSound->Play(CSound::SOUND_LABEL_SE_NO);
+		}
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN))
 		{
 			CApplication::SetMode(CApplication::Mode_StageSelect);
 			pSound->Play(CSound::SOUND_LABEL_SE_YES);
 		}
-#endif // !DEBUG
+//#endif // !DEBUG
 		if (m_nPlayerCount >= 4)
 		{//‘Sˆõ‚ª€”õ‚¨‚‹‚¾‚Á‚½‚ç
 			CApplication::SetMode(CApplication::Mode_StageSelect);
