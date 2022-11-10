@@ -43,7 +43,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 100.0 -125.0 200.0
+				POS = 100.0 -125.0 250.0
 			END_COIN
 		END_COINSET	
 	
@@ -64,6 +64,97 @@ COINALLSET
 				POS = 0.0 -125.0 -2700.0
 			END_COIN
 		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 67.5 -75.0 -2400.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 67.5 25.0 -2400.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 50.0 -125.0 -1000.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 100.0 -125.0 -800.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -800.0
+			END_COIN
+		END_COINSET		
+		
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -700.0
+			END_COIN
+		END_COINSET		
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -600.0
+			END_COIN
+		END_COINSET		
+		
+		COINSET
+			COIN
+				POS = 65.0 -125.0 -200.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 65.0 -125.0 -250.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -65.0 -125.0 -100.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 -75.0 200.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 25.0 200.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -50.0 -25.0 250.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -75.0 -125.0 450.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 -125.0 600.0
+			END_COIN
+		END_COINSET	
 
 	END_COINTYPESET
 	
@@ -76,7 +167,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 50.0f -125.0f 200.0f
+				POS = 50.0f -125.0f 300.0f
 			END_COIN
 
 		END_COINSET	
@@ -101,7 +192,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 50.0f -125.0f 300.0f
+				POS = 100.0f -125.0f 300.0f
 			END_COIN
 
 		END_COINSET	
@@ -115,6 +206,72 @@ COINALLSET
 		COINSET
 			COIN
 				POS = 50.0 -125.0 -2700.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET			
+			COIN
+				POS = -25.0 -125.0 -2567.5
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -1100.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -50.0 -125.0 -1000.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -100.0 -125.0 -800.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -500.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -150.0
+			END_COIN
+		END_COINSET		
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -250.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 65.0 -125.0 -100.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -50.0 -75.0 250.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 -125.0 450.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 -125.0 550.0
 			END_COIN
 		END_COINSET	
 
@@ -167,6 +324,78 @@ COINALLSET
 				POS = -100.0 -25.0 -2200.0
 			END_COIN
 		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 67.5 -25.0 -2400.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 -125.0 -1100.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -1100.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -900.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -900.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 50.0 -125.0 -800.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -200.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -65.0 -125.0 -250.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -65.0 -125.0 -200.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 -125.0 500.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -75.0 -125.0 600.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -75.0 -125.0 550.0
+			END_COIN
+		END_COINSET	
 
 	END_COINTYPESET
 	
@@ -189,6 +418,12 @@ COINALLSET
 			END_COIN
 		END_COINSET	
 		
+		COINSET			
+			COIN
+				POS = 50.0 -125.0 -2567.5
+			END_COIN
+		END_COINSET	
+				
 
 
 		
@@ -213,6 +448,54 @@ COINALLSET
 				POS = -100.0 -75.0 -2200.0
 			END_COIN
 		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 -125.0 -900.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -50.0 -125.0 -800.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -100.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 65.0 -125.0 -150.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -65.0 -125.0 -150.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = 75.0 -25.0 200.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -50.0 25.0 250.0
+			END_COIN
+		END_COINSET	
+		
+		COINSET
+			COIN
+				POS = -75.0 -125.0 500.0
+			END_COIN
+		END_COINSET	
 
 	END_COINTYPESET
 	
@@ -231,7 +514,7 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = -100.0 -125.0 500.0
+				POS = -100.0 -125.0 400.0
 			END_MODEL
 			
 		END_MODELSET	
@@ -256,17 +539,7 @@ MODELALLSET
 		END_MODELSET	
 #------------------
 # ４個目
-#------------------
-		MODELSET
-			MODEL
-				POS = 100.0 -125.0 600.0
-			END_MODEL
-			
-		END_MODELSET
-		
-		
-		
-		
+#------------------		
 		
 		MODELSET
 			MODEL
@@ -302,6 +575,273 @@ MODELALLSET
 			END_MODEL
 			
 		END_MODELSET
+		
+		
+		MODELSET
+			MODEL
+				POS = 25.0 -125.0 -2550.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 25.0 -125.0 -2600.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 75.0 -125.0 -2550.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 75.0 -125.0 -2600.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 0.0 -125.0 -1700.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 75.0 -125.0 -1400.0
+			END_MODEL
+			
+			MODELSET
+			MODEL
+				POS = -100.0 -125.0 -2000.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 50.0 25.0 -1775.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 70.0 25.0 -1775.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -90.0 25.0 -1450.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -110.0 25.0 -1450.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -100.0 -125.0 -250.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 100.0 -125.0 -250.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -30.0 -125.0 -250.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 30.0 -125.0 -250.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -100.0 -125.0 -200.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 100.0 -125.0 -200.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -30.0 -125.0 -200.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 30.0 -125.0 -200.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -100.0 -125.0 -150.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 100.0 -125.0 -150.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -30.0 -125.0 -150.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 30.0 -125.0 -150.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -100.0 -125.0 -100.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 100.0 -125.0 -100.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -30.0 -125.0 -100.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 30.0 -125.0 -100.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -50.0 -125.0 450.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 450.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -50.0 -125.0 400.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 400.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -75.0 -125.0 400.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 75.0 -125.0 400.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 100.0 -125.0 400.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 550.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -50.0 -125.0 550.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 500.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 600.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		
 
 	END_MODELTYPESET
 
@@ -319,6 +859,32 @@ MODELALLSET
 				POS = -75.0 -150.0 -2300.0
 			END_MODEL
 		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -75.0 -150.0 -1900.0
+			END_MODEL
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -75.0 -150.0 -1500.0
+			END_MODEL
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -75.0 -150.0 -350.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -75.0 -150.0 0.0
+			END_MODEL
+			
+		END_MODELSET
 			
 	END_MODELTYPESET
 
@@ -329,12 +895,6 @@ MODELALLSET
 #------------------
 # １個目
 #------------------
-		MODELSET
-			MODEL
-				POS = -70.0 -150.0 150.0
-			END_MODEL
-			
-		END_MODELSET
 		
 		MODELSET
 			MODEL
@@ -342,7 +902,42 @@ MODELALLSET
 			END_MODEL
 			
 		END_MODELSET
-
+		
+		MODELSET
+			MODEL
+				POS = 67.5 -150.0 -2400.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 60.0 -150.0 -1775.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -100.0 -150.0 -1450.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = 75.0 -150.0 200.0
+			END_MODEL
+			
+		END_MODELSET
+		
+		MODELSET
+			MODEL
+				POS = -50.0 -150.0 250.0
+			END_MODEL
+			
+		END_MODELSET
+		
 	END_MODELTYPESET
 	
 END_MODELALLSET
@@ -358,20 +953,10 @@ FLOORALLSET
 #------------------
 # １個目
 #------------------
-		FLOORSET
-			FLOOR
-				POS = -100.0 -153.0 450.0
-			END_FLOOR
-		END_FLOORSET	
 	
 #------------------
 # ２個目
 #------------------
-		FLOORSET
-			FLOOR
-				POS = 100.0 -153.0 550.0
-			END_FLOOR
-		END_FLOORSET	
 
 	END_FLOORTYPESET
 	
@@ -382,20 +967,20 @@ FLOORALLSET
 #------------------
 # １個目
 #------------------
-		FLOORSET
-			FLOOR
-				POS = 100.0 -199.0 -1000.0f
-			END_FLOOR
-		END_FLOORSET	
+		/FLOORSET
+			/FLOOR
+				/POS = 100.0 -199.0 -1000.0f
+			/END_FLOOR
+		/END_FLOORSET	
 	
 #------------------
 # ２個目
 #------------------
-		FLOORSET
-			FLOOR
-				POS = 0.0f, -199.0f, -1500.0f
-			END_FLOOR
-		END_FLOORSET	
+		/FLOORSET
+			/FLOOR
+				/POS = 0.0f, -199.0f, -1500.0f
+			/END_FLOOR
+		/END_FLOORSET	
 
 	END_FLOORTYPESET
 
@@ -419,14 +1004,14 @@ SPAWNERALLSET
 #------------------
 # １個目
 #------------------
-		SPAWNERSET
-			SPAWNER
-				POS = 0.0 400.0 -350.0
-				WIDTH = 135.0
-				LENGTH = 600.0
-				COLL = 30
-			END_SPAWNER
-		END_SPAWNERSET
+		/SPAWNERSET
+			/SPAWNER
+				/POS = 0.0 400.0 -350.0
+				/WIDTH = 135.0
+				/LENGTH = 600.0
+				/COLL = 30
+			/END_SPAWNER
+		/END_SPAWNERSET
 
 #------------------
 # ２個目

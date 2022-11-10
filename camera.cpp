@@ -11,10 +11,11 @@
 #include "camera.h"
 #include "application.h"
 #include "rendering.h"
+#include "message.h"
 #include "inputMouse.h"
 #include "inputKeyboard.h"
 #include "debugProc.h"
-#include "message.h"
+
 
 const float CCamera::CAMERA_SPEED = 1.5f;
 

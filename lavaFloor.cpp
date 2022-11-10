@@ -10,6 +10,8 @@
 //=============================================================================
 #include "lavaFloor.h"
 #include "BoxHitbox.h"
+#include "application.h"
+#include "camera.h"
 
 
 //コンストラクタ
@@ -53,6 +55,20 @@ void CLavaFloor::Uninit(void)
 void CLavaFloor::Update(void)
 {
 	CModel::Update();
+
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z - 100.0f)
+	{
+		Release();
+	}
+}
+
+//描画処理
+void CLavaFloor::Draw(void)
+{
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z + 650.0f)
+	{
+		CModel::Draw();
+	}
 }
 
 

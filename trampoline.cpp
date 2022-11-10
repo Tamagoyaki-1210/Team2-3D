@@ -10,6 +10,8 @@
 //=============================================================================
 #include "trampoline.h"
 #include "CylinderHitbox.h"
+#include "application.h"
+#include "camera.h"
 
 //コンストラクタ
 CTrampoline::CTrampoline()
@@ -52,6 +54,20 @@ void CTrampoline::Uninit(void)
 void CTrampoline::Update(void)
 {
 	CModel::Update();
+
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z - 100.0f)
+	{
+		Release();
+	}
+}
+
+//描画処理
+void CTrampoline::Draw(void)
+{
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z + 650.0f)
+	{
+		CModel::Draw();
+	}
 }
 
 

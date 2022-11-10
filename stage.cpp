@@ -198,6 +198,16 @@ void CStage::StageTexture(void)
 			LPDIRECT3DTEXTURE9 pTex = CObject_2D::GetTexturePointer(CObject::TEXTURE_SKY);
 			m_pSphere->BindTexture(pTex);
 		}
+
+		CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -149.9f, -1200.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 14, 10, 0.01f);
+		pField->SetTexture(CObject::TEXTURE_ICE);
+		pField->ChangeHeight(0, 150, 0.0f);
+		pField->SetPriority(0);
+
+		pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -149.9f, 400.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 13, 10, 0.01f);
+		pField->SetTexture(CObject::TEXTURE_ICE);
+		pField->ChangeHeight(0, 150, 0.0f);
+		pField->SetPriority(0);
 	}
 	break;
 	case STAGE_TUTORIAL:
@@ -232,13 +242,15 @@ void CStage::SetModelType(D3DXVECTOR3 pos, ModelType type)
 	case CStage::MODEL_SPIKEBALL:
 	{
 		// 鉄球
-		CSpikeBall::Create(pos);
+		CSpikeBall* pSpike = CSpikeBall::Create(pos);
+		pSpike->SetShadowHeight(-149.8f);
 	}
 	break;
 	case CStage::MODEL_BOUNCEPOLE:
 	{
 		// 跳ね返る円柱
-		CBouncePole::Create(pos);
+		CBouncePole* pPole = CBouncePole::Create(pos);
+		pPole->SetShadowHeight(-149.8f);
 	}
 	break;
 	case CStage::MODEL_TRAMPOLINE:
@@ -286,13 +298,13 @@ void CStage::SetSpawnerType(D3DXVECTOR3 pos, float width, float length, int coll
 	case CStage::SPAWNER_FALLSTONE:
 	{
 		// 落石の生成オブジェクト
-		CStoneSpawner::Create(pos, -149.9f, width, length, collDown);
+		CStoneSpawner::Create(pos, -149.8f, width, length, collDown);
 	}
 	break;
 	case CStage::SPAWNER_ICEPILLAR:
 	{
 		// 氷柱の生成オブジェクト
-		CIcePillarSpawner::Create(pos, -149.9f, width, length, collDown);
+		CIcePillarSpawner::Create(pos, -149.8f, width, length, collDown);
 	}
 	break;
 	default:
@@ -514,7 +526,8 @@ void CStage::Load()
 												s = aStr;					//std::stringに変換する
 												float z = std::stof(s);		//floatに変換する
 
-												CCoin::Create(D3DXVECTOR3(x, y, z), (CCoin::COIN_TYPE)nCoinType);
+												CCoin* pCoin = CCoin::Create(D3DXVECTOR3(x, y, z), (CCoin::COIN_TYPE)nCoinType);
+												pCoin->SetShadowHeight(-149.8f);
 											}
 										}
 									}

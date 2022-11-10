@@ -13,14 +13,15 @@
 #include "meshfield.h"
 #include "application.h"
 #include "effect.h"
+#include "camera.h"
 
 const D3DXVECTOR3 CCoin::m_hitboxSize[COIN_MAX] =
 {
-	{10.0f, 20.0f, 10.0f},
-	{10.0f, 20.0f, 10.0f},
-	{10.0f, 20.0f, 10.0f},
-	{10.0f, 20.0f, 10.0f},
-	{10.0f, 20.0f, 10.0f}
+	{15.0f, 20.0f, 15.0f},
+	{15.0f, 20.0f, 15.0f},
+	{15.0f, 20.0f, 15.0f},
+	{15.0f, 20.0f, 15.0f},
+	{15.0f, 20.0f, 15.0f}
 };
 
 //コンストラクタ
@@ -120,14 +121,22 @@ void CCoin::Update(void)
 
 		CMeshfield::FieldInteraction(this);
 	}
+
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z - 100.0f)
+	{
+		Release();
+	}
 }
 
 //描画処理
 void CCoin::Draw(void)
 {
-	if ((m_nLife % 30) <= 15)
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z + 650.0f)
 	{
-		CModel::Draw();
+		if ((m_nLife % 30) <= 15)
+		{
+			CModel::Draw();
+		}
 	}
 }
 

@@ -120,22 +120,7 @@ HRESULT CTitle::Init(void)
 	pField = CMeshfield::Create(D3DXVECTOR3(-175.0f, 1.0f, -401.0f), Vec3Null, D3DXVECTOR2(400.0f, 100.0f), 2, 2);
 	pField->SetTexture(CObject::TEXTURE_LAVA);
 	pField->SetTextureTiling(D3DXVECTOR2(5.0f, 0.5f));
-	pField->SetTextureAnim(0.001f, 0.0f);
-
-	/*CObject_2D* pObj = CObject_2D::Create();
-	pObj->SetPos(D3DXVECTOR3(220.0f, 530.0f, 0.0f));
-	pObj->SetSize(D3DXVECTOR2(105.0f, 54.0f));
-	pObj->SetTexture(CObject::TEXTURE_TUTORIAL_MOVE);
-	pObj->SetTextureParameter(8, 2, 4, 20);
-	pObj->SetPriority(5);
-
-	pObj = CObject_2D::Create();
-	pObj->SetPos(D3DXVECTOR3(240.0f, 635.0f, 0.0f));
-	pObj->SetSize(D3DXVECTOR2(200.0f, 66.7f));
-	pObj->SetTexture(CObject::TEXTURE_TUTORIAL_BUTTON);
-	pObj->SetTextureParameter(2, 1, 2, 20);
-	pObj->SetPriority(5);*/
-	
+	pField->SetTextureAnim(0.001f, 0.0f);	
 
 	return S_OK;
 }
