@@ -86,9 +86,6 @@ HRESULT CStage::Init(void)
 		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((m_pField[0]->GetLine() - 20) * -70.0f) - 200.0f), nCnt);
 	}
 
-	// カウントダウンメッセージ表示
-	CApplication::GetMsg()->SetCountDown(3);
-
 	if (CApplication::GetCamera() != nullptr)
 	{
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField[0]->GetLine() - 21) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));

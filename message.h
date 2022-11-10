@@ -42,6 +42,7 @@ public:
 	void Destroy();
 
 	static CMessage* Create();			//¶¬ˆ—
+	static void SetStart(bool start) { m_bStart = start; }
 	static bool GetStart(void) { return m_bStart; }
 
 private:

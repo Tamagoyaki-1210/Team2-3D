@@ -10,17 +10,18 @@
 //*****************************************************************************
 // インクルード
 //*****************************************************************************
-#include "mode.h"
+#include "game.h"
 
 //---------------------------
 //前方宣言
 //---------------------------
 class CStage;
+class CObject_2D;
 
 //---------------------------
 //クラス宣言
 //---------------------------
-class CTutorial : public CMode
+class CTutorial : public CGame
 {
 public:
 	CTutorial();
@@ -29,16 +30,16 @@ public:
 	HRESULT Init(void) override;
 	void Uninit(void) override;
 	void Update(void) override;
-
-	static void SetEndTutorial();			// ゲーム終了を設定する
-	static bool GetEndTutorial() { return m_bEndTutorial; }
+	void SetObject(void);
 
 	static CStage* GetStage(void) { return m_pStage; }
 
 	static CTutorial* Create(void);			//生成処理
 private:
 	static CStage* m_pStage;
-	static bool m_bEndTutorial;
+
+	CObject_2D* m_pUi;
+	bool m_bChange;
 };
 
 #endif // !_GAME_H_

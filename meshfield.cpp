@@ -331,6 +331,42 @@ void CMeshfield::StopTextureAnim(void)
 }
 
 
+void CMeshfield::ChangeHeight(const int nStartVtx, const int nEndVtx, const float fHeight)
+{
+	int nStart = nStartVtx, nEnd = nEndVtx;
+
+	if (nStart < 0)
+	{
+		nStart = 0;
+	}
+	if (nEnd > m_nVertexNumber)
+	{
+		nEnd = m_nVertexNumber;
+	}
+
+	//頂点情報へのポインタ
+	VERTEX_3D*pVtx = nullptr;
+	VERTEX_3D Vtx = {};
+
+	//頂点バッファをロック
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	//頂点情報の設定
+	for (int nCnt = nStart; nCnt < nEnd; nCnt++)
+	{
+		Vtx = pVtx[nCnt];
+
+		//テクスチャ座標の設定
+		Vtx.pos.y = fHeight;
+
+		pVtx[nCnt] = Vtx;
+	}
+
+	//頂点バッファのアンロック
+	m_pVtxBuff->Unlock();
+}
+
+
 
 
 

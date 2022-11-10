@@ -11,6 +11,7 @@
 #include "debugProc.h"
 #include "fade.h"
 #include "stage.h"
+#include "message.h"
 
 CStage* CGameRace::m_pStage = nullptr;
 
@@ -36,6 +37,9 @@ CGameRace::~CGameRace()
 HRESULT CGameRace::Init(void)
 {
     CGame::Init();
+
+	// カウントダウンメッセージ表示
+	CApplication::GetMsg()->SetCountDown(3);
 
 	m_pStage = CStage::Create();
 

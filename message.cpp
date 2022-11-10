@@ -14,7 +14,7 @@
 #include "menu.h"
 
 //静的メンバー変数宣言
-bool CMessage::m_bStart;
+bool CMessage::m_bStart = false;
 
 //=====================================
 // デフォルトコンストラクタ
