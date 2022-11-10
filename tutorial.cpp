@@ -27,7 +27,6 @@
 
 CMeshfield *CTutorial::m_pField = {};
 CPlayer* CTutorial::m_pPlayer[PLAYER_MAX] = {};
-CMessage* CTutorial::m_pMessage = nullptr;
 bool CTutorial::m_bEndTutorial = false;
 
 //=====================================
@@ -80,11 +79,8 @@ HRESULT CTutorial::Init(void)
 		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f), nCnt);
 	}
 
-	// メッセージの生成
-	m_pMessage = CMessage::Create();
-
 	// カウントダウンメッセージ表示
-	m_pMessage->SetCountDown(3);
+	CApplication::GetMsg()->SetCountDown(3);
 
 	if (CApplication::GetCamera() != nullptr)
 	{
@@ -116,13 +112,6 @@ void CTutorial::Uninit(void)
 		m_pField = nullptr;
 	}
 
-	if (m_pMessage != nullptr)
-	{
-		m_pMessage->Uninit();
-		delete m_pMessage;
-		m_pMessage = nullptr;
-	}
-
 	m_bEndTutorial = false;
 }
 
@@ -139,11 +128,6 @@ void CTutorial::Update(void)
 		{
 			CApplication::SetMode(CApplication::Mode_Title);
 		}
-	}
-
-	if (m_pMessage != nullptr)
-	{
-		m_pMessage->Update();
 	}
 }
 

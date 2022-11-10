@@ -196,8 +196,87 @@ COINALLSET
 			COIN
 				POS = -25.0f -125.0f 200.0f
 			END_COIN
-
 		END_COINSET	
+#------------------
+# ２個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0f -125.0f 100.0f
+			END_COIN
+		END_COINSET	
+#------------------
+# ３個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0 -125.0 0.0
+			END_COIN
+		END_COINSET
+#------------------
+# ４個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0 -125.0 -200.0
+			END_COIN
+		END_COINSET
+#------------------
+# ５個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0 -125.0 -300.0
+			END_COIN
+		END_COINSET
+#------------------
+# ６個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0 -125.0 -400.0
+			END_COIN
+		END_COINSET
+#------------------
+# ７個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0 -125.0 -700.0
+			END_COIN
+		END_COINSET
+#------------------
+# ８個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0 -125.0 -800.0
+			END_COIN
+		END_COINSET
+#------------------
+# ９個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0 -125.0 -900.0
+			END_COIN
+		END_COINSET
+#------------------
+# １０個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0 -125.0 -1100.0
+			END_COIN
+		END_COINSET
+#------------------
+# １１個目
+#------------------
+		COINSET
+			COIN
+				POS = -25.0 -125.0 -1200.0
+			END_COIN
+		END_COINSET
 
 	END_COINTYPESET
 	
@@ -219,19 +298,57 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 25.0f -125.0f 50.0f
+				POS = 25.0f -125.0f 100.0f
 			END_COIN
-
 		END_COINSET	
 #------------------
 # ３個目
 #------------------
 		COINSET
 			COIN
-				POS = 25.0f -125.0f 100.0f
+				POS = 25.0 -125.0 0.0
 			END_COIN
-
-		END_COINSET	
+		END_COINSET
+#------------------
+# ４個目
+#------------------
+		COINSET
+			COIN
+				POS = 25.0 -125.0 -200.0
+			END_COIN
+		END_COINSET
+#------------------
+# ５個目
+#------------------
+		COINSET
+			COIN
+				POS = 25.0 -125.0 -300.0
+			END_COIN
+		END_COINSET
+#------------------
+# ６個目
+#------------------
+		COINSET
+			COIN
+				POS = 25.0 -125.0 -400.0
+			END_COIN
+		END_COINSET
+#------------------
+# ７個目
+#------------------
+		COINSET
+			COIN
+				POS = 25.0 -125.0 -700.0
+			END_COIN
+		END_COINSET
+#------------------
+# ８個目
+#------------------
+		COINSET
+			COIN
+				POS = 25.0 -125.0 -800.0
+			END_COIN
+		END_COINSET
 
 	END_COINTYPESET
 	
@@ -246,9 +363,47 @@ COINALLSET
 			COIN
 				POS = 75.0f -125.0f 200.0f
 			END_COIN
-
 		END_COINSET	
-
+#------------------
+# ２個目
+#------------------
+		COINSET
+			COIN
+				POS = 75.0f -125.0f 100.0f
+			END_COIN
+		END_COINSET	
+#------------------
+# ３個目
+#------------------
+		COINSET
+			COIN
+				POS = 75.0 -125.0 0.0
+			END_COIN
+		END_COINSET
+#------------------
+# ４個目
+#------------------
+		COINSET
+			COIN
+				POS = 75.0 -125.0 -200.0
+			END_COIN
+		END_COINSET
+#------------------
+# ５個目
+#------------------
+		COINSET
+			COIN
+				POS = 75.0 -125.0 -300.0
+			END_COIN
+		END_COINSET
+#------------------
+# ６個目
+#------------------
+		COINSET
+			COIN
+				POS = 75.0 -125.0 -400.0
+			END_COIN
+		END_COINSET
 	END_COINTYPESET
 	
 END_COINALLSET
@@ -266,7 +421,7 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = -50.0 -125.0 500.0
+				POS = 50.0 -125.0 -2600.0
 			END_MODEL
 		END_MODELSET	
 #------------------
@@ -274,9 +429,41 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 500.0
+				POS = 50.0 -125.0 -1700.0
 			END_MODEL
-			
+		END_MODELSET
+#------------------
+# ３個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 -1600.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# ４個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 -700.0
+			END_MODEL
+		END_MODELSET
+#------------------
+# ５個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 -600.0
+			END_MODEL
+		END_MODELSET
+#------------------
+# ６個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 600.0
+			END_MODEL
 		END_MODELSET
 
 	END_MODELTYPESET

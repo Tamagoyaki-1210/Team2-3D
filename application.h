@@ -25,6 +25,7 @@ class CDebugProc;
 class CMode;
 class CHalfSphere;
 class CMenu;
+class CMessage;
 
 //アプリケーションのクラス
 class CApplication
@@ -66,6 +67,8 @@ public:
 	static int GetStageSelect() { return m_nStageSelect; }
 	static void SetStageSelect(int StageSelect) { m_nStageSelect = StageSelect; }
 
+	static CMessage* GetMsg(void) { return m_pMessage; }
+
 private:
 	static int m_nStageSelect;							//選択中のステージセレクト
 	static bool m_bPause;								//ポーズ中であるかどうか
@@ -80,6 +83,7 @@ private:
 	static CCamera* m_pCamera;							//カメラのインスタンスへのポインタ
 	static CMode* m_pMode;								//モードのインスタンスへのポインタ
 	static CMenu* m_pMenu;								//メニューのインスタンスへのポインタ
+	static CMessage* m_pMessage;						//メッセージのインスタンスへのポインタ
 
 	static CDebugProc* m_pDebug;
 

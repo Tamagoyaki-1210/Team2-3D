@@ -25,6 +25,7 @@
 #include "hitbox.h"
 #include "score.h"
 #include "tutorial.h"
+#include "message.h"
 
 //静的メンバー変数の宣言
 HWND CApplication::m_hWnd;
@@ -37,6 +38,7 @@ CFade* CApplication::m_pFade = nullptr;
 CCamera* CApplication::m_pCamera = nullptr;
 CMode* CApplication::m_pMode = nullptr;					// モードへのポインタ
 CMenu* CApplication::m_pMenu = nullptr;					// メニューへのポインタ
+CMessage* CApplication::m_pMessage = nullptr;				// メッセージへのポインタ
 CDebugProc* CApplication::m_pDebug = nullptr;
 CApplication::Mode CApplication::m_mode = CApplication::Mode_Title;
 CApplication::Mode CApplication::m_modeNext = CApplication::Mode_Title;
@@ -83,7 +85,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	CAnimator::LoadAllAnimation();
 
 	m_pSound = CSound::Create(hWnd);
-
 
 	CLight::ReleaseAll();
 	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
@@ -139,6 +140,11 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pMenu = CMenu::Create();
 	}
 
+	// メッセージ生成
+	if (m_pMessage == nullptr)
+	{
+		m_pMessage = CMessage::Create();
+	}
 
 	//m_pSphear->Init();
 
@@ -247,6 +253,13 @@ void CApplication::Uninit(void)
 		m_pMenu = nullptr;
 	}
 
+	if (m_pMessage != nullptr)
+	{
+		m_pMessage->Uninit();
+		delete m_pMessage;
+		m_pMessage = nullptr;
+	}
+
 	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Uninit();
@@ -313,6 +326,11 @@ void CApplication::Update(void)
 	if (m_pMenu != nullptr)
 	{
 		m_pMenu->Update();
+	}
+
+	if (m_pMessage != nullptr)
+	{
+		m_pMessage->Update();
 	}
 
 	if (m_pMouse != nullptr)
@@ -420,6 +438,7 @@ void CApplication::ChangeMode()
 	}
 
 	m_pMenu->Uninit();
+	m_pMessage->Uninit();
 
 	CObject::ReleaseAll();
 	CHitbox::ReleaseAll();

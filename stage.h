@@ -18,7 +18,6 @@
 class CMeshfield;
 class CPlayer;
 class CHalfSphere;
-class CMessage;
 
 //---------------------------
 //クラス宣言
@@ -86,7 +85,6 @@ public:
 
 	static CMeshfield* GetField(void) { return m_pField[0]; }			// メッシュフィールドの取得処理
 	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; }	// プレイヤーの取得処理
-	static CMessage* GetMsg(void) { return m_pMessage; }
 
 	static CStage* Create(void);			//生成処理
 
@@ -101,7 +99,6 @@ private:
 	static CMeshfield* m_pField[2];
 	static CPlayer* m_pPlayer[PLAYER_MAX];					//プレイヤーのインスタンスへのポインタ
 	static CHalfSphere* m_pSphere;
-	static CMessage* m_pMessage;
 
 	static bool m_bResult;
 };

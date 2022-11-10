@@ -64,6 +64,7 @@ void CMessage::Uninit(void)
 	m_nMessageCounter = 0;
 	m_nNum = 0;
 	m_bStart = false;
+	m_type = MESSAGE_COUNTDOWN;
 }
 
 //=====================================
@@ -260,7 +261,6 @@ void CMessage::Destroy(void)
 	{
 		m_pObj2D->Release();
 		m_pObj2D = nullptr;
-		m_nMessageCounter = 120;
 	}
 	m_nMessageCounter = 0;
 }
