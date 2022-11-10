@@ -288,9 +288,9 @@ void CPlayer::Update(void)
 		{
 			m_pos.z = wallPos.z;
 		}
-		else if (m_pos.z >= wallPos.z + 400.0f)
+		else if (m_pos.z >= wallPos.z + 250.0f)
 		{
-			m_pos.z = wallPos.z + 400.0f;
+			m_pos.z = wallPos.z + 250.0f;
 		}
 
 		// プレイヤー最大数分のインスタンスを作成
