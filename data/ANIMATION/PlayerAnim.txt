@@ -360,7 +360,7 @@ MOTION_SET					#アニメーション 3
 	
 		KEY_SET				#KeySet 0/3
 		
-			FRAME = 10
+			FRAME = 5
 			
 			KEY			#Key 0
 				POS = 0.0 17.0 0.0
@@ -415,7 +415,7 @@ MOTION_SET					#アニメーション 3
 		
 		KEY_SET				#KeySet 1/3
 		
-			FRAME = 20
+			FRAME = 7
 			
 			KEY			#Key 0
 				POS = 0.0 17.0 0.0
@@ -471,7 +471,7 @@ MOTION_SET					#アニメーション 3
 
 		KEY_SET				#KeySet 2/3
 		
-			FRAME = 20
+			FRAME = 7
 			
 			KEY			#Key 0
 				POS = 0.0 17.0 0.0
@@ -489,7 +489,7 @@ MOTION_SET					#アニメーション 3
 			END_KEY
 			
 			KEY			#Key 3
-				POS = 19.0 0.0 0.0
+				POS = 14.0 0.0 0.0
 				ROT = 0.0 0.0 0.0
 			END_KEY
 			
@@ -499,7 +499,7 @@ MOTION_SET					#アニメーション 3
 			END_KEY
 			
 			KEY			#Key 5
-				POS = -19.0 0.0 0.0
+				POS = -14.0 0.0 0.0
 				ROT = 0.0 0.0 0.0
 			END_KEY
 			
