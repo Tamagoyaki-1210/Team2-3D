@@ -39,102 +39,6 @@ COINALLSET
 #++++++++++++++++++++++++++++++++++++++
 	COINTYPESET
 #------------------
-# １個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 200.0
-			END_COIN
-		END_COINSET
-#------------------
-# ２個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 100.0
-			END_COIN
-		END_COINSET
-#------------------
-# ３個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 0.0
-			END_COIN
-		END_COINSET
-#------------------
-# ４個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 -200.0
-			END_COIN
-		END_COINSET
-#------------------
-# ５個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 -300.0
-			END_COIN
-		END_COINSET
-#------------------
-# ６個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 -400.0
-			END_COIN
-		END_COINSET
-#------------------
-# ７個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 -700.0
-			END_COIN
-		END_COINSET
-#------------------
-# ８個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 -800.0
-			END_COIN
-		END_COINSET
-#------------------
-# ９個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 -900.0
-			END_COIN
-		END_COINSET
-#------------------
-# １０個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 -1100.0
-			END_COIN
-		END_COINSET
-#------------------
-# １１個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 -1200.0
-			END_COIN
-		END_COINSET
-#------------------
-# １２個目
-#------------------
-		COINSET
-			COIN
-				POS = -75.0 -125.0 -1300.0
-			END_COIN
-		END_COINSET
-#------------------
 # １３個目
 #------------------
 		COINSET
@@ -142,44 +46,103 @@ COINALLSET
 				POS = -75.0 -125.0 -1800.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# １４個目
+# 20個目
 #------------------
 		COINSET
 			COIN
-				POS = -75.0 -125.0 -1900.0
+				POS = -100.0 -125.0 -2600.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# １５個目
+# 21個目
 #------------------
 		COINSET
 			COIN
-				POS = -75.0 -125.0 -2000.0
+				POS = -50.0 -125.0 -2450.0
 			END_COIN
 		END_COINSET
+	
 #------------------
-# １６個目
+# 22個目
 #------------------
 		COINSET
 			COIN
-				POS = -75.0 -125.0 -2300.0
+				POS = 0.0 -125.0 -2600.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# １７個目
+# 23個目
 #------------------
 		COINSET
 			COIN
-				POS = -75.0 -125.0 -2400.0
+				POS = 50.0 -125.0 -2450.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# １８個目
+# 24個目
 #------------------
 		COINSET
 			COIN
-				POS = -75.0 -125.0 -2500.0
+				POS = 100.0 -125.0 -2600.0
+			END_COIN
+		END_COINSET
+		
+#------------------
+# 25個目
+#------------------
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -2200.0
+			END_COIN
+		END_COINSET
+		
+#------------------
+# 26個目
+#------------------
+		COINSET
+			COIN
+				POS = 90.0 -125.0 -1690.0
+			END_COIN
+		END_COINSET
+		
+#------------------
+# 27個目
+#------------------
+		COINSET
+			COIN
+				POS = -30.0 -125.0 -1600.0
+			END_COIN
+		END_COINSET
+		
+#------------------
+# 28個目
+#------------------
+		COINSET
+			COIN
+				POS = 60.0 -125.0 -1400.0
+			END_COIN
+		END_COINSET
+		
+#------------------
+# 29個目
+#------------------
+		COINSET
+			COIN
+				POS = 20.0 -125.0 -1260.0
+			END_COIN
+		END_COINSET
+		
+#------------------
+# 30個目
+#------------------
+		COINSET
+			COIN
+				POS = -20.0 -125.0 -1260.0
 			END_COIN
 		END_COINSET
 
@@ -190,91 +153,92 @@ COINALLSET
 #++++++++++++++++++++++++++++++++++++++
 	COINTYPESET
 #------------------
-# １個目
+# 1個目
 #------------------
 		COINSET
 			COIN
-				POS = -25.0f -125.0f 200.0f
-			END_COIN
-		END_COINSET	
-#------------------
-# ２個目
-#------------------
-		COINSET
-			COIN
-				POS = -25.0f -125.0f 100.0f
-			END_COIN
-		END_COINSET	
-#------------------
-# ３個目
-#------------------
-		COINSET
-			COIN
-				POS = -25.0 -125.0 0.0
+				POS = -45.0 -30.0 -1000.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# ４個目
+# 2個目
 #------------------
 		COINSET
 			COIN
-				POS = -25.0 -125.0 -200.0
+				POS = 45.0 -30.0 -1000.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# ５個目
+# 3個目
 #------------------
 		COINSET
 			COIN
-				POS = -25.0 -125.0 -300.0
+				POS = 0.0 -125.0 -880.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# ６個目
+# 4個目
 #------------------
 		COINSET
 			COIN
-				POS = -25.0 -125.0 -400.0
+				POS = 0.0 -125.0 -780.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# ７個目
+# 4個目
 #------------------
 		COINSET
 			COIN
-				POS = -25.0 -125.0 -700.0
+				POS = 100.0 -125.0 -640.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# ８個目
+# 5個目
 #------------------
 		COINSET
 			COIN
-				POS = -25.0 -125.0 -800.0
+				POS = -100.0 -125.0 -640.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# ９個目
+# 5個目
 #------------------
 		COINSET
 			COIN
-				POS = -25.0 -125.0 -900.0
+				POS = 0.0 -125.0 -550.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# １０個目
+# 6個目
 #------------------
 		COINSET
 			COIN
-				POS = -25.0 -125.0 -1100.0
+				POS = -50.0 -125.0 -450.0
 			END_COIN
 		END_COINSET
+		
 #------------------
-# １１個目
+# 7個目
 #------------------
 		COINSET
 			COIN
-				POS = -25.0 -125.0 -1200.0
+				POS = 50.0 -125.0 -450.0
+			END_COIN
+		END_COINSET
+		
+#------------------
+# 8個目
+#------------------
+		COINSET
+			COIN
+				POS = -90.0 0.0 -155.0
 			END_COIN
 		END_COINSET
 
@@ -284,71 +248,6 @@ COINALLSET
 # コインモデル[2]
 #++++++++++++++++++++++++++++++++++++++
 	COINTYPESET
-#------------------
-# １個目
-#------------------
-		COINSET
-			COIN
-				POS = 25.0f -125.0f 200.0f
-			END_COIN
-
-		END_COINSET	
-#------------------
-# ２個目
-#------------------
-		COINSET
-			COIN
-				POS = 25.0f -125.0f 100.0f
-			END_COIN
-		END_COINSET	
-#------------------
-# ３個目
-#------------------
-		COINSET
-			COIN
-				POS = 25.0 -125.0 0.0
-			END_COIN
-		END_COINSET
-#------------------
-# ４個目
-#------------------
-		COINSET
-			COIN
-				POS = 25.0 -125.0 -200.0
-			END_COIN
-		END_COINSET
-#------------------
-# ５個目
-#------------------
-		COINSET
-			COIN
-				POS = 25.0 -125.0 -300.0
-			END_COIN
-		END_COINSET
-#------------------
-# ６個目
-#------------------
-		COINSET
-			COIN
-				POS = 25.0 -125.0 -400.0
-			END_COIN
-		END_COINSET
-#------------------
-# ７個目
-#------------------
-		COINSET
-			COIN
-				POS = 25.0 -125.0 -700.0
-			END_COIN
-		END_COINSET
-#------------------
-# ８個目
-#------------------
-		COINSET
-			COIN
-				POS = 25.0 -125.0 -800.0
-			END_COIN
-		END_COINSET
 
 	END_COINTYPESET
 	
@@ -356,54 +255,7 @@ COINALLSET
 # コインモデル[3]
 #++++++++++++++++++++++++++++++++++++++
 	COINTYPESET
-#------------------
-# １個目
-#------------------
-		COINSET
-			COIN
-				POS = 75.0f -125.0f 200.0f
-			END_COIN
-		END_COINSET	
-#------------------
-# ２個目
-#------------------
-		COINSET
-			COIN
-				POS = 75.0f -125.0f 100.0f
-			END_COIN
-		END_COINSET	
-#------------------
-# ３個目
-#------------------
-		COINSET
-			COIN
-				POS = 75.0 -125.0 0.0
-			END_COIN
-		END_COINSET
-#------------------
-# ４個目
-#------------------
-		COINSET
-			COIN
-				POS = 75.0 -125.0 -200.0
-			END_COIN
-		END_COINSET
-#------------------
-# ５個目
-#------------------
-		COINSET
-			COIN
-				POS = 75.0 -125.0 -300.0
-			END_COIN
-		END_COINSET
-#------------------
-# ６個目
-#------------------
-		COINSET
-			COIN
-				POS = 75.0 -125.0 -400.0
-			END_COIN
-		END_COINSET
+	
 	END_COINTYPESET
 	
 END_COINALLSET
@@ -421,93 +273,249 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 -2600.0
+				POS = -100.0 -125.0 -2450.0
 			END_MODEL
 		END_MODELSET	
+		
 #------------------
-# ２個目
-#------------------
-		MODELSET
-			MODEL
-				POS = 50.0 -125.0 -1600.0
-			END_MODEL
-		END_MODELSET
-#------------------
-# ３個目
+# 11個目
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 -1500.0
+				POS = -50.0 -125.0 -2600.0
 			END_MODEL
 		END_MODELSET
 		
 #------------------
-# ４個目
+# 12個目
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 -600.0
-			END_MODEL
-		END_MODELSET
-#------------------
-# ５個目
-#------------------
-		MODELSET
-			MODEL
-				POS = 50.0 -125.0 -500.0
-			END_MODEL
-		END_MODELSET
-#------------------
-# ６個目
-#------------------
-		MODELSET
-			MODEL
-				POS = 50.0 -125.0 500.0
+				POS = 0.0 -125.0 -2450.0
 			END_MODEL
 		END_MODELSET
 		
 #------------------
-# ７個目
+# 13個目
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 600.0
+				POS = 50.0 -125.0 -2600.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 14個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 100.0 -125.0 -2450.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 15個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 35.0 -125.0 -2250.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 16個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 35.0 -125.0 -2150.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 17個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -35.0 -125.0 -2250.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 18個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -35.0 -125.0 -2150.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 19個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 0.0 -125.0 -1980.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 19個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 75.0 -125.0 -1980.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 20個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -75.0 -125.0 -1980.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 21個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -45.0 -125.0 -920.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 22個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 45.0 -125.0 -920.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 23個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 60.0 -125.0 -700.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 24個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 0.0 -125.0 -700.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 25個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -60.0 -125.0 -700.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 26個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 75.0 -125.0 -380.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 27個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 25.0 -125.0 -380.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 28個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -25.0 -125.0 -380.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 29個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -75.0 -125.0 -380.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 30個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 0.0 -125.0 100.0
+			END_MODEL
+			
+#------------------
+# 31個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -75.0 -125.0 200.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 32個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 75.0 -125.0 200.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# 33個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 0.0 -125.0 300.0
 			END_MODEL
 		END_MODELSET
 
 #------------------
-# ８個目
+# 34個目
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 800.0
+				POS = 90.0 0.0 -155.0
+			END_MODEL
+		END_MODELSET
+		 
+#------------------
+# 35個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 0.0 0.0 -155.0
 			END_MODEL
 		END_MODELSET
 		
 #------------------
-# ９個目
+# 36個目
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 900.0
-			END_MODEL
-		END_MODELSET
-		
-#------------------
-# ８個目
-#------------------
-		MODELSET
-			MODEL
-				POS = 50.0 -125.0 1000.0
-			END_MODEL
-		END_MODELSET
-		
-		#------------------
-# ８個目
-#------------------
-		MODELSET
-			MODEL
-				POS = 50.0 -125.0 1200.0
+				POS = -45.0 0.0 -75.0
 			END_MODEL
 		END_MODELSET
 
@@ -521,7 +529,7 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = -125.0 -150.0 350.0
+				POS = -80.0 -150.0 350.0
 			END_MODEL
 		END_MODELSET	
 #------------------
@@ -533,16 +541,162 @@ MODELALLSET
 			END_MODEL
 			
 		END_MODELSET
+		
+#------------------
+# 3個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -80.0 -150.0 -1750.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 4個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -80.0 -150.0 -1550.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 5個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -80.0 -150.0 -1350.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 6個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -80.0 -150.0 -1150.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 7個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -80.0 -150.0 -800.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 8個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -80.0 -150.0 -590.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 9個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -80.0 -150.0 -490.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 10個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -80.0 -150.0 20.0
+			END_MODEL
+			
+		END_MODELSET
 
 	END_MODELTYPESET
-	
-END_MODELALLSET
-
 
 #++++++++++++++++++++++++++++++++++++++
 # 障害物モデル[2] MODEL_TRAMPOLINE
 #++++++++++++++++++++++++++++++++++++++
 	MODELTYPESET
+#------------------
+# 1個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -45.0 -150.0 -1000.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 2個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 45.0 -150.0 -1000.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 3個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 90.0 -150.0 -130.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 4個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 0.0 -150.0 -130.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 5個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -90.0 -150.0 -130.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 6個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -45.0 -150.0 -50.0
+			END_MODEL
+			
+		END_MODELSET
+		
+#------------------
+# 7個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 45.0 -150.0 -50.0
+			END_MODEL
+			
+		END_MODELSET
 
 	END_MODELTYPESET
 	
@@ -556,14 +710,6 @@ FLOORALLSET
 # 床モデル[0] FLOOR_LAVA
 #++++++++++++++++++++++++++++++++++++++
 	FLOORTYPESET
-#------------------
-# １個目
-#------------------
-		FLOORSET
-			FLOOR
-				POS = 0.0 -153.0 350.0
-			END_FLOOR
-		END_FLOORSET	
 
 	END_FLOORTYPESET
 	
