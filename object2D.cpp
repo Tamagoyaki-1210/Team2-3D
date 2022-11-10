@@ -22,7 +22,7 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 
 	"data\\TEXTURE\\Block.png",								//TEXTURE_BLOCK,
 	"data\\TEXTURE\\sky002.jpg",							//TEXTURE_SKY,
-	"data\\TEXTURE\\89.jpg",								//TEXTURE_GRASS,
+	"data\\TEXTURE\\89_m.jpg",								//TEXTURE_GRASS,
 	"data\\TEXTURE\\MeshField001.png",						//TEXTURE_ROCK,
 	"data\\TEXTURE\\MagmaArea.png",							//TEXTURE_MAGMA,
 	"data\\TEXTURE\\snow.png",								//TEXTURE_SNOW,
