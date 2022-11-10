@@ -9,6 +9,8 @@
 //=============================================================================
 #include "bouncePole.h"
 #include "CylinderHitbox.h"
+#include "application.h"
+#include "camera.h"
 
 //コンストラクタ
 CBouncePole::CBouncePole()
@@ -73,12 +75,20 @@ void CBouncePole::Update(void)
 	}
 
 	CModel::Update();
+
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z - 100.0f)
+	{
+		Release();
+	}
 }
 
 //描画処理
 void CBouncePole::Draw(void)
 {
-	CModel::Draw();
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z + 650.0f)
+	{
+		CModel::Draw();
+	}
 }
 
 

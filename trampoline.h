@@ -26,6 +26,7 @@ public:
 	HRESULT Init(void) override;						//‰Šú‰»ˆ—
 	void Uninit(void) override;							//I—¹ˆ—
 	void Update(void) override;							//XVˆ—
+	void Draw(void) override;							//•`‰æˆ—
 														
 	static CTrampoline* Create(const D3DXVECTOR3 pos);	//¶¬ˆ—
 

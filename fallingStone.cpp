@@ -13,6 +13,7 @@
 #include "application.h"
 #include "rendering.h"
 #include "meshfield.h"
+#include "camera.h"
 
 
 CFallingStone::CFallingStone()
@@ -117,47 +118,54 @@ void CFallingStone::Update(void)
 			StartRotation(D3DXVECTOR3(0.0f, 0.0f, -D3DX_PI * 0.01f * m_fDir));
 		}
 	}
+
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z - 100.0f)
+	{
+		Release();
+	}
 }
 
 //描画処理
 void CFallingStone::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();				//デバイスの取得
-	D3DXMATRIX mtxRot, mtxTrans, mtxShadow;							//計算用マトリックス
-	D3DMATERIAL9 matDef;									//現在のマテリアル保存用
-	D3DXMATERIAL *pMat;										//マテリアルデータへのポインタ
-	D3DXVECTOR4 vecLight;
-	D3DXVECTOR3 pos, Normal;
-	D3DXPLANE planeField;
-
-
-	D3DXVECTOR3 dir = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
-	D3DXVec3Normalize(&dir, &dir);
-
-	vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
-
-	pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);
-
-	if (m_pos.y < m_shadowPosY - 10.0f || (m_pos.x > m_spawnPos.x + m_fBound && m_fDir > 0.0f) || (m_pos.x < m_spawnPos.x - m_fBound && m_fDir < 0.0f))
+	if (GetPos().z < CApplication::GetCamera()->GetPos().z + 650.0f)
 	{
-		pos.y = -5000.0f;
-	}
+		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();				//デバイスの取得
+		D3DXMATRIX mtxRot, mtxTrans, mtxShadow;							//計算用マトリックス
+		D3DMATERIAL9 matDef;									//現在のマテリアル保存用
+		D3DXMATERIAL *pMat;										//マテリアルデータへのポインタ
+		D3DXVECTOR4 vecLight;
+		D3DXVECTOR3 pos, Normal;
+		D3DXPLANE planeField;
 
-	Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		D3DXVECTOR3 dir = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+		D3DXVec3Normalize(&dir, &dir);
 
-	//ワールドマトリックスの初期化
-	D3DXMatrixIdentity(&m_mtxWorld);
-	D3DXMatrixIdentity(&mtxShadow);
+		vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
 
-	//向きを反映
-	D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
+		pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);
 
-	//位置を反映
-	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
+		if (m_pos.y < m_shadowPosY - 10.0f || (m_pos.x > m_spawnPos.x + m_fBound && m_fDir > 0.0f) || (m_pos.x < m_spawnPos.x - m_fBound && m_fDir < 0.0f))
+		{
+			pos.y = -5000.0f;
+		}
+
+		Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+
+		//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+
+		//ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&m_mtxWorld);
+		D3DXMatrixIdentity(&mtxShadow);
+
+		//向きを反映
+		D3DXMatrixRotationYawPitchRoll(&mtxRot, m_rot.y, m_rot.x, m_rot.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
+
+		//位置を反映
+		D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
+		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
 		D3DXPlaneFromPointNormal(&planeField, &pos, &Normal);
 		D3DXMatrixShadow(&mtxShadow, &vecLight, &planeField);
@@ -224,68 +232,69 @@ void CFallingStone::Draw(void)
 		pDevice->SetMaterial(&matDef);
 
 
-	//ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+		//ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
-	//現在のマテリアルを保持
-	pDevice->GetMaterial(&matDef);
+		//現在のマテリアルを保持
+		pDevice->GetMaterial(&matDef);
 
-	//マテリアルデータへのポインタの取得
-	pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
+		//マテリアルデータへのポインタの取得
+		pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
 
-	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
-	{
-		//テクスチャの設定
-		pDevice->SetTexture(0, NULL);
+		for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
+		{
+			//テクスチャの設定
+			pDevice->SetTexture(0, NULL);
 
-		//マテリアルの設定
-		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+			//マテリアルの設定
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
-		//テクスチャの設定
-		pDevice->SetTexture(0, m_vModelTexture.data()[nCntMat]);
+			//テクスチャの設定
+			pDevice->SetTexture(0, m_vModelTexture.data()[nCntMat]);
 
-		//モデルパーツの描画
-		m_pMesh->DrawSubset(nCntMat);
+			//モデルパーツの描画
+			m_pMesh->DrawSubset(nCntMat);
+		}
+
+		//保持しいたマテリアルを戻す
+		pDevice->SetMaterial(&matDef);
+
+		//ステンシルバッファを無効にする
+		pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+
+		pMat = nullptr;
+
+		//保持しいたマテリアルを戻す
+		pDevice->SetMaterial(&matDef);
+
+
+		//ワールドマトリックスの設定
+		pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+
+		//現在のマテリアルを保持
+		pDevice->GetMaterial(&matDef);
+
+		//マテリアルデータへのポインタの取得
+		pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
+
+		for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
+		{
+			//テクスチャの設定
+			pDevice->SetTexture(0, NULL);
+
+			//マテリアルの設定
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
+
+			//テクスチャの設定
+			pDevice->SetTexture(0, m_vModelTexture.data()[nCntMat]);
+
+			//モデルパーツの描画
+			m_pMesh->DrawSubset(nCntMat);
+		}
+
+		//保持しいたマテリアルを戻す
+		pDevice->SetMaterial(&matDef);
 	}
-
-	//保持しいたマテリアルを戻す
-	pDevice->SetMaterial(&matDef);
-
-	//ステンシルバッファを無効にする
-	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
-
-	pMat = nullptr;
-
-	//保持しいたマテリアルを戻す
-	pDevice->SetMaterial(&matDef);
-
-
-	//ワールドマトリックスの設定
-	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
-
-	//現在のマテリアルを保持
-	pDevice->GetMaterial(&matDef);
-
-	//マテリアルデータへのポインタの取得
-	pMat = (D3DXMATERIAL*)m_pBuffMat->GetBufferPointer();
-
-	for (int nCntMat = 0; nCntMat < (int)m_nNumMat; nCntMat++)
-	{
-		//テクスチャの設定
-		pDevice->SetTexture(0, NULL);
-
-		//マテリアルの設定
-		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
-
-		//テクスチャの設定
-		pDevice->SetTexture(0, m_vModelTexture.data()[nCntMat]);
-
-		//モデルパーツの描画
-		m_pMesh->DrawSubset(nCntMat);
-	}
-
-	//保持しいたマテリアルを戻す
-	pDevice->SetMaterial(&matDef);
 }
 
 //位置の設定処理
