@@ -169,7 +169,33 @@ CCoin* CCoin::Create(const D3DXVECTOR3 pos, const COIN_TYPE type)
 	pCoin->SetPos(pos);													//位置の設定処理
 	pCoin->StartRotation(D3DXVECTOR3(0.0f, D3DX_PI * 0.01f, 0.0f));		//回転速度の設定
 
-	pCoin->m_pHitbox = CBoxHitbox::Create(pos, Vec3Null, m_hitboxSize[type], CHitbox::TYPE_VANISHING, pCoin, 10);		//ヒットボックスを生成する
+	int nAddScore = 0;
+	switch (type)
+	{
+	case COIN_0:
+	{
+		nAddScore = 10;
+	}
+	break;
+	case COIN_1:
+	{
+		nAddScore = 20;
+	}
+	break;
+	case COIN_2:
+	{
+		nAddScore = 30;
+	}
+	break;
+	case COIN_3:
+	{
+		nAddScore = 50;
+	}
+	break;
+	default:
+		break;
+	}
+	pCoin->m_pHitbox = CBoxHitbox::Create(pos, Vec3Null, m_hitboxSize[type], CHitbox::TYPE_VANISHING, pCoin, nAddScore);		//ヒットボックスを生成する
 
 	return pCoin;				//生成したインスタンスを返す
 

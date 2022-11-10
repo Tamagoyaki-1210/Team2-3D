@@ -312,15 +312,15 @@ void CPlayer::Update(void)
 			{
 				if (m_nPlayerRanking == 1)
 				{
-					m_pScore->AddScore(30);
+					m_pScore->AddScore(100);
 				}
 				else if (m_nPlayerRanking == 2)
 				{
-					m_pScore->AddScore(20);
+					m_pScore->AddScore(50);
 				}
 				else if (m_nPlayerRanking == 3)
 				{
-					m_pScore->AddScore(10);
+					m_pScore->AddScore(15);
 				}
 				else if (m_nPlayerRanking == 4)
 				{
@@ -699,7 +699,7 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 	fieldPos = CGameRace::GetStage()->GetField()->GetPos();
 
 	pModel->m_TargetPos = D3DXVECTOR3(-75.0f + (50.0f * (nCntPlayer)), -150.0f, fieldPos.z - 100.0f);
-	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(100.0f + (320.0f * nCntPlayer), SCREEN_HEIGHT - 80.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
+	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(100.0f + (320.0f * nCntPlayer), SCREEN_HEIGHT - 80.0f, 0.0f), D3DXVECTOR2(150.0f, 50.0f), UIcol, "0000", 5);
 
 	//CSilhouette::Create();
 

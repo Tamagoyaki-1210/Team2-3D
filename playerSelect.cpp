@@ -95,7 +95,7 @@ void CPlayerSelect::Input(void)
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
 //#ifdef _DEBUG
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, 0))
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_BACK, 0))
 		{// BACKSPACEƒL[‚ð‰Ÿ‚µ‚½‚ç
 			CApplication::SetMode(CApplication::Mode_Title);
 			pSound->Play(CSound::SOUND_LABEL_SE_NO);
