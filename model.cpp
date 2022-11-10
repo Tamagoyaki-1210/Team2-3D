@@ -55,11 +55,6 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Environment\\airship\\airship.x" },
 	{ "data\\MODELS\\Environment\\stone\\stone.x" },
 
-	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade.x" },
-	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Ball.x" },
-	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Cylinder.x" },
-	{ "data\\MODELS\\Stage_Debug\\Stage_Debug_Obstade_Needle.x" },
-
 	{ "data\\MODELS\\Stage_gimmick\\NeedleBall\\NeedleBall.x" },
 	{ "data\\MODELS\\Stage_gimmick\\LavaFloor\\Lava.x" },
 	{ "data\\MODELS\\Stage_gimmick\\BoundPole\\BoundPole.x" },
@@ -69,7 +64,6 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\traps\\IcePillar\\IcePillar_TrapType.x" },
 
 	{ "data\\MODELS\\sign\\fallstonesign.x" },
-	{ "data\\MODELS\\Stage_gimmick\\GrassTable\\GrassTable.x" },
 
 	{ "data\\MODELS\\Goal\\Goal01.x" },
 };
