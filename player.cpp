@@ -721,13 +721,13 @@ void CPlayer::PlayerController(int nCntPlayer)
 	D3DXVECTOR3 cameraRot = CApplication::GetCamera()->GetRot();					//カメラの向きの取得処理
 	D3DXVECTOR3 cR = D3DXVECTOR3(-cosf(cameraRot.y), 0.0f, sinf(cameraRot.y));
 	float fA = acosf(cR.x);
-
+#ifdef _DEBUG
 	if (!m_bAttacking)
 	{
 		//移動量と目的の角度の計算
-		if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y < -0.3f)
+		if (CInputKeyboard::GetKeyboardPress(DIK_W))
 		{//Wキーが押された場合
-			if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
+			if (CInputKeyboard::GetKeyboardPress(DIK_A))
 			{//Aキーも押された場合
 				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
@@ -740,7 +740,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 
 				m_DestRot.y = -D3DX_PI * 0.75f + fA;
 			}
-			else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.3f)
+			else if (CInputKeyboard::GetKeyboardPress(DIK_D))
 			{//Dキーも押された場合
 				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
@@ -767,9 +767,9 @@ void CPlayer::PlayerController(int nCntPlayer)
 				m_DestRot.y = -D3DX_PI * 0.5f + fA;
 			}
 		}
-		else if (CInputKeyboard::GetKeyboardPress(DIK_S) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y > 0.3f)
+		else if (CInputKeyboard::GetKeyboardPress(DIK_S))
 		{//Sキーが押された場合
-			if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
+			if (CInputKeyboard::GetKeyboardPress(DIK_A))
 			{//Aキーも押された場合
 				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
@@ -782,7 +782,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 
 				m_DestRot.y = D3DX_PI * 0.75f + fA;
 			}
-			else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.5f)
+			else if (CInputKeyboard::GetKeyboardPress(DIK_D))
 			{//Dキーも押された場合
 				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 				{
@@ -809,7 +809,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 				m_DestRot.y = D3DX_PI * 0.5f + fA;
 			}
 		}
-		else if (CInputKeyboard::GetKeyboardPress(DIK_D) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.3f)
+		else if (CInputKeyboard::GetKeyboardPress(DIK_D))
 		{//Dキーだけ押された場合
 			if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 			{
@@ -822,7 +822,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 
 			m_DestRot.y = fA;
 		}
-		else if (CInputKeyboard::GetKeyboardPress(DIK_A) || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
+		else if (CInputKeyboard::GetKeyboardPress(DIK_A))
 		{//Aキーだけ押された場合
 			if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
 			{
@@ -836,7 +836,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
-	if ((CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A,nCntPlayer))) && !m_bJump && !m_bAttacking && m_move.y < 0.0f)
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) && !m_bJump && !m_bAttacking && m_move.y < 0.0f)
 	{//ジャンプ
 		m_move.y = 18.0f;
  		m_bJump = true;
@@ -844,8 +844,147 @@ void CPlayer::PlayerController(int nCntPlayer)
 		m_pAnimator->SetPresentAnim(2);
 	}
 
-	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D)
-		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f
+	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D))
+	{
+		if (!m_bJump && !m_bHit && !m_bAttacking)
+		{
+			m_pAnimator->SetLoopingAnim(1);
+		}
+	}
+
+	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) &&  !m_bJump && !m_bHit && !m_bAttacking)
+	{
+		m_pAnimator->SetPresentAnim(3);
+
+		m_bAttacking = true;
+		m_nCntAttack = 19;
+
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_PUNCH);
+	}
+#endif // !DEBUG
+	if (!m_bAttacking)
+	{
+		//移動量と目的の角度の計算
+		if (CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y < -0.3f)
+		{//Wキーが押された場合
+			if ( CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
+			{//Aキーも押された場合
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
+				{
+					m_move.x += m_AccelerationCoeff * cosf(D3DX_PI * 0.25f + cameraRot.y) * (m_fFrictionCoeff);
+				}
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
+				{
+					m_move.z += m_AccelerationCoeff * sinf(D3DX_PI * 0.25f + cameraRot.y) * (m_fFrictionCoeff);
+				}
+
+				m_DestRot.y = -D3DX_PI * 0.75f + fA;
+			}
+			else if ( CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.3f)
+			{//Dキーも押された場合
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
+				{
+					m_move.x += m_AccelerationCoeff * cosf(-D3DX_PI * 0.25f + cameraRot.y) * (m_fFrictionCoeff);
+				}
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
+				{
+					m_move.z += m_AccelerationCoeff * sinf(-D3DX_PI * 0.25f + cameraRot.y) * (m_fFrictionCoeff);
+				}
+
+				m_DestRot.y = -D3DX_PI * 0.25f + fA;
+			}
+			else
+			{//Wキーだけが押された場合
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
+				{
+					m_move.x += m_AccelerationCoeff * cosf(cameraRot.y) * (m_fFrictionCoeff);
+				}
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
+				{
+					m_move.z += m_AccelerationCoeff * sinf(cameraRot.y) * (m_fFrictionCoeff);
+				}
+
+				m_DestRot.y = -D3DX_PI * 0.5f + fA;
+			}
+		}
+		else if (CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y > 0.3f)
+		{//Sキーが押された場合
+			if (CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
+			{//Aキーも押された場合
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
+				{
+					m_move.x += m_AccelerationCoeff * cosf(D3DX_PI * 0.75f + cameraRot.y) * (m_fFrictionCoeff);
+				}
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
+				{
+					m_move.z += m_AccelerationCoeff * sinf(D3DX_PI * 0.75f + cameraRot.y) * (m_fFrictionCoeff);
+				}
+
+				m_DestRot.y = D3DX_PI * 0.75f + fA;
+			}
+			else if (CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.5f)
+			{//Dキーも押された場合
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
+				{
+					m_move.x += m_AccelerationCoeff * cosf(-D3DX_PI * 0.75f + cameraRot.y) * (m_fFrictionCoeff);
+				}
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
+				{
+					m_move.z += m_AccelerationCoeff * sinf(-D3DX_PI * 0.75f + cameraRot.y) * (m_fFrictionCoeff);
+				}
+
+				m_DestRot.y = D3DX_PI * 0.25f + fA;
+			}
+			else
+			{//Sキーだけが押された場合
+				if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
+				{
+					m_move.x += m_AccelerationCoeff * cosf(D3DX_PI + cameraRot.y) * (m_fFrictionCoeff);
+				}
+				if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
+				{
+					m_move.z += m_AccelerationCoeff * sinf(D3DX_PI + cameraRot.y) * (m_fFrictionCoeff);
+				}
+
+				m_DestRot.y = D3DX_PI * 0.5f + fA;
+			}
+		}
+		else if (CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x > 0.3f)
+		{//Dキーだけ押された場合
+			if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
+			{
+				m_move.x += m_AccelerationCoeff * cosf(-D3DX_PI * 0.5f + cameraRot.y) * (m_fFrictionCoeff);
+			}
+			if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
+			{
+				m_move.z += m_AccelerationCoeff * sinf(-D3DX_PI * 0.5f + cameraRot.y) * (m_fFrictionCoeff);
+			}
+
+			m_DestRot.y = fA;
+		}
+		else if (CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x < -0.3f)
+		{//Aキーだけ押された場合
+			if (m_move.x <= m_MaxWalkingSpeed && m_move.x >= -m_MaxWalkingSpeed)
+			{
+				m_move.x += m_AccelerationCoeff * cosf(D3DX_PI * 0.5f + cameraRot.y) * (m_fFrictionCoeff);
+			}
+			if (m_move.z <= m_MaxWalkingSpeed && m_move.z >= -m_MaxWalkingSpeed)
+			{
+				m_move.z += m_AccelerationCoeff * sinf(D3DX_PI * 0.5f + cameraRot.y) * (m_fFrictionCoeff);
+			}
+			m_DestRot.y = D3DX_PI + fA;
+		}
+	}
+
+	if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, nCntPlayer) && !m_bJump && !m_bAttacking && m_move.y < 0.0f)
+	{//ジャンプ
+		m_move.y = 18.0f;
+		m_bJump = true;
+		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_JUMP);
+		m_pAnimator->SetPresentAnim(2);
+	}
+
+	if (CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f
 		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  > 0.3f)
 	{
 		if (!m_bJump && !m_bHit && !m_bAttacking)
@@ -854,7 +993,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
-	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) || (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, nCntPlayer)) &&  !m_bJump && !m_bHit && !m_bAttacking)
+	if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, nCntPlayer) && !m_bJump && !m_bHit && !m_bAttacking)
 	{
 		m_pAnimator->SetPresentAnim(3);
 

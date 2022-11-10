@@ -567,7 +567,31 @@ MODELALLSET
 # 障害物モデル[1] MODEL_BOUNCEPOLE
 #++++++++++++++++++++++++++++++++++++++
 	MODELTYPESET
-
+#------------------
+# １個目
+#------------------
+		MODELSET
+			MODEL
+				POS = -75.0 -150.0 300.0
+			END_MODEL
+		END_MODELSET
+#------------------
+# ２個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 0.0 -150.0 350.0
+			END_MODEL
+		END_MODELSET
+#------------------
+# ３個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 75.0 -150.0 400.0
+			END_MODEL
+		END_MODELSET
+		
 	END_MODELTYPESET
 
 #++++++++++++++++++++++++++++++++++++++
@@ -878,7 +902,7 @@ SPAWNERALLSET
 				POS = 0.0 400.0 -1800.0
 				WIDTH = 130.0
 				LENGTH = 300.0
-				COLL = 60
+				COLL = 30
 			END_SPAWNER
 		END_SPAWNERSET
 #------------------
@@ -889,7 +913,7 @@ SPAWNERALLSET
 				POS = 0.0 400.0 -200.0
 				WIDTH = 130.0
 				LENGTH = 400.0
-				COLL = 30
+				COLL = 20
 			END_SPAWNER
 		END_SPAWNERSET
 
