@@ -14,7 +14,6 @@
 #include "application.h"
 #include "rendering.h"
 #include "inputKeyboard.h"
-#include "debugProc.h"
 #include "UIString.h"
 #include "inputPad.h"
 #include "playerSelect.h"
@@ -280,9 +279,6 @@ void CPlayerModel::Update(void)
 			}
 		}
 	}
-
-	CDebugProc::Print("\nColor: %d", m_nPresentColor);
-	CDebugProc::Print("\nPos: %f, %f, %f", m_pos.x, m_pos.y, m_pos.z);
 }
 
 //ï`âÊèàóù

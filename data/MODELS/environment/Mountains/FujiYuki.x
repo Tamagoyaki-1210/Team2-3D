@@ -2163,7 +2163,7 @@ Mesh {
    0.250000;0.250000;0.250000;;
    0.150000;0.150000;0.150000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\Team2-3D\\data\\TEXTURE\\snow.png";
+    "data\\TEXTURE\\snow.png";
    }
   }
   Material {
@@ -2172,7 +2172,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\Team2-3D\\data\\TEXTURE\\Lava.jpg";
+    "data\\TEXTURE\\Lava.jpg";
    }
   }
   Material {
@@ -2181,7 +2181,7 @@ Mesh {
    0.250000;0.250000;0.250000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\student\\Desktop\\Team2-3D\\data\\TEXTURE\\MeshField001.png";
+    "data\\TEXTURE\\MeshField001.png";
    }
   }
  }

@@ -109,52 +109,7 @@ void CBillboard::Uninit(void)
 //更新処理
 void CBillboard::Update(void)
 {
-	////頂点情報へのポインタ
-	//VERTEX_3D*pVtx = NULL;
-
-	////デバイスの取得
-	//LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
-	//D3DXMATRIX	mtxRot, mtxOut;											//計算用マトリックス
-	//D3DXMATRIX mtxView;														//ビューマトリックス
-
-	////頂点バッファをロック
-	//m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-	//pDevice->GetTransform(D3DTS_VIEW, &mtxView);
-
-	////カメラの逆行列を設定
-	//mtxOut._11 = mtxView._11;
-	//mtxOut._13 = mtxView._31;
-	//mtxOut._31 = mtxView._13;
-	//mtxOut._33 = mtxView._33;
-
-	////ワルドマトリックスの設定
-	//pDevice->SetTransform(D3DTS_WORLD, &mtxOut);
-
-	//D3DXVECTOR3 Vtx[3] = {};
-	//Vtx[0] = pVtx[0].pos;
-	//Vtx[1] = pVtx[1].pos;
-	//Vtx[2] = pVtx[2].pos;
-
-	//D3DXVec3TransformCoord(&Vtx[0], &Vtx[0], &mtxOut);
-	//D3DXVec3TransformCoord(&Vtx[1], &Vtx[1], &mtxOut);
-	//D3DXVec3TransformCoord(&Vtx[2], &Vtx[2], &mtxOut);
-
-	//D3DXVECTOR3 V1, V2, N;
-
-	//V1 = Vtx[1] - Vtx[0];
-	//V2 = Vtx[2] - Vtx[1];
-
-	//D3DXVec3Cross(&N, &V2, &V1);
-	//D3DXVec3Normalize(&N, &N);
-
-	//pVtx[0].nor = N;
-	//pVtx[1].nor = N;
-	//pVtx[2].nor = N;
-	//pVtx[3].nor = N;
-
-	////頂点バッファのアンロック
-	//m_pVtxBuff->Unlock();
+	
 }
 
 //描画処理

@@ -12,7 +12,6 @@
 #include "application.h"
 #include "rendering.h"
 #include "object2D.h"
-#include "debugProc.h"
 
 std::vector <CObject*> CMeshfield::m_vLandedObj;
 std::vector <CMeshfield*> CMeshfield::m_vMeshfield;
