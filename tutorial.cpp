@@ -56,18 +56,19 @@ HRESULT CTutorial::Init(void)
 	pField->SetTextureTiling(0.33f);
 	pField->SetPriority(1);
 
+
+
+	// カウントダウンメッセージ表示
+	//CApplication::GetMsg()->SetCountDown(3);
+
 	if (CApplication::GetCamera() != nullptr)
 	{
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((60 - 21) * -70.0f) - 500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
-	// プレイヤーの生成
-	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+	if (CStage::GetPlayer(nCnt) != nullptr)
 	{
-		if (CStage::GetPlayer(nCnt) != nullptr)
-		{
-			CStage::GetPlayer(nCnt)->SetPos(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f));
-		}
+		CStage::GetPlayer(nCnt)->SetPos(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f));
 	}
 
 	m_pUi = CObject_2D::Create();
@@ -140,10 +141,7 @@ void CTutorial::Update(void)
 	}
 
 
-	//if (cameraPos.z >= 600.0f)
-	//{
-	//	CApplication::SetMode(CApplication::Mode_Title);
-	//}
+	}
 }
 
 //=====================================
