@@ -10,24 +10,20 @@
 #include "application.h"
 #include "meshfield.h"
 #include "player.h"
-#include "halfsphere.h"
 #include "coin.h"
-#include "goal.h"
 #include "camera.h"
 #include "SpikeBall.h"
 #include "lavaFloor.h"
 #include "score.h"
-#include "message.h"
-#include "silhouette.h"
-#include "environment.h"
 #include "trampoline.h"
 #include "bouncePole.h"
 #include "stoneSpawner.h"
 #include "icePillarSpawner.h"
+#include "stage.h"
+#include "object2D.h"
+#include "message.h"
 
-CMeshfield *CTutorial::m_pField = {};
-CPlayer* CTutorial::m_pPlayer[PLAYER_MAX] = {};
-bool CTutorial::m_bEndTutorial = false;
+CStage* CTutorial::m_pStage = nullptr;
 
 //=====================================
 // デフォルトコンストラクタ
@@ -51,36 +47,16 @@ CTutorial::~CTutorial()
 //=====================================
 HRESULT CTutorial::Init(void)
 {
-	LPDIRECT3DTEXTURE9 pTex = CObject_2D::GetTexturePointer(CObject::TEXTURE_SKY);
+	CGame::Init();
 
-	// スフィアメッシュ
-	CHalfSphere* pSphere1 = CHalfSphere::Create(D3DXVECTOR3(0.0f, -8000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(D3DX_PI * -0.15f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
-	pSphere1->BindTexture(pTex);
-
-	pSphere1 = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, D3DX_PI, D3DX_PI), CHalfSphere::SPHERE_DOWN);
-	pSphere1->BindTexture(pTex);
-
-	if (m_pField != nullptr)
-	{
-		m_pField->SetPriority(1);
-	}
-	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
-
-	m_pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 40, 10, 3);
-	m_pField->SetTexture(CObject::TEXTURE_BLOCK);
-	m_pField->SetTextureTiling(0.33f);
-	m_pField->SetPriority(1);
+	m_pStage = CStage::Create();
 
 	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, -1800.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
 	pField->SetTexture(CObject::TEXTURE_BLOCK);
 	pField->SetTextureTiling(0.33f);
-	m_pField->SetPriority(1);
+	pField->SetPriority(1);
 
-	// プレイヤーの生成
-	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
-	{
-		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f), nCnt);
-	}
+
 
 	// カウントダウンメッセージ表示
 	//CApplication::GetMsg()->SetCountDown(3);
@@ -90,18 +66,25 @@ HRESULT CTutorial::Init(void)
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((60 - 21) * -70.0f) - 500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
+	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+	{
+		if (CStage::GetPlayer(nCnt) != nullptr)
+		{
+			CStage::GetPlayer(nCnt)->SetPos(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f));
+		}
+	}
+
 	m_pUi = CObject_2D::Create();
 	m_pUi->SetPos(D3DXVECTOR3(640.0f, 90.0f, 0.0f));
 	m_pUi->SetSize(D3DXVECTOR2(105.0f, 54.0f));
 	m_pUi->SetTexture(CObject::TEXTURE_TUTORIAL_MOVE);
 	m_pUi->SetTextureParameter(8, 2, 4, 20);
 	m_pUi->SetPriority(5);
-
-	CSilhouette::Create();
-
 	m_bChange = false;
 
 	SetObject();
+
+	CMessage::SetStart(true);
 
 	return S_OK;
 }
@@ -111,19 +94,13 @@ HRESULT CTutorial::Init(void)
 //=====================================
 void CTutorial::Uninit(void)
 {
-	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
-	{
-		if (m_pPlayer[nCnt] != nullptr)
-		{
-			m_pPlayer[nCnt]->Release();
-			m_pPlayer[nCnt] = nullptr;
-		}
-	}
+	CGame::Uninit();
 
-	if (m_pField != nullptr)
+	if (m_pStage != nullptr)
 	{
-		m_pField->Release();
-		m_pField = nullptr;
+		m_pStage->Uninit();
+		delete m_pStage;
+		m_pStage = nullptr;
 	}
 
 
@@ -132,8 +109,6 @@ void CTutorial::Uninit(void)
 		m_pUi->Release();
 		m_pUi = nullptr;
 	}
-
-	m_bEndTutorial = false;
 }
 
 //=====================================
@@ -141,14 +116,11 @@ void CTutorial::Uninit(void)
 //=====================================
 void CTutorial::Update(void)
 {
-	//ゲーム中の処理
-	if (m_bEndTutorial == false)
+	CGame::Update();
+
+	if (m_pStage != nullptr)
 	{
-		//Pでポーズ切り替え
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_P) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
-		{
-			CApplication::SetMode(CApplication::Mode_Title);
-		}
+		m_pStage->Update();
 	}
 
 	D3DXVECTOR3 cameraPos = CApplication::GetCamera()->GetPos();
@@ -170,26 +142,6 @@ void CTutorial::Update(void)
 		m_pUi->SetTexture(CObject::TEXTURE_TUTORIAL_BUTTON);
 		m_pUi->SetTextureParameter(2, 1, 2, 20);
 	}
-
-
-	if (cameraPos.z >= 600.0f)
-	{
-		CApplication::SetMode(CApplication::Mode_Title);
-	}
-
-
-	/*if (m_pMessage != nullptr)
-	{
-		m_pMessage->Update();
-	}*/
-}
-
-//=====================================
-// 更新処理
-//=====================================
-void CTutorial::SetEndTutorial(void)
-{
-	m_bEndTutorial = true;
 }
 
 //=====================================

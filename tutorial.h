@@ -10,19 +10,18 @@
 //*****************************************************************************
 // インクルード
 //*****************************************************************************
-#include "mode.h"
+#include "game.h"
 
 //---------------------------
 //前方宣言
 //---------------------------
-class CMeshfield;
-class CPlayer;
+class CStage;
 class CObject_2D;
 
 //---------------------------
 //クラス宣言
 //---------------------------
-class CTutorial : public CMode
+class CTutorial : public CGame
 {
 public:
 	CTutorial();
@@ -31,22 +30,13 @@ public:
 	HRESULT Init(void) override;
 	void Uninit(void) override;
 	void Update(void) override;
+	void SetObject(void);
 
-	static void SetEndTutorial();			// ゲーム終了を設定する
-	static bool GetEndTutorial() { return m_bEndTutorial; };
-
-	static CMeshfield* GetField(void) { return m_pField; };			// メッシュフィールドの取得処理
-	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; };	// プレイヤーの取得処理
+	static CStage* GetStage(void) { return m_pStage; }
 
 	static CTutorial* Create(void);			//生成処理
 private:
-
-	void SetObject(void);
-
-	static CMeshfield* m_pField;
-	static CPlayer* m_pPlayer[PLAYER_MAX];					//プレイヤーのインスタンスへのポインタ
-
-	static bool m_bEndTutorial;
+	static CStage* m_pStage;
 
 	CObject_2D* m_pUi;
 	bool m_bChange;

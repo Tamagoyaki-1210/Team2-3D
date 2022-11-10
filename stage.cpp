@@ -32,6 +32,7 @@ char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
 	{ "data\\STAGESET\\StageSet1.txt" },
 	{ "data\\STAGESET\\StageSet2.txt" },
 	{ "data\\STAGESET\\StageSet3.txt" },
+	{ "data\\STAGESET\\StageSetTutorial.txt" },
 };
 
 CMeshfield *CStage::m_pField[2] = {};
@@ -85,14 +86,10 @@ HRESULT CStage::Init(void)
 		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((m_pField[0]->GetLine() - 20) * -70.0f) - 200.0f), nCnt);
 	}
 
-	// カウントダウンメッセージ表示
-	CApplication::GetMsg()->SetCountDown(3);
-
 	if (CApplication::GetCamera() != nullptr)
 	{
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((m_pField[0]->GetLine() - 21) * -70.0f) -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
-
 
 	CSilhouette::Create();
 
@@ -211,6 +208,23 @@ void CStage::StageTexture(void)
 		pField->SetTexture(CObject::TEXTURE_ICE);
 		pField->ChangeHeight(0, 150, 0.0f);
 		pField->SetPriority(0);
+	}
+	break;
+	case STAGE_TUTORIAL:
+	{
+		if (m_pField[0] != nullptr)
+		{
+			m_pField[0]->SetTexture(CObject::TEXTURE_BLOCK);
+		}
+		if (m_pField[1] != nullptr)
+		{
+			m_pField[1]->SetTexture(CObject::TEXTURE_SKY);
+		}
+		if (m_pSphere != nullptr)
+		{
+			LPDIRECT3DTEXTURE9 pTex = CObject_2D::GetTexturePointer(CObject::TEXTURE_SKY);
+			m_pSphere->BindTexture(pTex);
+		}
 	}
 	break;
 	default:

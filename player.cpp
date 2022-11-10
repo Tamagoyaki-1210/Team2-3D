@@ -27,7 +27,6 @@
 #include "playerModel.h"
 #include "message.h"
 #include "BoxHitbox.h"
-#include "tutorial.h"
 
 int CPlayer::m_nRanking;
 const float CPlayer::m_MaxWalkingSpeed = 7.0f;
@@ -182,7 +181,7 @@ void CPlayer::Update(void)
 		fA *= -1.0f;
 	}
 
-	if (!m_bGoal && CMessage::GetStart() || CApplication::GetMode() == CApplication::Mode_Tutorial)
+	if (!m_bGoal && CMessage::GetStart())
 	{
 		PlayerController(m_nIdxPlayer);
 	}
@@ -522,19 +521,9 @@ void CPlayer::Update(void)
 		
 		CPlayer *m_pPlayer[PLAYER_MAX] = {};
 
-		if (CApplication::GetMode() == CApplication::Mode_Game_Race)
+		for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
 		{
-			for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
-			{
-				m_pPlayer[nCnt] = CStage::GetPlayer(nCnt);
-			}
-		}
-		else if (CApplication::GetMode() == CApplication::Mode_Tutorial)
-		{
-			for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
-			{
-				m_pPlayer[nCnt] = CTutorial::GetPlayer(nCnt);
-			}
+			m_pPlayer[nCnt] = CStage::GetPlayer(nCnt);
 		}
 
 		if (m_pPlayer[0]->m_bGoal &&m_pPlayer[1]->m_bGoal &&m_pPlayer[2]->m_bGoal &&m_pPlayer[3]->m_bGoal
@@ -707,14 +696,8 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 	D3DXVECTOR3 fieldPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	// モードで取得するメッシュフィールドを分ける
-	if (CApplication::GetMode() == CApplication::Mode_Game_Race)
-	{
-		fieldPos = CGameRace::GetStage()->GetField()->GetPos();
-	}
-	else if (CApplication::GetMode() == CApplication::Mode_Tutorial)
-	{
-		fieldPos = CTutorial::GetField()->GetPos();
-	}
+	fieldPos = CGameRace::GetStage()->GetField()->GetPos();
+
 	pModel->m_TargetPos = D3DXVECTOR3(-75.0f + (50.0f * (nCntPlayer)), -150.0f, fieldPos.z - 100.0f);
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(100.0f + (320.0f * nCntPlayer), SCREEN_HEIGHT - 80.0f, 0.0f), D3DXVECTOR2(100.0f, 50.0f), UIcol, "0000", 5);
 

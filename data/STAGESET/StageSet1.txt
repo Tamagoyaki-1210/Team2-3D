@@ -429,7 +429,7 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 -1700.0
+				POS = 50.0 -125.0 -1600.0
 			END_MODEL
 		END_MODELSET
 #------------------
@@ -437,7 +437,7 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 -1600.0
+				POS = 50.0 -125.0 -1500.0
 			END_MODEL
 		END_MODELSET
 		
@@ -446,7 +446,7 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 -700.0
+				POS = 50.0 -125.0 -600.0
 			END_MODEL
 		END_MODELSET
 #------------------
@@ -454,7 +454,7 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = 50.0 -125.0 -600.0
+				POS = 50.0 -125.0 -500.0
 			END_MODEL
 		END_MODELSET
 #------------------
@@ -462,7 +462,52 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
+				POS = 50.0 -125.0 500.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# ７個目
+#------------------
+		MODELSET
+			MODEL
 				POS = 50.0 -125.0 600.0
+			END_MODEL
+		END_MODELSET
+
+#------------------
+# ８個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 800.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# ９個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 900.0
+			END_MODEL
+		END_MODELSET
+		
+#------------------
+# ８個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 1000.0
+			END_MODEL
+		END_MODELSET
+		
+		#------------------
+# ８個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 50.0 -125.0 1200.0
 			END_MODEL
 		END_MODELSET
 

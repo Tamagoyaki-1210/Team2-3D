@@ -105,7 +105,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pFade->SetFade();
 	}
 
-	//キーボードインスタンスの生成処理
+	//キーボードインスタンスの生成処理 
 	m_pInput[0] = new CInputKeyboard;
 
 	//キーボードの初期化処理
