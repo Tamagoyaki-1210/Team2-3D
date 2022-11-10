@@ -59,7 +59,7 @@ COINALLSET
 			COIN
 				POS = -75.0 -125.0 200.0
 			END_COIN
-		END_COINSET	
+		END_COINSET
 #------------------
 # ２個目
 #------------------
@@ -67,8 +67,135 @@ COINALLSET
 			COIN
 				POS = -75.0 -125.0 100.0
 			END_COIN
-
-		END_COINSET	
+		END_COINSET
+#------------------
+# ３個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 0.0
+			END_COIN
+		END_COINSET
+#------------------
+# ４個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -200.0
+			END_COIN
+		END_COINSET
+#------------------
+# ５個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -300.0
+			END_COIN
+		END_COINSET
+#------------------
+# ６個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -400.0
+			END_COIN
+		END_COINSET
+#------------------
+# ７個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -700.0
+			END_COIN
+		END_COINSET
+#------------------
+# ８個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -800.0
+			END_COIN
+		END_COINSET
+#------------------
+# ９個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -900.0
+			END_COIN
+		END_COINSET
+#------------------
+# １０個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -1100.0
+			END_COIN
+		END_COINSET
+#------------------
+# １１個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -1200.0
+			END_COIN
+		END_COINSET
+#------------------
+# １２個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -1300.0
+			END_COIN
+		END_COINSET
+#------------------
+# １３個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -1800.0
+			END_COIN
+		END_COINSET
+#------------------
+# １４個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -1900.0
+			END_COIN
+		END_COINSET
+#------------------
+# １５個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -2000.0
+			END_COIN
+		END_COINSET
+#------------------
+# １６個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -2300.0
+			END_COIN
+		END_COINSET
+#------------------
+# １７個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -2400.0
+			END_COIN
+		END_COINSET
+#------------------
+# １８個目
+#------------------
+		COINSET
+			COIN
+				POS = -75.0 -125.0 -2500.0
+			END_COIN
+		END_COINSET
 
 	END_COINTYPESET
 	

@@ -202,7 +202,7 @@ void CStage::SetFloorType(D3DXVECTOR3 pos, FloorType type)
 		CLavaFloor::Create(pos);
 	}
 	break;
-	case CStage::FLOOR_SRIP:
+	case CStage::FLOOR_SLIP:
 	{
 		CMeshfield* pField = CMeshfield::Create(pos, Vec3Null, D3DXVECTOR2(20.0f, 20.0f), 5, 5, 0.005f);
 		pField->SetTexture(CObject::TEXTURE_ICE);
@@ -371,7 +371,7 @@ void CStage::Load()
 				{
 					fscanf(pFile, "%s", aStr);
 					if (strncmp(aStr, "FIELDSET", 8) == 0)
-					{// ハーフスフィアメッシュ読み込み
+					{// メッシュフィールドメッシュ読み込み
 						while (strncmp(aStr, "END_FIELDSET", 12) != 0)
 						{
 							fscanf(pFile, "%s", aStr);
