@@ -9,6 +9,7 @@
 #include "inputPad.h"
 #include "application.h"
 #include "menu.h"
+#include "fade.h"
 
 bool CGame::m_bEndGame = false;		//ゲーム終了判定
 
@@ -49,19 +50,22 @@ void CGame::Uninit(void)
 //=====================================
 void CGame::Update(void)
 {
-	//ゲーム中の処理
-	if (m_bEndGame == false)
+	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		//Pでポーズ切り替え
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_P) 
-			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0)
-			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 1)
-			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 2)
-			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 3))
+		//ゲーム中の処理
+		if (m_bEndGame == false)
 		{
-			bool bPause = !CApplication::GetPause();	//ポーズ切り替え処理
-			CApplication::SetPause(bPause);
-			CMenu::PauseChange(bPause);		// ポーズ処理
+			//Pでポーズ切り替え
+			if (CInputKeyboard::GetKeyboardTrigger(DIK_P)
+				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0)
+				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 1)
+				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 2)
+				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 3))
+			{
+				bool bPause = !CApplication::GetPause();	//ポーズ切り替え処理
+				CApplication::SetPause(bPause);
+				CMenu::PauseChange(bPause);		// ポーズ処理
+			}
 		}
 	}
 }

@@ -37,7 +37,6 @@ char* CStage::m_pStagePass[STAGE_TYPE_MAX] =
 CMeshfield *CStage::m_pField[2] = {};
 CHalfSphere* CStage::m_pSphere = nullptr;
 CPlayer* CStage::m_pPlayer[PLAYER_MAX] = {};
-CMessage* CStage::m_pMessage = nullptr;
 bool CStage::m_bResult = false;
 
 //=====================================
@@ -86,11 +85,8 @@ HRESULT CStage::Init(void)
 		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((m_pField[0]->GetLine() - 20) * -70.0f) - 200.0f), nCnt);
 	}
 
-	// メッセージの生成
-	m_pMessage = CMessage::Create();
-
 	// カウントダウンメッセージ表示
-	m_pMessage->SetCountDown(3);
+	CApplication::GetMsg()->SetCountDown(3);
 
 	if (CApplication::GetCamera() != nullptr)
 	{
@@ -132,13 +128,6 @@ void CStage::Uninit(void)
 		}
 	}
 
-	if (m_pMessage != nullptr)
-	{
-		m_pMessage->Uninit();
-		delete m_pMessage;
-		m_pMessage = nullptr;
-	}
-
 	m_bResult = false;
 }
 
@@ -147,11 +136,6 @@ void CStage::Uninit(void)
 //=====================================
 void CStage::Update(void)
 {
-	if (m_pMessage != nullptr)
-	{
-		m_pMessage->Update();
-	}
-
 	////Pでポーズ切り替え
 	//if (CInputKeyboard::GetKeyboardTrigger(DIK_O))
 	//{
@@ -366,7 +350,7 @@ void CStage::ScoreComparison()
 		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
 		m_pPlayer[(int)PlayerScore[3].y]->SetWinner(true);
 
-		m_pMessage->GoalMessage(0);
+		CApplication::GetMsg()->GoalMessage(0);
 	}
 	else if ((int)PlayerScore[2].x == (int)PlayerScore[0].x)
 	{
@@ -375,7 +359,7 @@ void CStage::ScoreComparison()
 		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(true);
 		m_pPlayer[(int)PlayerScore[3].y]->SetWinner(false);
 
-		m_pMessage->GoalMessage(0);
+		CApplication::GetMsg()->GoalMessage(0);
 	}
 	else if ((int)PlayerScore[1].x == (int)PlayerScore[0].x)
 	{
@@ -384,7 +368,7 @@ void CStage::ScoreComparison()
 		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(false);
 		m_pPlayer[(int)PlayerScore[3].y]->SetWinner(false);
 
-		m_pMessage->GoalMessage(0);
+		CApplication::GetMsg()->GoalMessage(0);
 	}
 	else
 	{
@@ -393,7 +377,7 @@ void CStage::ScoreComparison()
 		m_pPlayer[(int)PlayerScore[2].y]->SetWinner(false);
 		m_pPlayer[(int)PlayerScore[3].y]->SetWinner(false);
 
-		m_pMessage->GoalMessage((int)PlayerScore[0].y + 1);
+		CApplication::GetMsg()->GoalMessage((int)PlayerScore[0].y + 1);
 	}
 }
 

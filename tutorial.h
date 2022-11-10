@@ -17,9 +17,7 @@
 //---------------------------
 class CMeshfield;
 class CPlayer;
-class CMessage;
 class CObject_2D;
-
 
 //---------------------------
 //クラス宣言
@@ -39,7 +37,6 @@ public:
 
 	static CMeshfield* GetField(void) { return m_pField; };			// メッシュフィールドの取得処理
 	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; };	// プレイヤーの取得処理
-	static CMessage* GetMsg(void) { return m_pMessage; };
 
 	static CTutorial* Create(void);			//生成処理
 private:
@@ -48,7 +45,6 @@ private:
 
 	static CMeshfield* m_pField;
 	static CPlayer* m_pPlayer[PLAYER_MAX];					//プレイヤーのインスタンスへのポインタ
-	static CMessage* m_pMessage;
 
 	static bool m_bEndTutorial;
 
