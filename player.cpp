@@ -181,7 +181,7 @@ void CPlayer::Update(void)
 		fA *= -1.0f;
 	}
 
-	if (!m_bGoal && CMessage::GetStart() || CApplication::GetMode() == CApplication::Mode_Tutorial)
+	if (!m_bGoal && CMessage::GetStart())
 	{
 		PlayerController(m_nIdxPlayer);
 	}

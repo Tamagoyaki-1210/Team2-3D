@@ -66,9 +66,12 @@ HRESULT CTutorial::Init(void)
 		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((60 - 21) * -70.0f) - 500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
-	if (CStage::GetPlayer(nCnt) != nullptr)
+	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
 	{
-		CStage::GetPlayer(nCnt)->SetPos(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f));
+		if (CStage::GetPlayer(nCnt) != nullptr)
+		{
+			CStage::GetPlayer(nCnt)->SetPos(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f));
+		}
 	}
 
 	m_pUi = CObject_2D::Create();
@@ -138,9 +141,6 @@ void CTutorial::Update(void)
 		m_pUi->SetSize(D3DXVECTOR2(0.0f, 66.7f));
 		m_pUi->SetTexture(CObject::TEXTURE_TUTORIAL_BUTTON);
 		m_pUi->SetTextureParameter(2, 1, 2, 20);
-	}
-
-
 	}
 }
 
