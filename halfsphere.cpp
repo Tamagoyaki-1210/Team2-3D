@@ -266,6 +266,12 @@ void CHalfSphere::BindTexture(LPDIRECT3DTEXTURE9 pTexture)
 
 void CHalfSphere::LoadTexture(const char * aFileName)
 {
+	if (m_pTexture != nullptr)
+	{
+		m_pTexture->Release();
+		m_pTexture = nullptr;
+	}
+
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 
