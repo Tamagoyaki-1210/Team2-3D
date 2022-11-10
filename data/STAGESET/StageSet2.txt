@@ -43,7 +43,63 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 100.0 -125.0 200.0
+				POS = -100.0 -125.0 -2600.0
+			END_COIN
+		END_COINSET			
+#------------------
+# ２個目
+#------------------
+		COINSET
+			COIN
+				POS = -50.0 -125.0 -2500.0
+			END_COIN
+		END_COINSET	
+#------------------
+# ３個目
+#------------------
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -2400.0
+			END_COIN
+		END_COINSET	
+#------------------
+# ４個目
+#------------------
+		COINSET
+			COIN
+				POS = 50.0 -125.0 -2300.0
+			END_COIN
+		END_COINSET	
+#------------------
+# ５個目
+#------------------
+		COINSET
+			COIN
+				POS = 100.0 -125.0 -2600.0
+			END_COIN
+		END_COINSET			
+#------------------
+# ６個目
+#------------------
+		COINSET
+			COIN
+				POS = -100.0 -125.0 -2500.0
+			END_COIN
+		END_COINSET	
+#------------------
+# ７個目
+#------------------
+		COINSET
+			COIN
+				POS = -50.0 -125.0 -2400.0
+			END_COIN
+		END_COINSET	
+#------------------
+# ８個目
+#------------------
+		COINSET
+			COIN
+				POS = 0.0 -125.0 -2300.0
 			END_COIN
 		END_COINSET	
 
@@ -58,30 +114,33 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 50.0f -125.0f 200.0f
+				POS = -50.0 -125.0 -2600.0
 			END_COIN
-
-		END_COINSET	
+		END_COINSET			
 #------------------
 # ２個目
 #------------------
 		COINSET
 			COIN
-				POS = 50.0f -125.0f 250.0f
+				POS = 0.0 -125.0 -2500.0
 			END_COIN
-
 		END_COINSET	
-
 #------------------
 # ３個目
 #------------------
 		COINSET
 			COIN
-				POS = 50.0f -125.0f 300.0f
+				POS = 50.0 -125.0 -2400.0
 			END_COIN
-
 		END_COINSET	
-
+#------------------
+# ４個目
+#------------------
+		COINSET
+			COIN
+				POS = 100.0 -125.0 -2300.0
+			END_COIN
+		END_COINSET	
 	END_COINTYPESET
 	
 #++++++++++++++++++++++++++++++++++++++
@@ -93,20 +152,33 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -50.0f -125.0f 200.0f
+				POS = 0.0 -125.0 -2600.0
 			END_COIN
-
-		END_COINSET	
+		END_COINSET			
 #------------------
 # ２個目
 #------------------
 		COINSET
 			COIN
-				POS = -50.0f -125.0f 150.0f
+				POS = 50.0 -125.0 -2500.0
 			END_COIN
-
 		END_COINSET	
-
+#------------------
+# ３個目
+#------------------
+		COINSET
+			COIN
+				POS = 100.0 -125.0 -2400.0
+			END_COIN
+		END_COINSET	
+#------------------
+# ４個目
+#------------------
+		COINSET
+			COIN
+				POS = -100.0 -125.0 -2300.0
+			END_COIN
+		END_COINSET	
 	END_COINTYPESET
 	
 #++++++++++++++++++++++++++++++++++++++
@@ -118,21 +190,33 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -100.0f -125.0f 200.0f
+				POS = 50.0 -125.0 -2600.0
 			END_COIN
-
-		END_COINSET	
-		
+		END_COINSET			
 #------------------
 # ２個目
 #------------------
 		COINSET
 			COIN
-				POS = -100.0f -125.0f 100.0f
+				POS = 100.0 -125.0 -2500.0
 			END_COIN
-
 		END_COINSET	
-
+#------------------
+# ３個目
+#------------------
+		COINSET
+			COIN
+				POS = -100.0 -125.0 -2400.0
+			END_COIN
+		END_COINSET	
+#------------------
+# ４個目
+#------------------
+		COINSET
+			COIN
+				POS = -50.0 -125.0 -2300.0
+			END_COIN
+		END_COINSET	
 	END_COINTYPESET
 	
 END_COINALLSET
@@ -201,11 +285,26 @@ MODELALLSET
 #------------------
 		MODELSET
 			MODEL
-				POS = -70.0 -150.0 150.0
+				POS = -75.0 -150.0 -950.0
 			END_MODEL
-			
 		END_MODELSET
-
+#------------------
+# ２個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 0.0 -150.0 -950.0
+			END_MODEL
+		END_MODELSET
+#------------------
+# ３個目
+#------------------
+		MODELSET
+			MODEL
+				POS = 75.0 -150.0 -950.0
+			END_MODEL
+		END_MODELSET
+		
 	END_MODELTYPESET
 	
 END_MODELALLSET
@@ -223,19 +322,42 @@ FLOORALLSET
 #------------------
 		FLOORSET
 			FLOOR
-				POS = -100.0 -153.0 450.0
+				POS = -50.0 -153.0 -2300.0
 			END_FLOOR
-		END_FLOORSET	
-	
+		END_FLOORSET
 #------------------
 # ２個目
 #------------------
 		FLOORSET
 			FLOOR
-				POS = 100.0 -153.0 550.0
+				POS = 50.0 -153.0 -2300.0
 			END_FLOOR
-		END_FLOORSET	
-
+		END_FLOORSET
+#------------------
+# ３個目
+#------------------
+		FLOORSET
+			FLOOR
+				POS = 0.0 -153.0 -2200.0
+			END_FLOOR
+		END_FLOORSET
+#------------------
+# ４個目
+#------------------
+		FLOORSET
+			FLOOR
+				POS = -50.0 -153.0 -2100.0
+			END_FLOOR
+		END_FLOORSET
+#------------------
+# ５個目
+#------------------
+		FLOORSET
+			FLOOR
+				POS = 50.0 -153.0 -2100.0
+			END_FLOOR
+		END_FLOORSET
+			
 	END_FLOORTYPESET
 	
 #++++++++++++++++++++++++++++++++++++++
@@ -260,21 +382,20 @@ SPAWNERALLSET
 #------------------
 		SPAWNERSET
 			SPAWNER
-				POS = 0.0 400.0 -350.0
-				WIDTH = 135.0
-				LENGTH = 400.0
-				COLL = 30
+				POS = 0.0 400.0 -1450.0
+				WIDTH = 130.0
+				LENGTH = 700.0
+				COLL = 60
 			END_SPAWNER
 		END_SPAWNERSET
-
 #------------------
 # ２個目
 #------------------
 		SPAWNERSET
 			SPAWNER
-				POS = 0.0 400.0 -1650.0
-				WIDTH = 135.0
-				LENGTH = 600.0
+				POS = 0.0 400.0 -200.0
+				WIDTH = 130.0
+				LENGTH = 700.0
 				COLL = 60
 			END_SPAWNER
 		END_SPAWNERSET
