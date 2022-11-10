@@ -51,12 +51,14 @@ CTutorial::~CTutorial()
 //=====================================
 HRESULT CTutorial::Init(void)
 {
+	LPDIRECT3DTEXTURE9 pTex = CObject_2D::GetTexturePointer(CObject::TEXTURE_SKY);
+
 	// スフィアメッシュ
 	CHalfSphere* pSphere1 = CHalfSphere::Create(D3DXVECTOR3(0.0f, -8000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(D3DX_PI * -0.15f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
-	pSphere1->LoadTexture("data\\TEXTURE\\sky002.jpg");
+	pSphere1->BindTexture(pTex);
 
 	CHalfSphere* pSphere2 = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, D3DX_PI, D3DX_PI), CHalfSphere::SPHERE_DOWN);
-	pSphere2->LoadTexture("data\\TEXTURE\\sky002.jpg");
+	pSphere2->BindTexture(pTex);
 
 	if (m_pField != nullptr)
 	{

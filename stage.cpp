@@ -176,22 +176,47 @@ void CStage::StageTexture(void)
 		}
 		if (m_pField[1] != nullptr)
 		{
-			m_pField[0]->SetTexture(CObject::TEXTURE_BLOCK);
+			m_pField[1]->SetTexture(CObject::TEXTURE_GRASS);
 		}
 		if (m_pSphere != nullptr)
 		{
-			//m_pSphere->SetTexture(CObject::TEXTURE_BLOCK);
+			LPDIRECT3DTEXTURE9 pTex = CObject_2D::GetTexturePointer(CObject::TEXTURE_SKY);
+			m_pSphere->BindTexture(pTex);
 		}
 	}
 	break;
 	case STAGE_TYPE_2:
 	{
-
+		if (m_pField[0] != nullptr)
+		{
+			m_pField[0]->SetTexture(CObject::TEXTURE_ROCK);
+		}
+		if (m_pField[1] != nullptr)
+		{
+			m_pField[1]->SetTexture(CObject::TEXTURE_MAGMA);
+		}
+		if (m_pSphere != nullptr)
+		{
+			LPDIRECT3DTEXTURE9 pTex = CObject_2D::GetTexturePointer(CObject::TEXTURE_ROCK);
+			m_pSphere->BindTexture(pTex);
+		}
 	}
 	break;
 	case STAGE_TYPE_3:
 	{
-
+		if (m_pField[0] != nullptr)
+		{
+			m_pField[0]->SetTexture(CObject::TEXTURE_SNOW);
+		}
+		if (m_pField[1] != nullptr)
+		{
+			m_pField[1]->SetTexture(CObject::TEXTURE_SNOW_AREA);
+		}
+		if (m_pSphere != nullptr)
+		{
+			LPDIRECT3DTEXTURE9 pTex = CObject_2D::GetTexturePointer(CObject::TEXTURE_SKY);
+			m_pSphere->BindTexture(pTex);
+		}
 	}
 	break;
 	default:
@@ -439,12 +464,6 @@ void CStage::Load()
 											m_pField[nField] = CMeshfield::Create(D3DXVECTOR3(-10000.0f, -2000.0f, 10000.0f), Vec3Null, D3DXVECTOR2(20000.0f, 20000.0f), nLine, nLine, 3);
 										}
 									}
-									else if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
-									{//この後にコメント
-										fscanf(pFile, "%s", aStr);
-										fscanf(pFile, "%s", aStr);
-										m_pField[nField]->LoadTexture(aStr);
-									}
 									else if (strncmp(aStr, "TEXTURE_TILING", 14) == 0)
 									{//この後にコメント
 										fscanf(pFile, "%s", aStr);
@@ -458,29 +477,6 @@ void CStage::Load()
 						}
 						nField++;
 					}
-				}
-			}
-			else if (strncmp(aStr, "SPHERESET", 9) == 0)
-			{// ハーフスフィアメッシュ読み込み
-				int nSphere = 0;
-				while (strncmp(aStr, "END_SPHERESET", 13) != 0)
-				{
-					fscanf(pFile, "%s", aStr);
-					while (strncmp(aStr, "END_SPHERE", 10) != 0)
-					{
-						fscanf(pFile, "%s", aStr);
-						if (strncmp(aStr, "SPHERE", 6) == 0)
-						{
-							fscanf(pFile, "%s", aStr);
-							if (strncmp(aStr, "TEXTURE_NAME", 12) == 0)
-							{
-								fscanf(pFile, "%s", aStr);
-								fscanf(pFile, "%s", aStr);
-								m_pSphere->LoadTexture(aStr);
-							}
-						}
-					}
-					nSphere++;
 				}
 			}
 			else if (strncmp(aStr, "COINALLSET", 10) == 0)
