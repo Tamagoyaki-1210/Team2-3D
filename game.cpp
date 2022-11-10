@@ -53,7 +53,11 @@ void CGame::Update(void)
 	if (m_bEndGame == false)
 	{
 		//Pでポーズ切り替え
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_P) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_P) 
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 1)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 2)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 3))
 		{
 			bool bPause = !CApplication::GetPause();	//ポーズ切り替え処理
 			CApplication::SetPause(bPause);

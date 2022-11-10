@@ -12,6 +12,7 @@
 //=============================================================================
 #include "player.h"
 #include "model.h"
+#include "playerSelect.h"
 
 //=============================================================================
 //インクルードファイル
@@ -52,6 +53,7 @@ public:
 
 	void SetPos(const D3DXVECTOR3 pos) override;		//位置の設定処理
 	void SetRot(const D3DXVECTOR3 rot);					//向きの設定処理
+	void SetStage(CPlayerSelect* pStage);
 
 	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
@@ -77,6 +79,7 @@ private:
 	CObject_2D* m_pIcon;								//アイコン
 	CUIString*  m_pUiString;
 	CAnimateUI* m_pOK;
+	CPlayerSelect* m_pParent;
 
 	static CModel::ModelType m_HeadType[PLAYER_MAX];
 	static D3DXCOLOR m_playersCol[PLAYER_MAX];
