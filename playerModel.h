@@ -37,6 +37,7 @@ public:
 		HEAD_OCTOPUS,
 		HEAD_SNOWMAN,
 		HEAD_TOYBOX,
+		HEAD_SUMMER,
 
 		HEAD_MAX
 	};
