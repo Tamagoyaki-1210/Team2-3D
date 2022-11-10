@@ -53,7 +53,9 @@ HRESULT CTitle::Init(void)
 
 	CHalfSphere* pSphere = CHalfSphere::Create(D3DXVECTOR3(0.0f, -8000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(D3DX_PI * -0.15f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
 
-	pSphere->LoadTexture("data\\TEXTURE\\sky002.jpg");
+	//pSphere->LoadTexture("data\\TEXTURE\\sky002.jpg");
+	LPDIRECT3DTEXTURE9 pTex = CObject_2D::GetTexturePointer(CObject::TEXTURE_SKY);
+	pSphere->BindTexture(pTex);
 
 	m_pModel[0] = CPlayerModel::Create(D3DXVECTOR3(-125.0f, 50.0f, -280.0f), 0, false);
 	m_pModel[1] = CPlayerModel::Create(D3DXVECTOR3(-37.5f, 50.0f, -280.0f), 1, false);
@@ -119,6 +121,20 @@ HRESULT CTitle::Init(void)
 	pField->SetTexture(CObject::TEXTURE_LAVA);
 	pField->SetTextureTiling(D3DXVECTOR2(5.0f, 0.5f));
 	pField->SetTextureAnim(0.001f, 0.0f);
+
+	/*CObject_2D* pObj = CObject_2D::Create();
+	pObj->SetPos(D3DXVECTOR3(220.0f, 530.0f, 0.0f));
+	pObj->SetSize(D3DXVECTOR2(105.0f, 54.0f));
+	pObj->SetTexture(CObject::TEXTURE_TUTORIAL_MOVE);
+	pObj->SetTextureParameter(8, 2, 4, 20);
+	pObj->SetPriority(5);
+
+	pObj = CObject_2D::Create();
+	pObj->SetPos(D3DXVECTOR3(240.0f, 635.0f, 0.0f));
+	pObj->SetSize(D3DXVECTOR2(200.0f, 66.7f));
+	pObj->SetTexture(CObject::TEXTURE_TUTORIAL_BUTTON);
+	pObj->SetTextureParameter(2, 1, 2, 20);
+	pObj->SetPriority(5);*/
 	
 
 	return S_OK;

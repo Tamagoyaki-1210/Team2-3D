@@ -287,6 +287,10 @@ void CPlayer::Update(void)
 		{
 			m_pos.z = wallPos.z;
 		}
+		else if (m_pos.z >= wallPos.z + 400.0f)
+		{
+			m_pos.z = wallPos.z + 400.0f;
+		}
 
 		// プレイヤー最大数分のインスタンスを作成
 		CPlayer* pPlayer[PLAYER_MAX];
@@ -474,7 +478,7 @@ void CPlayer::Update(void)
 		{
 			m_nCntAttack--;
 
-			if (m_nCntAttack == 49 && m_pAttackHitbox == nullptr)
+			if (m_nCntAttack == 15 && m_pAttackHitbox == nullptr)
 			{
 				D3DXVECTOR3 Rot = Vec3Null;
 
@@ -491,7 +495,7 @@ void CPlayer::Update(void)
 				D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxTrans);*/
 				D3DXVec3TransformCoord(&dir, &dir, &mtxOut);
 
-				m_pAttackHitbox = CBoxHitbox::Create(dir + m_pos, Vec3Null, D3DXVECTOR3(14.0f, 14.0f, 14.0f), CHitbox::TYPE_OBSTACLE, this, 0, CHitbox::EFFECT_PUSH);
+				m_pAttackHitbox = CBoxHitbox::Create(dir + m_pos, Vec3Null, D3DXVECTOR3(17.0f, 14.0f, 17.0f), CHitbox::TYPE_OBSTACLE, this, 0, CHitbox::EFFECT_PUSH);
 				
 				if (m_pAttackHitbox != nullptr)
 				{
@@ -850,7 +854,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		m_pAnimator->SetPresentAnim(3);
 
 		m_bAttacking = true;
-		m_nCntAttack = 50;
+		m_nCntAttack = 19;
 
 		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_PUNCH);
 	}
