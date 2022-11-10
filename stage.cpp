@@ -371,7 +371,7 @@ void CStage::Load()
 				{
 					fscanf(pFile, "%s", aStr);
 					if (strncmp(aStr, "FIELDSET", 8) == 0)
-					{// ハーフスフィアメッシュ読み込み
+					{// メッシュフィールドメッシュ読み込み
 						while (strncmp(aStr, "END_FIELDSET", 12) != 0)
 						{
 							fscanf(pFile, "%s", aStr);

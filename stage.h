@@ -95,7 +95,6 @@ public:
 
 private:
 	static char* m_pStagePass[STAGE_TYPE_MAX];				//ステージの外部ファイルの相対パス
-	static ModelType m_ModelType;
 
 	static CMeshfield* m_pField[2];
 	static CPlayer* m_pPlayer[PLAYER_MAX];					//プレイヤーのインスタンスへのポインタ
