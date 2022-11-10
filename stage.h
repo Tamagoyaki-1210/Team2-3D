@@ -75,6 +75,8 @@ public:
 	void Uninit(void);
 	void Update(void);
 
+	void StageTexture(void);
+
 	void Load(void);
 
 	static void SetFieldType(D3DXVECTOR3 pos, int line, float tiling, char* str, FieldType type);

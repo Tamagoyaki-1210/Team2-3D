@@ -67,6 +67,8 @@ HRESULT CStage::Init(void)
 	// ステージ読み込み処理
 	Load();
 
+	StageTexture();
+
 	if (m_pField[0] != nullptr)
 	{
 		m_pField[0]->SetPriority(1);
@@ -157,6 +159,44 @@ void CStage::Update(void)
 	//}
 
 	GameResult();
+}
+
+//=====================================
+// ステージ毎のテクスチャ設定処理
+//=====================================
+void CStage::StageTexture(void)
+{
+	switch ((StageType)CApplication::GetStageSelect())
+	{
+	case STAGE_TYPE_1:
+	{
+		if (m_pField[0] != nullptr)
+		{
+			m_pField[0]->SetTexture(CObject::TEXTURE_BLOCK);
+		}
+		if (m_pField[1] != nullptr)
+		{
+			m_pField[0]->SetTexture(CObject::TEXTURE_BLOCK);
+		}
+		if (m_pSphere != nullptr)
+		{
+			//m_pSphere->SetTexture(CObject::TEXTURE_BLOCK);
+		}
+	}
+	break;
+	case STAGE_TYPE_2:
+	{
+
+	}
+	break;
+	case STAGE_TYPE_3:
+	{
+
+	}
+	break;
+	default:
+		break;
+	}
 }
 
 //=====================================
