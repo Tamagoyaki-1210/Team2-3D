@@ -21,6 +21,12 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	" ",													//TextureNull
 
 	"data\\TEXTURE\\Block.png",								//TEXTURE_BLOCK,
+	"data\\TEXTURE\\sky002.jpg",							//TEXTURE_SKY,
+	"data\\TEXTURE\\89.jpg",								//TEXTURE_GRASS,
+	"data\\TEXTURE\\MeshField001.png",						//TEXTURE_ROCK,
+	"data\\TEXTURE\\MagmaArea.png",							//TEXTURE_MAGMA,
+	"data\\TEXTURE\\snow.png",								//TEXTURE_SNOW,
+	"data\\TEXTURE\\snowarea.png",							//TEXTURE_SNOW_AREA,
 	"data\\TEXTURE\\Characters.png",						//TEXTURE_CHARACTERS,
 	"data\\TEXTURE\\Alphabet.png",							//TEXTURE_LETTERS,
 	"data\\TEXTURE\\Numbers.png",							//TEXTURE_NUMBERS,
@@ -48,6 +54,8 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\UI_TitleLogo.png",						//TEXTURE_TITLE_UI,
 	"data\\TEXTURE\\unve.png",								//TEXTURE_STAGE_SELECT_BG,
 	"data\\TEXTURE\\ButtonPress.png",						//TEXTURE_BUTTON_SELECT_UI,
+	"data\\TEXTURE\\TutorialMove.png",						//TEXTURE_TUTORIAL_MOVE,
+	"data\\TEXTURE\\TutorialButton.png",					//TEXTURE_TUTORIAL_MOVE,
 };
 
 //=============================================================================
