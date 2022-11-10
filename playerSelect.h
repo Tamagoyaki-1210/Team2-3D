@@ -35,10 +35,11 @@ public:
 	void Input(void);
 
 	static CPlayerSelect* Create(void);
-	static int m_nPlayerCount;
-
+	
+	void AddPlayerCounnt(int nCount);
 private:
 	static CFontString* m_pStr;			// •¶Žš—ñ
+	int m_nPlayerCount;
 };
 
 #endif // !_TITLE_H_
