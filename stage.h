@@ -56,7 +56,7 @@ public:
 	enum FloorType
 	{
 		FLOOR_LAVA = 0,
-		FLOOR_SRIP,
+		FLOOR_SLIP,
 		FLOOR_TYPE_MAX
 	};
 
