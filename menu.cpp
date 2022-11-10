@@ -225,6 +225,7 @@ void CMenu::Input(void)
 				}
 				else if (m_nSelectNum == 1)
 				{
+					CApplication::SetStageSelect(3);
 					CApplication::SetMode(CApplication::Mode_Tutorial);
 				}
 				else if (m_nSelectNum == 2)

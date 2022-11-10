@@ -15,8 +15,7 @@
 //---------------------------
 //前方宣言
 //---------------------------
-class CMeshfield;
-class CPlayer;
+class CStage;
 
 //---------------------------
 //クラス宣言
@@ -34,14 +33,11 @@ public:
 	static void SetEndTutorial();			// ゲーム終了を設定する
 	static bool GetEndTutorial() { return m_bEndTutorial; }
 
-	static CMeshfield* GetField(void) { return m_pField; }			// メッシュフィールドの取得処理
-	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; }	// プレイヤーの取得処理
+	static CStage* GetStage(void) { return m_pStage; }
 
 	static CTutorial* Create(void);			//生成処理
 private:
-	static CMeshfield* m_pField;
-	static CPlayer* m_pPlayer[PLAYER_MAX];					//プレイヤーのインスタンスへのポインタ
-
+	static CStage* m_pStage;
 	static bool m_bEndTutorial;
 };
 

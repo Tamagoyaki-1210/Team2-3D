@@ -9,24 +9,17 @@
 #include "inputPad.h"
 #include "application.h"
 #include "meshfield.h"
-#include "player.h"
-#include "halfsphere.h"
 #include "coin.h"
-#include "goal.h"
-#include "camera.h"
 #include "SpikeBall.h"
 #include "lavaFloor.h"
 #include "score.h"
-#include "message.h"
-#include "silhouette.h"
-#include "environment.h"
 #include "trampoline.h"
 #include "bouncePole.h"
 #include "stoneSpawner.h"
 #include "icePillarSpawner.h"
+#include "stage.h"
 
-CMeshfield *CTutorial::m_pField = {};
-CPlayer* CTutorial::m_pPlayer[PLAYER_MAX] = {};
+CStage* CTutorial::m_pStage = nullptr;
 bool CTutorial::m_bEndTutorial = false;
 
 //=====================================
@@ -50,44 +43,11 @@ CTutorial::~CTutorial()
 //=====================================
 HRESULT CTutorial::Init(void)
 {
-	LPDIRECT3DTEXTURE9 pTex = CObject_2D::GetTexturePointer(CObject::TEXTURE_SKY);
-
-	// スフィアメッシュ
-	CHalfSphere* pSphere1 = CHalfSphere::Create(D3DXVECTOR3(0.0f, -8000.0f, 1000.0f), D3DXVECTOR3(30000.0f, 0.0f, 30000.0f), D3DXVECTOR3(D3DX_PI * -0.15f, D3DX_PI, 0.0f), CHalfSphere::SPHERE_UP);
-	pSphere1->BindTexture(pTex);
-
-	CHalfSphere* pSphere2 = CHalfSphere::Create(D3DXVECTOR3(0.0f, 0.0f, 1000.0f), D3DXVECTOR3(35000.0f, 0.0f, 35000.0f), D3DXVECTOR3(0.0f, D3DX_PI, D3DX_PI), CHalfSphere::SPHERE_DOWN);
-	pSphere2->BindTexture(pTex);
-
-	if (m_pField != nullptr)
-	{
-		m_pField->SetPriority(1);
-	}
-	CGoal::Create(D3DXVECTOR3(0.0f, -100.0f, 900.0f));
-
-	m_pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, 1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 40, 10, 3);
-	m_pField->SetTexture(CObject::TEXTURE_BLOCK);
-	m_pField->SetTextureTiling(0.33f);
+	m_pStage = CStage::Create();
 
 	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, -1800.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
 	pField->SetTexture(CObject::TEXTURE_BLOCK);
 	pField->SetTextureTiling(0.33f);
-
-	// プレイヤーの生成
-	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
-	{
-		m_pPlayer[nCnt] = CPlayer::Create(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f), nCnt);
-	}
-
-	// カウントダウンメッセージ表示
-	CApplication::GetMsg()->SetCountDown(3);
-
-	if (CApplication::GetCamera() != nullptr)
-	{
-		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((60 - 21) * -70.0f) - 500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
-	}
-
-	CSilhouette::Create();
 
 	return S_OK;
 }
@@ -97,19 +57,11 @@ HRESULT CTutorial::Init(void)
 //=====================================
 void CTutorial::Uninit(void)
 {
-	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
+	if (m_pStage != nullptr)
 	{
-		if (m_pPlayer[nCnt] != nullptr)
-		{
-			m_pPlayer[nCnt]->Release();
-			m_pPlayer[nCnt] = nullptr;
-		}
-	}
-
-	if (m_pField != nullptr)
-	{
-		m_pField->Release();
-		m_pField = nullptr;
+		m_pStage->Uninit();
+		delete m_pStage;
+		m_pStage = nullptr;
 	}
 
 	m_bEndTutorial = false;
@@ -120,6 +72,10 @@ void CTutorial::Uninit(void)
 //=====================================
 void CTutorial::Update(void)
 {
+	if (m_pStage != nullptr)
+	{
+		m_pStage->Update();
+	}
 	//ゲーム中の処理
 	if (m_bEndTutorial == false)
 	{
