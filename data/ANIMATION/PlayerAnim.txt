@@ -15,7 +15,7 @@
 MOTION_SET					#アニメーション 0
 	NEXT = 0				#ループする場合、アニメーションの番号を入力して下さい。ループしない場合、次のアニメーションの番号を入力して下さい。
 		KEY_SET				#KeySet 0/2	
-			FRAME = 60
+			FRAME = 30
 			
 			KEY			#Key 0
 				POS = 0.0 17.0 0.0
@@ -69,7 +69,7 @@ MOTION_SET					#アニメーション 0
 		END_KEY_SET
 		
 		KEY_SET				#KeySet 1/2	
-			FRAME = 60
+			FRAME = 30
 			
 			KEY			#Key 0
 				POS = 0.0 17.0 0.0

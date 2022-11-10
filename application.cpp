@@ -24,6 +24,7 @@
 #include "menu.h"
 #include "hitbox.h"
 #include "score.h"
+#include "tutorial.h"
 
 //Ã“Iƒƒ“ƒo[•Ï”‚ÌéŒ¾
 HWND CApplication::m_hWnd;
@@ -462,6 +463,10 @@ void CApplication::ChangeMode()
 		{
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME03);
 		}
+		break;
+	case CApplication::Mode_Tutorial:
+		m_pMode = CTutorial::Create();
+		m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME01);
 		break;
 	default:
 		break;

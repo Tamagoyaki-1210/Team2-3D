@@ -66,6 +66,7 @@ CPlayerModel::CPlayerModel()
 	m_pIcon = nullptr;
 	m_pUiString = nullptr;
 	m_pOK = nullptr;
+	m_pParent = nullptr;
 
 	for (int nCnt = 0; nCnt < CPlayer::PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -93,6 +94,7 @@ HRESULT CPlayerModel::Init(void)
 	m_pIcon = nullptr;
 	m_pUiString = nullptr;
 	m_pOK = nullptr;
+	m_pParent = nullptr;
 
 	for (int nCnt = 0; nCnt < CPlayer::PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -139,6 +141,10 @@ void CPlayerModel::Uninit(void)
 	{
 		m_pOK->Release();
 		m_pOK = nullptr;
+	}
+	if (m_pParent != nullptr)
+	{
+		m_pParent = nullptr;
 	}
 }
 
@@ -241,7 +247,11 @@ void CPlayerModel::Update(void)
 				if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, m_nIdx))
 				{//準備完了
 					m_bDecision = true;
-					CPlayerSelect::m_nPlayerCount++;
+					
+					if (m_pParent != nullptr)
+					{
+						m_pParent->AddPlayerCounnt(1);
+					}
 
 					if (m_pOK == nullptr)
 					{
@@ -259,7 +269,7 @@ void CPlayerModel::Update(void)
 				if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, m_nIdx))
 				{//準備中断
 					m_bDecision = false;
-					CPlayerSelect::m_nPlayerCount--;
+					m_pParent->AddPlayerCounnt(-1);
 
 					if (m_pOK != nullptr)
 					{
@@ -315,6 +325,11 @@ void CPlayerModel::SetPos(const D3DXVECTOR3 pos)
 void CPlayerModel::SetRot(const D3DXVECTOR3 rot)
 {
 	m_rot = rot;
+}
+
+void CPlayerModel::SetStage(CPlayerSelect* pStage)
+{
+	m_pParent = pStage;
 }
 
 //サイズの取得処理
