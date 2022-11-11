@@ -269,7 +269,7 @@ void CPlayer::Update(void)
 					}
 				}
 			}
-			else if(m_pos.x < -145.0f || m_pos.x > 145.0f)
+			else if(m_pos.x < -135.0f || m_pos.x > 125.0f)
 			{
 				for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 				{
