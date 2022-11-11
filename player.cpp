@@ -1072,6 +1072,7 @@ void CPlayer::PlayerRespawn()
 	{
 		D3DXVECTOR3 posCamera = CApplication::GetCamera()->GetPos();
 		m_pos = D3DXVECTOR3(posCamera.x, posCamera.y + 100.0f, posCamera.z + 100.0f);
+		m_fFrictionCoeff = 0.1f;
 
 		if (m_pHitbox != nullptr)
 		{

@@ -17,6 +17,7 @@
 //---------------------------
 class CStage;
 class CObject_2D;
+class CFontString;
 
 //---------------------------
 //ƒNƒ‰ƒXéŒ¾
@@ -36,9 +37,12 @@ public:
 
 	static CTutorial* Create(void);			//¶¬ˆ—
 private:
+	static const D3DXVECTOR2 m_fontSize;
+	static const D3DXCOLOR m_fontColor;
 	static CStage* m_pStage;
 
 	CObject_2D* m_pUi;
+	CFontString* m_pFont;
 	bool m_bChange;
 };
 
