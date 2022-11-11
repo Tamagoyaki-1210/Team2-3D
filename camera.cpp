@@ -17,7 +17,7 @@
 #include "debugProc.h"
 
 
-const float CCamera::CAMERA_SPEED = 1.5f;
+const float CCamera::CAMERA_SPEED = 1.0;
 
 //コンストラクタ
 CCamera::CCamera()

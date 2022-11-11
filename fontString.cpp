@@ -108,6 +108,17 @@ void CFontString::SizeReset(void)
 }
 
 //=====================================
+// サイズリセット処理
+//=====================================
+void CFontString::SetColor(D3DXCOLOR col)
+{
+	for (int nCnt = 0; nCnt < m_nNum; nCnt++)
+	{
+		m_pFont[nCnt]->SetColor(col);
+	}
+}
+
+//=====================================
 // サイズ変更処理
 //=====================================
 void CFontString::SetSellect(void)
