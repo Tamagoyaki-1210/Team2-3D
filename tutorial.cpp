@@ -257,7 +257,7 @@ void CTutorial::SetObject(void)
 
 	for (int nCnt = 0; nCnt < 18; nCnt++)
 	{
-		pCoin = CCoin::Create(D3DXVECTOR3(-100.0f + 25.0f * (nCnt % 9) ,-75.0f ,-1350.0f + 100.0f * (nCnt / 9)), (CCoin::COIN_TYPE)CObject::random((int)CCoin::COIN_0, (int)CCoin::COIN_3));
+		pCoin = CCoin::Create(D3DXVECTOR3(-100.0f + 25.0f * (nCnt % 9) ,-90.0f ,-1350.0f + 100.0f * (nCnt / 9)), (CCoin::COIN_TYPE)CObject::random((int)CCoin::COIN_0, (int)CCoin::COIN_3));
 		pCoin->SetShadowHeight(-99.0f);
 	}
 
