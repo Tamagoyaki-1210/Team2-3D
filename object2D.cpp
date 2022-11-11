@@ -54,7 +54,8 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 	"data\\TEXTURE\\unve.png",								//TEXTURE_STAGE_SELECT_BG,
 	"data\\TEXTURE\\ButtonPress.png",						//TEXTURE_BUTTON_SELECT_UI,
 	"data\\TEXTURE\\TutorialMove.png",						//TEXTURE_TUTORIAL_MOVE,
-	"data\\TEXTURE\\TutorialButton.png",					//TEXTURE_TUTORIAL_MOVE,
+	"data\\TEXTURE\\TutorialButton.png",					//TEXTURE_TUTORIAL_BUTTON,
+	"data\\TEXTURE\\PlayerSelCtrl.png",						//TEXTURE_PLAYER_SEL_CTRL,
 };
 
 //=============================================================================

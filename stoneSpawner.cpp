@@ -140,6 +140,7 @@ CStoneSpawner* CStoneSpawner::Create(const D3DXVECTOR3 pos, const float fShadowH
 
 	pModel = CModel::Create(CModel::MODEL_CAUTION_SIGNAL, D3DXVECTOR3(pos.x + fLaterlBounds, fShadowHeight, pos.z - fLength));
 	pModel->SetRot(D3DXVECTOR3(0.0f, D3DX_PI, 0.0f));
+	pModel->SetShadowDraw(false);
 
 	return pSpawner;
 }
