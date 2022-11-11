@@ -54,6 +54,7 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Environment\\windmill\\windmill.x" },
 	{ "data\\MODELS\\Environment\\airship\\airship.x" },
 	{ "data\\MODELS\\Environment\\stone\\stone.x" },
+	{ "data\\MODELS\\traps\\IcePillar\\IcePillar_InstallationType.x" },
 
 	{ "data\\MODELS\\Stage_gimmick\\NeedleBall\\NeedleBall.x" },
 	{ "data\\MODELS\\Stage_gimmick\\LavaFloor\\Lava.x" },

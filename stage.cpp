@@ -208,6 +208,8 @@ void CStage::StageTexture(void)
 		pField->SetTexture(CObject::TEXTURE_ICE);
 		pField->ChangeHeight(0, 150, 0.0f);
 		pField->SetPriority(0);
+
+		CModel* pM = CModel::Create(CModel::MODEL_ICE_STALAGMITE, D3DXVECTOR3(0.0f, -200.0f, 200.0f));
 	}
 	break;
 	case STAGE_TUTORIAL:
