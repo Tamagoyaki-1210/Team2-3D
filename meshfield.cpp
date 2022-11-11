@@ -26,6 +26,7 @@ CMeshfield::CMeshfield()
 	m_pos = Vec3Null;
 	m_rot = Vec3Null;
 	m_size = Vec2Null;
+	m_LateralCoords = Vec2Null;
 	D3DXMatrixIdentity(&m_mtxWorld);
 	m_nVertexNumber = 0;
 	m_nIntexNumber = 0;
@@ -49,6 +50,7 @@ CMeshfield::CMeshfield(const int nPriority) : CObject::CObject(nPriority)
 	m_pos = Vec3Null;
 	m_rot = Vec3Null;
 	m_size = Vec2Null;
+	m_LateralCoords = Vec2Null;
 	D3DXMatrixIdentity(&m_mtxWorld);
 	m_nVertexNumber = 0;
 	m_nIntexNumber = 0;
@@ -78,6 +80,7 @@ HRESULT CMeshfield::Init(void)
 	m_pos = Vec3Null;
 	m_rot = Vec3Null;
 	m_size = Vec2Null;
+	m_LateralCoords = Vec2Null;
 	D3DXMatrixIdentity(&m_mtxWorld);
 	m_nVertexNumber = 0;
 	m_nIntexNumber = 0;
@@ -574,7 +577,7 @@ CMeshfield* CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
 
 				WORD*pIdx = nullptr;		//インデックス情報へのポインタ
 
-											//インデックスバッファをロック
+				//インデックスバッファをロック
 				pField->m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
 				for (int nCnt = 0; nCnt < pField->m_nPolygonNumber; nCnt++)
@@ -708,6 +711,9 @@ void CMeshfield::SetVertex(void)
 
 	//頂点バッファをロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	m_LateralCoords.x = m_pos.x;
+	m_LateralCoords.y = m_pos.x + (m_size.x * (m_nColumnVertex - 1));
 
 	//頂点情報の設定
 	for (int nCnt = 0; nCnt < m_nVertexNumber; nCnt++)

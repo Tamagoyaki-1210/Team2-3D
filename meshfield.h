@@ -69,6 +69,7 @@ private:
 	D3DXVECTOR3 m_pos;									//位置
 	D3DXVECTOR3 m_rot;									//向き
 	D3DXVECTOR2 m_size;									//単位のサイズ
+	D3DXVECTOR2 m_LateralCoords;						//X座標の範囲
 	D3DXMATRIX m_mtxWorld;								//ワルドマトリックス
 	int m_nVertexNumber;								//メッシュフィールドの頂点数
 	int m_nIntexNumber;									//メッシュフィールドのインデックス数
