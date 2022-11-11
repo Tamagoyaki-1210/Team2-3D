@@ -656,7 +656,7 @@ FLOORALLSET
 #------------------
 		FLOORSET
 			FLOOR
-				POS = -50.0 -153.0 -2450.0
+				POS = -100.0 -153.0 -2450.0
 			END_FLOOR
 		END_FLOORSET
 #------------------
@@ -668,23 +668,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ５個目
-#------------------
-		FLOORSET
-			FLOOR
-				POS = 0.0 -153.0 -2400.0
-			END_FLOOR
-		END_FLOORSET
-#------------------
-# ６個目
-#------------------
-		FLOORSET
-			FLOOR
-				POS = 0.0 -153.0 -2350.0
-			END_FLOOR
-		END_FLOORSET	
-#------------------
-# ７個目
+# 5個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -692,7 +676,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ８個目
+# 6個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -700,23 +684,23 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ９個目
+# 7個目
 #------------------
 		FLOORSET
 			FLOOR
-				POS = -100.0 -153.0 -2250.0
+				POS = 0.0 -153.0 -2250.0
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# １０個目
+# 8個目
 #------------------
 		FLOORSET
 			FLOOR
-				POS = 100.0 -153.0 -2250.0
+				POS = 50.0 -153.0 -2250.0
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# １１個目
+# 9個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -724,7 +708,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# １２個目
+# 10個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -732,7 +716,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# １３個目
+# 11個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -740,7 +724,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# １４個目
+# 12個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -748,7 +732,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# １５個目
+# 13個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -756,7 +740,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# １６個目
+# 14個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -764,7 +748,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET	
 #------------------
-# １７個目
+# 15個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -772,7 +756,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# １８個目
+# 16個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -780,7 +764,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# １９個目
+# 17個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -788,7 +772,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ２０個目
+# 18個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -796,7 +780,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ２１個目
+# 19個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -804,7 +788,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ２２個目
+# 20個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -812,7 +796,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ２３個目
+# 21個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -820,7 +804,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ２４個目
+# 22個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -828,7 +812,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ２５個目
+# 23個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -836,7 +820,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ２６個目
+# 24個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -844,7 +828,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET	
 #------------------
-# ２７個目
+# 25個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -852,7 +836,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ２８個目
+# 26個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -860,7 +844,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ２９個目
+# 27個目
 #------------------
 		FLOORSET
 			FLOOR
@@ -868,7 +852,7 @@ FLOORALLSET
 			END_FLOOR
 		END_FLOORSET
 #------------------
-# ３０個目
+# 28個目
 #------------------
 		FLOORSET
 			FLOOR
