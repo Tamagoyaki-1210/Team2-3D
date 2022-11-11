@@ -13,7 +13,7 @@ FIELDALLSET
 #------------------
 	FIELDSET
 		FIELD
-			LINE = 40										# [0]ステージの縦メッシュ数
+			LINE = 30										# [0]ステージの縦メッシュ数
 			TEXTURE_TILING = 0.33							# [0]ステージの床テクスチャタイリング
 		END_FIELD
 	END_FIELDSET

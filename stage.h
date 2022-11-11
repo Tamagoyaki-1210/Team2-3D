@@ -79,7 +79,6 @@ public:
 
 	void Load(void);
 
-	static void SetFieldType(D3DXVECTOR3 pos, int line, float tiling, char* str, FieldType type);
 	static void SetModelType(D3DXVECTOR3 pos, ModelType type);
 	static void SetFloorType(D3DXVECTOR3 pos, FloorType type);
 	static void SetSpawnerType(D3DXVECTOR3 pos, float width, float length, int collDown, SpawnerType type);
