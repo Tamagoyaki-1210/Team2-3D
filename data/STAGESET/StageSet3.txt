@@ -43,25 +43,25 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 100.0 -125.0 250.0
+				POS = 100.0 -140.0 250.0
 			END_COIN
 		END_COINSET	
 	
 	COINSET
 			COIN
-				POS = 0.0 -125.0 -2900.0
+				POS = 0.0 -140.0 -2900.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 25.0 -125.0 -2800.0
+				POS = 25.0 -140.0 -2800.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -2700.0
+				POS = 0.0 -140.0 -2700.0
 			END_COIN
 		END_COINSET	
 		
@@ -79,50 +79,50 @@ COINALLSET
 		
 		COINSET
 			COIN
-				POS = 50.0 -125.0 -1000.0
+				POS = 50.0 -140.0 -1000.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 100.0 -125.0 -800.0
+				POS = 100.0 -140.0 -800.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -800.0
+				POS = 0.0 -140.0 -800.0
 			END_COIN
 		END_COINSET		
 		
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -700.0
+				POS = 0.0 -140.0 -700.0
 			END_COIN
 		END_COINSET		
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -600.0
+				POS = 0.0 -140.0 -600.0
 			END_COIN
 		END_COINSET		
 		
 		COINSET
 			COIN
-				POS = 65.0 -125.0 -200.0
+				POS = 65.0 -140.0 -200.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 65.0 -125.0 -250.0
+				POS = 65.0 -140.0 -250.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -65.0 -125.0 -100.0
+				POS = -65.0 -140.0 -100.0
 			END_COIN
 		END_COINSET	
 		
@@ -146,13 +146,13 @@ COINALLSET
 		
 		COINSET
 			COIN
-				POS = -75.0 -125.0 450.0
+				POS = -75.0 -140.0 450.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 75.0 -125.0 600.0
+				POS = 75.0 -140.0 600.0
 			END_COIN
 		END_COINSET	
 
@@ -167,7 +167,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 50.0f -125.0f 300.0f
+				POS = 50.0f -140.0f 300.0f
 			END_COIN
 
 		END_COINSET	
@@ -176,12 +176,12 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 50.0f -125.0f 250.0f
+				POS = 50.0f -140.0f 250.0f
 			END_COIN
 			
 			COINSET
 			COIN
-				POS = -50.0 -125.0 -2700.0
+				POS = -50.0 -140.0 -2700.0
 			END_COIN
 		END_COINSET	
 
@@ -192,68 +192,68 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = 100.0f -125.0f 300.0f
+				POS = 100.0f -140.0f 300.0f
 			END_COIN
 
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -25.0 -125.0 -2800.0
+				POS = -25.0 -140.0 -2800.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 50.0 -125.0 -2700.0
+				POS = 50.0 -140.0 -2700.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET			
 			COIN
-				POS = -25.0 -125.0 -2567.5
+				POS = -25.0 -140.0 -2567.5
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -1100.0
+				POS = 0.0 -140.0 -1100.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -50.0 -125.0 -1000.0
+				POS = -50.0 -140.0 -1000.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -100.0 -125.0 -800.0
+				POS = -100.0 -140.0 -800.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -500.0
+				POS = 0.0 -140.0 -500.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -150.0
+				POS = 0.0 -140.0 -150.0
 			END_COIN
 		END_COINSET		
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -250.0
+				POS = 0.0 -140.0 -250.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 65.0 -125.0 -100.0
+				POS = 65.0 -140.0 -100.0
 			END_COIN
 		END_COINSET	
 		
@@ -265,13 +265,13 @@ COINALLSET
 		
 		COINSET
 			COIN
-				POS = 75.0 -125.0 450.0
+				POS = 75.0 -140.0 450.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 75.0 -125.0 550.0
+				POS = 75.0 -140.0 550.0
 			END_COIN
 		END_COINSET	
 
@@ -286,7 +286,7 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -50.0f -125.0f 200.0f
+				POS = -50.0f -140.0f 200.0f
 			END_COIN
 			
 			COINSET
@@ -302,20 +302,20 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -50.0f -125.0f 150.0f
+				POS = -50.0f -140.0f 150.0f
 			END_COIN
 
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -50.0 -125.0 -2900.0
+				POS = -50.0 -140.0 -2900.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -75.0 -125.0 -2800.0
+				POS = -75.0 -140.0 -2800.0
 			END_COIN
 		END_COINSET	
 		
@@ -333,67 +333,67 @@ COINALLSET
 		
 		COINSET
 			COIN
-				POS = 75.0 -125.0 -1100.0
+				POS = 75.0 -140.0 -1100.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -75.0 -125.0 -1100.0
+				POS = -75.0 -140.0 -1100.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -75.0 -125.0 -900.0
+				POS = -75.0 -140.0 -900.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -900.0
+				POS = 0.0 -140.0 -900.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 50.0 -125.0 -800.0
+				POS = 50.0 -140.0 -800.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -200.0
+				POS = 0.0 -140.0 -200.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -65.0 -125.0 -250.0
+				POS = -65.0 -140.0 -250.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -65.0 -125.0 -200.0
+				POS = -65.0 -140.0 -200.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 75.0 -125.0 500.0
+				POS = 75.0 -140.0 500.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -75.0 -125.0 600.0
+				POS = -75.0 -140.0 600.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -75.0 -125.0 550.0
+				POS = -75.0 -140.0 550.0
 			END_COIN
 		END_COINSET	
 
@@ -408,19 +408,19 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -100.0f -125.0f 200.0f
+				POS = -100.0f -140.0f 200.0f
 			END_COIN
 		END_COINSET
 			
 			COINSET			
 			COIN
-				POS = 50.0 -125.0 -2900.0
+				POS = 50.0 -140.0 -2900.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET			
 			COIN
-				POS = 50.0 -125.0 -2567.5
+				POS = 50.0 -140.0 -2567.5
 			END_COIN
 		END_COINSET	
 				
@@ -432,14 +432,14 @@ COINALLSET
 #------------------
 		COINSET
 			COIN
-				POS = -100.0f -125.0f 100.0f
+				POS = -100.0f -140.0f 100.0f
 			END_COIN
 
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 75.0 -125.0 -2800.0
+				POS = 75.0 -1251400 -2800.0
 			END_COIN
 		END_COINSET	
 		
@@ -451,31 +451,31 @@ COINALLSET
 		
 		COINSET
 			COIN
-				POS = 75.0 -125.0 -900.0
+				POS = 75.0 -140.0 -900.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -50.0 -125.0 -800.0
+				POS = -50.0 -140.0 -800.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 0.0 -125.0 -100.0
+				POS = 0.0 -140.0 -100.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = 65.0 -125.0 -150.0
+				POS = 65.0 -140.0 -150.0
 			END_COIN
 		END_COINSET	
 		
 		COINSET
 			COIN
-				POS = -65.0 -125.0 -150.0
+				POS = -65.0 -140.0 -150.0
 			END_COIN
 		END_COINSET	
 		
@@ -493,7 +493,7 @@ COINALLSET
 		
 		COINSET
 			COIN
-				POS = -75.0 -125.0 500.0
+				POS = -75.0 -140.0 500.0
 			END_COIN
 		END_COINSET	
 
