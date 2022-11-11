@@ -29,6 +29,7 @@ public:
 
 	void SizeReset(void);
 	void SetSellect(void);
+	void SetColor(D3DXCOLOR col);
 
 	static CFontString* Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const std::string letter);
 private:
