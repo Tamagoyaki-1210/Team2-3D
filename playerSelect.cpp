@@ -56,7 +56,15 @@ HRESULT CPlayerSelect::Init(void)
 	pObj2D->SetTexture(CObject::TEXTURE_BUTTON_SELECT_UI);
 	pObj2D->SetTextureParameter(2, 1, 2, 20);
 	pObj2D->SetPriority(5);
+
 	m_nPlayerCount = 0;
+
+	pObj2D = CObject_2D::Create();
+	pObj2D->SetPos(D3DXVECTOR3(250.0f, 635.0f, 0.0f));
+	pObj2D->SetSize(D3DXVECTOR2(210.0f, 54.0f));
+	pObj2D->SetTexture(CObject::TEXTURE_PLAYER_SEL_CTRL);
+	pObj2D->SetTextureParameter(4, 1, 4, 20);
+	pObj2D->SetPriority(5);
 
 	return S_OK;
 }
