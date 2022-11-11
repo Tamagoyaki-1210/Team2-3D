@@ -109,6 +109,7 @@ CEnvironment * CEnvironment::Create(D3DXVECTOR3 pos, EnvironmentType type)
 		pEnvironment->SetModel(MODEL_STONE);	//ƒ‚ƒfƒ‹‚Ìİ’èˆ—
 	}
 	break;
+
 	default:
 		break;
 	}
