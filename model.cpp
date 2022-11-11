@@ -40,6 +40,7 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Player02\\PlayerParts\\snowman.x" },
 	{ "data\\MODELS\\Player02\\PlayerParts\\ToyBoxHead.x" },
 	{ "data\\MODELS\\Player02\\PlayerParts\\SummerTimeHead.x" },
+	{ "data\\MODELS\\Player02\\PlayerParts\\TreeHead.x" },
 
 	{ "data\\MODELS\\Coin\\Coin00.x" },
 	{ "data\\MODELS\\Coin\\Coin01.x" },
@@ -54,7 +55,6 @@ char*			CModel::m_pModelPass[MODEL_MAX] =
 	{ "data\\MODELS\\Environment\\windmill\\windmill.x" },
 	{ "data\\MODELS\\Environment\\airship\\airship.x" },
 	{ "data\\MODELS\\Environment\\stone\\stone.x" },
-	{ "data\\MODELS\\traps\\IcePillar\\IcePillar_InstallationType.x" },
 
 	{ "data\\MODELS\\Stage_gimmick\\NeedleBall\\NeedleBall.x" },
 	{ "data\\MODELS\\Stage_gimmick\\LavaFloor\\Lava.x" },

@@ -109,11 +109,7 @@ CEnvironment * CEnvironment::Create(D3DXVECTOR3 pos, EnvironmentType type)
 		pEnvironment->SetModel(MODEL_STONE);	//ƒ‚ƒfƒ‹‚Ìİ’èˆ—
 	}
 	break;
-	case CEnvironment::ENVIRONMENT_ICE_STALAGMITE:
-	{
-		pEnvironment->SetModel(MODEL_ICE_STALAGMITE);	//ƒ‚ƒfƒ‹‚Ìİ’èˆ—
-	}
-	break;
+
 	default:
 		break;
 	}
