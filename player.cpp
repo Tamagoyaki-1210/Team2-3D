@@ -269,6 +269,16 @@ void CPlayer::Update(void)
 					}
 				}
 			}
+			else if(m_pos.x < -135.0f || m_pos.x > 125.0f)
+			{
+				for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
+				{
+					if (m_pModel[nCnt] != nullptr)
+					{
+						m_pModel[nCnt]->SetShadowHeight(-5000.0f);
+					}
+				}
+			}
 	}
 
 	if (m_pAnimator != nullptr)
