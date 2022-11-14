@@ -16,8 +16,12 @@
 #include "inputKeyboard.h"
 #include "debugProc.h"
 
-
-const float CCamera::CAMERA_SPEED = 1.0;
+//=============================================================================
+//
+//静的変数の初期化
+//
+//=============================================================================
+const float CCamera::CAMERA_SPEED = 1.0;				//カメラの移動量
 
 //コンストラクタ
 CCamera::CCamera()
@@ -29,10 +33,8 @@ CCamera::CCamera()
 	m_vecU = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//上方向ベクトル
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//向き
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//目的の向き
-	m_fDistance = 0.0f;				//視点からプレイヤーまでの距離
-	m_fDistanceFocalPoint = 0.0f;		//注視点からプレイヤーまでの距離
-	m_fLenght = 0.0f;
-	m_nDelay = 0;
+	m_fLenght = 0.0f;									//視点から注視点までの距離			
+	m_nDelay = 0;										//ディレイ		
 }
 
 //デストラクタ
@@ -51,10 +53,8 @@ HRESULT CCamera::Init(void)
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);				//上方向ベクトル
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//向き
 	m_rotDest = D3DXVECTOR3(0.0f, 0.0f, 0.0f);			//目的の向き
-	m_fDistance = 0.0f;				//視点からプレイヤーまでの距離
-	m_fDistanceFocalPoint = 0.0f;		//注視点からプレイヤーまでの距離
-	m_fLenght = 0.0f;
-	m_nDelay = 0;
+	m_fLenght = 0.0f;									//視点から注視点までの距離	
+	m_nDelay = 0;										//ディレイ		
 
 	return S_OK;
 }
@@ -70,6 +70,7 @@ void CCamera::Update(void)
 {
 #ifdef _DEBUG
 
+	//デバッグ用のカメラ操作
 	if (CInputKeyboard::GetKeyboardPress(DIK_LEFT))
 	{
 		D3DXVECTOR3 v = m_posR - m_posV;
@@ -147,29 +148,6 @@ void CCamera::Update(void)
 		m_posR.z += sinf(fAngle) * 5.0f;
 	}
 
-	//if (pMouse->lY > 0)
-	//{
-	//	if (m_posR.y > m_posV.y - 150.0f)
-	//	{
-	//		m_posR.y += -5.0f;
-	//	}
-	//}
-	//else if (pMouse->lY < 0)
-	//{
-	//	if (m_posR.y < m_posV.y + 150.0f)
-	//	{
-	//		m_posR.y += 5.0f;
-	//	}
-	//}
-	//if (pMouse->lX > 0)
-	//{
-	//	m_rot.y += -D3DX_PI * 0.005f;
-	//}
-	//else if (pMouse->lX < 0)
-	//{
-	//	m_rot.y += D3DX_PI * 0.005f;
-	//}
-
 	if (m_rot.y > D3DX_PI)
 	{
 		m_rot.y -= 2.0f * D3DX_PI;
@@ -207,13 +185,6 @@ void CCamera::Update(void)
 
 	m_posR.x = m_posV.x + m_fLenght * cosf(m_rot.y);
 	m_posR.z = m_posV.z + m_fLenght * sinf(m_rot.y);
-
-	//CStage::GetPlayer();
-
-	//if (m_posV.z >= 750.0f)
-	//{
-	//	m_posV.z = 750.0f;
-	//}
 }
 
 //設定処理
@@ -248,11 +219,13 @@ void CCamera::Set(void)
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProjection);
 }
 
+//視点の取得処理
 const D3DXVECTOR3 CCamera::GetPos(void)
 {
 	return m_posV;
 }
 
+//回転角度の取得処理
 const D3DXVECTOR3 CCamera::GetRot(void)
 {
 	return m_rot;
@@ -267,12 +240,13 @@ const D3DXVECTOR3 CCamera::GetDirection(void)
 	return dir;
 }
 
+//注視点の取得処理
 const D3DXVECTOR3 CCamera::GetFocalPoint(void)
 {
 	return m_posR;
 }
 
-
+//注視点の設定処理
 void CCamera::SetFocalPoint(const D3DXVECTOR3 pos)
 {
 	m_posR = pos;
@@ -285,28 +259,41 @@ void CCamera::SetPos(const D3DXVECTOR3 posV, const D3DXVECTOR3 posR)
 	m_posR = posR;
 }
 
+
+
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
+
+
+//生成処理
 CCamera* CCamera::Create(D3DXVECTOR3 pos, D3DXVECTOR3 focalPoint)
 {
-	CCamera* pCamera = new CCamera;
+	CCamera* pCamera = new CCamera;				//カメラの生成
 
 	if (FAILED(pCamera->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pCamera->m_posV = pos;
-	pCamera->m_posR = focalPoint;
+	pCamera->m_posV = pos;									//視点の設定
+	pCamera->m_posR = focalPoint;							//注視点の設定
+															
+	D3DXVECTOR3 v = pCamera->m_posR - pCamera->m_posV;		//視点から注視点までのベクトルを計算する
+	D3DXVECTOR3 unit = D3DXVECTOR3(1.0f, 0.0f, 0.0f);		//単位ベクトル
+	D3DXVec3Normalize(&v, &v);								//視点から注視点までのベクトルを正規化する
 
-	D3DXVECTOR3 v = pCamera->m_posR - pCamera->m_posV;
-	D3DXVECTOR3 unit = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-	D3DXVec3Normalize(&v, &v);
+	pCamera->m_rot.y = acosf(D3DXVec3Dot(&v, &unit));		//内積を計算する
 
-	pCamera->m_rot.y = acosf(D3DXVec3Dot(&v, &unit));
 	if (pCamera->m_posR.z < pCamera->m_posV.z)
-	{
+	{//必要だったら、正規化する
 		pCamera->m_rot.y *= -1.0f;
 	}
 
+	//視点から注視点までの距離を計算する
 	pCamera->m_fLenght = sqrtf(((pCamera->m_posR.x - pCamera->m_posV.x) * (pCamera->m_posR.x - pCamera->m_posV.x)) + ((pCamera->m_posR.z - pCamera->m_posV.z) * (pCamera->m_posR.z - pCamera->m_posV.z)));
-	return pCamera;
+	
+	return pCamera;				//生成したカメラを返す
 }

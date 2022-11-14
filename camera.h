@@ -48,8 +48,6 @@ private:
 	D3DXMATRIX  m_mtxView;					//ビューマトリックス
 	D3DXVECTOR3 m_rot;						//向き
 	D3DXVECTOR3 m_rotDest;					//目的の向き
-	float		m_fDistance;				//視点からプレイヤーまでの距離
-	float		m_fDistanceFocalPoint;		//注視点からプレイヤーまでの距離
 	float		m_fLenght;					//XZ面の視点と注視点の間の距離
 	int			m_nDelay;					//
 

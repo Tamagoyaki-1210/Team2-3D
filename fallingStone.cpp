@@ -25,14 +25,14 @@ CFallingStone::CFallingStone()
 	m_LastPos = Vec3Null;							//前回の位置
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
-	m_shadowPosY = 0.0f;
+	m_shadowPosY = 0.0f;							//影の高さ
 	m_fBound = 0.0f;								//影のエリアの幅
 	m_fDir = 0.0f;									//落下の方向
 	m_frameRot = Vec3Null;							//回転速度
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = (CModel::ModelType)0;
-	m_vModelTexture.clear();
-	m_pHitbox = nullptr;
+	m_type = (CModel::ModelType)0;					//モデルの種類
+	m_vModelTexture.clear();						//テクスチャ
+	m_pHitbox = nullptr;							//ヒットボックス
 }
 
 CFallingStone::~CFallingStone()
@@ -50,14 +50,14 @@ HRESULT CFallingStone::Init(void)
 	m_LastPos = Vec3Null;							//前回の位置
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
-	m_shadowPosY = 0.0f;
+	m_shadowPosY = 0.0f;							//影の高さ
 	m_fBound = 0.0f;								//影のエリアの幅
 	m_fDir = 1.0f;									//落下の方向
 	m_frameRot = Vec3Null;							//回転速度
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = (CModel::ModelType)0;
-	m_vModelTexture.clear();
-	m_pHitbox = nullptr;
+	m_type = (CModel::ModelType)0;					//モデルの種類
+	m_vModelTexture.clear();						//テクスチャ
+	m_pHitbox = nullptr;							//ヒットボックス
 
 	return S_OK;
 }
@@ -65,6 +65,7 @@ HRESULT CFallingStone::Init(void)
 //終了処理
 void CFallingStone::Uninit(void)
 {
+	//ヒットボックスの破棄
 	if (m_pHitbox != nullptr)
 	{
 		m_pHitbox->Release();
@@ -75,23 +76,27 @@ void CFallingStone::Uninit(void)
 //更新処理
 void CFallingStone::Update(void)
 {
+	//位置の更新処理
 	if (m_move != Vec3Null)
 	{
 		m_pos += m_move;
 	}
 
+	//重力を加算する
 	if (m_move.y >= -7.0f)
 	{
 		m_move.y += -0.5f;
 	}
 
+	//回転の更新
 	if (m_frameRot != Vec3Null)
 	{
 		m_rot += m_frameRot;
 	}
 
+	//メッシュフィールドとの当たり判定
 	if (CMeshfield::FieldInteraction(this))
-	{
+	{//当たったら、反射させる
 		if (m_move.x < 1.0f)
 		{
 			m_move.x = 3.0f * m_fDir;
@@ -101,26 +106,28 @@ void CFallingStone::Update(void)
 	}
 
 	if (m_pos.y <= -500.0f)
-	{
+	{//落ちたら、消す
 		Release();
 	}
 
 	if (m_pHitbox != nullptr)
-	{
-		//m_pHitbox->SetPos(m_pos);
-		m_pHitbox->Update();
+	{//ヒットボックスがnullではなかったら
+
+		m_pHitbox->Update();		//ヒットボックスの更新処理
 
 		if (m_pHitbox->GetCollisionState())
-		{
-			m_pHitbox->SetCollisionState(false);
-			m_move.x = 3.0f * m_fDir;
-			m_move.y = 7.0f;
-			StartRotation(D3DXVECTOR3(0.0f, 0.0f, -D3DX_PI * 0.01f * m_fDir));
+		{//プレイヤーと当たったら
+			m_pHitbox->SetCollisionState(false);								//当っていない状態に戻す
+
+			//反射させて、回転を設定する
+			m_move.x = 3.0f * m_fDir;											
+			m_move.y = 7.0f;													
+			StartRotation(D3DXVECTOR3(0.0f, 0.0f, -D3DX_PI * 0.01f * m_fDir));	
 		}
 	}
 
 	if (GetPos().z < CApplication::GetCamera()->GetPos().z - 100.0f)
-	{
+	{//見えなくなったら、消す
 		Release();
 	}
 }
@@ -129,31 +136,29 @@ void CFallingStone::Update(void)
 void CFallingStone::Draw(void)
 {
 	if (GetPos().z < CApplication::GetCamera()->GetPos().z + 650.0f)
-	{
+	{//遠すぎたら、描画しない
 		LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();				//デバイスの取得
 		D3DXMATRIX mtxRot, mtxTrans, mtxShadow;							//計算用マトリックス
-		D3DMATERIAL9 matDef;									//現在のマテリアル保存用
-		D3DXMATERIAL *pMat;										//マテリアルデータへのポインタ
-		D3DXVECTOR4 vecLight;
-		D3DXVECTOR3 pos, Normal;
-		D3DXPLANE planeField;
+		D3DMATERIAL9 matDef;											//現在のマテリアル保存用
+		D3DXMATERIAL *pMat;												//マテリアルデータへのポインタ
+		D3DXVECTOR4 vecLight;											//ライトの向き
+		D3DXVECTOR3 pos, Normal;										//投影用の位置と法線
+		D3DXPLANE planeField;											//面
 
-
+		//ライトの向きを設定する
 		D3DXVECTOR3 dir = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
 		D3DXVec3Normalize(&dir, &dir);
 
 		vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
 
-		pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);
+		pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);				//面の高さ
 
 		if (m_pos.y < m_shadowPosY - 10.0f || (m_pos.x > m_spawnPos.x + m_fBound && m_fDir > 0.0f) || (m_pos.x < m_spawnPos.x - m_fBound && m_fDir < 0.0f))
-		{
+		{//落ちたら影の高さを見えないように設定する
 			pos.y = -5000.0f;
 		}
 
-		Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-
-		//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);					//面の法線
 
 		//ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&m_mtxWorld);
@@ -167,9 +172,11 @@ void CFallingStone::Draw(void)
 		D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
 		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
+		//面の生成
 		D3DXPlaneFromPointNormal(&planeField, &pos, &Normal);
 		D3DXMatrixShadow(&mtxShadow, &vecLight, &planeField);
 
+		//影の描画用のマトリックス
 		D3DXMatrixMultiply(&mtxShadow, &m_mtxWorld, &mtxShadow);
 
 		//ワールドマトリックスの設定
@@ -186,8 +193,9 @@ void CFallingStone::Draw(void)
 			//テクスチャの設定
 			pDevice->SetTexture(0, NULL);
 
-			D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;
+			D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;			//マテリアルの色を保存する
 
+			//マテリアルの色を真っ黒にする
 			pMat[nCntMat].MatD3D.Diffuse.r = 0.0f;
 			pMat[nCntMat].MatD3D.Diffuse.g = 0.0f;
 			pMat[nCntMat].MatD3D.Diffuse.b = 0.0f;
@@ -202,6 +210,7 @@ void CFallingStone::Draw(void)
 			//モデルパーツの描画
 			m_pMesh->DrawSubset(nCntMat);
 
+			//マテリアルの色を元に戻す
 			pMat[nCntMat].MatD3D.Diffuse.r = col.r;
 			pMat[nCntMat].MatD3D.Diffuse.g = col.g;
 			pMat[nCntMat].MatD3D.Diffuse.b = col.b;
@@ -316,18 +325,19 @@ const D3DXVECTOR2 CFallingStone::GetSize(void)
 }
 
 
-
+//回転開始の設定処理
 void CFallingStone::StartRotation(const D3DXVECTOR3 frameRot)
 {
 	m_frameRot = frameRot;
 }
 
-
+//回転の停止処理
 void CFallingStone::StopRotating(void)
 {
 	m_frameRot = Vec3Null;
 }
 
+//向きの設定処理
 void CFallingStone::SetDirection(const float fLateralDirection)
 {
 	if (fLateralDirection >= 0)
@@ -348,26 +358,28 @@ void CFallingStone::SetDirection(const float fLateralDirection)
 //生成処理
 CFallingStone* CFallingStone::Create(CModel::ModelType type, D3DXVECTOR3 pos, const D3DXVECTOR3 spawnPos, const float ShadowHeight, const float fBound, const float fDir)
 {
-	CFallingStone* pModel = new CFallingStone;
+	CFallingStone* pModel = new CFallingStone;			//インスタンスを生成する
 
 	if (FAILED(pModel->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pModel->m_pos = pos;
-	pModel->m_rot = Vec3Null;
-	pModel->m_LastPos = pos;
-	pModel->m_type = type;
-	pModel->m_shadowPosY = ShadowHeight;
-	pModel->m_fBound = fBound;
-	pModel->m_fDir = fDir;
-	pModel->m_spawnPos = spawnPos;
+	pModel->m_pos = pos;						//位置の設定
+	pModel->m_rot = Vec3Null;					//回転の設定
+	pModel->m_LastPos = pos;					//前回の位置の設定
+	pModel->m_type = type;						//種類の設定
+	pModel->m_shadowPosY = ShadowHeight;		//影の高さの設定
+	pModel->m_fBound = fBound;					//メッシュフィールドの幅の設定
+	pModel->m_fDir = fDir;						//向きの設定
+	pModel->m_spawnPos = spawnPos;				//スポーンの位置の設定
 
+	//モデル情報の取得処理
 	CModel::GetModel(type, &pModel->m_pMesh, &pModel->m_pBuffMat, &pModel->m_nNumMat);
 	CModel::GetTextures(pModel->m_vModelTexture, type);
 
+	//ヒットボックスの生成処理
 	pModel->m_pHitbox = CCylinderHitbox::Create(pos, Vec3Null, D3DXVECTOR3(20.0f, 40.0f, 20.0f), CHitbox::TYPE_OBSTACLE, -30, pModel, CHitbox::EFFECT_LAUNCH);
 
-	return pModel;
+	return pModel;				//インスタンスを返す
 }
