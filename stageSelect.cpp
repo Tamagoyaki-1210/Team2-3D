@@ -63,7 +63,7 @@ HRESULT CStageSelect::Init(void)
 		CObject_2D *pObj2D = CObject_2D::Create();
 		
 		// •¶Žš‚ð’†‰›‚É”z’u‚µAstringŒ^‚©‚ç*charŒ^‚ð1•¶Žš‚¸‚ÂŽæ‚èo‚·
-		pObj2D->SetPos(D3DXVECTOR3((SCREEN_WIDTH / 5) * (nCnt + 1), SCREEN_HEIGHT / 2, 0.0f));
+		pObj2D->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH * 0.2f) * (float)(nCnt + 1), (float)SCREEN_HEIGHT * 0.5f, 0.0f));
 		pObj2D->SetSize(D3DXVECTOR2(120, 120));
 		pObj2D->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		pObj2D->SetPriority(4);
@@ -145,7 +145,7 @@ void CStageSelect::Input(void)
 			{
 				m_nSelectNum = m_nNumAll - 1;
 			}
-			m_pFrame->SetPos(D3DXVECTOR3((SCREEN_WIDTH / 5) * (m_nSelectNum + 1), SCREEN_HEIGHT / 2, 0.0f));
+			m_pFrame->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH * 0.2f) * (float)(m_nSelectNum + 1), (float)SCREEN_HEIGHT * 0.5f, 0.0f));
 			pSound->Play(CSound::SOUND_LABEL_SE_SELECT);
 		}
 		else if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, 0))
@@ -157,7 +157,7 @@ void CStageSelect::Input(void)
 			{
 				m_nSelectNum = 0;
 			}
-			m_pFrame->SetPos(D3DXVECTOR3((SCREEN_WIDTH / 5) * (m_nSelectNum + 1), SCREEN_HEIGHT / 2, 0.0f));
+			m_pFrame->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH * 0.2f) * (float)(m_nSelectNum + 1), (float)SCREEN_HEIGHT * 0.5f, 0.0f));
 			pSound->Play(CSound::SOUND_LABEL_SE_SELECT);
 		}
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, 0))

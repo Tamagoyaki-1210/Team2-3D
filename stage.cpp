@@ -174,7 +174,9 @@ void CStage::StageTexture(void)
 		}
 		if (m_pField[1] != nullptr)
 		{
-			m_pField[1]->SetTexture(CObject::TEXTURE_MAGMA);
+			m_pField[1]->SetTexture(CObject::TEXTURE_LAVA);
+			m_pField[1]->SetAnimation(true, D3DX_PI * 0.001f, 2.5f);
+			m_pField[1]->SetTextureAnim(D3DXVECTOR2(0.0001f, 0.000005f));
 		}
 		if (m_pSphere != nullptr)
 		{

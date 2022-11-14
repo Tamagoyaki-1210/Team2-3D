@@ -37,7 +37,7 @@ public:
 		Mode_PlayerSelect,	// プレイヤー選択画面
 		Mode_StageSelect,	// ステージ選択画面
 		Mode_Game_Race,		// ゲーム_競争
-		Mode_Tutorial,	// ゲーム_競争
+		Mode_Tutorial,		// ゲーム_競争
 
 		Mode_Max
 	};
@@ -51,23 +51,23 @@ public:
 	void Draw(void);									//描画処理
 	static CRenderer* GetRenderer(void);				//レンディングインスタンスの取得処理
 	static CInputMouse* GetMouse(void);					//マウスインスタンスの取得処理
-	static CInputPad* GetPad(void);
+	static CInputPad* GetPad(void);						//パッドの取得処理
 	static HWND GetWindow(void);						//ウインドウの取得処理
 	static CSound* GetSound(void);						//サウンドの取得処理
 	static CCamera* GetCamera(void);					//カメラの取得処理
 	static CFade* GetFade(void);						//フェードの取得処理
 
-	static Mode GetMode(void);
-	static void SetMode(Mode mode);
+	static Mode GetMode(void);							//モードの取得処理
+	static void SetMode(Mode mode);						//モードの設定処理
 
 	static bool GetPause(void);							// ポーズの取得処理
 	static void SetPause(const bool bPause);			// ポーズの設定処理
 	void ChangeMode();
 
-	static int GetStageSelect() { return m_nStageSelect; }
+	static int GetStageSelect() { return m_nStageSelect; }						
 	static void SetStageSelect(int StageSelect) { m_nStageSelect = StageSelect; }
 
-	static CMessage* GetMsg(void) { return m_pMessage; }
+	static CMessage* GetMsg(void) { return m_pMessage; }		//メッセージの取得処理
 
 private:
 	static int m_nStageSelect;							//選択中のステージセレクト
@@ -84,8 +84,7 @@ private:
 	static CMode* m_pMode;								//モードのインスタンスへのポインタ
 	static CMenu* m_pMenu;								//メニューのインスタンスへのポインタ
 	static CMessage* m_pMessage;						//メッセージのインスタンスへのポインタ
-
-	static CDebugProc* m_pDebug;
+	static CDebugProc* m_pDebug;						//デバッグテキストのインスタンス
 
 	static Mode m_mode;		//現在モード
 	static Mode m_modeNext;	//次のモード
