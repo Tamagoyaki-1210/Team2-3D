@@ -30,13 +30,13 @@ public:
 	const D3DXVECTOR2 GetSize(void) override;			//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override;			//位置の取得処理
 
-	void SetRot(const D3DXVECTOR3 rot);
-	const D3DXVECTOR3 GetRot(void);
-
-	void SetColor(const D3DXCOLOR col);
-	const D3DXCOLOR GetColor(void);
+	void SetRot(const D3DXVECTOR3 rot);					//向きの設定処理
+	const D3DXVECTOR3 GetRot(void);						//向きの取得処理
+														
+	void SetColor(const D3DXCOLOR col);					//カーラーの設定処理
+	const D3DXCOLOR GetColor(void);						//カーラーの取得処理
 		
-	void SetTexture(TextType textType);														//テクスチャの種類の設定処理
+	void SetTexture(TextType textType);					//テクスチャの種類の設定処理
 
 	static CBillboard* Create(D3DXVECTOR3 pos, D3DXVECTOR2 size);							//生成処理
 	static CBillboard* Create(D3DXVECTOR3 pos, D3DXVECTOR2 size, const int nPriority);		//生成処理
@@ -48,7 +48,7 @@ private:
 
 	D3DXVECTOR3 m_pos;									//ポリゴンの位置
 	D3DXVECTOR3 m_rot;									//ポリゴンの回転角度
-	D3DXCOLOR	m_col;
+	D3DXCOLOR	m_col;									//カーラー
 	D3DXVECTOR2 m_size;									//ポリゴンの幅と高さ
 	D3DXMATRIX m_mtxWorld;								//ワールドマトリックス
 };
