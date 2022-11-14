@@ -136,7 +136,11 @@ void CStageSelect::Input(void)
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
 	{
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, 0))
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_A)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, 0)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, 1)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, 2)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, 3))
 		{// Wキーが押された場合
 			m_nSelectNum--;
 
@@ -148,7 +152,11 @@ void CStageSelect::Input(void)
 			m_pFrame->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH * 0.2f) * (float)(m_nSelectNum + 1), (float)SCREEN_HEIGHT * 0.5f, 0.0f));
 			pSound->Play(CSound::SOUND_LABEL_SE_SELECT);
 		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, 0))
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_D)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, 0)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, 1)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, 2)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, 3))
 		{// Sキーが押された場合
 			m_nSelectNum++;
 
@@ -160,12 +168,25 @@ void CStageSelect::Input(void)
 			m_pFrame->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH * 0.2f) * (float)(m_nSelectNum + 1), (float)SCREEN_HEIGHT * 0.5f, 0.0f));
 			pSound->Play(CSound::SOUND_LABEL_SE_SELECT);
 		}
-		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, 0))
+		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_BACK, 0)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_BACK, 1)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_BACK, 2)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_BACK, 3))
 		{// BACKSPACEキーを押したら
 			CApplication::SetMode(CApplication::Mode_PlayerSelect);
 			pSound->Play(CSound::SOUND_LABEL_SE_NO);
 		}
-		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0))
+		else if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 1)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 2)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 3)
+			
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 0)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 1)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 2)
+			|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 3))
 		{// Enterキーを押したら
 
 			// ランダムが選ばれた場合

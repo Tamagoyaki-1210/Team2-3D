@@ -180,8 +180,9 @@ void CMeshfield::Update(void)
 			Vtx.pos = pVtx[nCnt].pos;
 			Vtx.pos.y += m_fAmplitude * sinf(m_fAnimAngle * (nCnt / m_nLineVertex));
 			pVtx[nCnt].pos = Vtx.pos;
-			m_fAnimAngle += m_fAnimSpeed;
 		}
+
+		m_fAnimAngle += m_fAnimSpeed;
 
 		//頂点バッファのアンロック
 		m_pVtxBuff->Unlock();
