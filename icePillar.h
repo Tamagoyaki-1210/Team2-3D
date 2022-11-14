@@ -22,8 +22,8 @@ class CCylinderHitbox;
 class CIcePillar : public CObject
 {
 public:
-	CIcePillar();
-	~CIcePillar() override;
+	CIcePillar();																		//コンストラクタ
+	~CIcePillar() override;																//デストラクタ
 
 	virtual HRESULT Init(void) override;												//初期化処理
 	virtual void Uninit(void) override;													//終了処理
@@ -51,8 +51,8 @@ private:
 	CModel::ModelType		m_type;													//モデルの種類
 	int						m_nLife;												//ライフ
 	std::vector <LPDIRECT3DTEXTURE9> m_vModelTexture;								//モデルのテクスチャへのポインタ
-	CCylinderHitbox*		m_pHitbox;
-	CCylinderHitbox*		m_pDamageHitbox;
+	CCylinderHitbox*		m_pHitbox;												//上のヒットボックス
+	CCylinderHitbox*		m_pDamageHitbox;										//下のヒットボックス
 };
 
 
