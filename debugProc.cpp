@@ -11,8 +11,15 @@
 #include "debugProc.h"
 #include "application.h"
 #include "rendering.h"
-LPD3DXFONT CDebugProc::m_pFont = nullptr;
-std::string CDebugProc::m_str = "";
+
+
+//=============================================================================
+//
+//							静的変数の初期化
+//
+//=============================================================================
+LPD3DXFONT CDebugProc::m_pFont = nullptr;			//フォント
+std::string CDebugProc::m_str = "";					//文字列
 
 //コンストラクタ
 CDebugProc::CDebugProc()
@@ -29,7 +36,8 @@ CDebugProc::~CDebugProc()
 //初期化処理
 void CDebugProc::Init(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+	//初期化処理
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();		//デバイスの取得
 
 	// デバッグ情報表示用フォントの生成
 	D3DXCreateFont(pDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET,
@@ -39,6 +47,7 @@ void CDebugProc::Init(void)
 //終了処理
 void CDebugProc::Uninit(void)
 {
+	//フォントの破棄
 	if (m_pFont != nullptr)
 	{
 		m_pFont->Release();
@@ -46,7 +55,7 @@ void CDebugProc::Uninit(void)
 	}
 }
 
-//
+//表示処理
 void CDebugProc::Print(const char *pFormat, ...)
 {
 	va_list args;
@@ -129,14 +138,23 @@ void CDebugProc::Draw(void)
 	m_str.clear();
 }
 
+
+
+//=============================================================================
+//
+//							静的関数
+//
+//=============================================================================
+
+//生成処理
 CDebugProc* CDebugProc::Create(void)
 {
-	CDebugProc* pDebug = new CDebugProc;
+	CDebugProc* pDebug = new CDebugProc;			//インスタンスの生成
 
 	if (pDebug != nullptr)
-	{
+	{//初期化処理
 		pDebug->Init();
 	}
 
-	return pDebug;
+	return pDebug;					//生成したインスタンスを返す
 }

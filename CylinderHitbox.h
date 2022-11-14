@@ -17,13 +17,14 @@ class CLine;
 class CCylinderHitbox : public CHitbox
 {
 public:
-	CCylinderHitbox();
-	~CCylinderHitbox() override;
+	CCylinderHitbox();						//コンストラクタ
+	~CCylinderHitbox() override;			//デストラクタ
+											
+	HRESULT Init(void) override;			//初期化処理
+	void    Uninit(void) override;			//終了処理
+	void    Update(void) override;			//更新処理
 
-	HRESULT Init(void) override;
-	void    Uninit(void) override;
-	void    Update(void) override;
-
+	//生成処理
 	static CCylinderHitbox* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 RelativePos, const D3DXVECTOR3 size, HITBOX_TYPE type, CObject* pParent);
 	static CCylinderHitbox* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 RelativePos, const D3DXVECTOR3 size, HITBOX_TYPE type, CObject* pParent, const int nPlayerIdx);
 	static CCylinderHitbox* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 RelativePos, const D3DXVECTOR3 size, HITBOX_TYPE type, int nScore, CObject* pParent);
@@ -31,11 +32,11 @@ public:
 
 private:
 
-	bool CylinderCylinderHit(const D3DXVECTOR3 pos, const D3DXVECTOR3 size);
-	bool CylinderBoxHit(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR3 size);
-	bool PointBoxHit(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR3 size);
+	bool CylinderCylinderHit(const D3DXVECTOR3 pos, const D3DXVECTOR3 size);							//シリンダーとシリンダーの当たり判定
+	//bool CylinderBoxHit(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR3 size);			//シリンダーを矩形の当たり判定
+	bool PointBoxHit(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR3 size);				//点と矩形の当たり判定
 
-	CLine* m_pLine[18];
+	CLine* m_pLine[18];					//デバッグ用の線
 
 };
 

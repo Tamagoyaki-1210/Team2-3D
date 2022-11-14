@@ -24,12 +24,12 @@ public:
 	//コインの種類
 	enum COIN_TYPE
 	{
-		COIN_0 = 0,
-		COIN_1,
-		COIN_2,
-		COIN_3,
-
-		COIN_DROPPED,
+		COIN_0 = 0,					//10点のコイン
+		COIN_1,						//20点のコイン
+		COIN_2,						//30点のコイン
+		COIN_3,						//50点のコイン
+									
+		COIN_DROPPED,				//落としたコイン
 
 		COIN_MAX
 	};
@@ -42,9 +42,9 @@ public:
 	void Update(void) override;					//更新処理
 	void Draw(void) override;					//描画処理
 
-	void SetMove(const D3DXVECTOR3 move);
+	void SetMove(const D3DXVECTOR3 move);		//移動量の設定処理
 
-	const D3DXVECTOR3 GetMove(void);
+	const D3DXVECTOR3 GetMove(void);			//移動量の取得処理
 
 
 	static CCoin* Create(const D3DXVECTOR3 pos, const COIN_TYPE type);						//生成処理
@@ -54,8 +54,8 @@ private:
 
 	static const D3DXVECTOR3 m_hitboxSize[COIN_MAX];		//ヒットボックスの大きさ
 
-	D3DXVECTOR3 m_move;
-	int m_nLife;
+	D3DXVECTOR3 m_move;				//移動量
+	int m_nLife;					//ライフ
 
 	CBoxHitbox* m_pHitbox;			//ヒットボックスへのポインタ
 
