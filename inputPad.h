@@ -50,12 +50,12 @@ public:
 		JOYKEY_MAX
 	};
 
-	CInputPad();													//コンストラクタ
-	~CInputPad();													//デストラクタ
+	CInputPad();															//コンストラクタ
+	~CInputPad();															//デストラクタ
 
-	HRESULT Init(HINSTANCE hInstance, HWND hWnd, GUID guid) override;	//初期化処理
-	void Uninit(void) override;											//終了処理
-	void Update(void) override;											//更新処理
+	HRESULT Init(HINSTANCE hInstance, HWND hWnd, GUID guid) override;		//初期化処理
+	void Uninit(void) override;												//終了処理
+	void Update(void) override;												//更新処理
 
 	static bool GetJoypadPress(JOYKEY Key, int nPlayer);					//ジョイパッドプレス処理
 	static bool GetJoypadTrigger(JOYKEY Key, int nPlayer);					//ジョイパッドトリガー処理
@@ -64,13 +64,13 @@ public:
 	static void JoypadVibration(int nTime, WORD nStrength, int nPlayer);	//ジョイパッド振動制御
 
 private:
-	static XINPUT_STATE m_JoyKeyState[PLAYER_MAX];				//ジョイパットのプレス情報
-	static XINPUT_STATE m_JoyKeyStateTrigger[PLAYER_MAX];		//ジョイパットのトリガー情報
-	static D3DXVECTOR3 m_JoyStickPos[PLAYER_MAX];				//ジョイスティックの傾き
-	static int m_nTime[PLAYER_MAX];							//振動持続時間
-	static WORD m_nStrength[PLAYER_MAX];						//振動の強さ (0 - 65535)
+	static XINPUT_STATE m_JoyKeyState[PLAYER_MAX];							//ジョイパットのプレス情報
+	static XINPUT_STATE m_JoyKeyStateTrigger[PLAYER_MAX];					//ジョイパットのトリガー情報
+	static D3DXVECTOR3 m_JoyStickPos[PLAYER_MAX];							//ジョイスティックの傾き
+	static int m_nTime[PLAYER_MAX];											//振動持続時間
+	static WORD m_nStrength[PLAYER_MAX];									//振動の強さ (0 - 65535)
 
-	XINPUT_VIBRATION m_JoyMoter[PLAYER_MAX];			//ジョイパッドのモーター
+	XINPUT_VIBRATION m_JoyMoter[PLAYER_MAX];								//ジョイパッドのモーター
 
 };
 

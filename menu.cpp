@@ -372,13 +372,19 @@ void CMenu::Input(void)
 				{
 					if (m_nSelectNum == 0)
 					{
-						CApplication::SetMode(CApplication::Mode_PlayerSelect);
+						CApplication::SetMode(CApplication::Mode_Game_Race);
 					}
 					else if (m_nSelectNum == 1)
 					{
-						CApplication::SetMode(CApplication::Mode_Game_Race);
+						CApplication::GetSound()->Stop();
+						CApplication::SetMode(CApplication::Mode_StageSelect);
+						CApplication::GetSound()->Play(CSound::SOUND_LABEL_BGM_SELECT);
 					}
-					else if (m_nSelectNum == 2)
+					if (m_nSelectNum == 2)
+					{
+						CApplication::SetMode(CApplication::Mode_PlayerSelect);
+					}
+					else if (m_nSelectNum == 3)
 					{
 						CApplication::SetMode(CApplication::Mode_Title);
 					}
@@ -487,13 +493,19 @@ void CMenu::Input(void)
 				{
 					if (m_nSelectNum == 0)
 					{
-						CApplication::SetMode(CApplication::Mode_PlayerSelect);
+						CApplication::SetMode(CApplication::Mode_Tutorial);
 					}
 					else if (m_nSelectNum == 1)
 					{
-						CApplication::SetMode(CApplication::Mode_Tutorial);
+						CApplication::GetSound()->Stop();
+						CApplication::SetMode(CApplication::Mode_StageSelect);
+						CApplication::GetSound()->Play(CSound::SOUND_LABEL_BGM_SELECT);
 					}
 					else if (m_nSelectNum == 2)
+					{
+						CApplication::SetMode(CApplication::Mode_PlayerSelect);
+					}
+					else if (m_nSelectNum == 3)
 					{
 						CApplication::SetMode(CApplication::Mode_Title);
 					}
@@ -518,10 +530,10 @@ void CMenu::PauseChange(bool bPause)
 		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "つづける");
 		m_nNumAll++;
 
-		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "やりなおす");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 400.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
 		m_nNumAll++;
 
-		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "キャラをえらびなおす");
+		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 500.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "キャラセレクト");
 		m_nNumAll++;
 
 		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 600.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
@@ -573,10 +585,13 @@ void CMenu::PauseChange(bool bPause)
 //=====================================
 void CMenu::SetResult(void)
 {
-	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 350.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "キャラをえらびなおす");
+	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 250.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
 	m_nNumAll++;
 
-	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 450.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "リトライ");
+	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 350.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "ステージセレクト");
+	m_nNumAll++;
+
+	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 450.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "キャラセレクト");
 	m_nNumAll++;
 
 	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 550.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
