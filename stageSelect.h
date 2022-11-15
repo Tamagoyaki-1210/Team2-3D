@@ -31,7 +31,7 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 
-	void Input(void);
+	void Input(void);	// “ü—Íˆ—
 
 	static CStageSelect* Create(void);
 private:
@@ -39,7 +39,6 @@ private:
 	int m_nSelectNum;					// Œ»İ‘I‘ğ‚³‚ê‚Ä‚¢‚é‘I‘ğˆ
 	static CFontString* m_pStr;			// •¶š—ñ
 	static CObject_2D* m_pFrame;		// ‘I‘ğ˜g
-	
 };
 
 #endif // !_STAGESELECT_H_

@@ -212,7 +212,6 @@
     <ClCompile Include="trampoline.cpp" />
     <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="UIString.cpp" />
-    <ClCompile Include="warning.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimateUI.h" />
@@ -273,7 +272,6 @@
     <ClInclude Include="trampoline.h" />
     <ClInclude Include="tutorial.h" />
     <ClInclude Include="UIString.h" />
-    <ClInclude Include="warning.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

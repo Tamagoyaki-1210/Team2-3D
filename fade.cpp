@@ -110,45 +110,43 @@ void CFade::Uninit(void)
 //=====================================
 void CFade::Update(void)
 {
-	if (m_fade == FADE_NONE)
-	{// 何もしていない状態の場合
-		return;
-	}
-
-	switch (m_fade)
-	{
-	// フェードアウト状態の場合
-	case FADE_OUT:
-		m_fAlpha += ALPHA_CHANGE;	// ポリゴンを不透明にしていく
-
-		if (m_fAlpha >= 1.0f)
-		{// 完全に不透明になった場合
-			m_fAlpha = 1.0f;
-			m_fade = FADE_CHANGE;  // フェード切り替え状態
-		}
-		break;
-	// フェードイン状態の場合
-	case FADE_IN:		
-		m_fAlpha -= ALPHA_CHANGE;	// ポリゴンを徐々に透明にする
-
-		if (m_fAlpha <= 0.0f)
-		{// 完全に透明になった場合
-			m_fAlpha = 0.0f;
-			m_fade = FADE_NONE;	// フェード切り替え状態
-		}
-		break;
-	// フェード切り替え状態の場合
-	case FADE_CHANGE:
-		//ポリゴンが完全に不透明な場合
-		if (m_fAlpha == 1.0f)
+	if (m_fade != FADE_NONE)
+	{// 何もしていない状態ではない場合
+		switch (m_fade)
 		{
-			m_fade = FADE_IN;		// フェードイン状態
+			// フェードアウト状態の場合
+		case FADE_OUT:
+			m_fAlpha += ALPHA_CHANGE;	// ポリゴンを不透明にしていく
+
+			if (m_fAlpha >= 1.0f)
+			{// 完全に不透明になった場合
+				m_fAlpha = 1.0f;
+				m_fade = FADE_CHANGE;  // フェード切り替え状態
+			}
+			break;
+			// フェードイン状態の場合
+		case FADE_IN:
+			m_fAlpha -= ALPHA_CHANGE;	// ポリゴンを徐々に透明にする
+
+			if (m_fAlpha <= 0.0f)
+			{// 完全に透明になった場合
+				m_fAlpha = 0.0f;
+				m_fade = FADE_NONE;	// フェード切り替え状態
+			}
+			break;
+			// フェード切り替え状態の場合
+		case FADE_CHANGE:
+			//ポリゴンが完全に不透明な場合
+			if (m_fAlpha == 1.0f)
+			{
+				m_fade = FADE_IN;		// フェードイン状態
+			}
+			break;
+		default:
+			break;
 		}
-		break;
-	default:
-		break;
+		SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, m_fAlpha));
 	}
-	SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, m_fAlpha));
 }
 
 //=====================================

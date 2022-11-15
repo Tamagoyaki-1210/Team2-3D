@@ -37,7 +37,7 @@ public:
 		Mode_PlayerSelect,	// プレイヤー選択画面
 		Mode_StageSelect,	// ステージ選択画面
 		Mode_Game_Race,		// ゲーム_競争
-		Mode_Tutorial,		// ゲーム_競争
+		Mode_Tutorial,		// チュートリアル
 
 		Mode_Max
 	};
@@ -57,15 +57,15 @@ public:
 	static CCamera* GetCamera(void);					//カメラの取得処理
 	static CFade* GetFade(void);						//フェードの取得処理
 
-	static Mode GetMode(void);							//モードの取得処理
-	static void SetMode(Mode mode);						//モードの設定処理
+	static Mode GetMode(void);							// モードの取得処理
+	static void SetMode(Mode mode);						// モードの設定処理
+	void ChangeMode();									// モードの変更処理
 
 	static bool GetPause(void);							// ポーズの取得処理
 	static void SetPause(const bool bPause);			// ポーズの設定処理
-	void ChangeMode();
 
-	static int GetStageSelect() { return m_nStageSelect; }						
-	static void SetStageSelect(int StageSelect) { m_nStageSelect = StageSelect; }
+	static int GetStageSelect() { return m_nStageSelect; }							// 選択されたステージ番号の取得処理
+	static void SetStageSelect(int StageSelect) { m_nStageSelect = StageSelect; }	// ステージ番号の設定処理
 
 	static CMessage* GetMsg(void) { return m_pMessage; }		//メッセージの取得処理
 

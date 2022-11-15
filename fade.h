@@ -49,18 +49,16 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	void SetColor(D3DXCOLOR col);
-	void SetFade();
+	void SetColor(D3DXCOLOR col);		// フェードの色変更処理
+	void SetFade();						// フェードの設定処理
 
 	static CFade *Create();
 
-	float GetAlpha() { return m_fAlpha; }
-	FADE GetFade() { return m_fade; }	//フェード取得処理
+	FADE GetFade() { return m_fade; }	//フェードの取得処理
 private:
-	float m_fAlpha;		// ポリゴン(フェード)のa値
-	FADE m_fade;		// 現在のフェード
-	//CObject_2D* m_pFade;
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;							//頂点バッファ
+	float m_fAlpha;						// ポリゴン(フェード)のa値
+	FADE m_fade;						// 現在のフェード
+	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	//頂点バッファ
 
 };
 

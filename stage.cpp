@@ -67,7 +67,7 @@ HRESULT CStage::Init(void)
 	// ステージ読み込み処理
 	Load();
 
-	StageTexture();
+	StageTexture();		// ステージ毎のテクスチャ設定処理
 
 	if (m_pField[0] != nullptr)
 	{
@@ -133,12 +133,6 @@ void CStage::Uninit(void)
 //=====================================
 void CStage::Update(void)
 {
-	////Pでポーズ切り替え
-	//if (CInputKeyboard::GetKeyboardTrigger(DIK_O))
-	//{
-	//	CWarning::Create(D3DXVECTOR3(1225.0f, 55.0f, 0.0f));
-	//}
-
 	GameResult();
 }
 
@@ -291,7 +285,7 @@ void CStage::SetFloorType(D3DXVECTOR3 pos, FloorType type)
 }
 
 //=====================================
-// 床設定処理
+// 生成モデル設定処理
 //=====================================
 void CStage::SetSpawnerType(D3DXVECTOR3 pos, float width, float length, int collDown, SpawnerType type)
 {

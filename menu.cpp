@@ -24,7 +24,7 @@ CObject_2D* CMenu::m_pObj2D = nullptr;
 //-----------------------------------------
 //プロトタイプ宣言
 //-----------------------------------------
-void ExitExe(void);
+void ExitExe(void);		// ウインドウ終了処理
 
 //=====================================
 // デフォルトコンストラクタ
@@ -60,7 +60,7 @@ HRESULT CMenu::Init(void)
 		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 650.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "おわり");
 		m_nNumAll++;
 
-		m_pChoice[m_nSelectNum]->SetSellect();
+		m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 		break;
 	case CApplication::Mode_Game_Race:
 		break;
@@ -77,7 +77,7 @@ HRESULT CMenu::Init(void)
 void CMenu::Uninit(void)
 {
 	for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
-	{
+	{// 選択肢文字列の終了処理
 		if (m_pChoice[nCnt] != nullptr)
 		{
 			m_pChoice[nCnt]->Uninit();
@@ -86,20 +86,20 @@ void CMenu::Uninit(void)
 	}
 
 	if (m_pPause != nullptr)
-	{
+	{// ポーズ文字列の終了処理
 		m_pPause->Uninit();
 		m_pPause = nullptr;
 	}
 
 	if (m_pObj2D != nullptr)
-	{
+	{// オブジェクト2Dの終了処理
 		m_pObj2D->Release();
 		m_pObj2D = nullptr;
 	}
 
-	m_nSelectNum = 0;
-	m_nNumAll = 0;
-	m_bResult = false;
+	m_nSelectNum = 0;		// 現在選択されている番号の終了処理
+	m_nNumAll = 0;			// 選択肢の全体数の終了処理
+	m_bResult = false;		// リザルト判定の終了処理
 }
 
 //=====================================
@@ -107,37 +107,36 @@ void CMenu::Uninit(void)
 //=====================================
 void CMenu::Update(void)
 {
-	ModeType();
+	ModeType();		//モード毎の処理
 }
 
 //=====================================
-// 入力処理
+// モード毎の処理
 //=====================================
 void CMenu::ModeType(void)
 {
 	switch (CApplication::GetMode())
-	{
+	{// 取得したモード毎の処理
 	case CApplication::Mode_Title:
 	{
 		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
-		{
+		{// 各選択肢の更新処理
 			if (m_pChoice[nCnt] != nullptr)
 			{
 				m_pChoice[nCnt]->Update();
 			}
 		}
-		Input();
+		Input();	// 入力処理
 	}
 	break;
 	case CApplication::Mode_Game_Race:
 	{
 		if (CGame::GetEndGame() == false)
-		{
-			// ポーズ中でない場合のみ更新
+		{// ゲームが終了していない場合
 			if (CApplication::GetPause() == true)
-			{
+			{// ポーズ中でない場合のみ更新
 				for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
-				{
+				{// 各選択肢の更新処理
 					if (m_pChoice[nCnt] != nullptr)
 					{
 						m_pChoice[nCnt]->Update();
@@ -145,34 +144,33 @@ void CMenu::ModeType(void)
 
 				}
 				if (m_pPause != nullptr)
-				{
+				{// ポーズ文字列の更新処理
 					m_pPause->Update();
 				}
-				Input();
+				Input();	// 入力処理
 			}
 		}
 		else
-		{
+		{// ゲームが終了している場合
 			for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
-			{
+			{// 各選択肢の更新処理
 				if (m_pChoice[nCnt] != nullptr)
 				{
 					m_pChoice[nCnt]->Update();
 				}
 			}
-			Input();
+			Input();	// 入力処理
 		}
 	}
 	break;
 	case CApplication::Mode_Tutorial:
 	{
 		if (CGame::GetEndGame() == false)
-		{
-			// ポーズ中でない場合のみ更新
+		{// ゲームが終了していない場合
 			if (CApplication::GetPause() == true)
-			{
+			{// ポーズ中でない場合のみ更新
 				for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
-				{
+				{// 各選択肢の更新処理
 					if (m_pChoice[nCnt] != nullptr)
 					{
 						m_pChoice[nCnt]->Update();
@@ -180,22 +178,22 @@ void CMenu::ModeType(void)
 
 				}
 				if (m_pPause != nullptr)
-				{
+				{// ポーズ文字列の更新処理
 					m_pPause->Update();
 				}
-				Input();
+				Input();	// 入力処理
 			}
 		}
 		else
-		{
+		{// ゲームが終了している場合
 			for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
-			{
+			{// 各選択肢の更新処理
 				if (m_pChoice[nCnt] != nullptr)
 				{
 					m_pChoice[nCnt]->Update();
 				}
 			}
-			Input();
+			Input();	// 入力処理
 		}
 	}
 	break;
@@ -210,9 +208,9 @@ void CMenu::ModeType(void)
 void CMenu::Input(void)
 {
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
-	{
+	{// フェード中ではない場合
 		switch (CApplication::GetMode())
-		{
+		{// 取得したモード毎の処理
 		case CApplication::Mode_Title:
 		{
 			if (CInputKeyboard::GetKeyboardTrigger(DIK_W)
@@ -221,15 +219,14 @@ void CMenu::Input(void)
 				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 2)
 				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 3))
 			{// Wキーが押された場合
-				m_pChoice[m_nSelectNum]->SizeReset();
-				m_nSelectNum--;
+				m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
+				m_nSelectNum--;								// 現在選択されている番号を下げる
 
-				// 現在位置が0より下の場合
 				if (m_nSelectNum < 0)
-				{
+				{// 現在位置が0より下の場合
 					m_nSelectNum = m_nNumAll - 1;
 				}
-				m_pChoice[m_nSelectNum]->SetSellect();
+				m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 			}
 			else if (CInputKeyboard::GetKeyboardTrigger(DIK_S)
@@ -238,15 +235,14 @@ void CMenu::Input(void)
 				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 2)
 				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 3))
 			{// Sキーが押された場合
-				m_pChoice[m_nSelectNum]->SizeReset();
-				m_nSelectNum++;
+				m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
+				m_nSelectNum++;								// 現在選択されている番号
 
-				// 現在位置が最大数より大きい場合
 				if (m_nSelectNum >= m_nNumAll)
-				{
+				{// 現在位置が最大数より大きい場合
 					m_nSelectNum = 0;
 				}
-				m_pChoice[m_nSelectNum]->SetSellect();
+				m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 			}
 			if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN)
@@ -254,18 +250,18 @@ void CMenu::Input(void)
 				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 1)
 				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 2)
 				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 3))
-			{
+			{// Enterキーが押された場合
 				if (m_nSelectNum == 0)
-				{
+				{// 選択肢が0番目の場合
 					CApplication::SetMode(CApplication::Mode_PlayerSelect);
 				}
 				else if (m_nSelectNum == 1)
-				{
+				{// 選択肢が1番目の場合
 					CApplication::SetStageSelect(3);
 					CApplication::SetMode(CApplication::Mode_Tutorial);
 				}
 				else if (m_nSelectNum == 2)
-				{
+				{// 選択肢が2番目の場合
 					ExitExe();
 				}
 				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
@@ -274,77 +270,75 @@ void CMenu::Input(void)
 		break;
 		case CApplication::Mode_Game_Race:
 		{
-			// ゲーム中の場合
 			if (CGame::GetEndGame() == false)
-			{
+			{// ゲーム中の場合
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
 				{// Wキーが押された場合
-					m_pChoice[m_nSelectNum]->SizeReset();
-					m_nSelectNum--;
+					m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
+					m_nSelectNum--;								// 現在選択されている番号を下げる
 
 					// 現在位置が0より下の場合
 					if (m_nSelectNum < 0)
 					{
 						m_nSelectNum = m_nNumAll - 1;
 					}
-					m_pChoice[m_nSelectNum]->SetSellect();
+					m_pChoice[m_nSelectNum]->SetSellect();	// 現在選択肢の設定処理
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 				}
 				else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
 				{// Sキーが押された場合
-					m_pChoice[m_nSelectNum]->SizeReset();
-					m_nSelectNum++;
+					m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
+					m_nSelectNum++;								// 現在選択されている番号を上げる
 
 					// 現在位置が最大数より大きい場合
 					if (m_nSelectNum >= m_nNumAll)
 					{
 						m_nSelectNum = 0;
 					}
-					m_pChoice[m_nSelectNum]->SetSellect();
+					m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 				}
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
-				{
+				{// Enterキーが押された場合
 					if (m_nSelectNum == 0)
-					{
+					{// 選択肢が0番目の場合
 						CApplication::SetPause(false);
 						PauseChange(false);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_START);
 					}
 					else if (m_nSelectNum == 1)
-					{
+					{// 選択肢が1番目の場合
 						CApplication::SetMode(CApplication::Mode_Game_Race);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 					}
 					else if (m_nSelectNum == 2)
-					{
+					{// 選択肢が2番目の場合
 						CApplication::SetMode(CApplication::Mode_PlayerSelect);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 					}
 					else if (m_nSelectNum == 3)
-					{
+					{// 選択肢が3番目の場合
 						CApplication::SetMode(CApplication::Mode_Title);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 					}
 				}
 			}
 			else if (m_bResult)
-			{
+			{// ゲームが終了している & リザルト中の場合
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_W)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 1)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 2)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 3))
 				{// Wキーが押された場合
-					m_pChoice[m_nSelectNum]->SizeReset();
-					m_nSelectNum--;
+					m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
+					m_nSelectNum--;								// 現在選択されている番号を下げる
 
-					// 現在位置が0より下の場合
 					if (m_nSelectNum < 0)
-					{
+					{// 現在位置が0より下の場合
 						m_nSelectNum = m_nNumAll - 1;
 					}
-					m_pChoice[m_nSelectNum]->SetSellect();
+					m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 				}
 				else if (CInputKeyboard::GetKeyboardTrigger(DIK_S)
@@ -353,15 +347,14 @@ void CMenu::Input(void)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 2)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 3))
 				{// Sキーが押された場合
-					m_pChoice[m_nSelectNum]->SizeReset();
-					m_nSelectNum++;
+					m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
+					m_nSelectNum++;								// 現在選択されている番号を上げる
 
-					// 現在位置が最大数より大きい場合
 					if (m_nSelectNum >= m_nNumAll)
-					{
+					{// 現在位置が最大数より大きい場合
 						m_nSelectNum = 0;
 					}
-					m_pChoice[m_nSelectNum]->SetSellect();
+					m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 				}
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN)
@@ -369,23 +362,23 @@ void CMenu::Input(void)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 1)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 2)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 3))
-				{
+				{// Enterキーが押された場合
 					if (m_nSelectNum == 0)
-					{
+					{// 選択肢が0番目の場合
 						CApplication::SetMode(CApplication::Mode_Game_Race);
 					}
 					else if (m_nSelectNum == 1)
-					{
+					{// 選択肢が1番目の場合
 						CApplication::GetSound()->Stop();
 						CApplication::SetMode(CApplication::Mode_StageSelect);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_BGM_SELECT);
 					}
 					if (m_nSelectNum == 2)
-					{
+					{// 選択肢が2番目の場合
 						CApplication::SetMode(CApplication::Mode_PlayerSelect);
 					}
 					else if (m_nSelectNum == 3)
-					{
+					{// 選択肢が3番目の場合
 						CApplication::SetMode(CApplication::Mode_Title);
 					}
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
@@ -395,77 +388,73 @@ void CMenu::Input(void)
 		break;
 		case CApplication::Mode_Tutorial:
 		{
-			// ゲーム中の場合
 			if (CGame::GetEndGame() == false)
-			{
+			{// ゲーム中の場合
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0))
 				{// Wキーが押された場合
-					m_pChoice[m_nSelectNum]->SizeReset();
-					m_nSelectNum--;
+					m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
+					m_nSelectNum--;								// 現在選択されている番号を下げる
 
-					// 現在位置が0より下の場合
 					if (m_nSelectNum < 0)
-					{
+					{// 現在位置が0より下の場合
 						m_nSelectNum = m_nNumAll - 1;
 					}
-					m_pChoice[m_nSelectNum]->SetSellect();
+					m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 				}
 				else if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 0))
 				{// Sキーが押された場合
-					m_pChoice[m_nSelectNum]->SizeReset();
+					m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
 					m_nSelectNum++;
 
-					// 現在位置が最大数より大きい場合
 					if (m_nSelectNum >= m_nNumAll)
-					{
+					{// 現在位置が最大数より大きい場合
 						m_nSelectNum = 0;
 					}
-					m_pChoice[m_nSelectNum]->SetSellect();
+					m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 				}
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 0))
-				{
+				{// Enterキーが押された場合
 					if (m_nSelectNum == 0)
-					{
+					{// 選択肢が0番目の場合
 						CApplication::SetPause(false);
 						PauseChange(false);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_START);
 					}
 					else if (m_nSelectNum == 1)
-					{
+					{// 選択肢が1番目の場合
 						CApplication::SetMode(CApplication::Mode_Tutorial);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 					}
 					else if (m_nSelectNum == 2)
-					{
+					{// 選択肢が2番目の場合
 						CApplication::SetMode(CApplication::Mode_PlayerSelect);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 					}
 					else if (m_nSelectNum == 3)
-					{
+					{// 選択肢が3番目の場合
 						CApplication::SetMode(CApplication::Mode_Title);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_FINISH);
 					}
 				}
 			}
 			else if (m_bResult)
-			{
+			{// ゲームが終了している & リザルト中の場合
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_W)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 0)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 1)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 2)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, 3))
 				{// Wキーが押された場合
-					m_pChoice[m_nSelectNum]->SizeReset();
-					m_nSelectNum--;
+					m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
+					m_nSelectNum--;								// 現在選択されている番号を下げる
 
-					// 現在位置が0より下の場合
 					if (m_nSelectNum < 0)
-					{
+					{// 現在位置が0より下の場合
 						m_nSelectNum = m_nNumAll - 1;
 					}
-					m_pChoice[m_nSelectNum]->SetSellect();
+					m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 				}
 				else if (CInputKeyboard::GetKeyboardTrigger(DIK_S)
@@ -474,15 +463,14 @@ void CMenu::Input(void)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 2)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, 3))
 				{// Sキーが押された場合
-					m_pChoice[m_nSelectNum]->SizeReset();
-					m_nSelectNum++;
+					m_pChoice[m_nSelectNum]->SizeReset();		// 文字の大きさ初期化処理
+					m_nSelectNum++;								// 現在選択されている番号を上げる
 
-					// 現在位置が最大数より大きい場合
 					if (m_nSelectNum >= m_nNumAll)
-					{
+					{// 現在位置が最大数より大きい場合
 						m_nSelectNum = 0;
 					}
-					m_pChoice[m_nSelectNum]->SetSellect();
+					m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_SELECT);
 				}
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_RETURN)
@@ -490,23 +478,23 @@ void CMenu::Input(void)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 1)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 2)
 					|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, 3))
-				{
+				{// Enterキーが押された場合
 					if (m_nSelectNum == 0)
-					{
+					{// 選択肢が0番目の場合
 						CApplication::SetMode(CApplication::Mode_Tutorial);
 					}
 					else if (m_nSelectNum == 1)
-					{
+					{// 選択肢が1番目の場合
 						CApplication::GetSound()->Stop();
 						CApplication::SetMode(CApplication::Mode_StageSelect);
 						CApplication::GetSound()->Play(CSound::SOUND_LABEL_BGM_SELECT);
 					}
 					else if (m_nSelectNum == 2)
-					{
+					{// 選択肢が2番目の場合
 						CApplication::SetMode(CApplication::Mode_PlayerSelect);
 					}
 					else if (m_nSelectNum == 3)
-					{
+					{// 選択肢が3番目の場合
 						CApplication::SetMode(CApplication::Mode_Title);
 					}
 					CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_YES);
@@ -526,7 +514,7 @@ void CMenu::Input(void)
 void CMenu::PauseChange(bool bPause)
 {
 	if (bPause == true)
-	{
+	{// ポーズ中の場合
 		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 300.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "つづける");
 		m_nNumAll++;
 
@@ -539,10 +527,11 @@ void CMenu::PauseChange(bool bPause)
 		m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 600.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
 		m_nNumAll++;
 
-		m_pChoice[m_nSelectNum]->SetSellect();
+		m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 
 		m_pPause = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 150.0f, 0.0f), D3DXVECTOR2(100.0f, 100.0f), "ポーズ");
 
+		// オブジェクト2D生成
 		m_pObj2D = CObject_2D::Create();
 		m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f));
 		m_pObj2D->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
@@ -552,36 +541,36 @@ void CMenu::PauseChange(bool bPause)
 		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_STOP);
 	}
 	else
-	{
+	{// ポーズ中ではない場合
 		for (int nCnt = 0; nCnt < MaxChoice; nCnt++)
 		{
 			if (m_pChoice[nCnt] != nullptr)
-			{
+			{// 選択肢文字列使用中の場合初期化
 				m_pChoice[nCnt]->Uninit();
 				m_pChoice[nCnt] = nullptr;
 			}
 		}
 
 		if (m_pPause != nullptr)
-		{
+		{// ポーズ文字列使用中の場合初期化
 			m_pPause->Uninit();
 			m_pPause = nullptr;
 		}
 
 		if (m_pObj2D != nullptr)
-		{
+		{// オブジェクト2D使用中の場合初期化
 			m_pObj2D->Release();
 			m_pObj2D = nullptr;
 		}
 
-		m_nSelectNum = 0;
-		m_nNumAll = 0;
+		m_nSelectNum = 0;	// 現在選択されている番号の初期化
+		m_nNumAll = 0;		// 選択肢の全体数の初期化
 		CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_WHISTLE_START);
 	}
 }
 
 //=====================================
-// ポーズ選択肢処理
+// リザルトの設定処理
 //=====================================
 void CMenu::SetResult(void)
 {
@@ -597,9 +586,9 @@ void CMenu::SetResult(void)
 	m_pChoice[m_nNumAll] = CFontString::Create(D3DXVECTOR3(SCREEN_WIDTH / 2, 550.0f, 0.0f), D3DXVECTOR2(40.0f, 40.0f), "タイトルにもどる");
 	m_nNumAll++;
 
-	m_pChoice[m_nSelectNum]->SetSellect();
+	m_pChoice[m_nSelectNum]->SetSellect();		// 現在選択肢の設定処理
 
-	m_bResult = true;
+	m_bResult = true;		// リザルト中にする
 }
 
 //=====================================

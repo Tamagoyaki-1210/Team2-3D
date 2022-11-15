@@ -209,15 +209,13 @@ void CPlayer::Update(void)
 		PlayerController(m_nIdxPlayer);
 	}
 
-	{
-		m_pos += m_move;								//位置の更新
-
-		CDebugProc::Print("\n%f %f %f", m_move.x, m_move.y, m_move.z);
-	}
-
-	m_move.x += (0.0f - m_move.x) * m_fFrictionCoeff;				//移動量のXコンポネントの更新
-	m_move.y += (0.0f - m_move.y) * 0.1f;							//移動量のYコンポネントの更新
-	m_move.z += (0.0f - m_move.z) * m_fFrictionCoeff;				//移動量のZコンポネントの更新
+	//位置の更新
+	m_pos += m_move;				
+	CDebugProc::Print("\n%f %f %f", m_move.x, m_move.y, m_move.z);
+	
+	m_move.x += (0.0f - m_move.x) * m_fFrictionCoeff;		//移動量のXコンポネントの更新
+	m_move.y += (0.0f - m_move.y) * 0.1f;					//移動量のYコンポネントの更新
+	m_move.z += (0.0f - m_move.z) * m_fFrictionCoeff;		//移動量のZコンポネントの更新
 
 	//リスポーン処理
 	PlayerRespawn();
@@ -232,9 +230,11 @@ void CPlayer::Update(void)
 		m_DestRot.y += 2 * D3DX_PI;
 	}
 
-	D3DXVECTOR3 rot = m_pModel[BODY]->GetRot() + ((m_DestRot - m_pModel[BODY]->GetRot()) * 0.1f);		//回転角度の計算
+	//回転角度の計算
+	D3DXVECTOR3 rot = m_pModel[BODY]->GetRot() + ((m_DestRot - m_pModel[BODY]->GetRot()) * 0.1f);		
 
-	m_pModel[BODY]->SetRot(rot);		//回転角度の設定処理
+	//回転角度の設定処理
+	m_pModel[BODY]->SetRot(rot);		
 
 	//回転角度の正規化処理
 	float fRot = m_pModel[BODY]->GetRot().y;
@@ -266,10 +266,10 @@ void CPlayer::Update(void)
 		m_move.y -= 0.65f;
 	}
 
-		float fHeight = 0.0f;
+	float fHeight = 0.0f;
 
-		//メッシュフィールドとの当たり判定
-		CMeshfield* pField = CMeshfield::FieldInteraction(this, &fHeight);
+	//メッシュフィールドとの当たり判定
+	CMeshfield* pField = CMeshfield::FieldInteraction(this, &fHeight);
 
 	//地面との当たり判定
 	if (pField != nullptr)
@@ -614,7 +614,7 @@ void CPlayer::Update(void)
 		}
 	}
 
-	//デバッグようの文字列
+	//デバッグ用の文字列
 	CDebugProc::Print("\nRot: %f\nRot Dest: %f\n\nPos: %f, %f, %f", m_pModel[BODY]->GetRot().y, m_DestRot.y, m_pos.x, m_pos.y, m_pos.z);
 	CDebugProc::Print("\nPlayer %d score: %d", m_nIdxPlayer, m_pScore->GetScore());
 }
@@ -648,16 +648,11 @@ void CPlayer::Draw(void)
 	}
 }
 
-
-
 //=============================================================================
 //
 //								静的関数
 //
 //=============================================================================
-
-
-
 
 //生成処理
 CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
@@ -755,11 +750,7 @@ D3DXCOLOR* CPlayer::GetPlayerColors(void)
 	return m_playerColor;
 }
 
-
-
-
-
-
+//プレイヤーのキー処理
 void CPlayer::PlayerController(int nCntPlayer)
 {
 	D3DXVECTOR3 cameraRot = CApplication::GetCamera()->GetRot();					//カメラの向きの取得処理
@@ -880,6 +871,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
+	//SPACEキーが押された場合
 	if (CInputKeyboard::GetKeyboardTrigger(DIK_SPACE) && !m_bJump && !m_bAttacking && m_move.y < 0.0f)
 	{//ジャンプ
 		m_move.y = 18.0f;
@@ -888,6 +880,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		m_pAnimator->SetPresentAnim(2);
 	}
 
+	//移動キーが押されている時
 	if (CInputKeyboard::GetKeyboardPress(DIK_W) || CInputKeyboard::GetKeyboardPress(DIK_S) || CInputKeyboard::GetKeyboardPress(DIK_A) || CInputKeyboard::GetKeyboardPress(DIK_D))
 	{
 		if (!m_bJump && !m_bHit && !m_bAttacking)
@@ -896,6 +889,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
+	//攻撃キーが押されている時
 	if (CInputKeyboard::GetKeyboardTrigger(DIK_V) &&  !m_bJump && !m_bHit && !m_bAttacking)
 	{
 		m_pAnimator->SetPresentAnim(3);
@@ -1020,6 +1014,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
+	//パッドのAボタンが押された時
 	if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, nCntPlayer) && !m_bJump && !m_bAttacking && m_move.y < 0.0f)
 	{//ジャンプ
 		m_move.y = 18.0f;
@@ -1028,6 +1023,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		m_pAnimator->SetPresentAnim(2);
 	}
 
+	//パッドのスティックが入力されている時
 	if (CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).x  > 0.3f
 		|| CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  < -0.3f || CInputPad::GetJoypadStick(CInputPad::JOYKEY_LEFT_STICK, nCntPlayer).y  > 0.3f)
 	{
@@ -1037,6 +1033,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 		}
 	}
 
+	//パッドのBボタンが押されている時
 	if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, nCntPlayer) && !m_bJump && !m_bHit && !m_bAttacking)
 	{
 		m_pAnimator->SetPresentAnim(3);

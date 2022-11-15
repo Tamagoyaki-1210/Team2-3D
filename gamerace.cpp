@@ -41,7 +41,7 @@ HRESULT CGameRace::Init(void)
 	// カウントダウンメッセージ表示
 	CApplication::GetMsg()->SetCountDown(3);
 
-	m_pStage = CStage::Create();
+	m_pStage = CStage::Create();	// ステージ生成処理
 
     return S_OK;
 }
@@ -54,7 +54,7 @@ void CGameRace::Uninit(void)
     CGame::Uninit();
 
 	if (m_pStage != nullptr)
-	{
+	{// ステージの終了処理
 		m_pStage->Uninit();
 		delete m_pStage;
 		m_pStage = nullptr;
@@ -69,7 +69,7 @@ void CGameRace::Update(void)
     CGame::Update();
 
 	if (m_pStage != nullptr)
-	{
+	{// ステージの更新処理
 		m_pStage->Update();
 	}
 
@@ -78,7 +78,7 @@ void CGameRace::Update(void)
     CDebugProc::Print("\n[F2] : デバッグモードへ移動\n");
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
-	{
+	{// フェード中ではない場合
 		if (CInputKeyboard::GetKeyboardTrigger(DIK_BACK))
 		{// Enterキーを押したら
 			SetEndGame();
