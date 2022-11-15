@@ -13,60 +13,66 @@
 #include "rendering.h"
 #include "directionalLight.h"
 
+
+//=============================================================================
+//							静的変数の初期化
+//=============================================================================
+
 LPD3DXMESH		CModel::m_pMeshAll[MODEL_MAX] = {};					//メッシュ情報へのポインタ
 LPD3DXBUFFER	CModel::m_pBuffMatAll[MODEL_MAX] = {};				//マテリアル情報へのポインタ
 DWORD			CModel::m_nNumMatAll[MODEL_MAX] = {};				//マテリアル情報の数
 std::vector <LPDIRECT3DTEXTURE9>     CModel::m_vModelTexture[CModel::MODEL_MAX];		//モデルのテクスチャへのポインタのベクトル
 
+//モデルのXファイルの相対パス
 char*			CModel::m_pModelPass[MODEL_MAX] =
 {
-	{ "data\\MODELS\\Player02\\Player02_Body.x" },
-	{ "data\\MODELS\\Player02\\Player02_Head.x"},
-	{ "data\\MODELS\\Player02\\Player02_Arm_Left.x" },
-	{ "data\\MODELS\\Player02\\Player02_Hand_Left.x" },
-	{ "data\\MODELS\\Player02\\Player02_Arm_Right.x" },
-	{ "data\\MODELS\\Player02\\Player02_Hand_Right.x" },
-	{ "data\\MODELS\\Player02\\Player02_Leg_Left.x" },
-	{ "data\\MODELS\\Player02\\Player02_Foot_Left.x" },
-	{ "data\\MODELS\\Player02\\Player02_Leg_Right.x" },
-	{ "data\\MODELS\\Player02\\Player02_Foot_Right.x" },
-
-	{ "data\\MODELS\\Player02\\PlayerParts\\SantaHead.x" },
-	{ "data\\MODELS\\Player02\\PlayerParts\\PumpHead.x" },
-	{ "data\\MODELS\\Player02\\PlayerParts\\TopHatHead.x" },
-	{ "data\\MODELS\\Player02\\PlayerParts\\KatanaHead.x" },
-	{ "data\\MODELS\\Player02\\PlayerParts\\DragonHead.x" },
-	{ "data\\MODELS\\Player02\\PlayerParts\\oqtoHead.x" },
-	{ "data\\MODELS\\Player02\\PlayerParts\\snowman.x" },
-	{ "data\\MODELS\\Player02\\PlayerParts\\ToyBoxHead.x" },
-	{ "data\\MODELS\\Player02\\PlayerParts\\SummerTimeHead.x" },
-	{ "data\\MODELS\\Player02\\PlayerParts\\TreeHead.x" },
-
-	{ "data\\MODELS\\Coin\\Coin00.x" },
-	{ "data\\MODELS\\Coin\\Coin01.x" },
-	{ "data\\MODELS\\Coin\\Coin02.x" },
-	{ "data\\MODELS\\Coin\\Coin03.x" },
-
-	{ "data\\MODELS\\Environment\\Mountains\\Fuji.x" },
-	{ "data\\MODELS\\Environment\\Mountains\\FujiYuki.x" },
-	{ "data\\MODELS\\Environment\\Balloon\\Balloon.x" },
-	{ "data\\MODELS\\Environment\\tree\\tree1.x" },
-	{ "data\\MODELS\\Environment\\tree\\tree2.x" },
-	{ "data\\MODELS\\Environment\\windmill\\windmill.x" },
-	{ "data\\MODELS\\Environment\\airship\\airship.x" },
-	{ "data\\MODELS\\Environment\\stone\\stone.x" },
-
-	{ "data\\MODELS\\Stage_gimmick\\NeedleBall\\NeedleBall.x" },
-	{ "data\\MODELS\\Stage_gimmick\\LavaFloor\\Lava.x" },
-	{ "data\\MODELS\\Stage_gimmick\\BoundPole\\BoundPole.x" },
-
-	{ "data\\MODELS\\traps\\jump\\jump.x" },
-	{ "data\\MODELS\\traps\\fallstone\\fallstone.x" },
-	{ "data\\MODELS\\traps\\IcePillar\\IcePillar_TrapType.x" },
-
-	{ "data\\MODELS\\sign\\fallstonesign.x" },
-
-	{ "data\\MODELS\\Goal\\Goal01.x" },
+	{ "data\\MODELS\\Player02\\Player02_Body.x" },						//MODEL_BODY,				
+	{ "data\\MODELS\\Player02\\Player02_Head.x" },						//MODEL_HEAD,
+	{ "data\\MODELS\\Player02\\Player02_Arm_Left.x" },					//MODEL_LEFT_ARM,
+	{ "data\\MODELS\\Player02\\Player02_Hand_Left.x" },					//MODEL_LEFT_HAND,
+	{ "data\\MODELS\\Player02\\Player02_Arm_Right.x" },					//MODEL_RIGHT_ARM,
+	{ "data\\MODELS\\Player02\\Player02_Hand_Right.x" },				//MODEL_RIGHT_HAND,
+	{ "data\\MODELS\\Player02\\Player02_Leg_Left.x" },					//MODEL_LEFT_LEG,
+	{ "data\\MODELS\\Player02\\Player02_Foot_Left.x" },					//MODEL_LEFT_FOOT,
+	{ "data\\MODELS\\Player02\\Player02_Leg_Right.x" },					//MODEL_RIGHT_LEG,
+	{ "data\\MODELS\\Player02\\Player02_Foot_Right.x" },				//MODEL_RIGHT_FOOT,
+																		
+	{ "data\\MODELS\\Player02\\PlayerParts\\SantaHead.x" },				//MODEL_HEAD_SANTA,
+	{ "data\\MODELS\\Player02\\PlayerParts\\PumpHead.x" },				//MODEL_HEAD_PUMPKIN,
+	{ "data\\MODELS\\Player02\\PlayerParts\\TopHatHead.x" },			//MODEL_HEAD_TOPHAT,
+	{ "data\\MODELS\\Player02\\PlayerParts\\KatanaHead.x" },			//MODEL_HEAD_KATANA,
+	{ "data\\MODELS\\Player02\\PlayerParts\\DragonHead.x" },			//MODEL_HEAD_DRAGON,
+	{ "data\\MODELS\\Player02\\PlayerParts\\oqtoHead.x" },				//MODEL_HEAD_OCTOPUS,
+	{ "data\\MODELS\\Player02\\PlayerParts\\snowman.x" },				//MODEL_HEAD_SNOWMAN,
+	{ "data\\MODELS\\Player02\\PlayerParts\\ToyBoxHead.x" },			//MODEL_HEAD_TOYBOX,
+	{ "data\\MODELS\\Player02\\PlayerParts\\SummerTimeHead.x" },		//MODEL_HEAD_SUMMER,
+	{ "data\\MODELS\\Player02\\PlayerParts\\TreeHead.x" },				//MODEL_HEAD_TREE,
+																		
+	{ "data\\MODELS\\Coin\\Coin00.x" },									//MODEL_COIN_0,
+	{ "data\\MODELS\\Coin\\Coin01.x" },									//MODEL_COIN_1,
+	{ "data\\MODELS\\Coin\\Coin02.x" },									//MODEL_COIN_2,
+	{ "data\\MODELS\\Coin\\Coin03.x" },									//MODEL_COIN_3,
+																		
+	{ "data\\MODELS\\Environment\\Mountains\\Fuji.x" },					//MODEL_MOUNT_FUJI,
+	{ "data\\MODELS\\Environment\\Mountains\\FujiYuki.x" },				//MODEL_MOUNT_FUJI_YUKI,
+	{ "data\\MODELS\\Environment\\Balloon\\Balloon.x" },				//MODEL_BALLOON,
+	{ "data\\MODELS\\Environment\\tree\\tree1.x" },						//MODEL_TREE1,
+	{ "data\\MODELS\\Environment\\tree\\tree2.x" },						//MODEL_TREE2,
+	{ "data\\MODELS\\Environment\\windmill\\windmill.x" },				//MODEL_WINDMILL,
+	{ "data\\MODELS\\Environment\\airship\\airship.x" },				//MODEL_AIRSHIP,
+	{ "data\\MODELS\\Environment\\stone\\stone.x" },					//MODEL_STONE,
+																		
+	{ "data\\MODELS\\Stage_gimmick\\NeedleBall\\NeedleBall.x" },		//MODEL_SPIKE_BALL,
+	{ "data\\MODELS\\Stage_gimmick\\LavaFloor\\Lava.x" },				//MODEL_LAVA_FLOOR,
+	{ "data\\MODELS\\Stage_gimmick\\BoundPole\\BoundPole.x" },			//MODEL_BOUNCE_POLE,
+																		
+	{ "data\\MODELS\\traps\\jump\\jump.x" },							//MODEL_TRAMPOLINE,
+	{ "data\\MODELS\\traps\\fallstone\\fallstone.x" },					//MODEL_FALLING_STONE,
+	{ "data\\MODELS\\traps\\IcePillar\\IcePillar_TrapType.x" },			//MODEL_ICE_PILLAR,
+																		
+	{ "data\\MODELS\\sign\\fallstonesign.x" },							//MODEL_CAUTION_SIGNAL,
+																		
+	{ "data\\MODELS\\Goal\\Goal01.x" },									//MODEL_GOAL,
 };
 
 //コンストラクタ
@@ -80,13 +86,11 @@ CModel::CModel()
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
 	m_frameRot = Vec3Null;							//1フレームの回転角度
-	m_minCoord = Vec3Null;
-	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = CModel::MODEL_BODY;
-	m_vCol.clear();
-	m_bShadow = true;
-	m_fShadowHeight = 0.0f;
+	m_type = CModel::MODEL_BODY;					//モデルの種類
+	m_vCol.clear();									//マテリアルの色
+	m_bShadow = true;								//影を描画するかどうか
+	m_fShadowHeight = 0.0f;							//影の高さ
 }
 
 CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
@@ -99,13 +103,11 @@ CModel::CModel(const int nPriority) : CObject::CObject(nPriority)
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
 	m_frameRot = Vec3Null;							//1フレームの回転角度
-	m_minCoord = Vec3Null;
-	m_maxCoord = Vec3Null;								//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = CModel::MODEL_BODY;
-	m_vCol.clear();
-	m_bShadow = true;
-	m_fShadowHeight = 0.0f;
+	m_type = CModel::MODEL_BODY;					//モデルの種類
+	m_vCol.clear();									//マテリアルの色
+	m_bShadow = true;								//影を描画するかどうか
+	m_fShadowHeight = 0.0f;							//影の高さ
 }
 
 //デストラクタ
@@ -125,24 +127,10 @@ HRESULT CModel::Init(void)
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
 	m_frameRot = Vec3Null;							//1フレームの回転角度
-	m_minCoord = Vec3Null;
-	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_vCol.clear();
-	m_bShadow = true;
-	m_fShadowHeight = -149.9f;
-
-	/*std::vector <LPDIRECT3DTEXTURE9> v;
-
-	v.clear();
-
-	LPDIRECT3DTEXTURE9 pText = CObject_2D::GetTexturePointer(CObject::TextureNumbers);
-	
-	v.push_back(nullptr);
-	v.push_back(pText);
-
-	LPDIRECT3DTEXTURE9 a = v.data()[0];
-	LPDIRECT3DTEXTURE9 b = v.data()[1];*/
+	m_vCol.clear();									//マテリアルの色
+	m_bShadow = true;								//影を描画するかどうか
+	m_fShadowHeight = -149.9f;						//影の高さ
 
 	return S_OK;
 }
@@ -150,17 +138,17 @@ HRESULT CModel::Init(void)
 //終了処理
 void CModel::Uninit(void)
 {
-	m_vCol.clear();
+	m_vCol.clear();				//マテリアルの色をクリアする
 }
 
 //更新処理
 void CModel::Update(void)
 {
-	m_LastPos = m_pos;
+	m_LastPos = m_pos;			//前回の位置の更新
 
 	if (m_frameRot != nullptr)
-	{
-		m_rot += m_frameRot;
+	{//回転速度が0ではなかったら
+		m_rot += m_frameRot;			//回転角度を更新する
 	}
 }
 
@@ -168,22 +156,20 @@ void CModel::Update(void)
 void CModel::Draw(void)
 {
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();				//デバイスの取得
-	D3DXMATRIX mtxRot, mtxTrans, mtxShadow;							//計算用マトリックス
-	D3DMATERIAL9 matDef;									//現在のマテリアル保存用
-	D3DXMATERIAL *pMat;										//マテリアルデータへのポインタ
-	D3DXVECTOR4 vecLight;
-	D3DXVECTOR3 pos, Normal;
-	D3DXPLANE planeField;
+	D3DXMATRIX mtxRot, mtxTrans, mtxShadow;			//計算用マトリックス
+	D3DMATERIAL9 matDef;							//現在のマテリアル保存用
+	D3DXMATERIAL *pMat;								//マテリアルデータへのポインタ
+	D3DXVECTOR4 vecLight;							//ライトの向き
+	D3DXVECTOR3 pos, Normal;						//投影用の位置と法線
+	D3DXPLANE planeField;							//面
 
-	
+		//ライトの向きを設定する
 		D3DXVECTOR3 dir = CDirectionalLight::GetPrincipalLightDir();
 		D3DXVec3Normalize(&dir, &dir);
-
 		vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
-		pos = D3DXVECTOR3(0.0f, m_fShadowHeight, 0.0f);
-		Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-		//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		pos = D3DXVECTOR3(0.0f, m_fShadowHeight, 0.0f);				//面の高さ
+		Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);						//面の法線
 
 		//ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&m_mtxWorld);
@@ -198,8 +184,9 @@ void CModel::Draw(void)
 		D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
 		if (m_bShadow)
-		{
+		{//影の描画のフラグがtrueだったら
 
+		//影の描画用のマトリックスを作る
 		D3DXPlaneFromPointNormal(&planeField, &pos, &Normal);
 		D3DXMatrixShadow(&mtxShadow, &vecLight, &planeField);
 
@@ -219,8 +206,9 @@ void CModel::Draw(void)
 			//テクスチャの設定
 			pDevice->SetTexture(0, NULL);
 
-			D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;
+			D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;			//マテリアルの色を保存する
 
+			//マテリアルの色を真っ黒にする
 			pMat[nCntMat].MatD3D.Diffuse.r = 0.0f;
 			pMat[nCntMat].MatD3D.Diffuse.g = 0.0f;
 			pMat[nCntMat].MatD3D.Diffuse.b = 0.0f;
@@ -235,6 +223,7 @@ void CModel::Draw(void)
 			//モデルパーツの描画
 			m_pMesh->DrawSubset(nCntMat);
 
+			//マテリアルの色を元に戻す
 			pMat[nCntMat].MatD3D.Diffuse.r = col.r;
 			pMat[nCntMat].MatD3D.Diffuse.g = col.g;
 			pMat[nCntMat].MatD3D.Diffuse.b = col.b;
@@ -316,6 +305,7 @@ void CModel::Draw(void)
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
 
+		//マテリアルの色が設定されていたら、そのマテリアルの色を変えたら、描画して、元に戻す
 		D3DXCOLOR c = {};
 		bool bCol = false;
 
@@ -347,8 +337,6 @@ void CModel::Draw(void)
 
 	//保持しいたマテリアルを戻す
 	pDevice->SetMaterial(&matDef);
-
-	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 //位置の設定処理
@@ -363,11 +351,13 @@ const D3DXVECTOR3 CModel::GetPos(void)
 	return m_pos;
 }
 
+//モデルの向き設定処理
 void CModel::SetRot(const D3DXVECTOR3 rot)
 {
 	m_rot = rot;
 }
 
+//モデルの向きの取得処理
 const D3DXVECTOR3 CModel::GetRot(void)
 {
 	return m_rot;
@@ -416,6 +406,7 @@ void CModel::SetShadowDraw(const bool bDraw)
 	m_bShadow = bDraw;
 }
 
+//影の高さの設定処理
 void CModel::SetShadowHeight(const float fHeight)
 {
 	m_fShadowHeight = fHeight;
@@ -423,25 +414,29 @@ void CModel::SetShadowHeight(const float fHeight)
 
 
 
+//=============================================================================
+//								静的関数
+//=============================================================================
+
 
 
 
 //モデル情報の取得処理
 void CModel::GetModel(ModelType type, LPD3DXMESH* pMesh, LPD3DXBUFFER* pBuffMat, DWORD* numMat)
 {
-	*pMesh = m_pMeshAll[type];
-	*pBuffMat = m_pBuffMatAll[type];
-	*numMat = m_nNumMatAll[type];
+	*pMesh = m_pMeshAll[type];				//メッシュへのポインタの設定
+	*pBuffMat = m_pBuffMatAll[type];		//マテリアルへのポインタの設定
+	*numMat = m_nNumMatAll[type];			//マテリアル数の設定
 }
 
 //モデル全部の読み込み処理
 void CModel::LoadAllModels(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();		//デバイスの取得
 
 	for (int nCnt = 0; nCnt < CModel::MODEL_MAX; nCnt++)
 	{
-		m_vModelTexture[nCnt].clear();
+		m_vModelTexture[nCnt].clear();				//テクスチャをクリアする
 
 		//Xファイルの読み込み
 		D3DXLoadMeshFromX(m_pModelPass[nCnt],
@@ -453,13 +448,13 @@ void CModel::LoadAllModels(void)
 			&m_nNumMatAll[nCnt],
 			&m_pMeshAll[nCnt]);
 
-		D3DXMATERIAL *pMat = nullptr;
+		D3DXMATERIAL *pMat = nullptr;				//マテリア情報へのポインタ
 
 		//マテリアルデータへのポインタの取得
 		pMat = (D3DXMATERIAL*)m_pBuffMatAll[nCnt]->GetBufferPointer();
 
 		for (int a = 0; a < (int)m_nNumMatAll[nCnt]; a++)
-		{
+		{//マテリアのテクスチャが設定されていたら、生成して、保存する
 			LPDIRECT3DTEXTURE9 pTex = nullptr;
 
 			D3DXCreateTextureFromFile(pDevice, pMat->pTextureFilename, &pTex);
@@ -474,12 +469,14 @@ void CModel::DestroyAllModels(void)
 {
 	for (int nCnt = 0; nCnt < CModel::MODEL_MAX; nCnt++)
 	{
+		//メッシュの破棄
 		if (m_pMeshAll[nCnt] != nullptr)
 		{
 			m_pMeshAll[nCnt]->Release();
 			m_pMeshAll[nCnt] = nullptr;
 		}
 
+		//マテリアルの破棄
 		if (m_pBuffMatAll[nCnt] != nullptr)
 		{
 			m_pBuffMatAll[nCnt]->Release();
@@ -488,6 +485,7 @@ void CModel::DestroyAllModels(void)
 	}
 }
 
+//テクスチャの取得処理
 void CModel::GetTextures(std::vector <LPDIRECT3DTEXTURE9>& vTex, CModel::ModelType type)
 {
 	vTex.clear();
@@ -501,42 +499,42 @@ void CModel::GetTextures(std::vector <LPDIRECT3DTEXTURE9>& vTex, CModel::ModelTy
 //生成処理
 CModel* CModel::Create(ModelType type, D3DXVECTOR3 pos)
 {
-	CModel* pModel = new CModel(3);
+	CModel* pModel = new CModel(3);						//モデルを生成する
 
 	if (FAILED(pModel->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pModel->m_pos = pos;
-	pModel->m_LastPos = pos;
-	pModel->m_move = Vec3Null;
-	pModel->m_rot = Vec3Null;
-	pModel->m_pMesh = m_pMeshAll[type];
-	pModel->m_pBuffMat = m_pBuffMatAll[type];
-	pModel->m_nNumMat = m_nNumMatAll[type];
-	pModel->m_type = type;
+	pModel->m_pos = pos;								//位置の設定
+	pModel->m_LastPos = pos;							//前回の位置の設定
+	pModel->m_move = Vec3Null;							//移動量の設定
+	pModel->m_rot = Vec3Null;							//向きの設定
+	pModel->m_pMesh = m_pMeshAll[type];					//メッシュへのポインタの取得
+	pModel->m_pBuffMat = m_pBuffMatAll[type];			//マテリアルへのポインタの取得
+	pModel->m_nNumMat = m_nNumMatAll[type];				//マテリアル数の取得
+	pModel->m_type = type;								//種類の設定
 
-	return pModel;
+	return pModel;										//生成したインスタンスを返す
 }
 
 CModel* CModel::Create(ModelType type, D3DXVECTOR3 pos, const int nPriority)
 {
-	CModel* pModel = new CModel(nPriority);
+	CModel* pModel = new CModel(nPriority);				//モデルを生成する
 
 	if (FAILED(pModel->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pModel->m_pos = pos;
-	pModel->m_LastPos = pos;
-	pModel->m_move = Vec3Null;
-	pModel->m_rot = Vec3Null;
-	pModel->m_pMesh = m_pMeshAll[type];
-	pModel->m_pBuffMat = m_pBuffMatAll[type];
-	pModel->m_nNumMat = m_nNumMatAll[type];
-	pModel->m_type = type;
+	pModel->m_pos = pos;								//位置の設定
+	pModel->m_LastPos = pos;							//前回の位置の設定
+	pModel->m_move = Vec3Null;							//移動量の設定
+	pModel->m_rot = Vec3Null;							//向きの設定
+	pModel->m_pMesh = m_pMeshAll[type];					//メッシュへのポインタの取得
+	pModel->m_pBuffMat = m_pBuffMatAll[type];			//マテリアルへのポインタの取得
+	pModel->m_nNumMat = m_nNumMatAll[type];				//マテリアル数の取得
+	pModel->m_type = type;								//種類の設定
 
-	return pModel;
+	return pModel;										//生成したインスタンスを返す
 }

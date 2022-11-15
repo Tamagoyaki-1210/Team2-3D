@@ -16,6 +16,7 @@
 //コンストラクタ
 CModelPart::CModelPart()
 {
+	//メンバー変数をクリアする
 	m_pMesh = nullptr;								//メッシュ情報へのポインタ
 	m_pBuffMat = nullptr;							//マテリアル情報へのポインタ
 	m_nNumMat = 0;									//マテリアル情報の数
@@ -23,15 +24,13 @@ CModelPart::CModelPart()
 	m_LastPos = Vec3Null;							//前回の位置
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
-	m_shadowPosY = 0.0f;
-	m_minCoord = Vec3Null;
-	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
+	m_shadowPosY = 0.0f;							//影の高さ
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = CModel::MODEL_BODY;
-	m_pParent = nullptr;
-	m_vModelTexture.clear();
-	m_vCol.clear();
-}
+	m_type = CModel::MODEL_BODY;					//モデルの種類
+	m_pParent = nullptr;							//親へのポインタ
+	m_vModelTexture.clear();						//テクスチャへのポインタ
+	m_vCol.clear();									//マテリアルの色
+}													
 
 //デストラクタ
 CModelPart::~CModelPart()
@@ -42,6 +41,7 @@ CModelPart::~CModelPart()
 //初期化処理
 HRESULT CModelPart::Init(void)
 {
+	//初期化処理
 	m_pMesh = nullptr;								//メッシュ情報へのポインタ
 	m_pBuffMat = nullptr;							//マテリアル情報へのポインタ
 	m_nNumMat = 0;									//マテリアル情報の数
@@ -49,14 +49,12 @@ HRESULT CModelPart::Init(void)
 	m_LastPos = Vec3Null;							//前回の位置
 	m_move = Vec3Null;								//モデルの移動量
 	m_rot = Vec3Null;								//向き
-	m_shadowPosY = 0.0f;
-	m_minCoord = Vec3Null;
-	m_maxCoord = Vec3Null;							//モデルの頂点座標の最小値と最大値
+	m_shadowPosY = 0.0f;							//影の高さ
 	D3DXMatrixIdentity(&m_mtxWorld);				//ワールドマトリックス
-	m_type = CModel::MODEL_BODY;
-	m_pParent = nullptr;
-	m_vModelTexture.clear();
-	m_vCol.clear();
+	m_type = CModel::MODEL_BODY;					//モデルの種類
+	m_pParent = nullptr;							//親へのポインタ
+	m_vModelTexture.clear();						//テクスチャへのポインタ
+	m_vCol.clear();									//マテリアルの色
 
 	return S_OK;
 }
@@ -64,7 +62,7 @@ HRESULT CModelPart::Init(void)
 //終了処理
 void CModelPart::Uninit(void)
 {
-	m_vCol.clear();
+	m_vCol.clear();					//マテリアルの色をクリアする
 }
 
 //更新処理
@@ -80,12 +78,12 @@ void CModelPart::Draw(void)
 	D3DXMATRIX mtxRot, mtxTrans, mtxShadow, mtxParent;		//計算用マトリックス
 	D3DMATERIAL9 matDef;									//現在のマテリアル保存用
 	D3DXMATERIAL *pMat;										//マテリアルデータへのポインタ
-	D3DXVECTOR4 vecLight;
-	D3DXVECTOR3 pos, Normal;
-	D3DXPLANE planeField;
+	D3DXVECTOR4 vecLight;									//ライトの向き
+	D3DXVECTOR3 pos, Normal;								//投影用の位置と法線
+	D3DXPLANE planeField;									//面
 
 	if (m_pParent != nullptr)
-	{
+	{//親がある場合、親のマトリックスを取得する
 		mtxParent = m_pParent->GetMatrix();
 	}
 
@@ -106,14 +104,13 @@ void CModelPart::Draw(void)
 	pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
 	pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
 
+	//ライトの向きを設定する
 	D3DXVECTOR3 dir = CDirectionalLight::GetPrincipalLightDir();
 	D3DXVec3Normalize(&dir, &dir);
-
 	vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
-	pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);
-	Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);				//面の高さ
+	Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);						//面の法線
 
 	//ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -127,8 +124,10 @@ void CModelPart::Draw(void)
 	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
+	//ワールドマトリックスの設定
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxParent);
 
+	//影の描画用のマトリックスを作る
 	D3DXPlaneFromPointNormal(&planeField, &pos, &Normal);
 	D3DXMatrixShadow(&mtxShadow, &vecLight, &planeField);
 
@@ -148,8 +147,9 @@ void CModelPart::Draw(void)
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
 
-		D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;
+		D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;					//マテリアルの色を保存する
 
+		//マテリアルの色を真っ黒にする
 		pMat[nCntMat].MatD3D.Diffuse.r = 0.0f;
 		pMat[nCntMat].MatD3D.Diffuse.g = 0.0f;
 		pMat[nCntMat].MatD3D.Diffuse.b = 0.0f;
@@ -164,6 +164,7 @@ void CModelPart::Draw(void)
 		//モデルパーツの描画
 		m_pMesh->DrawSubset(nCntMat);
 
+		//マテリアルの色を元に戻す
 		pMat[nCntMat].MatD3D.Diffuse.r = col.r;
 		pMat[nCntMat].MatD3D.Diffuse.g = col.g;
 		pMat[nCntMat].MatD3D.Diffuse.b = col.b;
@@ -204,6 +205,7 @@ void CModelPart::Draw(void)
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
 
+		//マテリアルの色が設定されていたら、そのマテリアルの色を変えたら、描画して、元に戻す
 		D3DXCOLOR c = {};
 		bool bCol = false;
 
@@ -244,21 +246,20 @@ void CModelPart::Draw(void)
 void CModelPart::Draw(D3DXMATRIX mtxParent)
 {
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();				//デバイスの取得
-	D3DXMATRIX mtxRot, mtxTrans, mtxShadow;		//計算用マトリックス
+	D3DXMATRIX mtxRot, mtxTrans, mtxShadow;					//計算用マトリックス
 	D3DMATERIAL9 matDef;									//現在のマテリアル保存用
 	D3DXMATERIAL *pMat;										//マテリアルデータへのポインタ
-	D3DXVECTOR4 vecLight;
-	D3DXVECTOR3 pos, Normal;
-	D3DXPLANE planeField;
+	D3DXVECTOR4 vecLight;									//ライトの向き
+	D3DXVECTOR3 pos, Normal;								//投影用の位置と法線
+	D3DXPLANE planeField;									//面
 
+															//ライトの向きを設定する
 	D3DXVECTOR3 dir = CDirectionalLight::GetPrincipalLightDir();
 	D3DXVec3Normalize(&dir, &dir);
-
 	vecLight = D3DXVECTOR4(-dir.x, -dir.y, -dir.z, 0.0f);
-	pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);
-	Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
-	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	pos = D3DXVECTOR3(0.0f, m_shadowPosY, 0.0f);							//面の高さ
+	Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);									//面の法線
 
 	//ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -272,8 +273,10 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
+	//ワールドマトリックスの設定
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxParent);
 
+	//影の描画用のマトリックスを作る
 	D3DXPlaneFromPointNormal(&planeField, &pos, &Normal);
 	D3DXMatrixShadow(&mtxShadow, &vecLight, &planeField);
 
@@ -310,8 +313,9 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
 
-		D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;
+		D3DXCOLOR col = pMat[nCntMat].MatD3D.Diffuse;					//マテリアルの色を保存する
 
+		//マテリアルの色を真っ黒にする
 		pMat[nCntMat].MatD3D.Diffuse.r = 0.0f;
 		pMat[nCntMat].MatD3D.Diffuse.g = 0.0f;
 		pMat[nCntMat].MatD3D.Diffuse.b = 0.0f;
@@ -326,6 +330,7 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 		//モデルパーツの描画
 		m_pMesh->DrawSubset(nCntMat);
 
+		//マテリアルの色を元に戻す
 		pMat[nCntMat].MatD3D.Diffuse.r = col.r;
 		pMat[nCntMat].MatD3D.Diffuse.g = col.g;
 		pMat[nCntMat].MatD3D.Diffuse.b = col.b;
@@ -366,6 +371,7 @@ void CModelPart::Draw(D3DXMATRIX mtxParent)
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
 
+		//マテリアルの色が設定されていたら、そのマテリアルの色を変えたら、描画して、元に戻す
 		D3DXCOLOR c = {};
 		bool bCol = false;
 
@@ -446,6 +452,7 @@ const D3DXVECTOR3 CModelPart::GetSize(void)
 	return Vec3Null;
 }
 
+//マトリックスの取得処理
 D3DXMATRIX CModelPart::GetMatrix(void)
 {
 	return m_mtxWorld;
@@ -460,6 +467,7 @@ void CModelPart::SetShadowHeight(const float fHeight)
 //カーラーの設定処理
 void CModelPart::SetModelColor(const int nNumMat, const D3DXCOLOR col)
 {
+	//新しいマテリアルが既に入れたかどうか確認する、そうだったら、上書きする
 	for (int nCnt = 0; nCnt < (int)m_vCol.size(); nCnt++)
 	{
 		if (m_vCol.data()[nCnt].nMatNumber == nNumMat)
@@ -472,6 +480,7 @@ void CModelPart::SetModelColor(const int nNumMat, const D3DXCOLOR col)
 		}
 	}
 
+	//新しいマテリアルの色を保存する
 	CModel::ModelColor mCol = {};
 	mCol.nMatNumber = nNumMat;
 	mCol.col = col;
@@ -479,19 +488,24 @@ void CModelPart::SetModelColor(const int nNumMat, const D3DXCOLOR col)
 	m_vCol.push_back(mCol);
 }
 
+//モデルの設定処理
 void CModelPart::SetModel(CModel::ModelType model)
 {
+	//必要なメンバー変数をクリアする
 	m_pMesh = nullptr;
 	m_pBuffMat = nullptr;
 	m_nNumMat = 0;
 	m_vModelTexture.clear();
 
-	CModel::GetModel(model, &m_pMesh, &m_pBuffMat, &m_nNumMat);
-	CModel::GetTextures(m_vModelTexture, model);
+	CModel::GetModel(model, &m_pMesh, &m_pBuffMat, &m_nNumMat);			//モデルの取得処理
+	CModel::GetTextures(m_vModelTexture, model);						//テクスチャの取得処理
 }
 
 
 
+//=============================================================================
+//								静的関数
+//=============================================================================
 
 
 
@@ -499,21 +513,21 @@ void CModelPart::SetModel(CModel::ModelType model)
 //生成処理
 CModelPart* CModelPart::Create(CModel::ModelType type, const D3DXVECTOR3 pos, const D3DXVECTOR3 rot)
 {
-	CModelPart* pModel = new CModelPart;
+	CModelPart* pModel = new CModelPart;					//インスタンスを生成する
 
 	if (FAILED(pModel->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pModel->m_pos = pos;
-	pModel->m_rot = rot;
-	pModel->m_LastPos = pos;
-	pModel->m_type = type;
-	pModel->m_shadowPosY = pos.y;
+	pModel->m_pos = pos;					//位置の設定
+	pModel->m_rot = rot;					//向きの設定
+	pModel->m_LastPos = pos;				//前回の位置の設定
+	pModel->m_type = type;					//種類の設定
+	pModel->m_shadowPosY = pos.y;			//影の高さの設定
 
-	CModel::GetModel(type, &pModel->m_pMesh, &pModel->m_pBuffMat, &pModel->m_nNumMat);
-	CModel::GetTextures(pModel->m_vModelTexture, type);
+	CModel::GetModel(type, &pModel->m_pMesh, &pModel->m_pBuffMat, &pModel->m_nNumMat);			//モデルの設定処理
+	CModel::GetTextures(pModel->m_vModelTexture, type);											//テクスチャの設定処理
 
-	return pModel;
+	return pModel;							//生成したインスタンスを返す
 }

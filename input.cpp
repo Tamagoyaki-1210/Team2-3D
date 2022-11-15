@@ -44,12 +44,14 @@ HRESULT CInput::Init(HINSTANCE hInstance, HWND hWnd, GUID guid)
 //終了処理
 void CInput::Uninit(void)
 {
+	//インプットデバイスの破棄
 	if (m_pInput != nullptr)
 	{
 		m_pInput->Release();
 		m_pInput = nullptr;
 	}
 
+	//デバイスの破棄
 	if (m_pDevice != nullptr)
 	{
 		m_pDevice->Unacquire();

@@ -16,12 +16,12 @@
 CLine::CLine() : CObject(5)
 {
 	//メンバー変数をクリアする
-	m_pos = Vec3Null;
-	m_rot = Vec3Null;
-	m_col = ColorWhite;
-	m_start = Vec3Null;
-	m_finish = Vec3Null;
-	m_pVtxBuff = nullptr;
+	m_pos = Vec3Null;				//位置
+	m_rot = Vec3Null;				//向き
+	m_col = ColorWhite;				//カーラー
+	m_start = Vec3Null;				//開始点
+	m_finish = Vec3Null;			//終了点
+	m_pVtxBuff = nullptr;			//頂点バッファ
 }
 
 //デストラクタ
@@ -34,12 +34,12 @@ CLine::~CLine()
 HRESULT CLine::Init(void)
 {
 	//メンバー変数の初期化
-	m_pos = Vec3Null;
-	m_rot = Vec3Null;
-	m_col = ColorWhite;
-	m_start = Vec3Null;
-	m_finish = Vec3Null;
-	m_pVtxBuff = nullptr;
+	m_pos = Vec3Null;			//位置
+	m_rot = Vec3Null;			//向き
+	m_col = ColorWhite;			//カーラー
+	m_start = Vec3Null;			//開始点
+	m_finish = Vec3Null;		//終了点
+	m_pVtxBuff = nullptr;		//頂点バッファ
 
 	return S_OK;
 }
@@ -68,7 +68,8 @@ void CLine::Draw(void)
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 	D3DXMATRIX	mtxRot, mtxTrans;					//計算用マトリックス
 
-	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);	//ライトを無効化にする
+	//ライトを無効化にする
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);	
 
 	//ワルドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -118,6 +119,15 @@ const D3DXVECTOR3 CLine::GetPos(void)
 
 
 
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
+
+
+
+
 //生成処理
 CLine* CLine::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR3 start, const D3DXVECTOR3 end, D3DXCOLOR col)
 {
@@ -139,7 +149,7 @@ CLine* CLine::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVEC
 	return pLine;					//生成した線を返す
 }
 
-
+//生成処理
 CLine* CLine::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR3 start, const D3DXVECTOR3 end)
 {
 	CLine* pLine = new CLine();		//線の生成

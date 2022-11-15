@@ -28,9 +28,15 @@
 #include "message.h"
 #include "BoxHitbox.h"
 
-int CPlayer::m_nRanking;
-const float CPlayer::m_MaxWalkingSpeed = 7.0f;
-const float CPlayer::m_AccelerationCoeff = 2.0f;
+//=============================================================================
+//							静的変数の初期化
+//=============================================================================
+
+int CPlayer::m_nRanking;								//ランキングへのポインタ
+const float CPlayer::m_MaxWalkingSpeed = 7.0f;			//最大歩くスピード
+const float CPlayer::m_AccelerationCoeff = 2.0f;		//加速係数
+
+//プレイヤーの色
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
 {
 
@@ -57,11 +63,11 @@ CPlayer::CPlayer() : CObject::CObject(1)
 	m_pScoreUI = nullptr;				//スコアのUIへのポインタ
 	m_bJump = false;					//ジャンプしているかどうか
 	m_nInvincibilityCnt = 0;			//無敵状態のカウンター
-	m_pAttackHitbox = nullptr;
-	m_pHeadHitbox = nullptr;
-	m_bAttacking = false;
-	m_nCntAttack = 0;
-	m_fFrictionCoeff = 0.0f;
+	m_pAttackHitbox = nullptr;			//攻撃のヒットボックス
+	m_pHeadHitbox = nullptr;			//頭のヒットボックス
+	m_bAttacking = false;				//攻撃しているかどうか
+	m_nCntAttack = 0;					//攻撃カウンター
+	m_fFrictionCoeff = 0.0f;			//摩擦係数
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -79,9 +85,9 @@ CPlayer::~CPlayer()
 HRESULT CPlayer::Init(void)
 {
 	//メンバー変数の初期化処理
-	m_move = Vec3Null;				//速度の初期化処理
-	m_DestRot = Vec3Null;			//目的の角度の初期化処理
-	m_pAnimator = nullptr;
+	m_move = Vec3Null;								//速度の初期化処理
+	m_DestRot = Vec3Null;							//目的の角度の初期化処理
+	m_pAnimator = nullptr;							
 	m_pHitbox = nullptr;
 	m_pScore = nullptr;
 	m_State = STATE_NEUTRAL;
@@ -92,13 +98,13 @@ HRESULT CPlayer::Init(void)
 	m_bWinner = false;
 	m_bPos = false;
 	m_bRot = false;
-	m_pAnimator = nullptr;			//アニメーターへのポインタ
-	m_pHitbox = nullptr;			//ヒットボックスへのポインタ
-	m_pScore = nullptr;				//スコアへのポインタ
-	m_State = STATE_NEUTRAL;		//アニメーション状態
-	m_pScoreUI = nullptr;			//スコアのUIへのポインタ
-	m_bJump = false;				//ジャンプしているかどうか
-	m_nInvincibilityCnt = 0;		//無敵状態のカウンター
+	m_pAnimator = nullptr;							//アニメーターへのポインタ
+	m_pHitbox = nullptr;							//ヒットボックスへのポインタ
+	m_pScore = nullptr;								//スコアへのポインタ
+	m_State = STATE_NEUTRAL;						//アニメーション状態
+	m_pScoreUI = nullptr;							//スコアのUIへのポインタ
+	m_bJump = false;								//ジャンプしているかどうか
+	m_nInvincibilityCnt = 0;						//無敵状態のカウンター
 	m_nFrame = 0;
 	m_pAttackHitbox = nullptr;
 	m_pHeadHitbox = nullptr;

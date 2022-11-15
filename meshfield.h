@@ -40,10 +40,10 @@ public:
 	void SetTextureAnim(const D3DXVECTOR2 animSpeed);	//テクスチャアニメーションの設定処理
 	void SetTextureAnim(const float fX, const float fY);//テクスチャアニメーションの設定処理
 	void StopTextureAnim(void);							//テクスチャアニメーションの停止処理
-	void SetAnimation(const bool bAnim);
-	void SetAnimation(const bool bAnim, const float fAngularSpeed, const float fAmplitude);
+	void SetAnimation(const bool bAnim);															//アニメーションの設定処理
+	void SetAnimation(const bool bAnim, const float fAngularSpeed, const float fAmplitude);			//アニメーションの設定処理
 
-	void ChangeHeight(const int nStartVtx, const int nEndVtx, const float fHeight);
+	void ChangeHeight(const int nStartVtx, const int nEndVtx, const float fHeight);					//頂点の高さの設定処理
 
 	static CMeshfield* Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot,
 		const D3DXVECTOR2 unitSize, const int NumberLines, const int NumberColumns);							//生成処理
@@ -57,9 +57,6 @@ public:
 	static bool FieldInteraction(CObject* pObj);							//当たり判定の処理
 	static CMeshfield* FieldInteraction(CObject* pObj, float* fHeight);		//当たり判定の処理
 
-	LPDIRECT3DVERTEXBUFFER9 GetBuff();
-
-	void LoadTexture(const char *aFileName);				//テクスチャの読み込み
 private:
 	void SetVertex(void);								//頂点インデックスの設定処理
 
@@ -80,15 +77,13 @@ private:
 	int m_nColumnVertex;								//計算用のグローバル変数(行数 + 1)
 	float m_fFriction;									//摩擦係数
 	float m_fAnimAngle;									//アニメーションようの角度
-	float m_fAnimSpeed;
-	float m_fAmplitude;
+	float m_fAnimSpeed;									//アニメーションスピード
+	float m_fAmplitude;									//アニメーションの振幅
 	bool m_bTextureAnim;								//テクスチャアニメーションのフラグ
 	bool m_bAnim;										//アニメーションのフラグ
-	D3DXVECTOR2 m_animSpeed;
-
+	D3DXVECTOR2 m_animSpeed;							//テクスチャアニメーションスピード
 	int m_nPriority;									//プライオリティ
 
-	static std::vector <CObject*> m_vLandedObj;			//一時的
 	static std::vector <CMeshfield*> m_vMeshfield;		//メッシュフィールドへのポインタのベクトル
 
 };

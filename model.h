@@ -17,12 +17,14 @@ class CModel : public CObject
 {
 public:
 
+	//マテリアルの色
 	struct ModelColor
 	{
 		int nMatNumber;
 		D3DXCOLOR col;
 	};
 
+	//モデルの種類
 	enum ModelType
 	{
 		MODEL_BODY = 0,
@@ -64,6 +66,7 @@ public:
 		MODEL_SPIKE_BALL,
 		MODEL_LAVA_FLOOR,
 		MODEL_BOUNCE_POLE,
+
 		MODEL_TRAMPOLINE,
 		MODEL_FALLING_STONE,
 		MODEL_ICE_PILLAR,
@@ -93,12 +96,12 @@ public:
 	const D3DXVECTOR2 GetSize(void) override;											//サイズの取得処理
 	void SetModel(const ModelType type);												//モデルの設定処理
 
-	void StartRotation(const D3DXVECTOR3 frameRot);
-	void StopRotating(void);
-
-	void SetModelColor(const int nNumMat, const D3DXCOLOR col);
-	void SetShadowDraw(const bool bDraw);
-	void SetShadowHeight(const float fHeight);
+	void StartRotation(const D3DXVECTOR3 frameRot);										//回転開始処理
+	void StopRotating(void);															//回転停止処理
+																						
+	void SetModelColor(const int nNumMat, const D3DXCOLOR col);							//モデルの色の設定処理
+	void SetShadowDraw(const bool bDraw);												//影の描画フラグの設定処理
+	void SetShadowHeight(const float fHeight);											//影の高さの設定処理
 
 	static void GetModel(ModelType type, LPD3DXMESH* pMesh, LPD3DXBUFFER* pBuffMat, DWORD* numMat);		//モデルのメッシュ情報の取得処理
 	static void GetTextures(std::vector <LPDIRECT3DTEXTURE9>& vTex, CModel::ModelType type);			//マテリアルのテクスチャの取得処理
@@ -118,12 +121,11 @@ private:
 	D3DXVECTOR3		m_move;													//モデルの移動量
 	D3DXVECTOR3		m_rot;													//向き
 	D3DXVECTOR3		m_frameRot;												//1フレームの回転角度
-	D3DXVECTOR3		m_minCoord, m_maxCoord;									//モデルの頂点座標の最小値と最大値
 	D3DXMATRIX		m_mtxWorld;												//ワールドマトリックス
 	ModelType		m_type;													//モデルの種類
 	std::vector <ModelColor> m_vCol;										//モデルの色
 	bool			m_bShadow;												//影があるかどうか
-	float			m_fShadowHeight;
+	float			m_fShadowHeight;										//影の高さ
 
 	static LPD3DXMESH		m_pMeshAll[MODEL_MAX];							//メッシュ情報へのポインタ
 	static LPD3DXBUFFER		m_pBuffMatAll[MODEL_MAX];						//マテリアル情報へのポインタ

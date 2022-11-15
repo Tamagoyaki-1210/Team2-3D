@@ -13,17 +13,16 @@
 
 //コンストラクタ
 CLetter::CLetter()
-{
-	m_bVanish = false;
-	m_nLife = 0;
-	m_pPreviousLetter = nullptr;
-	m_pNextLetter = nullptr;
+{			
+	m_pPreviousLetter = nullptr;			//前の文字
+	m_pNextLetter = nullptr;				//次の文字
 }
 
+//コンストラクタ
 CLetter::CLetter(const int nPriority) : CObject_2D::CObject_2D(nPriority)
 {
-	m_pPreviousLetter = nullptr;
-	m_pNextLetter = nullptr;
+	m_pPreviousLetter = nullptr;			//前の文字
+	m_pNextLetter = nullptr;				//次の文字
 }
 
 //デストラクタ
@@ -41,10 +40,8 @@ HRESULT CLetter::Init(void)
 		return -1;
 	}
 
-	m_bVanish = false;
-	m_nLife = 0;
-	m_pPreviousLetter = nullptr;
-	m_pNextLetter = nullptr;
+	m_pPreviousLetter = nullptr;		//前の文字
+	m_pNextLetter = nullptr;			//次の文字
 
 	return S_OK;
 }
@@ -61,19 +58,6 @@ void CLetter::Update(void)
 {
 	//基本クラスの更新処理
 	CObject_2D::Update();
-
-	if (m_bVanish)
-	{
-		if (m_nLife > 0)
-		{
-			m_nLife--;
-		}
-
-		if (m_nLife <= 0)
-		{
-			Release();
-		}
-	}
 }
 
 //終了処理
@@ -83,115 +67,55 @@ void CLetter::Draw(void)
 	CObject_2D::Draw();
 }
 
-bool CLetter::ConvertInNumber(const int nNum)
-{
-	if (nNum >= 0 && nNum <= 9)
-	{
-		SetTexture(CObject::TEXTURE_NUMBERS);
-		SetTextureParameter(1, 5, 3, INT_MAX);
-		SetAnimPattern(nNum);
-	}
-	else
-	{
-		return false;
-	}
-
-	return true;
-}
-
-bool CLetter::ConvertInSymbol(const char symbol)
-{
-	if (symbol != '?' && symbol != '!' && symbol != '%')
-	{
-		return false;
-	}
-	else
-	{
-		SetTexture(CObject::TEXTURE_NUMBERS);
-		SetTextureParameter(1, 5, 3, INT_MAX);
-
-		switch (symbol)
-		{
-		case '?':
-
-			SetAnimPattern(10);
-
-			break;
-
-		case '!':
-
-			SetAnimPattern(11);
-
-			break;
-
-		case '%':
-
-			SetAnimPattern(12);
-
-			break;
-
-		default:
-
-			return false;
-
-			break;
-		}
-	}
-	
-	return true;
-}
-
+//文字の変換処理
 bool CLetter::Convert(const char symbol)
 {
-	char aLetter = 33;
+	char aLetter = 33;		//Unicodeの!(10進数)
 
 	//アニメーションパターンの設定
 	int Cell = 27;
 
 	for (int nCnt = 0; nCnt < 93; nCnt++)
-	{
+	{//~まで確認する
 		if (symbol == aLetter)
-		{
+		{//同じだったら、番号を保存して、止まる
 			Cell = nCnt;
 			break;
 		}
 
-		aLetter += 1;
+		aLetter += 1;			
 	}
 
 	if (Cell < 0 || Cell > 93)
-	{
+	{//範囲外の文字だったら、falseを返す
 		return false;
 	}
 	else
-	{
+	{//変換出来たら、アニメーションパターンを設定して、trueを返す
 		SetAnimPattern(Cell);
 		return true;
 	}
 }
 
-void CLetter::SetLife(const int nLife)
-{
-	m_bVanish = true;
-
-	m_nLife = nLife;
-}
-
+//前の文字の設定処理
 void CLetter::SetPrevLetter(CLetter* pPrev)
 {
 	m_pPreviousLetter = pPrev;
 }
 
+//次の文字の設定処理
 void CLetter::SetNextLetter(CLetter* pNext)
 {
 	m_pNextLetter = pNext;
 }
 
+//前の文字の取得処理
 CLetter* CLetter::GetPrevLetter(void)
 {
 	return m_pPreviousLetter;
 }
 
+//次の文字の設定処理
 CLetter* CLetter::GetNextLetter(void)
 {
 	return m_pNextLetter;
@@ -200,7 +124,7 @@ CLetter* CLetter::GetNextLetter(void)
 
 //==================================================================================================================
 //
-//		静的関数
+//											静的関数
 //
 //==================================================================================================================
 
@@ -209,7 +133,7 @@ CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const ch
 {
 	CLetter* pLetter = new CLetter(3);								//生成
 
-																	//初期化処理
+	//初期化処理
 	if (FAILED(pLetter->Init()))
 	{
 		return nullptr;
@@ -217,19 +141,19 @@ CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const ch
 
 	pLetter->SetPos(pos);									//位置の設定
 	pLetter->SetSize(size);									//サイズの設定
-															//pLetter->SetStartingRot(D3DX_PI * 0.5f);				//回転角度の設定
-	pLetter->SetTexture(CObject::TEXTURE_CHARACTERS);			//テクスチャの設定
+															
+	pLetter->SetTexture(CObject::TEXTURE_CHARACTERS);		//テクスチャの設定
 	pLetter->SetTextureParameter(1, 10, 10, INT_MAX);		//テクスチャパラメータの設定
 
-	char aLetter = 33;
+	char aLetter = 33;				//Unicodeの!(10進数)
 
 	//アニメーションパターンの設定
 	int Cell = 27;
 
 	for (int nCnt = 0; nCnt < 93; nCnt++)
-	{
+	{//~まで確認する
 		if (letter == aLetter)
-		{
+		{//同じだったら、番号を保存して、止まる
 			Cell = nCnt;
 			break;
 		}
@@ -238,67 +162,18 @@ CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const ch
 	}
 
 	if (Cell < 0 || Cell > 93)
-	{
+	{//範囲外の文字だったら、falseを返す
 			pLetter->Release();
 			return nullptr;
 	}
 	else
-	{
+	{//変換出来たら、アニメーションパターンを設定して、trueを返す
 		pLetter->SetAnimPattern(Cell);
 	}
 
-	return pLetter;
+	return pLetter;				//生成したインスタンスを返す
 }
 
-//生成処理
-CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const int nNum)
-{
-	CLetter* pLetter = new CLetter(3);						//生成
-
-																	//初期化処理
-	if (FAILED(pLetter->Init()))
-	{
-		return nullptr;
-	}
-
-	pLetter->SetPos(pos);									//位置の設定
-	pLetter->SetSize(size);									//サイズの設定
-															//pLetter->SetStartingRot(D3DX_PI * 0.5f);				//回転角度の設定
-	pLetter->SetTexture(CObject::TEXTURE_CHARACTERS);		//テクスチャの設定
-	pLetter->SetTextureParameter(1, 10, 10, INT_MAX);		//テクスチャパラメータの設定
-
-	std::string number = std::to_string(nNum);
-	char aLetter = 47;
-
-	//アニメーションパターンの設定
-	int Cell = 14;
-
-	for (int nCnt = 0; nCnt < 10; nCnt++)
-	{
-		if (number.c_str()[0] == aLetter)
-		{
-			Cell = nCnt + 14;
-			break;
-		}
-
-		aLetter += 1;
-	}
-
-	if (Cell < 14 || Cell > 56)
-	{
-		pLetter->Release();
-		return nullptr;
-	}
-	else
-	{
-		pLetter->SetAnimPattern(Cell);
-	}
-
-
-	return pLetter;
-}
-
-//生成処理
 CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const char letter, const int nPriority)
 {
 	CLetter* pLetter = new CLetter(nPriority);						//生成
@@ -315,15 +190,15 @@ CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const ch
 	pLetter->SetTexture(CObject::TEXTURE_CHARACTERS);		//テクスチャの設定
 	pLetter->SetTextureParameter(1, 10, 10, INT_MAX);		//テクスチャパラメータの設定
 
-	char aLetter = 33;
+	char aLetter = 33;				//Unicodeの!(10進数)
 
 	//アニメーションパターンの設定
 	int Cell = 27;
 
 	for (int nCnt = 0; nCnt < 93; nCnt++)
-	{
+	{//~まで確認する
 		if (letter == aLetter)
-		{
+		{//同じだったら、番号を保存して、止まる
 			Cell = nCnt;
 			break;
 		}
@@ -332,83 +207,14 @@ CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const ch
 	}
 
 	if (Cell < 0 || Cell > 93)
-	{
+	{//範囲外の文字だったら、falseを返す
 		pLetter->Release();
 		return nullptr;
 	}
 	else
-	{
+	{//変換出来たら、アニメーションパターンを設定して、trueを返す
 		pLetter->SetAnimPattern(Cell);
 	}
 
-	return pLetter;				
+	return pLetter;				//生成したインスタンスを返す
 } 
-
-//生成処理
-CLetter* CLetter::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const int nNum, const int nPriority)
-{
-	//CLetter* pLetter = new CLetter(nPriority);			//生成
-
-	//													//初期化処理
-	//if (FAILED(pLetter->Init()))
-	//{
-	//	return nullptr;
-	//}
-
-	//pLetter->SetPos(pos);									//位置の設定
-	//pLetter->SetSize(size);									//サイズの設定
-	//pLetter->SetStartingRot(D3DX_PI * 0.5f);				//回転角度の設定
-	//pLetter->SetTexture(CObject::TEXTURE_LETTERS);			//テクスチャの設定
-	//pLetter->SetTextureParameter(26, 13, 2, INT_MAX);		//テクスチャパラメータの設定
-
-	//if (!pLetter->ConvertInNumber(nNum))
-	//{
-	//	pLetter->Uninit();
-	//	pLetter->Release();
-	//	return nullptr;
-	//}
-
-	CLetter* pLetter = new CLetter(nPriority);						//生成
-
-																	//初期化処理
-	if (FAILED(pLetter->Init()))
-	{
-		return nullptr;
-	}
-
-	pLetter->SetPos(pos);									//位置の設定
-	pLetter->SetSize(size);									//サイズの設定
-															//pLetter->SetStartingRot(D3DX_PI * 0.5f);				//回転角度の設定
-	pLetter->SetTexture(CObject::TEXTURE_CHARACTERS);		//テクスチャの設定
-	pLetter->SetTextureParameter(1, 10, 10, INT_MAX);		//テクスチャパラメータの設定
-
-	std::string number = std::to_string(nNum);
-	char aLetter = 47;
-
-	//アニメーションパターンの設定
-	int Cell = 14;
-
-	for (int nCnt = 0; nCnt < 10; nCnt++)
-	{
-		if (number.c_str()[0] == aLetter)
-		{
-			Cell = nCnt + 14;
-			break;
-		}
-
-		aLetter += 1;
-	}
-
-	if (Cell < 14 || Cell > 56)
-	{
-		pLetter->Release();
-		return nullptr;
-	}
-	else
-	{
-		pLetter->SetAnimPattern(Cell);
-	}
-	
-
-	return pLetter;
-}

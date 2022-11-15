@@ -13,64 +13,63 @@
 #include "rendering.h"
 #include "object2D.h"
 
-std::vector <CObject*> CMeshfield::m_vLandedObj;
 std::vector <CMeshfield*> CMeshfield::m_vMeshfield;
 
 //コンストラクタ
 CMeshfield::CMeshfield()
 {
 	//メンバー変数をクリアする
-	m_pVtxBuff = nullptr;
-	m_pIdxBuff = nullptr;
-	m_pTexture = nullptr;
-	m_pos = Vec3Null;
-	m_rot = Vec3Null;
-	m_size = Vec2Null;
-	m_LateralCoords = Vec2Null;
-	D3DXMatrixIdentity(&m_mtxWorld);
-	m_nVertexNumber = 0;
-	m_nIntexNumber = 0;
-	m_nPolygonNumber = 0;
-	m_nLineVertex = 0;
-	m_nColumnVertex = 0;
+	m_pVtxBuff = nullptr;								//頂点バッファ
+	m_pIdxBuff = nullptr;								//インデックスバッファ
+	m_pTexture = nullptr;								//テクスチャへのポインタ
+	m_pos = Vec3Null;									//位置
+	m_rot = Vec3Null;									//向き
+	m_size = Vec2Null;									//サイズ
+	m_LateralCoords = Vec2Null;							//幅
+	D3DXMatrixIdentity(&m_mtxWorld);					//ワールドマトリックス
+	m_nVertexNumber = 0;								//頂点数
+	m_nIntexNumber = 0;									//インデックス数
+	m_nPolygonNumber = 0;								//ポリゴン数
+	m_nLineVertex = 0;									//一行の頂点数
+	m_nColumnVertex = 0;								//一列の頂点数
 	m_fFriction = 0.0f;									//摩擦係数
-	m_fAnimAngle = 0.0f;
-	m_fAnimSpeed = 0.0f;
-	m_fAmplitude = 0.0f;
+	m_fAnimAngle = 0.0f;								//アニメーション用の角度
+	m_fAnimSpeed = 0.0f;								//アニメーションスピード
+	m_fAmplitude = 0.0f;								//アニメーションの振幅
 	m_nPriority = 0;									//プライオリティ
-	m_bTextureAnim = false;
-	m_bAnim = false;
-	m_animSpeed = Vec2Null;
-
-	m_vMeshfield.push_back(this);
+	m_bTextureAnim = false;								//テクスチャアニメーションのフラグ
+	m_bAnim = false;									//アニメーションのフラグ
+	m_animSpeed = Vec2Null;								//アニメーションスピード
+														
+	m_vMeshfield.push_back(this);						//メッシュフィールドのアドレスを持っているベクトルにこのポインタを保存する
 }
 
 CMeshfield::CMeshfield(const int nPriority) : CObject::CObject(nPriority)
 {
 	//メンバー変数をクリアする
-	m_pVtxBuff = nullptr;
-	m_pIdxBuff = nullptr;
-	m_pTexture = nullptr;
-	m_pos = Vec3Null;
-	m_rot = Vec3Null;
-	m_size = Vec2Null;
-	m_LateralCoords = Vec2Null;
-	D3DXMatrixIdentity(&m_mtxWorld);
-	m_nVertexNumber = 0;
-	m_nIntexNumber = 0;
-	m_nPolygonNumber = 0;
-	m_nLineVertex = 0;
-	m_nColumnVertex = 0;
+	m_pVtxBuff = nullptr;								//頂点バッファ
+	m_pIdxBuff = nullptr;								//インデックスバッファ
+	m_pTexture = nullptr;								//テクスチャへのポインタ
+	m_pos = Vec3Null;									//位置
+	m_rot = Vec3Null;									//向き
+	m_size = Vec2Null;									//サイズ
+	m_LateralCoords = Vec2Null;							//幅
+	D3DXMatrixIdentity(&m_mtxWorld);					//ワールドマトリックス
+	m_nVertexNumber = 0;								//頂点数
+	m_nIntexNumber = 0;									//インデックス数
+	m_nPolygonNumber = 0;								//ポリゴン数
+	m_nLineVertex = 0;									//一行の頂点数
+	m_nColumnVertex = 0;								//一列の頂点数
 	m_fFriction = 0.0f;									//摩擦係数
-	m_fAnimAngle = 0.0f;
-	m_fAnimSpeed = 0.0f;
-	m_fAmplitude = 0.0f;
+	m_fAnimAngle = 0.0f;								//アニメーション用の角度
+	m_fAnimSpeed = 0.0f;								//アニメーションスピード
+	m_fAmplitude = 0.0f;								//アニメーションの振幅
 	m_nPriority = 0;									//プライオリティ
-	m_animSpeed = Vec2Null;
-	m_bTextureAnim = false;
-	m_bAnim = false;
+	m_bTextureAnim = false;								//テクスチャアニメーションのフラグ
+	m_bAnim = false;									//アニメーションのフラグ
+	m_animSpeed = Vec2Null;								//アニメーションスピード
 
-	m_vMeshfield.push_back(this);
+	m_vMeshfield.push_back(this);						//メッシュフィールドのアドレスを持っているベクトルにこのポインタを保存する
 }
 
 //デストラクタ
@@ -82,27 +81,27 @@ CMeshfield::~CMeshfield()
 //初期化処理
 HRESULT CMeshfield::Init(void)
 {
-	m_pVtxBuff = nullptr;
-	m_pIdxBuff = nullptr;
-	m_pTexture = nullptr;
-	m_pos = Vec3Null;
-	m_rot = Vec3Null;
-	m_size = Vec2Null;
-	m_LateralCoords = Vec2Null;
-	D3DXMatrixIdentity(&m_mtxWorld);
-	m_nVertexNumber = 0;
-	m_nIntexNumber = 0;
-	m_nPolygonNumber = 0;
-	m_nLineVertex = 0;
-	m_nColumnVertex = 0;
+	m_pVtxBuff = nullptr;								//頂点バッファ
+	m_pIdxBuff = nullptr;								//インデックスバッファ
+	m_pTexture = nullptr;								//テクスチャへのポインタ
+	m_pos = Vec3Null;									//位置
+	m_rot = Vec3Null;									//向き
+	m_size = Vec2Null;									//サイズ
+	m_LateralCoords = Vec2Null;							//幅
+	D3DXMatrixIdentity(&m_mtxWorld);					//ワールドマトリックス
+	m_nVertexNumber = 0;								//頂点数
+	m_nIntexNumber = 0;									//インデックス数
+	m_nPolygonNumber = 0;								//ポリゴン数
+	m_nLineVertex = 0;									//一行の頂点数
+	m_nColumnVertex = 0;								//一列の頂点数
 	m_fFriction = 0.1f;									//摩擦係数
-	m_fAnimAngle = 0.0f;
-	m_fAnimSpeed = D3DX_PI * 0.025f;
-	m_fAmplitude = 25.0f;
+	m_fAnimAngle = 0.0f;								//アニメーション用の角度
+	m_fAnimSpeed = D3DX_PI * 0.025f;					//アニメーションスピード
+	m_fAmplitude = 25.0f;								//アニメーションの振幅
 	m_nPriority = 0;									//プライオリティ
-	m_animSpeed = Vec2Null;
-	m_bTextureAnim = false;
-	m_bAnim = false;
+	m_animSpeed = Vec2Null;								//アニメーションスピード
+	m_bTextureAnim = false;								//テクスチャアニメーションのフラグ
+	m_bAnim = false;									//アニメーションのフラグ
 
 	return S_OK;
 }
@@ -110,18 +109,19 @@ HRESULT CMeshfield::Init(void)
 //終了処理
 void CMeshfield::Uninit(void)
 {
-	m_vLandedObj.clear();
-
+	//頂点バッファの破棄
 	if (m_pVtxBuff != nullptr)
 	{
 		m_pVtxBuff->Release();
 		m_pVtxBuff = nullptr;
 	}
+	//インデックスバッファの破棄
 	if (m_pIdxBuff != nullptr)
 	{
 		m_pIdxBuff->Release();
 		m_pIdxBuff = nullptr;
 	}
+	//テクスチャへのポインタをnullにする
 	if (m_pTexture != nullptr)
 	{
 		m_pTexture = nullptr;
@@ -129,6 +129,7 @@ void CMeshfield::Uninit(void)
 
 	int a = m_vMeshfield.size();
 
+	//このインスタンスのアドレスを消す
 	for (int nCnt = 0; nCnt < a; nCnt++)
 	{
 		if (m_vMeshfield.data()[nCnt] == this)
@@ -142,8 +143,7 @@ void CMeshfield::Uninit(void)
 //更新処理
 void CMeshfield::Update(void)
 {
-	//Interaction();
-
+	//テクスチャアニメーションのフラグがtrueだったら、
 	if (m_bTextureAnim)
 	{
 		//頂点情報へのポインタ
@@ -166,7 +166,7 @@ void CMeshfield::Update(void)
 		m_pVtxBuff->Unlock();
 	}
 	if (m_bAnim)
-	{
+	{//アニメーションのフラグがtrueだったら(波みたいなアニメーション)
 		VERTEX_3D*pVtx = nullptr;
 		VERTEX_3D Vtx;
 		ZeroMemory(&Vtx, sizeof(VERTEX_3D));
@@ -177,11 +177,12 @@ void CMeshfield::Update(void)
 		//頂点情報の設定
 		for (int nCnt = 0; nCnt < m_nVertexNumber; nCnt++)
 		{
-			Vtx.pos = pVtx[nCnt].pos;
-			Vtx.pos.y += m_fAmplitude * sinf(m_fAnimAngle * (nCnt / m_nLineVertex));
-			pVtx[nCnt].pos = Vtx.pos;
-			m_fAnimAngle += m_fAnimSpeed;
+			Vtx.pos = pVtx[nCnt].pos;													//頂点の位置を取得
+			Vtx.pos.y += m_fAmplitude * sinf(m_fAnimAngle * (nCnt / m_nLineVertex));	//Y座標を更新する
+			pVtx[nCnt].pos = Vtx.pos;													//新しい位置の設定
 		}
+
+		m_fAnimAngle += m_fAnimSpeed;													//角度の更新
 
 		//頂点バッファのアンロック
 		m_pVtxBuff->Unlock();
@@ -195,8 +196,6 @@ void CMeshfield::Draw(void)
 	//デバイスの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
 	D3DXMATRIX	mtxRot, mtxTrans;											//計算用マトリックス
-
-	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	//ワルドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -227,8 +226,6 @@ void CMeshfield::Draw(void)
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, m_nVertexNumber, 0, m_nPolygonNumber);
 
 	pDevice->SetTexture(0, NULL);
-
-	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
 
 //位置の設定処理
@@ -242,6 +239,7 @@ void CMeshfield::SetPriority(const int nPriority)
 {
 	m_nPriority = nPriority;
 
+	//範囲外の値がないように確認する
 	if (m_nPriority < 0)
 	{
 		m_nPriority = 0;
@@ -273,10 +271,11 @@ const float CMeshfield::GetFriction(void)
 //テクスチャの設定処理
 void CMeshfield::SetTexture(CObject::TextType texture)
 {
-	LPDIRECT3DTEXTURE9 text = CObject_2D::GetTexturePointer(texture);
-	m_pTexture = text;
+	LPDIRECT3DTEXTURE9 text = CObject_2D::GetTexturePointer(texture);		//ロードしたテクスチャのポインタを取得
+	m_pTexture = text;														//テクスチャを設定する
 }
 
+//テクスチャの大きさの設定処理
 void CMeshfield::SetTextureTiling(D3DXVECTOR2 TileSize)
 {
 	//頂点情報へのポインタ
@@ -296,6 +295,7 @@ void CMeshfield::SetTextureTiling(D3DXVECTOR2 TileSize)
 	m_pVtxBuff->Unlock();
 }
 
+//テクスチャの大きさの設定処理
 void CMeshfield::SetTextureTiling(float fTileSize)
 {
 	//頂点情報へのポインタ
@@ -336,11 +336,13 @@ void CMeshfield::StopTextureAnim(void)
 	m_animSpeed = Vec2Null;
 }
 
+//アニメーションの設定処理
 void CMeshfield::SetAnimation(const bool bAnim)
 {
 	m_bAnim = bAnim;
 }
 
+//アニメーションの設定処理
 void CMeshfield::SetAnimation(const bool bAnim, const float fAngularSpeed, const float fAmplitude)
 {
 	m_bAnim = bAnim;
@@ -348,11 +350,12 @@ void CMeshfield::SetAnimation(const bool bAnim, const float fAngularSpeed, const
 	m_fAnimSpeed = fAngularSpeed;
 }
 
-
+//頂点の高さの設定処理
 void CMeshfield::ChangeHeight(const int nStartVtx, const int nEndVtx, const float fHeight)
 {
 	int nStart = nStartVtx, nEnd = nEndVtx;
 
+	//存在している頂点の範囲外インデックスがないように確認する
 	if (nStart < 0)
 	{
 		nStart = 0;
@@ -387,102 +390,109 @@ void CMeshfield::ChangeHeight(const int nStartVtx, const int nEndVtx, const floa
 
 
 
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
 
 
 
-
-
+//生成処理
 CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR2 unitSize, const int nColumn, const int nLine)
 {
-	CMeshfield* pField = new CMeshfield(3);
+	CMeshfield* pField = new CMeshfield(3);				//メッシュフィールドを生成する
 
 	if (FAILED(pField->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pField->m_pos = pos;
-	pField->m_rot = rot;
-	pField->m_size = unitSize;
-	pField->m_nColumnVertex = nLine;
-	pField->m_nLineVertex = nColumn;
-	pField->SetVertex();
+	pField->m_pos = pos;						//位置の設定
+	pField->m_rot = rot;						//向きの設定
+	pField->m_size = unitSize;					//サイズの設定
+	pField->m_nColumnVertex = nLine;			//1つの列の頂点の設定
+	pField->m_nLineVertex = nColumn;			//1つの行の頂点の設定
+	pField->SetVertex();						//頂点の設定処理
 
-
-	return pField;
+	return pField;								//生成したインスタンスを返す
 }
 
+//生成処理
 CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR2 unitSize, const int nColumn, const int nLine, const int nPriority)
 {
-	CMeshfield* pField = new CMeshfield(nPriority);
+	CMeshfield* pField = new CMeshfield(nPriority);			//メッシュフィールドを生成する
 
 	if (FAILED(pField->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pField->m_pos = pos;
-	pField->m_rot = rot;
-	pField->m_size = unitSize;
-	pField->m_nColumnVertex = nLine;
-	pField->m_nLineVertex = nColumn;
-	pField->SetVertex();
+	pField->m_pos = pos;						//位置の設定
+	pField->m_rot = rot;						//向きの設定
+	pField->m_size = unitSize;					//サイズの設定
+	pField->m_nColumnVertex = nLine;			//1つの列の頂点の設定
+	pField->m_nLineVertex = nColumn;			//1つの行の頂点の設定
+	pField->SetVertex();						//頂点の設定処理
 
-	return pField;
+	return pField;								//生成したインスタンスを返す
 }
 
+//生成処理
 CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR2 unitSize, const int nColumn, const int nLine, const float fFriction)
 {
-	CMeshfield* pField = new CMeshfield(3);
+	CMeshfield* pField = new CMeshfield(3);		//メッシュフィールドを生成する
 
 	if (FAILED(pField->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pField->m_pos = pos;
-	pField->m_rot = rot;
-	pField->m_size = unitSize;
-	pField->m_nColumnVertex = nLine;
-	pField->m_nLineVertex = nColumn;
-	pField->SetVertex();
-	pField->m_fFriction = fFriction;
+	pField->m_pos = pos;						//位置の設定
+	pField->m_rot = rot;						//向きの設定
+	pField->m_size = unitSize;					//サイズの設定
+	pField->m_nColumnVertex = nLine;			//1つの列の頂点の設定
+	pField->m_nLineVertex = nColumn;			//1つの行の頂点の設定
+	pField->SetVertex();						//頂点の設定処理
+	pField->m_fFriction = fFriction;			//摩擦係数の設定
 
 
-	return pField;
+	return pField;								//生成したインスタンスを返す
 }
 
+//生成処理
 CMeshfield* CMeshfield::Create(const D3DXVECTOR3 pos, const D3DXVECTOR3 rot, const D3DXVECTOR2 unitSize, const int nColumn, const int nLine, const int nPriority, const float fFriction)
 {
-	CMeshfield* pField = new CMeshfield(nPriority);
+	CMeshfield* pField = new CMeshfield(nPriority);			//メッシュフィールドを生成する
 
 	if (FAILED(pField->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pField->m_pos = pos;
-	pField->m_rot = rot;
-	pField->m_size = unitSize;
-	pField->m_nColumnVertex = nLine;
-	pField->m_nLineVertex = nColumn;
-	pField->SetVertex();
-	pField->m_fFriction = fFriction;
+	pField->m_pos = pos;						//位置の設定
+	pField->m_rot = rot;						//向きの設定
+	pField->m_size = unitSize;					//サイズの設定
+	pField->m_nColumnVertex = nLine;			//1つの列の頂点の設定
+	pField->m_nLineVertex = nColumn;			//1つの行の頂点の設定
+	pField->SetVertex();						//頂点の設定処理
+	pField->m_fFriction = fFriction;			//摩擦係数の設定
 
-	return pField;
+	return pField;								//生成したインスタンスを返す
 }
 
+//メッシュフィールドとの当たり判定
 bool CMeshfield::FieldInteraction(CObject* pObj)
 {
-	int nFieldNum = m_vMeshfield.size();
+	int nFieldNum = m_vMeshfield.size();		//メッシュフィールドの数を取得する
 
-	D3DXVECTOR3 pos = pObj->GetPos();
+	D3DXVECTOR3 pos = pObj->GetPos();			//オブジェクトの位置の取得
 
 	for (int nCntField = 0; nCntField < nFieldNum; nCntField++)
-	{
-		CMeshfield* pField = m_vMeshfield.data()[nCntField];
+	{//全部のメッシュフィールドを確認する
+		CMeshfield* pField = m_vMeshfield.data()[nCntField];		//現在のメッシュフィールドを設定する
 
-		VERTEX_3D* pVtx = nullptr;
+		VERTEX_3D* pVtx = nullptr;	//頂点情報へのポインタ
 
 		//頂点バッファをロック
 		pField->m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
@@ -493,16 +503,20 @@ bool CMeshfield::FieldInteraction(CObject* pObj)
 		pField->m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
 		for (int nCnt = 0; nCnt < pField->m_nPolygonNumber; nCnt++)
-		{
+		{//メッシュフィールドの全部のポリゴンを確認する
+
+			//計算用のベクトル
 			D3DXVECTOR3 Vtx[3] = {};
 			D3DXVECTOR3 Edge[3] = {};
 			D3DXVECTOR3 Distance[3] = {};
 			D3DXVECTOR3 Cross[3] = {};
 
-			Vtx[0] = pVtx[pIdx[nCnt]].pos;
+			//ポリゴンの頂点座標の設定
+			Vtx[0] = pVtx[pIdx[nCnt]].pos;			
 			Vtx[1] = pVtx[pIdx[nCnt + 1]].pos;
 			Vtx[2] = pVtx[pIdx[nCnt + 2]].pos;
 
+			//計算用のマトリックス
 			D3DXMATRIX mtxOut, mtxTrans, mtxRot;
 
 			//ワルドマトリックスの初期化
@@ -521,22 +535,28 @@ bool CMeshfield::FieldInteraction(CObject* pObj)
 			D3DXVec3TransformCoord(&Vtx[1], &Vtx[1], &mtxOut);
 			D3DXVec3TransformCoord(&Vtx[2], &Vtx[2], &mtxOut);
 
+			//各頂点から次の頂点までのベクトル
 			Edge[0] = Vtx[1] - Vtx[0];
 			Edge[1] = Vtx[2] - Vtx[1];
 			Edge[2] = Vtx[0] - Vtx[2];
 
+			//各頂点からオブジェクトまでのベクトル
 			Distance[0] = pos - Vtx[0];
 			Distance[1] = pos - Vtx[1];
 			Distance[2] = pos - Vtx[2];
 
+			//上設定したベクトルの外積を計算する
 			D3DXVec3Cross(&Cross[0], &Edge[0], &Distance[0]);
 			D3DXVec3Cross(&Cross[1], &Edge[1], &Distance[1]);
 			D3DXVec3Cross(&Cross[2], &Edge[2], &Distance[2]);
 
 			if (Cross[0].y * Cross[1].y >= 0 && Cross[0].y * Cross[2].y >= 0 && Cross[1].y * Cross[2].y >= 0)
-			{
-				D3DXVECTOR3 Normal = Vec3Null;
+			{//符号が同じなら、オブジェクトはポリゴンと重なっている
 
+				//ポリゴンの面の法線を計算する
+				D3DXVECTOR3 Normal = Vec3Null;		
+
+				//ポリゴンの向きによって外積の符号が違うので、分けます
 				if (nCnt % 2 == 0)
 				{
 					D3DXVec3Cross(&Normal, &Edge[0], &Edge[1]);
@@ -546,15 +566,15 @@ bool CMeshfield::FieldInteraction(CObject* pObj)
 					D3DXVec3Cross(&Normal, &Edge[1], &Edge[0]);
 				}
 
-				D3DXVec3Normalize(&Normal, &Normal);
+				D3DXVec3Normalize(&Normal, &Normal);				//法線を正規化する
 
-				float Y = (Vtx[0].y) - ((((pos.x - (Vtx[0].x)) * Normal.x) + ((pos.z - Vtx[0].z) * Normal.z)) / Normal.y);
+				float Y = (Vtx[0].y) - ((((pos.x - (Vtx[0].x)) * Normal.x) + ((pos.z - Vtx[0].z) * Normal.z)) / Normal.y);			//オブジェクトがある所のポリゴンの高さ
 
 				if (pos.y < Y && pos.y + 50.0f >= Y)
-				{
+				{//オブジェクトはポリゴンにめり込んだ場合、押し出す
 					pos.y = Y;
-					pObj->SetPos(pos);
-					return true;
+					pObj->SetPos(pos);				//位置の設定
+					return true;					//trueを返す
 					break;
 				}
 			}
@@ -574,19 +594,19 @@ bool CMeshfield::FieldInteraction(CObject* pObj)
 //当たり判定の処理
 CMeshfield* CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
 {
-	int nFieldNum = m_vMeshfield.size();
+	int nFieldNum = m_vMeshfield.size();				//メッシュフィールドの数を取得する
 
-	D3DXVECTOR3 pos = pObj->GetPos();
+	D3DXVECTOR3 pos = pObj->GetPos();					//オブジェクトの位置の取得
 
 	for (int nCntPriority = 0; nCntPriority < MAX_FIELD_PRIORITY; nCntPriority++)
-	{
+	{//プライオリティの順番で確認する
 		for (int nCntField = 0; nCntField < nFieldNum; nCntField++)
-		{
-			CMeshfield* pField = m_vMeshfield.data()[nCntField];
+		{//全部のメッシュフィールドを確認する
+			CMeshfield* pField = m_vMeshfield.data()[nCntField];		//現在のメッシュフィールドを設定する
 
 			if (pField->m_nPriority == nCntPriority)
 			{
-				VERTEX_3D* pVtx = nullptr;
+				VERTEX_3D* pVtx = nullptr;				//頂点情報へのポインタ
 
 				//頂点バッファをロック
 				pField->m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
@@ -597,16 +617,20 @@ CMeshfield* CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
 				pField->m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
 				for (int nCnt = 0; nCnt < pField->m_nPolygonNumber; nCnt++)
-				{
+				{//メッシュフィールドの全部のポリゴンを確認する
+
+					//計算用のベクトル
 					D3DXVECTOR3 Vtx[3] = {};
 					D3DXVECTOR3 Edge[3] = {};
 					D3DXVECTOR3 Distance[3] = {};
 					D3DXVECTOR3 Cross[3] = {};
 
+					//ポリゴンの頂点座標の設定
 					Vtx[0] = pVtx[pIdx[nCnt]].pos;
 					Vtx[1] = pVtx[pIdx[nCnt + 1]].pos;
 					Vtx[2] = pVtx[pIdx[nCnt + 2]].pos;
 
+					//計算用のマトリックス
 					D3DXMATRIX mtxOut, mtxTrans, mtxRot;
 
 					//ワルドマトリックスの初期化
@@ -625,22 +649,28 @@ CMeshfield* CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
 					D3DXVec3TransformCoord(&Vtx[1], &Vtx[1], &mtxOut);
 					D3DXVec3TransformCoord(&Vtx[2], &Vtx[2], &mtxOut);
 
+					//各頂点から次の頂点までのベクトル
 					Edge[0] = Vtx[1] - Vtx[0];
 					Edge[1] = Vtx[2] - Vtx[1];
 					Edge[2] = Vtx[0] - Vtx[2];
 
+					//各頂点からオブジェクトまでのベクトル
 					Distance[0] = pos - Vtx[0];
 					Distance[1] = pos - Vtx[1];
 					Distance[2] = pos - Vtx[2];
 
+					//上設定したベクトルの外積を計算する
 					D3DXVec3Cross(&Cross[0], &Edge[0], &Distance[0]);
 					D3DXVec3Cross(&Cross[1], &Edge[1], &Distance[1]);
 					D3DXVec3Cross(&Cross[2], &Edge[2], &Distance[2]);
 
 					if (Cross[0].y * Cross[1].y >= 0 && Cross[0].y * Cross[2].y >= 0 && Cross[1].y * Cross[2].y >= 0)
-					{
+					{//符号が同じなら、オブジェクトはポリゴンと重なっている
+
+						 //ポリゴンの面の法線を計算する
 						D3DXVECTOR3 Normal = Vec3Null;
 
+						//ポリゴンの向きによって外積の符号が違うので、分けます
 						if (nCnt % 2 == 0)
 						{
 							D3DXVec3Cross(&Normal, &Edge[0], &Edge[1]);
@@ -650,15 +680,15 @@ CMeshfield* CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
 							D3DXVec3Cross(&Normal, &Edge[1], &Edge[0]);
 						}
 
-						D3DXVec3Normalize(&Normal, &Normal);
+						D3DXVec3Normalize(&Normal, &Normal);			//法線を正規化する
 
-						float Y = (Vtx[0].y) - ((((pos.x - (Vtx[0].x)) * Normal.x) + ((pos.z - Vtx[0].z) * Normal.z)) / Normal.y);
+						float Y = (Vtx[0].y) - ((((pos.x - (Vtx[0].x)) * Normal.x) + ((pos.z - Vtx[0].z) * Normal.z)) / Normal.y);			//オブジェクトがある所のポリゴンの高さ
 
 						if (pos.y < Y && pos.y + 50.0f >= Y)
-						{
+						{//オブジェクトはポリゴンにめり込んだ場合、押し出す
 							pos.y = Y;
-							pObj->SetPos(pos);
-							*fHeight = Y;
+							pObj->SetPos(pos);			//位置の設定
+							*fHeight = Y;				//高さを設定する
 							return pField;
 							break;
 						}
@@ -678,21 +708,6 @@ CMeshfield* CMeshfield::FieldInteraction(CObject* pObj, float* fHeight)
 	return nullptr;
 }
 
-LPDIRECT3DVERTEXBUFFER9 CMeshfield::GetBuff()
-{
-	return m_pVtxBuff;
-}
-
-void CMeshfield::LoadTexture(const char * aFileName)
-{
-	//デバイスの取得
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
-
-	//テクスチャ読み込み
-	D3DXCreateTextureFromFile(pDevice,
-		aFileName,
-		&m_pTexture);
-}
 
 //頂点インデックスの設定処理
 void CMeshfield::SetVertex(void)
@@ -733,7 +748,7 @@ void CMeshfield::SetVertex(void)
 
 	//頂点情報の設定
 	for (int nCnt = 0; nCnt < m_nVertexNumber; nCnt++)
-	{	
+	{
 		//頂点の位置の初期化
 		pVtx[nCnt].pos = D3DXVECTOR3((float)(m_size.x * (nCnt % m_nColumnVertex)), /*(float)CObject::random(-500, 500) * 0.1f*/0.0f, (float)(-m_size.y * (nCnt / m_nColumnVertex)));
 		//頂点の法線の初期化
@@ -796,9 +811,10 @@ void CMeshfield::SetVertex(void)
 	//インデックスバッファをロック
 	m_pIdxBuff->Lock(0, 0, (void**)&pIdx, 0);
 
+	//頂点の法線の計算
 	for (int nCnt = 0; nCnt < m_nIntexNumber - 2; nCnt++)
 	{
-		if (pIdx[nCnt] != pIdx[nCnt + 1]  && pIdx[nCnt] != pIdx[nCnt + 2] && pIdx[nCnt + 1] != pIdx[nCnt + 2])
+		if (pIdx[nCnt] != pIdx[nCnt + 1] && pIdx[nCnt] != pIdx[nCnt + 2] && pIdx[nCnt + 1] != pIdx[nCnt + 2])
 		{
 			D3DXVECTOR3 V1, V2, Norm, N;
 
@@ -840,61 +856,14 @@ void CMeshfield::SetVertex(void)
 	//頂点バッファをロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
+	//法線の設定
 	for (int nCnt = 0; nCnt < m_nVertexNumber; nCnt++)
 	{
 		D3DXVECTOR3 N = pVtx[nCnt].nor;
 		D3DXVec3Normalize(&N, &N);
 		pVtx[nCnt].nor = N;
 	}
-	
-	//頂点バッファのアンロック
-	m_pVtxBuff->Unlock();
-
-	/*
-
-	FILE*pFile;				//ファイルポインタを宣言する
-
-	//ファイルを開く
-	pFile = fopen("data\\VtxSave.txt", "w");
-
-	if (pFile != NULL)
-	{//ファイルが開けた場合
-
-		for (int nCnt = 0; nCnt < m_nVertexNumber; nCnt++)
-		{
-			D3DXCOLOR col = pVtx[nCnt].col;
-
-			fprintf(pFile, "%f %f %f\n%f %f %f\n%f %f %f %f\n%f %f\n\n", pVtx[nCnt].pos.x, pVtx[nCnt].pos.y, pVtx[nCnt].pos.z, pVtx[nCnt].nor.x, pVtx[nCnt].nor.y, pVtx[nCnt].nor.z, col.r, col.g, col.b, col.a, pVtx[nCnt].tex.x, pVtx[nCnt].tex.y);
-		}
-
-		//ファイルを閉じる
-		fclose(pFile);
-	}
 
 	//頂点バッファのアンロック
 	m_pVtxBuff->Unlock();
-
-	//インデックスバッファをアンロック
-	m_pIdxBuff->Unlock();
-
-	//ファイルを開く
-	pFile = fopen("data\\IdxSave.txt", "w");
-
-	if (pFile != NULL)
-	{//ファイルが開けた場合
-	 //ファイルにランキング情報を書き出す
-
-		for (int nCnt = 0; nCnt < m_nIntexNumber; nCnt++)
-		{
-			fprintf(pFile, "%d\n", pIdx[nCnt]);
-		}
-
-		//ファイルを閉じる
-		fclose(pFile);
-	}
-
-	//インデックスバッファをアンロック
-	m_pIdxBuff->Unlock();
-	*/
-	
 }

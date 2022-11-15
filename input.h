@@ -33,8 +33,8 @@ public:
 	LPDIRECTINPUTDEVICE8 GetInputDevice(void);								//インプットデバイスの取得処理
 																
 private:														
-	static LPDIRECTINPUT8 m_pInput;														
-	LPDIRECTINPUTDEVICE8 m_pDevice;											
+	static LPDIRECTINPUT8 m_pInput;					//インプットデバイス												
+	LPDIRECTINPUTDEVICE8 m_pDevice;					//デバイス	
 };
 
 #endif // !INPUT_H
