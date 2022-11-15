@@ -43,7 +43,7 @@ CDebugProc* CApplication::m_pDebug = nullptr;								//デバッグ表示
 CApplication::Mode CApplication::m_mode = CApplication::Mode_Title;			//モード
 CApplication::Mode CApplication::m_modeNext = CApplication::Mode_Title;		//次のモード
 bool CApplication::m_bPause = false;										//ポーズ状態であるかどうか
-int CApplication::m_nStageSelect = 0;										
+int CApplication::m_nStageSelect = 0;										// ステージ選択番号
 
 //コンストラクタ
 CApplication::CApplication()
@@ -146,7 +146,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	m_bPause = false;	//ポーズを未使用にする
 
-	m_nStageSelect = 0;	
+	m_nStageSelect = 0;	// ステージ番号初期化
 
 	return S_OK;
 }
@@ -290,7 +290,11 @@ void CApplication::Update(void)
 		if (m_pFade->GetFade() != CFade::FADE_NONE)
 		{
 			m_pFade->Update();
-			ChangeMode();
+
+			if (m_pFade->GetFade() == CFade::FADE_CHANGE)
+			{// フェード切り替え状態の場合
+				ChangeMode();
+			}
 		}
 	}
 
@@ -413,11 +417,6 @@ void CApplication::SetMode(Mode mode)
 //=====================================
 void CApplication::ChangeMode()
 {
-	if (m_pFade->GetFade() != CFade::FADE_CHANGE)
-	{// フェード切り替え状態じゃない場合
-		return;
-	}
-
 	// 現在モードの終了
 	if (m_pMode != nullptr)
 	{
@@ -426,11 +425,11 @@ void CApplication::ChangeMode()
 		m_pMode = nullptr;
 	}
 
-	m_pMenu->Uninit();
-	m_pMessage->Uninit();
+	m_pMenu->Uninit();		// メニューの終了
+	m_pMessage->Uninit();	// メッセージの終了
 
-	CObject::ReleaseAll();
-	CHitbox::ReleaseAll();
+	CObject::ReleaseAll();	// 全てのオブジェクトの終了
+	CHitbox::ReleaseAll();	// 全ての当たり判定の終了
 
 	m_bPause = false;		// ポーズを未使用にする
 
@@ -438,7 +437,7 @@ void CApplication::ChangeMode()
 	if (m_modeNext != Mode_StageSelect)
 	{
 		if (m_pSound != nullptr)
-		{
+		{// 使用中のサウンド停止
 			m_pSound->Stop();
 		}
 	}
@@ -459,6 +458,8 @@ void CApplication::ChangeMode()
 		break;
 	case CApplication::Mode_Game_Race:
 		m_pMode = CGameRace::Create();
+
+		// 選択ステージ番号別の処理
 		if (m_nStageSelect == 0)
 		{
 			m_pSound->Play(CSound::SOUND_LABEL_BGM_GAME01);
@@ -479,9 +480,9 @@ void CApplication::ChangeMode()
 	default:
 		break;
 	}
-	m_mode = m_modeNext;
+	m_mode = m_modeNext;	// 次のモードに変更
 
-	m_pMenu->Init();
+	m_pMenu->Init();		// メニューの初期化処理
 }
 
 //=====================================

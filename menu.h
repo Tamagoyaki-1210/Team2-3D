@@ -30,12 +30,11 @@ public:
 	void Uninit(void);
 	void Update(void);
 
-	void ModeType(void);
-	void Input(void);
+	void ModeType(void);						// モード毎の処理
+	void Input(void);							// 入力処理
 
-	static void PauseChange(bool bPause);
-
-	static void SetResult(void);
+	static void PauseChange(bool bPause);		// ポーズの変更処理
+	static void SetResult(void);				// リザルトの設定処理
 
 	static CMenu* Create(void);
 private:
@@ -45,7 +44,7 @@ private:
 	static int m_nSelectNum;					// 現在選択されている番号
 	static bool m_bResult;						// リザルト判定
 	static CFontString* m_pChoice[MaxChoice];	// 選択肢文字列
-	static CFontString* m_pPause;					// ポーズ文字列
+	static CFontString* m_pPause;				// ポーズ文字列
 	static CObject_2D* m_pObj2D;				// 半透明ポリゴン
 };
 

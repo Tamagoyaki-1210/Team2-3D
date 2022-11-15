@@ -75,32 +75,32 @@ public:
 	void Uninit(void);
 	void Update(void);
 
-	void StageTexture(void);
+	void StageTexture(void);	// ステージ毎のテクスチャ設定処理
 
-	void Load(void);
+	void Load(void);			// ステージの読み込み処理
 
-	static void SetModelType(D3DXVECTOR3 pos, ModelType type);
-	static void SetFloorType(D3DXVECTOR3 pos, FloorType type);
-	static void SetSpawnerType(D3DXVECTOR3 pos, float width, float length, int collDown, SpawnerType type);
+	static void SetModelType(D3DXVECTOR3 pos, ModelType type);													// モデル設定処理
+	static void SetFloorType(D3DXVECTOR3 pos, FloorType type);													// 床設定処理
+	static void SetSpawnerType(D3DXVECTOR3 pos, float width, float length, int collDown, SpawnerType type);		// 生成モデル
 
-	static CMeshfield* GetField(void) { return m_pField[0]; }			// メッシュフィールドの取得処理
+	static CMeshfield* GetField(void) { return m_pField[0]; }		// メッシュフィールドの取得処理
 	static CPlayer* GetPlayer(int nCnt) { return m_pPlayer[nCnt]; }	// プレイヤーの取得処理
 
-	static CStage* Create(void);			//生成処理
+	static CStage* Create(void);					// 生成処理
 
-	void GameResult();
-	static bool GetResult() { return m_bResult; }
+	void GameResult();								// ゲームのリザルト処理
+	static bool GetResult() { return m_bResult; }	// リザルト判定取得処理
 
-	static void ScoreComparison();
+	static void ScoreComparison();					// スコア比較処理
 
 private:
-	static char* m_pStagePass[STAGE_TYPE_MAX];				//ステージの外部ファイルの相対パス
+	static char* m_pStagePass[STAGE_TYPE_MAX];		// ステージの外部ファイルの相対パス
 
-	static CMeshfield* m_pField[2];
-	static CPlayer* m_pPlayer[PLAYER_MAX];					//プレイヤーのインスタンスへのポインタ
-	static CHalfSphere* m_pSphere;
+	static CMeshfield* m_pField[2];					// メッシュフィールドのインスタンスへのポインタ
+	static CPlayer* m_pPlayer[PLAYER_MAX];			// プレイヤーのインスタンスへのポインタ
+	static CHalfSphere* m_pSphere;					// ハーフスフィアのインスタンスへのポインタ
 
-	static bool m_bResult;
+	static bool m_bResult;							// リザルト判定
 };
 
 #endif // !_STAGE_H_

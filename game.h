@@ -25,11 +25,11 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 
-	static void SetEndGame();			// ゲーム終了を設定する
-	static bool GetEndGame() { return m_bEndGame; }
+	static void SetEndGame();							// ゲーム終了の設定処理
+	static bool GetEndGame() { return m_bEndGame; }		// ゲーム終了の取得処理
 
 private:
-	static bool m_bEndGame;
+	static bool m_bEndGame;	// ゲーム終了判定
 };
 
 #endif // !_GAME_H_

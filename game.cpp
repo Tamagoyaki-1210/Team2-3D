@@ -42,7 +42,7 @@ HRESULT CGame::Init(void)
 //=====================================
 void CGame::Uninit(void)
 {
-	m_bEndGame = false;
+	m_bEndGame = false;	// ゲーム終了判定の初期化
 }
 
 //=====================================
@@ -62,9 +62,9 @@ void CGame::Update(void)
 				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 2)
 				|| CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_START, 3))
 			{
-				bool bPause = !CApplication::GetPause();	//ポーズ切り替え処理
-				CApplication::SetPause(bPause);
-				CMenu::PauseChange(bPause);		// ポーズ処理
+				bool bPause = !CApplication::GetPause();	// ポーズの切り替え処理
+				CApplication::SetPause(bPause);				// ポーズの設定
+				CMenu::PauseChange(bPause);					// ポーズの変更処理
 			}
 		}
 	}

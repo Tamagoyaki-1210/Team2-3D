@@ -92,33 +92,31 @@ CFont* CFont::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const char* 
 	pFont->SetTextureParameter(1, 20, 10, INT_MAX);		//テクスチャパラメータの設定
 
 	//アニメーションパターンの設定
-	int Cell = -1;
+	int Cell = 0;
 
 	// ひらがな(-126)と配列[0]が一致する場合
 	if (letter[0] == -126)
 	{
-		int aLetter = -97;	// 最初の文字が始まる位置33439
+		int aLetter = -97;	// 最初の文字が始まる位置(-97)
 
-		for (int nCnt = 0; nCnt < 90; nCnt++)
-		{
-			if (letter[1] == aLetter)
-			{
-				Cell = nCnt;
+		for (int nCnt = 0; nCnt < 83; nCnt++)
+		{// 画像のひらがな83文字から1つを切り取る
+			if (letter[1] == aLetter + nCnt)
+			{// 入力された文字と現在の文字が一致した場合
+				Cell = nCnt;	// 文字の位置を代入
 				break;
 			}
-
-			aLetter += 1;
 		}
 
 		// "ん"まで対応
-		if (Cell < 0 || Cell > 82)
+		if (Cell < 0 || Cell > 83)
 		{
 			pFont->Release();
 			return nullptr;
 		}
 		else
 		{
-			pFont->SetAnimPattern(Cell);
+			pFont->SetAnimPattern(Cell);	// 画像の指定された文字の部分のみを切り取り
 		}
 	}
 	// カタカナ(-125)と配列[0]が一致する場合
@@ -127,55 +125,51 @@ CFont* CFont::Create(const D3DXVECTOR3 pos, const D3DXVECTOR2 size, const char* 
 		// "ミ"までのカタカナ
 		if (letter[1] >= 64)
 		{
-			int aLetter = 64;	// 最初の文字が始まる位置33439
-			int aKatakana = 96;		// カタカナが始まる位置
+			int aLetter = 64;	// 最初の文字が始まる位置(64)
+			int aKatakana = 96;	// カタカナが始まる位置(96)
 
-			for (int nCnt = 0; nCnt < 90; nCnt++)
-			{
-				if (letter[1] == aLetter)
-				{
-					Cell = nCnt + aKatakana;
+			for (int nCnt = 0; nCnt < 63; nCnt++)
+			{// 画像のカタカナ63文字から1つを切り取る
+				if (letter[1] == aLetter + nCnt)
+				{// 入力された文字と現在の文字が一致した場合
+					Cell = nCnt + aKatakana;	// 文字の位置を代入
 					break;
 				}
-
-				aLetter += 1;
 			}
 
-			if (Cell < aKatakana || Cell > aKatakana + 62)
-			{
+			if (Cell < aKatakana || Cell > aKatakana + 63)
+			{// 画像のカタカナ63文字から1つを切り取る
 				pFont->Release();
 				return nullptr;
 			}
 			else
 			{
-				pFont->SetAnimPattern(Cell);
+				pFont->SetAnimPattern(Cell);	// 画像の指定された文字の部分のみを切り取り
 			}
 		}
 		// "ム"以降のカタカナ
 		else
 		{
-			int aLetter = -128;		// 最初の文字が始まる位置33439
-			int aKatakana = 159;	// カタカナが始まる位置
+			int aLetter = -128;		// 最初の文字が始まる位置(-128)
+			int aKatakana = 159;	// カタカナが始まる位置(159)
 
-			for (int nCnt = 0; nCnt < 90; nCnt++)
-			{
-				if (letter[1] == aLetter)
-				{
-					Cell = nCnt + aKatakana;
+			for (int nCnt = 0; nCnt < 23; nCnt++)
+			{// 画像のカタカナ23文字から1つを切り取る
+				if (letter[1] == aLetter + nCnt)
+				{// 入力された文字と現在の文字が一致した場合
+					Cell = nCnt + aKatakana;	// 文字の位置を代入
 					break;
 				}
-
-				aLetter += 1;
 			}
 
-			if (Cell < aKatakana || Cell > aKatakana + 22)
-			{
+			if (Cell < aKatakana || Cell > aKatakana + 23)
+			{// 画像のカタカナ23文字から1つを切り取る
 				pFont->Release();
 				return nullptr;
 			}
 			else
 			{
-				pFont->SetAnimPattern(Cell);
+				pFont->SetAnimPattern(Cell);	// 画像の指定された文字の部分のみを切り取り
 			}
 		}
 	}

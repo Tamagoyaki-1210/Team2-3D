@@ -30,7 +30,7 @@ public:
 	void Uninit(void) override;
 	void Update(void) override;
 
-	static CStage* GetStage(void) { return m_pStage; }
+	static CStage* GetStage(void) { return m_pStage; }	// ステージの取得処理
 
 	static CGameRace* Create(void);			//生成処理
 private:

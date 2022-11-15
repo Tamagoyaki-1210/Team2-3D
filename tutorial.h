@@ -33,13 +33,13 @@ public:
 	void Update(void) override;
 	void SetObject(void);
 
-	static CStage* GetStage(void) { return m_pStage; }
+	static CStage* GetStage(void) { return m_pStage; }	// ステージの取得処理
 
 	static CTutorial* Create(void);			//生成処理
 private:
-	static const D3DXVECTOR2 m_fontSize;
-	static const D3DXCOLOR m_fontColor;
-	static CStage* m_pStage;
+	static const D3DXVECTOR2 m_fontSize;	// フォントの大きさ
+	static const D3DXCOLOR m_fontColor;		// フォントの色
+	static CStage* m_pStage;				// ステージのインスタンスへのポインタ
 
 	CObject_2D* m_pUi;
 	CFontString* m_pFont;

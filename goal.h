@@ -28,15 +28,9 @@ public:
 	void Update(void) override;						//XVˆ—
 	void Draw(void) override;						//•`‰æˆ—
 
-	static void SetGoal(bool bGoal, int nWinnerIdx);
-
 	static CGoal* Create(D3DXVECTOR3 pos);	//¶¬ˆ—
 
 private:
-
-
-	static int m_nWinnerIdx;
-	static bool m_bGoal;									//ƒS[ƒ‹‚µ‚½‚©‚Ç‚¤‚©
 };
 
 #endif

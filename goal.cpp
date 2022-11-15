@@ -11,9 +11,6 @@
 #include "goal.h"
 #include "rendering.h"
 
-bool CGoal::m_bGoal = false;									//ゴールしたかどうか
-int CGoal::m_nWinnerIdx = 0;
-
 //コンストラクタ
 CGoal::CGoal()
 {
@@ -32,7 +29,6 @@ HRESULT CGoal::Init(void)
 	{
 		return -1;
 	}
-	m_bGoal = false;
 
 	return S_OK;
 }
@@ -55,12 +51,6 @@ void CGoal::Update(void)
 void CGoal::Draw(void)
 {
 	CModel::Draw();
-}
-
-void CGoal::SetGoal(bool bGoal,int nWinnerIdx)
-{
-	m_bGoal = bGoal;
-	m_nWinnerIdx = nWinnerIdx;
 }
 
 //生成
