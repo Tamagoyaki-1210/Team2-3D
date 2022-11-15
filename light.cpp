@@ -26,10 +26,6 @@ CLight::CLight()
 			m_nIdx = nCnt;
 			break;
 		}
-		else
-		{//スペースがなか、消す
-			delete this;
-		}
 	}
 }
 
