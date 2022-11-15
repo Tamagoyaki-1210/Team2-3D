@@ -28,22 +28,22 @@
 #include "message.h"
 
 //静的メンバー変数の宣言
-HWND CApplication::m_hWnd;
-CRenderer* CApplication::m_pRenderer = nullptr;			//レンディングインスタンスへのポインタ
-CInput* CApplication::m_pInput[2] = {};					//インプットインスタンスへのポインタ
-CInputMouse* CApplication::m_pMouse = nullptr;			//マウスインスタンスへのポインタ
-CInputPad* CApplication::m_pPad = nullptr;
-CSound* CApplication::m_pSound = nullptr;
-CFade* CApplication::m_pFade = nullptr;
-CCamera* CApplication::m_pCamera = nullptr;
-CMode* CApplication::m_pMode = nullptr;					// モードへのポインタ
-CMenu* CApplication::m_pMenu = nullptr;					// メニューへのポインタ
-CMessage* CApplication::m_pMessage = nullptr;				// メッセージへのポインタ
-CDebugProc* CApplication::m_pDebug = nullptr;
-CApplication::Mode CApplication::m_mode = CApplication::Mode_Title;
-CApplication::Mode CApplication::m_modeNext = CApplication::Mode_Title;
-bool CApplication::m_bPause = false;
-int CApplication::m_nStageSelect = 0;
+HWND CApplication::m_hWnd;													//ウインドウ
+CRenderer* CApplication::m_pRenderer = nullptr;								//レンディングインスタンスへのポインタ
+CInput* CApplication::m_pInput[2] = {};										//インプットインスタンスへのポインタ
+CInputMouse* CApplication::m_pMouse = nullptr;								//マウスインスタンスへのポインタ
+CInputPad* CApplication::m_pPad = nullptr;									//パッドのインスタンス
+CSound* CApplication::m_pSound = nullptr;									//サウンドのインスタンス
+CFade* CApplication::m_pFade = nullptr;										//フェードのインスタンス
+CCamera* CApplication::m_pCamera = nullptr;									//カメラのインスタンス
+CMode* CApplication::m_pMode = nullptr;										// モードへのポインタ
+CMenu* CApplication::m_pMenu = nullptr;										// メニューへのポインタ
+CMessage* CApplication::m_pMessage = nullptr;								// メッセージへのポインタ
+CDebugProc* CApplication::m_pDebug = nullptr;								//デバッグ表示
+CApplication::Mode CApplication::m_mode = CApplication::Mode_Title;			//モード
+CApplication::Mode CApplication::m_modeNext = CApplication::Mode_Title;		//次のモード
+bool CApplication::m_bPause = false;										//ポーズ状態であるかどうか
+int CApplication::m_nStageSelect = 0;										
 
 //コンストラクタ
 CApplication::CApplication()
@@ -60,7 +60,7 @@ CApplication::~CApplication()
 //初期化処理
 HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 {
-	m_hWnd = hWnd;
+	m_hWnd = hWnd;				//ウインドウの設定処理
 
 	//レンディングインスタンスの生成処理
 	if (m_pRenderer == nullptr)
@@ -69,12 +69,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	}
 
 	//レンディングインスタンスの初期化処理
-	if (FAILED(m_pRenderer->Init(hWnd, FALSE)))
-	{
+	if (FAILED(m_pRenderer->Init(hWnd, TRUE)))
+	{//第2引数はFALSEだったら、フルスクリーンになります。
 		return -1;
 	}
 
-	m_pDebug = CDebugProc::Create();
+	m_pDebug = CDebugProc::Create();			//デバッグテキストの生成処理
 
 	//テクスチャ全部をロード処理
 	CObject_2D::LoadTextures();
@@ -82,15 +82,17 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	//モデル全部をロード処理
 	CModel::LoadAllModels();
 
-	CAnimator::LoadAllAnimation();
+	//全部のアニメーションの読み込み
+	CAnimator::LoadAllAnimation();		
 
+	//サウンドの生成
 	m_pSound = CSound::Create(hWnd);
 
-	CLight::ReleaseAll();
-	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));
-	CDirectionalLight::Create(D3DXCOLOR(0.75f, 0.75f, 0.75f, 0.75f), D3DXVECTOR3(-0.2f, 0.2f, 1.0f));
+	CLight::ReleaseAll();																						//全部のライトのリリース処理
+	CDirectionalLight::Create(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR3(2, -5, 2));						//メインライトの生成
+	CDirectionalLight::Create(D3DXCOLOR(0.75f, 0.75f, 0.75f, 0.75f), D3DXVECTOR3(-0.2f, 0.2f, 1.0f));			//ライトの生成
 
-	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+	m_pCamera = CCamera::Create(D3DXVECTOR3(0.0f, 0.0f, -500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));			//カメラの生成
 
 	// モードインスタンスの生成処理
 	m_pMode = CTitle::Create();
@@ -114,25 +116,21 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		return -1;
 	}
 
-	m_pMouse = new CInputMouse;
+	//マウスの生成
+	m_pMouse = new CInputMouse;			
 
 	if (m_pMouse != nullptr)
-	{
+	{//マウスの初期化処理
 		m_pMouse->Init(hInstance, hWnd, GUID_SysMouse);
 	}
 
+	//パッドの生成
 	m_pPad = new CInputPad;
 
 	if (m_pPad != nullptr)
-	{
+	{//パッドの初期化処理
 		m_pPad->Init(hInstance, hWnd, GUID_SysMouse);
 	}
-
-	//キーボードの初期化処理
-	/*if (FAILED(m_pMouse->Init(hInstance, hWnd, GUID_SysMouse)))
-	{
-		return -1;
-	}*/
 
 	// メニュー生成
 	if (m_pMenu == nullptr)
@@ -146,42 +144,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pMessage = CMessage::Create();
 	}
 
-	//m_pSphear->Init();
-
-	//FILE*pFile;				//ファイルポインタを宣言する
-
-	//						//ファイルを開く
-	//pFile = fopen("data\\charData.txt", "wb");
-
-	//if (pFile != NULL)
-	//{//ファイルが開けた場合
-	// //ファイルにランキング情報を書き出す
-
-	//	char cData = 33;		//for (int nCnt = 0; nCnt < 93; nCnt++)
-	//	char dData[100] = {};
-
-	//	for (int nCnt = 0; nCnt < 93; nCnt++)
-	//	{
-	//		dData[nCnt] = cData;
-
-	//		fwrite(&cData, sizeof(char), 1, pFile);
-
-	//		cData++;
-	//	}
-
-	//	//ファイルを閉じる
-	//	fclose(pFile);
-
-	//	int a = 0;
-	//}
-	//else
-	//{//ファイルが開けなかった場合
-	//	printf("XXXXX セーブファイルが開けませんでした XXXXX");
-	//}
-
 	m_bPause = false;	//ポーズを未使用にする
 
-	m_nStageSelect = 0;
+	m_nStageSelect = 0;	
 
 	return S_OK;
 }
@@ -189,22 +154,22 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 //終了処理
 void CApplication::Uninit(void)
 {
-	CScore::Clear();
+	CScore::Clear();		//スコアのクリア処理
 
-	//レンディングインスタンスの破棄
+	//Rendererインスタンスの破棄
 	if (m_pRenderer != nullptr)
 	{
-		m_pRenderer->Uninit();
-		delete m_pRenderer;
-		m_pRenderer = nullptr;
+		m_pRenderer->Uninit();			//終了処理
+		delete m_pRenderer;				//破棄する
+		m_pRenderer = nullptr;			//nullにする
 	}
 
-	// モード
+	// モードの破棄処理
 	if (m_pMode != nullptr)
 	{
-		m_pMode->Uninit();
-		delete m_pMode;
-		m_pMode = nullptr;
+		m_pMode->Uninit();				//終了処理
+		delete m_pMode;					//破棄する
+		m_pMode = nullptr;				//nullにする
 	}
 
 	//インプットデバイスの破棄
@@ -212,65 +177,73 @@ void CApplication::Uninit(void)
 	{
 		if (m_pInput[nCnt] != nullptr)
 		{
-			m_pInput[nCnt]->Uninit();
-			delete m_pInput[nCnt];
-			m_pInput[nCnt] = nullptr;
+			m_pInput[nCnt]->Uninit();	//終了処理
+			delete m_pInput[nCnt];		//破棄する
+			m_pInput[nCnt] = nullptr;	//nullにする
 		}
 	}
 
+	//マウスの破棄処理
 	if (m_pMouse != nullptr)
 	{
-		m_pMouse->Uninit();
-		delete m_pMouse;
-		m_pMouse = nullptr;
+		m_pMouse->Uninit();				//終了処理
+		delete m_pMouse;				//破棄する
+		m_pMouse = nullptr;				//nullにする
 	}
 
+	//パッドの破棄処理
 	if (m_pPad != nullptr)
 	{
-		m_pPad->Uninit();
-		delete m_pPad;
-		m_pPad = nullptr;
+		m_pPad->Uninit();				//終了処理
+		delete m_pPad;					//破棄する
+		m_pPad = nullptr;				//nullにする
 	}
 
+	//サウンドの破棄処理
 	if (m_pSound != nullptr)
 	{
-		m_pSound->Uninit();
-		delete m_pSound;
-		m_pSound = nullptr;
+		m_pSound->Uninit();				//終了処理
+		delete m_pSound;				//破棄する
+		m_pSound = nullptr;				//nullにする
 	}
 
+	//フェードの破棄処理
 	if (m_pFade != nullptr)
 	{
-		m_pFade->Uninit();
-		delete m_pFade;
-		m_pFade = nullptr;
+		m_pFade->Uninit();				//終了処理
+		delete m_pFade;					//破棄する
+		m_pFade = nullptr;				//nullにする
 	}
 
+	//メニューの破棄処理
 	if (m_pMenu != nullptr)
 	{
-		m_pMenu->Uninit();
-		delete m_pMenu;
-		m_pMenu = nullptr;
+		m_pMenu->Uninit();				//終了処理
+		delete m_pMenu;					//破棄する
+		m_pMenu = nullptr;				//nullにする
 	}
 
+	//メッセージの破棄処理
 	if (m_pMessage != nullptr)
 	{
-		m_pMessage->Uninit();
-		delete m_pMessage;
-		m_pMessage = nullptr;
+		m_pMessage->Uninit();			//終了処理
+		delete m_pMessage;				//破棄する
+		m_pMessage = nullptr;			//nullにする
 	}
 
+	//カメラの破棄処理
 	if (m_pCamera != nullptr)
 	{
-		m_pCamera->Uninit();
-		delete m_pCamera;
-		m_pCamera = nullptr;
+		m_pCamera->Uninit();			//終了処理
+		delete m_pCamera;				//破棄する
+		m_pCamera = nullptr;			//nullにする
 	}
 
+	//デバッグテキストの破棄処理
 	if (m_pDebug != nullptr)
 	{
-		delete m_pDebug;
-		m_pDebug = nullptr;
+		delete m_pDebug;				//破棄する
+		m_pDebug = nullptr;				//nullにする
 	}
 
 	//オブジェクト全体の終了処理
@@ -279,11 +252,13 @@ void CApplication::Uninit(void)
 	//ヒットボックスの破棄処理
 	CHitbox::ReleaseAll();
 
+	//ライトの破棄処理
 	CLight::ReleaseAll();
 
 	//テクスチャ全部の破棄
 	CObject_2D::DestroyLoadedTextures();
 
+	//全部のアニメーションの破棄処理
 	CAnimator::DestroyLoadedAnimation();
 
 	//モデル全部破棄の破棄処理
@@ -293,8 +268,7 @@ void CApplication::Uninit(void)
 //更新処理
 void CApplication::Update(void)
 {
-	//CDebugProc::Print("\nアローキーで視点の移動\nマウスで注視点の移動\nWASDキーでモデルの移動\n");
-
+	//インプットデバイスの更新処理
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
 		if (m_pInput[nCnt] != nullptr)
@@ -303,11 +277,13 @@ void CApplication::Update(void)
 		}
 	}
 
+	//Rendererの更新処理
 	if (m_pRenderer != nullptr)
 	{
 		m_pRenderer->Update();
 	}
 
+	//フェードの更新処理
 	if (m_pFade != nullptr)
 	{
 		//フェードが読み込まれていない場合
@@ -318,26 +294,31 @@ void CApplication::Update(void)
 		}
 	}
 
+	//現在のモードの更新処理
 	if (m_pMode != nullptr)
 	{
 		m_pMode->Update();
 	}
 
+	//メニューの更新処理
 	if (m_pMenu != nullptr)
 	{
 		m_pMenu->Update();
 	}
 
+	//メッセージの更新処理
 	if (m_pMessage != nullptr)
 	{
 		m_pMessage->Update();
 	}
 
+	//マウスの更新処理
 	if (m_pMouse != nullptr)
 	{
 		m_pMouse->Update();
 	}
 
+	//パッドの更新処理
 	if (m_pPad != nullptr)
 	{
 		m_pPad->Update();
@@ -346,6 +327,7 @@ void CApplication::Update(void)
 	// ポーズ中でない場合のみ更新
 	if (m_bPause == false)
 	{
+		//カメラの更新処理
 		if (m_pCamera != nullptr)
 		{
 			m_pCamera->Update();
@@ -356,27 +338,32 @@ void CApplication::Update(void)
 //描画処理
 void CApplication::Draw(void)
 {
+	//Rendererの描画処理
 	if (m_pRenderer != nullptr)
-	{
+	{//nullではなかったら
 		m_pRenderer->Draw();
 	}
 }
 
+//Rendererの取得処理
 CRenderer* CApplication::GetRenderer(void)
 {
 	return m_pRenderer;
 }
 
+//マウスの取得処理
 CInputMouse* CApplication::GetMouse(void)
 {
 	return m_pMouse;
 }
 
+//パッドの取得処理
 CInputPad * CApplication::GetPad(void)
 {
 	return m_pPad;
 }
 
+//ウインドウの取得処理
 HWND CApplication::GetWindow(void)
 {
 	return m_hWnd;
@@ -388,11 +375,13 @@ CSound* CApplication::GetSound(void)
 	return m_pSound;
 }
 
+//カメラの取得処理
 CCamera* CApplication::GetCamera(void)
 {
 	return m_pCamera;
 }
 
+//フェードの取得処理
 CFade* CApplication::GetFade(void)
 {
 	return m_pFade;

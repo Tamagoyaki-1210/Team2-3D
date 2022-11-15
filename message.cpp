@@ -203,7 +203,7 @@ void CMessage::WinMessage()
 		{
 			// WIN生成
 			m_pObj2D = CObject_2D::Create();
-			m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 200.0f, 0.0f));
+			m_pObj2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 8 * 5, 100.0f, 0.0f));
 			m_pObj2D->SetSize(D3DXVECTOR2(180.0f, 60.0f));
 			m_pObj2D->SetTexture(CObject::TEXTURE_WINNER);
 			m_pObj2D->SetPriority(5);
@@ -213,7 +213,7 @@ void CMessage::WinMessage()
 		{
 			// 勝敗メッセージ生成
 			m_pPlayer2D = CObject_2D::Create();
-			m_pPlayer2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 2, 90.0f, 0.0f));
+			m_pPlayer2D->SetPos(D3DXVECTOR3(SCREEN_WIDTH / 8 * 3, 100.0f, 0.0f));
 			m_pPlayer2D->SetSize(D3DXVECTOR2(100.0f, 60.0f));
 			m_pPlayer2D->SetPriority(5);
 

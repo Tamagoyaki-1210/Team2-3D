@@ -40,6 +40,8 @@ public:
 	void SetTextureAnim(const D3DXVECTOR2 animSpeed);	//テクスチャアニメーションの設定処理
 	void SetTextureAnim(const float fX, const float fY);//テクスチャアニメーションの設定処理
 	void StopTextureAnim(void);							//テクスチャアニメーションの停止処理
+	void SetAnimation(const bool bAnim);
+	void SetAnimation(const bool bAnim, const float fAngularSpeed, const float fAmplitude);
 
 	void ChangeHeight(const int nStartVtx, const int nEndVtx, const float fHeight);
 
@@ -77,7 +79,11 @@ private:
 	int m_nLineVertex;									//計算用のグローバル変数(列数 + 1)
 	int m_nColumnVertex;								//計算用のグローバル変数(行数 + 1)
 	float m_fFriction;									//摩擦係数
-	bool m_bAnim;
+	float m_fAnimAngle;									//アニメーションようの角度
+	float m_fAnimSpeed;
+	float m_fAmplitude;
+	bool m_bTextureAnim;								//テクスチャアニメーションのフラグ
+	bool m_bAnim;										//アニメーションのフラグ
 	D3DXVECTOR2 m_animSpeed;
 
 	int m_nPriority;									//プライオリティ

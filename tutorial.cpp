@@ -56,7 +56,7 @@ HRESULT CTutorial::Init(void)
 
 	m_pStage = CStage::Create();
 
-	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, -1800.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
+	CMeshfield* pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -150.0f, -1100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 20, 10, 3);
 	pField->SetTexture(CObject::TEXTURE_BLOCK);
 	pField->SetTextureTiling(0.33f);
 	pField->SetPriority(1);
@@ -68,14 +68,14 @@ HRESULT CTutorial::Init(void)
 
 	if (CApplication::GetCamera() != nullptr)
 	{
-		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((60 - 21) * -70.0f) - 500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
+		CApplication::GetCamera()->SetPos(D3DXVECTOR3(0.0f, 0.0f, ((47 - 21) * -70.0f) - 500.0f), D3DXVECTOR3(0.0f, -200.0f, 100.0f));
 	}
 
 	for (int nCnt = 0; nCnt < PLAYER_MAX; nCnt++)
 	{
 		if (CStage::GetPlayer(nCnt) != nullptr)
 		{
-			CStage::GetPlayer(nCnt)->SetPos(D3DXVECTOR3(-75.0f + (50 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f));
+			CStage::GetPlayer(nCnt)->SetPos(D3DXVECTOR3(-75.0f + (37 * nCnt), -150.0f, ((60 - 20) * -70.0f) - 200.0f));
 		}
 	}
 
@@ -135,7 +135,7 @@ void CTutorial::Update(void)
 
 	D3DXVECTOR3 cameraPos = CApplication::GetCamera()->GetPos();
 
-	if (cameraPos.z >= -2900.0f && cameraPos.z < -2450.0f && !m_bChange)
+	if (cameraPos.z >= -2200.0f && cameraPos.z < -1750.0f && !m_bChange)
 	{
 		m_bChange = true;
 
@@ -146,7 +146,7 @@ void CTutorial::Update(void)
 			m_pUi->SetTextureParameter(2, 1, 2, 20);
 		}
 	}
-	else if (cameraPos.z >= -2450.0f && cameraPos.z < -2000.0f && m_bChange)
+	else if (cameraPos.z >= -1750.0f && cameraPos.z < -1300.0f && m_bChange)
 	{
 		m_bChange = false;
 
@@ -158,7 +158,7 @@ void CTutorial::Update(void)
 		m_pFont->SetSellect();
 		m_pFont->SizeScale();
 	}
-	else if (cameraPos.z >= -2000.0f && cameraPos.z < -1700.0f && !m_bChange)
+	else if (cameraPos.z >= -1300.0f && cameraPos.z < -1000.0f && !m_bChange)
 	{
 		m_bChange = true;
 
@@ -168,7 +168,7 @@ void CTutorial::Update(void)
 		m_pFont->SetSellect();
 		m_pFont->SizeScale();
 	}
-	else if (cameraPos.z >= -1700.0f && cameraPos.z < -1300.0f && m_bChange)
+	else if (cameraPos.z >= -1000.0f && cameraPos.z < -600.0f && m_bChange)
 	{
 		m_bChange = false;
 
@@ -178,7 +178,7 @@ void CTutorial::Update(void)
 		m_pFont->SetSellect();
 		m_pFont->SizeScale();
 	}
-	else if (cameraPos.z >= -1300.0f && cameraPos.z < 0.0f && !m_bChange)
+	else if (cameraPos.z >= -600.0f && cameraPos.z < 0.0f && !m_bChange)
 	{
 		m_bChange = true;
 
@@ -255,40 +255,40 @@ void CTutorial::SetObject(void)
 	CLavaFloor* pLava = nullptr;
 	CMeshfield* pField = nullptr;
 
-	for (int nCnt = 0; nCnt < 36; nCnt++)
+	for (int nCnt = 0; nCnt < 18; nCnt++)
 	{
-		pCoin = CCoin::Create(D3DXVECTOR3(-100.0f + 25.0f * (nCnt % 9) ,-75.0f ,-2150.0f + 75.0f * (nCnt / 9)), (CCoin::COIN_TYPE)CObject::random((int)CCoin::COIN_0, (int)CCoin::COIN_3));
+		pCoin = CCoin::Create(D3DXVECTOR3(-100.0f + 25.0f * (nCnt % 9) ,-90.0f ,-1350.0f + 100.0f * (nCnt / 9)), (CCoin::COIN_TYPE)CObject::random((int)CCoin::COIN_0, (int)CCoin::COIN_3));
 		pCoin->SetShadowHeight(-99.0f);
 	}
 
-	CSpikeBall::Create(D3DXVECTOR3(-75.0f, -135.0f, -1500.0f));
-	CSpikeBall::Create(D3DXVECTOR3(-25.0f, -135.0f, -1500.0f));
-	CSpikeBall::Create(D3DXVECTOR3( 25.0f, -135.0f, -1500.0f));
-	CSpikeBall::Create(D3DXVECTOR3( 75.0f, -135.0f, -1500.0f));
+	CSpikeBall::Create(D3DXVECTOR3(-75.0f, -135.0f, -600.0f));
+	CSpikeBall::Create(D3DXVECTOR3(-25.0f, -135.0f, -600.0f));
+	CSpikeBall::Create(D3DXVECTOR3( 25.0f, -135.0f, -600.0f));
+	CSpikeBall::Create(D3DXVECTOR3( 75.0f, -135.0f, -600.0f));
 
 	for (int nCnt = 0; nCnt < 2; nCnt++)
 	{
-		pLava = CLavaFloor::Create(D3DXVECTOR3(-110.0f + 50.0f * (nCnt), -149.0f, -1250.0f));
+		pLava = CLavaFloor::Create(D3DXVECTOR3(-110.0f + 50.0f * (nCnt), -149.0f, -400.0f));
 		pLava->SetShadowDraw(false);
-		pLava = CLavaFloor::Create(D3DXVECTOR3( 110.0f - 50.0f * (nCnt), -149.0f, -1250.0f));
+		pLava = CLavaFloor::Create(D3DXVECTOR3( 110.0f - 50.0f * (nCnt), -149.0f, -400.0f));
 		pLava->SetShadowDraw(false);
 	}
 
 
-	pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -149.9f, -300.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 12, 10, 0.01f);
+	pField = CMeshfield::Create(D3DXVECTOR3(-135.0f, -149.9f, 100.0f), Vec3Null, D3DXVECTOR2(30.0f, 70.0f), 6, 10, 0.01f);
 	pField->SetTexture(CObject::TEXTURE_ICE);
 	pField->ChangeHeight(0, 100, 0.1f);
 	pField->SetPriority(0);
 
-	CBouncePole::Create(D3DXVECTOR3(-85.0f, -150.0f, -900.0f));
-	CBouncePole::Create(D3DXVECTOR3(-85.0f, -150.0f, -500.0f));
+	CBouncePole::Create(D3DXVECTOR3(-85.0f, -150.0f, 0.0f));
+	CBouncePole::Create(D3DXVECTOR3(-85.0f, -150.0f, -200.0f));
 
-	CTrampoline::Create(D3DXVECTOR3(-75.0f, -150.0f, -700.0f));
-	CTrampoline::Create(D3DXVECTOR3(-25.0f, -150.0f, -700.0f));
-	CTrampoline::Create(D3DXVECTOR3( 25.0f, -150.0f, -700.0f));
-	CTrampoline::Create(D3DXVECTOR3( 75.0f, -150.0f, -700.0f));
+	CTrampoline::Create(D3DXVECTOR3(-75.0f, -150.0f, -100.0f));
+	CTrampoline::Create(D3DXVECTOR3(-25.0f, -150.0f, -100.0f));
+	CTrampoline::Create(D3DXVECTOR3( 25.0f, -150.0f, -100.0f));
+	CTrampoline::Create(D3DXVECTOR3( 75.0f, -150.0f, -100.0f));
 
-	CStoneSpawner::Create(D3DXVECTOR3(0.0f, 150.0f, 150.0f), -149.9f, 135.0f, 200.0f, 30);
+	CStoneSpawner::Create(D3DXVECTOR3(0.0f, 150.0f, 400.0f), -149.9f, 135.0f, 100.0f, 30);
 
 	//pCoin = CCoin::Create(D3DXVECTOR3(), (CCoin::COIN_TYPE)CObject::random((int)CCoin::COIN_0, (int)CCoin::COIN_3));
 }

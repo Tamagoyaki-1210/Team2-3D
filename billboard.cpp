@@ -16,26 +16,26 @@
 //コンストラクタ
 CBillboard::CBillboard()
 {
-	m_pVtxBuff = nullptr;
-	m_pTexture = nullptr;
-
-	m_pos = Vec3Null;
-	m_rot = Vec3Null;
-	m_size = Vec2Null;
-	m_col = ColorNull;
-	D3DXMatrixIdentity(&m_mtxWorld);
+	m_pVtxBuff = nullptr;						//頂点バッファ
+	m_pTexture = nullptr;						//テクスチャへのポインタ
+												
+	m_pos = Vec3Null;							//位置
+	m_rot = Vec3Null;							//向き
+	m_size = Vec2Null;							//サイズ
+	m_col = ColorNull;							//カーラー
+	D3DXMatrixIdentity(&m_mtxWorld);			//ワールドマトリックス
 }
 
 CBillboard::CBillboard(const int nPriority) : CObject::CObject(nPriority)
 {
-	m_pVtxBuff = nullptr;
-	m_pTexture = nullptr;
+	m_pVtxBuff = nullptr;						//頂点バッファ
+	m_pTexture = nullptr;						//テクスチャへのポインタ
 
-	m_pos = Vec3Null;
-	m_rot = Vec3Null;
-	m_size = Vec2Null;
-	m_col = ColorNull;
-	D3DXMatrixIdentity(&m_mtxWorld);
+	m_pos = Vec3Null;							//位置
+	m_rot = Vec3Null;							//向き
+	m_size = Vec2Null;							//サイズ
+	m_col = ColorNull;							//カーラー
+	D3DXMatrixIdentity(&m_mtxWorld);			//ワールドマトリックス
 }
 
 //デストラクタ
@@ -47,14 +47,14 @@ CBillboard::~CBillboard()
 //初期化処理
 HRESULT CBillboard::Init(void)
 {
-	m_pVtxBuff = nullptr;
-	m_pTexture = nullptr;
+	m_pVtxBuff = nullptr;					//頂点バッファ
+	m_pTexture = nullptr;					//テクスチャへのポインタ
 
-	m_pos = Vec3Null;
-	m_rot = Vec3Null;
-	m_size = Vec2Null;
-	D3DXMatrixIdentity(&m_mtxWorld);
-	m_col = ColorWhite;
+	m_pos = Vec3Null;						//位置
+	m_rot = Vec3Null;						//向き
+	m_size = Vec2Null;						//サイズ
+	D3DXMatrixIdentity(&m_mtxWorld);		//ワールドマトリックス
+	m_col = ColorWhite;						//カーラーを白にする
 
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();		//デバイスの取得
 
@@ -95,11 +95,13 @@ HRESULT CBillboard::Init(void)
 //終了処理
 void CBillboard::Uninit(void)
 {
+	//頂点バッファの破棄
 	if (m_pVtxBuff != nullptr)
 	{
-		m_pVtxBuff->Release();
-		m_pVtxBuff = nullptr;
+		m_pVtxBuff->Release();			
+		m_pVtxBuff = nullptr;			
 	}
+	//テクスチャをnullにする
 	if (m_pTexture != nullptr)
 	{
 		m_pTexture = nullptr;
@@ -126,12 +128,6 @@ void CBillboard::Draw(void)
 
 	//頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_3D);
-
-	//ライトを無効にする
-	//pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-	/*pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);*/
 
 	//アルファテストを有効にする
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
@@ -163,15 +159,8 @@ void CBillboard::Draw(void)
 	//四角形を描画する
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 
-	//ライトを有効にする
-	//pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-
 	//元の設定に戻す
 	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
-
-	/*pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);*/
 
 	//テクスチャへのポインタをNULLにする
 	pDevice->SetTexture(0, NULL);
@@ -181,7 +170,7 @@ void CBillboard::Draw(void)
 //サイズの設定処理
 void CBillboard::SetSize(const D3DXVECTOR2 size)
 {
-	m_size = size;
+	m_size = size;			//サイズの設定
 
 	//頂点情報へのポインタ
 	VERTEX_3D*pVtx = NULL;
@@ -189,6 +178,7 @@ void CBillboard::SetSize(const D3DXVECTOR2 size)
 	//頂点バッファをロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
+	//頂点座標の設定
 	pVtx[0].pos = D3DXVECTOR3(-m_size.x, +m_size.y, 0.0f);
 	pVtx[1].pos = D3DXVECTOR3(+m_size.x, +m_size.y, 0.0f);
 	pVtx[2].pos = D3DXVECTOR3(-m_size.x, -m_size.y, 0.0f);
@@ -216,19 +206,22 @@ const D3DXVECTOR3 CBillboard::GetPos(void)
 	return m_pos;
 }
 
+//向きの設定処理
 void CBillboard::SetRot(const D3DXVECTOR3 rot)
 {
 	m_rot = rot;
 }
 
+//向きの取得処理
 const D3DXVECTOR3 CBillboard::GetRot(void)
 {
 	return m_rot;
 }
 
+//カーラーの設定処理
 void CBillboard::SetColor(const D3DXCOLOR col)
 {
-	m_col = col;
+	m_col = col;				//カーラーの設定
 
 	//頂点情報へのポインタ
 	VERTEX_3D*pVtx = NULL;
@@ -236,6 +229,7 @@ void CBillboard::SetColor(const D3DXCOLOR col)
 	//頂点バッファをロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
+	//頂点カーラーの設定
 	pVtx[0].col = m_col;
 	pVtx[1].col = m_col;
 	pVtx[2].col = m_col;
@@ -245,6 +239,7 @@ void CBillboard::SetColor(const D3DXCOLOR col)
 	m_pVtxBuff->Unlock();
 }
 
+//カーラーの取得処理
 const D3DXCOLOR CBillboard::GetColor(void)
 {
 	return m_col;
@@ -253,7 +248,7 @@ const D3DXCOLOR CBillboard::GetColor(void)
 //テクスチャの種類の設定処理
 void CBillboard::SetTexture(TextType textType)
 {
-	LPDIRECT3DTEXTURE9 text = CObject_2D::GetTexturePointer(textType);
+	LPDIRECT3DTEXTURE9 text = CObject_2D::GetTexturePointer(textType);		//ロードしたテクスチャへのポインタの取得
 	m_pTexture = text;														//テクスチャの種類の設定
 }
 
@@ -264,31 +259,31 @@ void CBillboard::SetTexture(TextType textType)
 //生成処理
 CBillboard* CBillboard::Create(D3DXVECTOR3 pos, D3DXVECTOR2 size)
 {
-	CBillboard* pObj = new CBillboard(3);
+	CBillboard* pObj = new CBillboard(3);			//ビルボードの生成
 
 	if (FAILED(pObj->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pObj->m_pos = pos;
-	pObj->SetSize(size);
+	pObj->m_pos = pos;					//位置の設定
+	pObj->SetSize(size);				//サイズの設定
 
-	return pObj;
+	return pObj;						//生成したオブジェクトを返す
 }
 
 //生成処理
 CBillboard* CBillboard::Create(D3DXVECTOR3 pos, D3DXVECTOR2 size, const int nPriority)
-{
-	CBillboard* pObj = new CBillboard(nPriority);
+{	
+	CBillboard* pObj = new CBillboard(nPriority);			//ビルボードの生成
 
 	if (FAILED(pObj->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pObj->m_pos = pos;
-	pObj->SetSize(size);
+	pObj->m_pos = pos;					//位置の設定
+	pObj->SetSize(size);				//サイズの設定
 
-	return pObj;
+	return pObj;						//生成したオブジェクトを返す
 }

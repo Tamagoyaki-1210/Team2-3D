@@ -34,7 +34,11 @@ CMeshfield::CMeshfield()
 	m_nLineVertex = 0;
 	m_nColumnVertex = 0;
 	m_fFriction = 0.0f;									//摩擦係数
+	m_fAnimAngle = 0.0f;
+	m_fAnimSpeed = 0.0f;
+	m_fAmplitude = 0.0f;
 	m_nPriority = 0;									//プライオリティ
+	m_bTextureAnim = false;
 	m_bAnim = false;
 	m_animSpeed = Vec2Null;
 
@@ -58,8 +62,12 @@ CMeshfield::CMeshfield(const int nPriority) : CObject::CObject(nPriority)
 	m_nLineVertex = 0;
 	m_nColumnVertex = 0;
 	m_fFriction = 0.0f;									//摩擦係数
+	m_fAnimAngle = 0.0f;
+	m_fAnimSpeed = 0.0f;
+	m_fAmplitude = 0.0f;
 	m_nPriority = 0;									//プライオリティ
 	m_animSpeed = Vec2Null;
+	m_bTextureAnim = false;
 	m_bAnim = false;
 
 	m_vMeshfield.push_back(this);
@@ -88,8 +96,12 @@ HRESULT CMeshfield::Init(void)
 	m_nLineVertex = 0;
 	m_nColumnVertex = 0;
 	m_fFriction = 0.1f;									//摩擦係数
+	m_fAnimAngle = 0.0f;
+	m_fAnimSpeed = D3DX_PI * 0.025f;
+	m_fAmplitude = 25.0f;
 	m_nPriority = 0;									//プライオリティ
 	m_animSpeed = Vec2Null;
+	m_bTextureAnim = false;
 	m_bAnim = false;
 
 	return S_OK;
@@ -98,36 +110,6 @@ HRESULT CMeshfield::Init(void)
 //終了処理
 void CMeshfield::Uninit(void)
 {
-	//VERTEX_3D* pVtx = nullptr;
-
-	////頂点バッファをロック
-	//m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-	////頂点情報の設定
-	//for (int nCnt = 0; nCnt < m_nVertexNumber; nCnt++)
-	//{
-	//	FILE*pFile;				//ファイルポインタを宣言する
-
-	//	//ファイルを開く
-	//	pFile = fopen("data\\IdxTest.txt", "w");
-
-	//	if (pFile != NULL)
-	//	{//ファイルが開けた場合
-	//	 //ファイルにランキング情報を書き出す
-
-	//		for (int nCnt = 0; nCnt < /*m_nIntexNumber - 2*/m_nVertexNumber; nCnt++)
-	//		{
-	//			fprintf(pFile, " pos: %f %f %f\n nor: %f %f %f\n tex: %f %f\n\n", pVtx[nCnt].pos.x, pVtx[nCnt].pos.y, pVtx[nCnt].pos.z, pVtx[nCnt].nor.x, pVtx[nCnt].nor.y, pVtx[nCnt].nor.z, pVtx[nCnt].tex.x, pVtx[nCnt].tex.y);
-	//		}
-
-	//		//ファイルを閉じる
-	//		fclose(pFile);
-	//	}
-	//}
-
-	////頂点バッファのアンロック
-	//m_pVtxBuff->Unlock();
-
 	m_vLandedObj.clear();
 
 	if (m_pVtxBuff != nullptr)
@@ -162,7 +144,7 @@ void CMeshfield::Update(void)
 {
 	//Interaction();
 
-	if (m_bAnim)
+	if (m_bTextureAnim)
 	{
 		//頂点情報へのポインタ
 		VERTEX_3D*pVtx = nullptr;
@@ -182,6 +164,29 @@ void CMeshfield::Update(void)
 
 		//頂点バッファのアンロック
 		m_pVtxBuff->Unlock();
+	}
+	if (m_bAnim)
+	{
+		VERTEX_3D*pVtx = nullptr;
+		VERTEX_3D Vtx;
+		ZeroMemory(&Vtx, sizeof(VERTEX_3D));
+
+		//頂点バッファをロック
+		m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+		//頂点情報の設定
+		for (int nCnt = 0; nCnt < m_nVertexNumber; nCnt++)
+		{
+			Vtx.pos = pVtx[nCnt].pos;
+			Vtx.pos.y += m_fAmplitude * sinf(m_fAnimAngle * (nCnt / m_nLineVertex));
+			pVtx[nCnt].pos = Vtx.pos;
+		}
+
+		m_fAnimAngle += m_fAnimSpeed;
+
+		//頂点バッファのアンロック
+		m_pVtxBuff->Unlock();
+
 	}
 }
 
@@ -314,22 +319,34 @@ void CMeshfield::SetTextureTiling(float fTileSize)
 //テクスチャアニメーションの設定処理
 void CMeshfield::SetTextureAnim(const D3DXVECTOR2 animSpeed)
 {
-	m_bAnim = true;
+	m_bTextureAnim = true;
 	m_animSpeed = animSpeed;
 }
 
 //テクスチャアニメーションの設定処理
 void CMeshfield::SetTextureAnim(const float fX, const float fY)
 {
-	m_bAnim = true;
+	m_bTextureAnim = true;
 	m_animSpeed = D3DXVECTOR2(fX, fY);
 }
 
 //テクスチャアニメーションの停止処理
 void CMeshfield::StopTextureAnim(void)
 {
-	m_bAnim = false;
+	m_bTextureAnim = false;
 	m_animSpeed = Vec2Null;
+}
+
+void CMeshfield::SetAnimation(const bool bAnim)
+{
+	m_bAnim = bAnim;
+}
+
+void CMeshfield::SetAnimation(const bool bAnim, const float fAngularSpeed, const float fAmplitude)
+{
+	m_bAnim = bAnim;
+	m_fAmplitude = fAmplitude;
+	m_fAnimSpeed = fAngularSpeed;
 }
 
 
