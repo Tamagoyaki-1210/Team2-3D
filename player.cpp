@@ -28,9 +28,11 @@
 #include "message.h"
 #include "BoxHitbox.h"
 
+//静的メンバ変数宣言
 int CPlayer::m_nRanking;
 const float CPlayer::m_MaxWalkingSpeed = 7.0f;
 const float CPlayer::m_AccelerationCoeff = 2.0f;
+
 D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
 {
 
@@ -57,9 +59,9 @@ CPlayer::CPlayer() : CObject::CObject(1)
 	m_pScoreUI = nullptr;				//スコアのUIへのポインタ
 	m_bJump = false;					//ジャンプしているかどうか
 	m_nInvincibilityCnt = 0;			//無敵状態のカウンター
-	m_pAttackHitbox = nullptr;
-	m_pHeadHitbox = nullptr;
-	m_bAttacking = false;
+	m_pAttackHitbox = nullptr;			//ヒットボックスの初期化処理
+	m_pHeadHitbox = nullptr;			//頭のヒットボックスの初期化処理
+	m_bAttacking = false;				//攻撃したかどうか
 	m_nCntAttack = 0;
 	m_fFrictionCoeff = 0.0f;
 

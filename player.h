@@ -67,12 +67,12 @@ public:
 	};
 
 	CPlayer();							//コンストラクタ
-	~CPlayer() override;								//デストラクタ
+	~CPlayer() override;				//デストラクタ
 
-	HRESULT Init(void) override;						//初期化処理
-	void Uninit(void) override;							//終了処理
-	void Update(void) override;							//更新処理
-	void Draw(void) override;							//描画処理
+	HRESULT Init(void) override;		//初期化処理
+	void Uninit(void) override;			//終了処理
+	void Update(void) override;			//更新処理
+	void Draw(void) override;			//描画処理
 
 	void SetPos(const D3DXVECTOR3 pos) override { m_pos = pos; }		//位置の設定処理
 	void SetRot(const D3DXVECTOR3 rot) { m_rot = rot; }					//位置の設定処理
@@ -80,29 +80,26 @@ public:
 	const D3DXVECTOR2 GetSize(void) override { return Vec2Null; }		//サイズの取得処理
 	const D3DXVECTOR3 GetPos(void) override { return m_pos; }			//位置の取得処理
 
-	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; }	//目的の角度の取得処理
+	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; }					//目的の角度の取得処理
 
-	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);	//生成処理
+	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);		//生成処理
 	static D3DXCOLOR* GetPlayerColors(void);
 
-	void PlayerController(int nCntPlayer);
-	void SetPlayerIdx(int nCntPlayer);
+	void PlayerController(int nCntPlayer);				//プレイヤーのキー処理
+	void SetPlayerIdx(int nCntPlayer);					//プレイヤー番号の設定
 	void SetFriction(const float fFriction);
 
-	bool GetGoal() { return m_bGoal; }
+	void MoveWinner();									//勝者の移動処理
+	void SetWinner(bool bWinner);						//勝者の設定処理
+	void WinnerAnim();									//勝者のアニメーション
+	void LoserAnim();									//敗者のアニメーション
+	void PlayerRespawn();								//プレイヤー復活処理
 
-	bool GetRotCmp();
+	bool GetGoal() { return m_bGoal; }					//ゴールの状態取得
+	bool GetRotCmp();									//ゴール後の回転情報の取得
 
-	void MoveWinner();
-
-	void SetWinner(bool bWinner);
-
-	void WinnerAnim();
-	void LoserAnim();
-
-	void PlayerRespawn();
 private:
-	void GoalMove();
+	void GoalMove();									//ゴール後の動き
 
 	static D3DXCOLOR m_playerColor[PLAYER_COLOR_MAX];
 	static const float m_MaxWalkingSpeed;
@@ -121,32 +118,30 @@ private:
 	float		m_fFrictionCoeff;						//摩擦係数
 
 	float m_fAngle;
-	bool m_bGoal;
-	bool m_bMove;
-	bool m_bWinner;
-	bool m_bPos;
-	bool m_bRot;
-	bool m_bHit;
-	bool m_bPunch;
-	bool m_bAttacking;
+	bool m_bGoal;										//ゴールしたかどうか
+	bool m_bMove;										//動き切ったかどうか
+	bool m_bWinner;										//勝利したかどうか
+	bool m_bPos;										//位置についたかどうか
+	bool m_bRot;										//回転したかどうか
+	bool m_bHit;										//当たったかどうか
+	bool m_bPunch;										//パンチしたかどうか
+	bool m_bAttacking;									//アタックしたかどうか
 
-	D3DXVECTOR3 m_TargetPos;
-
-	D3DXVECTOR3 GoalPos;
+	D3DXVECTOR3 m_TargetPos;							//目標の位置
+	D3DXVECTOR3 GoalPos;								//ゴール判定の位置
 
 	CModelPart* m_pModel[PARTS_MAX];					//モデルへのポインタ
 	CAnimator* m_pAnimator;
 
-	STATE m_State;
+	STATE m_State;										//プレイヤーの状態
 	CCylinderHitbox* m_pHitbox;							//ヒットボックス
-	CCylinderHitbox* m_pHeadHitbox;						//
+	CCylinderHitbox* m_pHeadHitbox;						//頭のヒットボックス
 	CBoxHitbox*       m_pAttackHitbox;					//攻撃ヒットボックス
-	CScore* m_pScore;
-	CUIString* m_pScoreUI;
+	CScore* m_pScore;									//スコアのポインタ
+	CUIString* m_pScoreUI;								//スコアUIのポインタ
 
-	int m_nIdxPlayer;
-	int m_nFrame;
-	//CModel* m_pModel;									//モデル
+	int m_nIdxPlayer;									//プレイヤー番号
+	int m_nFrame;										//フレーム数
 };
 
 #endif
