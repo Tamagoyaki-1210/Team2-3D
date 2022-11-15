@@ -127,6 +127,7 @@ private:
 	bool		m_bHit;													//当たったかどうか
 	bool		m_bPunch;												//パンチしたかどうか
 	bool		m_bAttacking;											//アタックしたかどうか
+	bool		m_bDebug;												//デバッグ判定
 
 	D3DXVECTOR3 m_TargetPos;											//目標の位置
 	D3DXVECTOR3 GoalPos;												//ゴール判定の位置
