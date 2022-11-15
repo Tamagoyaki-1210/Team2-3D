@@ -1025,6 +1025,7 @@ void CPlayer::PlayerController(int nCntPlayer)
 	}
 }
 
+//プレイヤー番号設定処理
 void CPlayer::SetPlayerIdx(int nCntPlayer)
 {
 	m_nIdxPlayer = nCntPlayer;
@@ -1035,6 +1036,7 @@ void CPlayer::SetFriction(const float fFriction)
 	m_fFrictionCoeff = fFriction;
 }
 
+//振り向き取得処理
 bool CPlayer::GetRotCmp()
 {
 	return m_bRot;
@@ -1071,16 +1073,19 @@ void CPlayer::MoveWinner()
 	}
 }
 
+//勝者設定処理
 void CPlayer::SetWinner(bool bWinner)
 {
 	m_bWinner = bWinner;
 }
 
+//勝者アニメーション処理
 void CPlayer::WinnerAnim()
 {
 	m_pAnimator->SetPresentAnim(5);
 }
 
+//敗者アニメーション処理
 void CPlayer::LoserAnim()
 {
 	m_pAnimator->SetPresentAnim(6);
@@ -1109,6 +1114,7 @@ void CPlayer::PlayerRespawn()
 	}
 }
 
+//ゴール後の動き処理
 void CPlayer::GoalMove()
 {
 	D3DXVECTOR3 cameraRot = CApplication::GetCamera()->GetRot();
