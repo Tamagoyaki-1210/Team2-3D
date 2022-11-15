@@ -60,13 +60,13 @@ CPlayerModel::CPlayerModel()
 	m_pos = Vec3Null;						//位置
 	m_rot = Vec3Null;						//向き
 	m_nPresentColor = ColorNull;			//現在のカーラーインデックス
-	m_nIdx = 0;
-	m_nPresentHead = 0;
-
-	m_pIcon = nullptr;
-	m_pUiString = nullptr;
-	m_pOK = nullptr;
-	m_pParent = nullptr;
+	m_nIdx = 0;								//インデックス
+	m_nPresentHead = 0;						//現在の頭
+											
+	m_pIcon = nullptr;						//アイコンへのポインタ
+	m_pUiString = nullptr;					//UIへのポインタ
+	m_pOK = nullptr;						//2Dポリゴンへのポインタ
+	m_pParent = nullptr;					//親へのポインタ
 
 	for (int nCnt = 0; nCnt < CPlayer::PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -87,14 +87,14 @@ HRESULT CPlayerModel::Init(void)
 	m_pos = Vec3Null;						//位置
 	m_rot = Vec3Null;						//向き
 	m_nPresentColor = ColorWhite;			//現在のカーラーインデックス
-	m_nIdx = 0;
-	m_nPresentHead = 0;
-	m_bDecision = false;
+	m_nIdx = 0;								//インデックス
+	m_nPresentHead = 0;						//現在の頭
+	m_bDecision = false;					//決定したかどうか
 
-	m_pIcon = nullptr;
-	m_pUiString = nullptr;
-	m_pOK = nullptr;
-	m_pParent = nullptr;
+	m_pIcon = nullptr;						//アイコンへのポインタ
+	m_pUiString = nullptr;					//UIへのポインタ
+	m_pOK = nullptr;						//2Dポリゴンへのポインタ
+	m_pParent = nullptr;					//親へのポインタ
 
 	for (int nCnt = 0; nCnt < CPlayer::PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -107,7 +107,7 @@ HRESULT CPlayerModel::Init(void)
 //終了処理
 void CPlayerModel::Uninit(void)
 {
-	m_playersCol[m_nIdx] = m_presentColor;
+	m_playersCol[m_nIdx] = m_presentColor;				//色の設定
 
 	//モデルパーツの終了処理
 	for (int nCnt = 0; nCnt < CPlayer::PARTS_MAX; nCnt++)
@@ -127,21 +127,25 @@ void CPlayerModel::Uninit(void)
 		delete m_pAnimator;
 		m_pAnimator = nullptr;
 	}
+	//アイコンの破棄
 	if (m_pIcon != nullptr)
 	{
 		m_pIcon->Release();
 		m_pIcon = nullptr;
 	}
+	//UIの破棄
 	if (m_pUiString != nullptr)
 	{
 		m_pUiString->Release();
 		m_pUiString = nullptr;
 	}
+	//2Dポリゴンの破棄
 	if (m_pOK != nullptr)
 	{
 		m_pOK->Release();
 		m_pOK = nullptr;
 	}
+	//親へのポインタをnullにする
 	if (m_pParent != nullptr)
 	{
 		m_pParent = nullptr;
@@ -152,96 +156,100 @@ void CPlayerModel::Uninit(void)
 void CPlayerModel::Update(void)
 {
 	if (m_pAnimator != nullptr)
-	{
+	{//アニメーターへのポインタがnullではなかったら、更新する
 		m_pAnimator->Update();
 	}
 
 	if (CApplication::GetFade()->GetFade() == CFade::FADE_NONE)
-	{
+	{//フェード中ではなかったら
 		if (m_bSelect)
 		{
 			if (!m_bDecision)
-			{
+			{//まだ決定していなかったら
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_D) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_RIGHT, m_nIdx))
-				{
-					m_nPresentColor++;
+				{//キーボードのDキー、又はパッドの右ボタンが押された場合
 
+					m_nPresentColor++;			//現在の色を更新する
+
+					
 					if (m_nPresentColor >= CPlayer::PLAYER_COLOR_MAX)
-					{
+					{//Maxを超えたら、0に戻す
 						m_nPresentColor = 0;
 					}
 
-					m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+					m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];		//色の設定
 
 					if (m_pModel[CPlayer::BODY] != nullptr)
-					{
+					{//体へのポインタがnullではなかったら、色を更新する
 						m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
 					}
 					if (m_pIcon != nullptr)
-					{
+					{//アイコンへのポインタがnullではなかったら、色を更新する
 						m_pIcon->SetColor(m_presentColor);
 					}
 					if (m_pUiString != nullptr)
-					{
+					{//UIへのポインタがnullではなかったら、色を更新する
 						m_pUiString->ChangeColor(m_presentColor);
 					}
 				}
 				else if (CInputKeyboard::GetKeyboardTrigger(DIK_A) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_LEFT, m_nIdx))
-				{
-					m_nPresentColor--;
+				{//キーボードのAキー、又はパッドの左ボタンが押された場合
+					m_nPresentColor--;				//現在の色を更新する
 
 					if (m_nPresentColor < 0)
-					{
+					{//0以下になったら、Max - 1に戻す
 						m_nPresentColor = CPlayer::PLAYER_COLOR_MAX - 1;
 					}
 
-					m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];
+					m_presentColor = CPlayer::GetPlayerColors()[m_nPresentColor];		//色の設定
 
 					if (m_pModel[CPlayer::BODY] != nullptr)
-					{
+					{//体へのポインタがnullではなかったら、色を更新する
 						m_pModel[CPlayer::BODY]->SetModelColor(2, m_presentColor);
 					}
 					if (m_pIcon != nullptr)
-					{
+					{//アイコンへのポインタがnullではなかったら、色を更新する
 						m_pIcon->SetColor(m_presentColor);
 					}
 					if (m_pUiString != nullptr)
-					{
+					{//UIへのポインタがnullではなかったら、色を更新する
 						m_pUiString->ChangeColor(m_presentColor);
 					}
 				}
 
 				if (CInputKeyboard::GetKeyboardTrigger(DIK_S) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_DOWN, m_nIdx))
-				{
-					m_nPresentHead--;
+				{//キーボードのSキー、又はパッドの下ボタンが押された場合
+
+					m_nPresentHead--;					//現在の頭の種類を更新する
 
 					if (m_nPresentHead < 0)
-					{
+					{//0以下になったら、Max - 1に戻す
 						m_nPresentHead = HEAD_MAX - 1;
 					}
 
 					if (m_pModel[CPlayer::HEAD] != nullptr)
-					{
+					{//頭へのポインタがnullではなかったら、頭の種類を設定する
 						m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
 					}
 
-					m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
+					m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];			//頭の種類を保存する
 				}
 				else if (CInputKeyboard::GetKeyboardTrigger(DIK_W) || CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_UP, m_nIdx))
-				{
-					m_nPresentHead++;
+				{//キーボードのWキー、又はパッドの上ボタンが押された場合
+
+					m_nPresentHead++;					//現在の頭の種類を更新する
 
 					if (m_nPresentHead >= HEAD_MAX)
-					{
+					{//Maxを超えたら、0に戻す
 						m_nPresentHead = 0;
 					}
 
 					if (m_pModel[CPlayer::HEAD] != nullptr)
-					{
+					{//頭へのポインタがnullではなかったら、頭の種類を設定する
 						m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[m_nPresentHead]);
 					}
 
-					m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];
+					m_HeadType[m_nIdx] = m_HeadTypeAll[m_nPresentHead];				//頭の種類を保存する
 				}
 
 				if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_B, m_nIdx))
@@ -250,11 +258,11 @@ void CPlayerModel::Update(void)
 					
 					if (m_pParent != nullptr)
 					{
-						m_pParent->AddPlayerCounnt(1);
+						m_pParent->AddPlayerCounnt(1);				//決定したプレイヤー人数をインクリメントする
 					}
 
 					if (m_pOK == nullptr)
-					{
+					{//2Dポリゴンへのポインタがnullだったら、生成する
 						CAnimateUI::UIAnimation animInfo;
 						animInfo.deltaSize = D3DXVECTOR2(0.5f, 0.5f);
 						animInfo.nChangeTime = 30;
@@ -265,14 +273,14 @@ void CPlayerModel::Update(void)
 				}
 			}
 			else
-			{
+			{//決定したら
 				if (CInputPad::GetJoypadTrigger(CInputPad::JOYKEY_A, m_nIdx))
 				{//準備中断
 					m_bDecision = false;
 					m_pParent->AddPlayerCounnt(-1);
 
 					if (m_pOK != nullptr)
-					{
+					{//2Dポリゴンの破棄
 						m_pOK->Release();
 						m_pOK = nullptr;
 					}
@@ -296,8 +304,6 @@ void CPlayerModel::Draw(void)
 	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
-	//pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
 	m_pModel[CPlayer::BODY]->Draw(m_mtxWorld);											//最初のモデルの描画処理
 
 	for (int nCnt = 1; nCnt < CPlayer::PARTS_MAX; nCnt++)
@@ -307,8 +313,6 @@ void CPlayerModel::Draw(void)
 			m_pModel[nCnt]->Draw();
 		}
 	}
-
-	//pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 }
 
 
@@ -341,17 +345,25 @@ const D3DXVECTOR3 CPlayerModel::GetPos(void)
 	return m_pos;
 }
 
+
+
+
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
+
+
+
+
 //カーラーの取得処理
 const D3DXCOLOR*  CPlayerModel::GetPlayerColors(void)
 {
 	return m_playersCol;
 }
 
-
-
-
-
-
+//頭の種類の取得処理
 CModel::ModelType CPlayerModel::GetHeadType(int nIdx)
 {
 	return m_HeadType[nIdx];
@@ -362,23 +374,23 @@ CModel::ModelType CPlayerModel::GetHeadType(int nIdx)
 CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx, bool bUi)
 {
 	if (nIdx >= PLAYER_MAX)
-	{
+	{//プレイヤーの最大人数を超えたら、生成しない
 		return nullptr;
 	}
 
-	CPlayerModel* pModel = new CPlayerModel;
+	CPlayerModel* pModel = new CPlayerModel;				//インスタンスを生成する
 
 	if (FAILED(pModel->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	pModel->m_pos = pos;
-	pModel->m_rot = Vec3Null;
-	pModel->m_nIdx = nIdx;
-	pModel->m_nPresentColor = nIdx;
-	pModel->m_presentColor = CPlayer::GetPlayerColors()[nIdx];
-	pModel->m_bSelect = bUi;
+	pModel->m_pos = pos;										//位置の設定
+	pModel->m_rot = Vec3Null;									//向きの設定
+	pModel->m_nIdx = nIdx;										//インデックスの設定
+	pModel->m_nPresentColor = nIdx;								//色の設定
+	pModel->m_presentColor = CPlayer::GetPlayerColors()[nIdx];	//現在の色の設定
+	pModel->m_bSelect = bUi;									
 
 	pModel->m_pos = pos;
 	pModel->m_pModel[CPlayer::BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 17.0f, 0.0f), Vec3Null);				//体のモデルを生成する
@@ -410,6 +422,7 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx, bool bUi)
 	pModel->m_pModel[CPlayer::RIGHT_FOOT] = CModelPart::Create(CModel::MODEL_RIGHT_FOOT, D3DXVECTOR3(-0.1f, -5.0f, 0.0f), Vec3Null);//右足のモデルを生成する
 	pModel->m_pModel[CPlayer::RIGHT_FOOT]->SetParent(pModel->m_pModel[CPlayer::RIGHT_LEG]);													//右足の親を設定する
 
+	//生成したモデルをアニメーターに代入する
 	std::vector <CModelPart*> vParts;
 	vParts.clear();
 	vParts.push_back(pModel->m_pModel[CPlayer::BODY]);
@@ -423,22 +436,25 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx, bool bUi)
 	vParts.push_back(pModel->m_pModel[CPlayer::RIGHT_LEG]);
 	vParts.push_back(pModel->m_pModel[CPlayer::RIGHT_FOOT]);
 
-	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_PLAYER);
+	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_PLAYER);				//アニメーターの生成
 
-	pModel->m_pAnimator->SetPresentAnim(5);
+	pModel->m_pAnimator->SetPresentAnim(5);														//現在のアニメーションの設定
 
-	pModel->m_pModel[CPlayer::BODY]->SetModelColor(2, pModel->m_presentColor);
+	pModel->m_pModel[CPlayer::BODY]->SetModelColor(2, pModel->m_presentColor);					//色の設定
 
 	if (bUi)
-	{
+	{//プレイヤー選択画面だったら、
+
+		//アイコンの生成
 		pModel->m_pIcon = CObject_2D::Create();
-		pModel->m_pIcon->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1), (float)SCREEN_HEIGHT * 0.725f, 0.0f));
-		pModel->m_pIcon->SetSize(D3DXVECTOR2(100.0f, 15.0f));
-		pModel->m_pIcon->SetTexture(CObject::TEXTURE_NULL);
-		pModel->m_pIcon->SetColor(pModel->m_presentColor);
+		pModel->m_pIcon->SetPos(D3DXVECTOR3(((float)SCREEN_WIDTH / 5.0f) * (nIdx + 1), (float)SCREEN_HEIGHT * 0.725f, 0.0f));		//アイコンの位置の設定
+		pModel->m_pIcon->SetSize(D3DXVECTOR2(100.0f, 15.0f));																		//アイコンのサイズの設定
+		pModel->m_pIcon->SetTexture(CObject::TEXTURE_NULL);																			//アイコンのテクスチャの設定
+		pModel->m_pIcon->SetColor(pModel->m_presentColor);																			//アイコンの色の設定
+																															
+		pModel->m_pAnimator->SetPresentAnim(0);			//アニメーションの設定
 
-		pModel->m_pAnimator->SetPresentAnim(0);
-
+		//UIの文字列の設定
 		std::string str;
 		str.clear();
 		str = std::to_string(nIdx + 1);
@@ -448,14 +464,14 @@ CPlayerModel* CPlayerModel::Create(const D3DXVECTOR3 pos, int nIdx, bool bUi)
 	
 	}
 	else
-	{
+	{//ランダムで色と頭の種類を設定するを生成する
 		int nColor = random(0, (int)CPlayer::PLAYER_COLOR_MAX - 1);
 
 		pModel->m_pModel[CPlayer::HEAD]->SetModel(m_HeadTypeAll[random(0, (int)HEAD_MAX - 1)]);
 		pModel->m_pModel[CPlayer::BODY]->SetModelColor(2, CPlayer::GetPlayerColors()[nColor]);
 	}
 
-	m_HeadType[nIdx] = m_HeadTypeAll[0];
+	m_HeadType[nIdx] = m_HeadTypeAll[0];			
 
-	return pModel;
+	return pModel;									//生成したインスタンスを返す
 }

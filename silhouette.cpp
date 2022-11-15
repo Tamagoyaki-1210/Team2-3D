@@ -25,29 +25,31 @@ CSilhouette::~CSilhouette()
 
 }
 
+//初期化処理
 HRESULT CSilhouette::Init(void)
 {
 	if (FAILED(CObject_2D::Init()))
-	{
+	{//基本クラスの初期化処理
 		return -1;
 	}
 
-	SetPos(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 0.0f));
-	SetSize(D3DXVECTOR2((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f));
-	SetTexture(CObject::TEXTURE_NULL);
-	SetTextureParameter(1, 1, 1, INT_MAX);
-	SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
-
+	SetPos(D3DXVECTOR3((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f, 0.0f));			//位置の初期化
+	SetSize(D3DXVECTOR2((float)SCREEN_WIDTH * 0.5f, (float)SCREEN_HEIGHT * 0.5f));				//サイズの初期化
+	SetTexture(CObject::TEXTURE_NULL);															//テクスチャの初期化
+	SetTextureParameter(1, 1, 1, INT_MAX);														//テクスチャパラメータの初期化
+	SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));												//色を真っ黒にする
+																								
 	return S_OK;
 }
 
-
+//終了処理
 void CSilhouette::Uninit(void)
 {
+	//基本クラスの終了処理
 	CObject_2D::Uninit();
 }
 
-
+//描画処理
 void CSilhouette::Draw(void)
 {
 	//デバイスの取得処理
@@ -76,14 +78,23 @@ void CSilhouette::Draw(void)
 	pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 }
 
+
+
+//=============================================================================
+//								静的関数
+//=============================================================================
+
+
+
+//生成処理
 CSilhouette* CSilhouette::Create(void)
 {
-	CSilhouette* pObj = new CSilhouette;
+	CSilhouette* pObj = new CSilhouette;	//インスタンスを生成する
 
 	if (FAILED(pObj->Init()))
-	{
+	{//初期化処理
 		return nullptr;
 	}
 
-	return pObj;
+	return pObj;							//生成したインスタンスを返す
 }

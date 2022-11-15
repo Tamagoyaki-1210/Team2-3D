@@ -78,15 +78,15 @@ private:
 	D3DXCOLOR m_presentColor;							//現在のカーラー
 	int m_nIdx;											//インデックス
 	CObject_2D* m_pIcon;								//アイコン
-	CUIString*  m_pUiString;							//
-	CAnimateUI* m_pOK;									//
-	CPlayerSelect* m_pParent;							//
+	CUIString*  m_pUiString;							//UIへのポインタ
+	CAnimateUI* m_pOK;									//UIのインスタンスへのポインタ
+	CPlayerSelect* m_pParent;							//親へのポインタ
 
-	static CModel::ModelType m_HeadType[PLAYER_MAX];	//
-	static D3DXCOLOR m_playersCol[PLAYER_MAX];			//
+	static CModel::ModelType m_HeadType[PLAYER_MAX];	//選択された頭の種類
+	static D3DXCOLOR m_playersCol[PLAYER_MAX];			//選択された色
 
-	bool m_bDecision;									//
-	bool m_bSelect;										//
+	bool m_bDecision;									//決定したかどうか
+	bool m_bSelect;										
 
 };
 

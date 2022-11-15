@@ -32,7 +32,7 @@ public:
 
 private:
 
-	CCylinderHitbox* m_pHitbox;
+	CCylinderHitbox* m_pHitbox;							//ヒットボックス
 
 };
 

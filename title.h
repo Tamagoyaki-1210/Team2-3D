@@ -24,20 +24,20 @@ class CAnimateUI;
 class CTitle : public CMode
 {
 public:
-	CTitle();
-	~CTitle() override;
-
-	HRESULT Init(void) override;
-	void Uninit(void) override;
-	void Update(void) override;
-
-	static CTitle* Create(void);
-private:
-
-	static const int MAX_TITLE_MODEL = 7;
-
-	CPlayerModel* m_pModel[MAX_TITLE_MODEL];
-	CAnimateUI*   m_pTitle;
+	CTitle();											//コンストラクタ
+	~CTitle() override;									//デストラクタ
+														
+	HRESULT Init(void) override;						//初期化処理
+	void Uninit(void) override;							//終了処理
+	void Update(void) override;							//更新処理
+														
+	static CTitle* Create(void);						//生成処理
+private:												
+														
+	static const int MAX_TITLE_MODEL = 7;				//モデルの最大数
+														
+	CPlayerModel* m_pModel[MAX_TITLE_MODEL];			//プレイヤーモデルへのポインタ
+	CAnimateUI*   m_pTitle;								//UIへのポインタ
 
 };
 

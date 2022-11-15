@@ -16,14 +16,14 @@
 class CSilhouette : public CObject_2D
 {
 public:
-	CSilhouette();
-	~CSilhouette() override;
-
-	HRESULT Init(void) override;
-	void Uninit(void) override;
-	void Draw(void) override;
-
-	static CSilhouette* Create(void);
+	CSilhouette();							//コンストラクタ
+	~CSilhouette() override;				//デストラクタ
+											
+	HRESULT Init(void) override;			//初期化処理
+	void Uninit(void) override;				//終了処理
+	void Draw(void) override;				//描画処理
+											
+	static CSilhouette* Create(void);		//生成処理
 
 private:
 
