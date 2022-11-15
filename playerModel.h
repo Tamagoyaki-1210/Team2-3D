@@ -78,15 +78,15 @@ private:
 	D3DXCOLOR m_presentColor;							//現在のカーラー
 	int m_nIdx;											//インデックス
 	CObject_2D* m_pIcon;								//アイコン
-	CUIString*  m_pUiString;
-	CAnimateUI* m_pOK;
-	CPlayerSelect* m_pParent;
+	CUIString*  m_pUiString;							//
+	CAnimateUI* m_pOK;									//
+	CPlayerSelect* m_pParent;							//
 
-	static CModel::ModelType m_HeadType[PLAYER_MAX];
-	static D3DXCOLOR m_playersCol[PLAYER_MAX];
+	static CModel::ModelType m_HeadType[PLAYER_MAX];	//
+	static D3DXCOLOR m_playersCol[PLAYER_MAX];			//
 
-	bool m_bDecision;
-	bool m_bSelect;
+	bool m_bDecision;									//
+	bool m_bSelect;										//
 
 };
 

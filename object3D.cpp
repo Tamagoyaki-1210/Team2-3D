@@ -42,11 +42,11 @@ CObject_3D::CObject_3D()
 	m_nTexLine = 0;										//テクスチャの列数
 	m_nFirstPattern = 0;								//アニメーションの最初のパターン
 	m_nAnimFrame = 0;									//アニメーションパターンの変更フレーム数
-	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);
-	m_bFlipX = false;
-	m_bFlipY = false;
+	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);		//テクスチャの移動量
+	m_bFlipX = false;									//テクスチャのX座標が反転しているかどうか
+	m_bFlipY = false;									//テクスチャのY座標が反転しているかどうか
 	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);			//カラー
-	m_textType = CObject::TEXTURE_TYPE_MAX;					//テクスチャの種類
+	m_textType = CObject::TEXTURE_TYPE_MAX;				//テクスチャの種類
 	m_pTexture = nullptr;								//テクスチャへのポインタ
 
 	for (int nCnt = 0; nCnt < 4; nCnt++)
@@ -73,11 +73,11 @@ CObject_3D::CObject_3D(const int nPriority) : CObject::CObject(nPriority)
 	m_nTexLine = 0;										//テクスチャの列数
 	m_nFirstPattern = 0;								//アニメーションの最初のパターン
 	m_nAnimFrame = 0;									//アニメーションパターンの変更フレーム数
-	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);
-	m_bFlipX = false;
-	m_bFlipY = false;
+	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);		//テクスチャの移動量
+	m_bFlipX = false;									//テクスチャのX座標が反転しているかどうか
+	m_bFlipY = false;									//テクスチャのY座標が反転しているかどうか
 	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);			//カラー
-	m_textType = CObject::TEXTURE_TYPE_MAX;					//テクスチャの種類
+	m_textType = CObject::TEXTURE_TYPE_MAX;				//テクスチャの種類
 	m_pTexture = nullptr;								//テクスチャへのポインタ
 
 	for (int nCnt = 0; nCnt < 4; nCnt++)
@@ -116,9 +116,9 @@ HRESULT CObject_3D::Init(void)
 	m_nMaxTexColumn = 1;										//テクスチャの行数
 	m_nTexLine = 1;												//テクスチャの列数
 	m_nFirstPattern = 0;										//アニメーションの最初のパターン
-	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);
-	m_bFlipX = false;
-	m_bFlipY = false;
+	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);				//テクスチャの移動量
+	m_bFlipX = false;											//テクスチャのX座標が反転しているかどうか
+	m_bFlipY = false;											//テクスチャのY座標が反転しているかどうか
 	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);					//カラー
 	m_nAnimFrame = 0;											//アニメーションパターンの変更フレーム数
 	m_pTexture = nullptr;
@@ -138,7 +138,7 @@ HRESULT CObject_3D::Init(void)
 
 	VERTEX_3D* pVtx = nullptr;					//頂点情報へのポインタ
 
-												//頂点バッファのロック
+	//頂点バッファのロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 
@@ -150,8 +150,8 @@ HRESULT CObject_3D::Init(void)
 		pVtx[nCnt].col = m_col;
 	}
 
-	SetTexture(TEXTURE_NULL);
-	SetTextureParameter(1, 1, 1, INT_MAX);
+	SetTexture(TEXTURE_NULL);						//テクスチャの設定
+	SetTextureParameter(1, 1, 1, INT_MAX);			//テクスチャパラメータの設定
 
 	//頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
@@ -261,7 +261,7 @@ void CObject_3D::SetSize(const D3DXVECTOR2 dim)
 
 	VERTEX_3D* pVtx = nullptr;					//頂点情報へのポインタ
 
-												//頂点バッファのロック
+	//頂点バッファのロック
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	pVtx[0].pos = D3DXVECTOR3(-dim.x, dim.y, 0.0f);

@@ -53,7 +53,6 @@ private:
 	D3DXVECTOR3				m_LastPos;												//前回の位置
 	D3DXVECTOR3				m_move;													//モデルの移動量
 	D3DXVECTOR3				m_rot;													//向き
-	D3DXVECTOR3				m_minCoord, m_maxCoord;									//モデルの頂点座標の最小値と最大値
 	D3DXMATRIX				m_mtxWorld;												//ワールドマトリックス
 	float					m_shadowPosY;											//影の高さ
 	CModel::ModelType		m_type;													//モデルの種類

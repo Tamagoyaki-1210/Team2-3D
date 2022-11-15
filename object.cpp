@@ -15,11 +15,8 @@
 //=============================================================================
 //静的メンバー変数の宣言 
 //=============================================================================
-//int CObject::m_nNumAll = 0;										//存在するポリゴン数
-//CObject* CObject::m_pObject[CObject::MaxObject] = {};			//オブジェクトへのポンタ
-//int CObject::m_nPriorityObjNum[CObject::Max_Priority] = {};
-CObject* CObject::m_pTop[CObject::Max_Priority] = {};
-CObject* CObject::m_pCurrent[CObject::Max_Priority] = {};
+CObject* CObject::m_pTop[CObject::Max_Priority] = {};				//先頭のオブジェクトへのポイン
+CObject* CObject::m_pCurrent[CObject::Max_Priority] = {};			//現在(一番後ろ)のオブジェクトへのポンタ
 
 //=============================================================================
 //コンストラクタ
@@ -27,43 +24,43 @@ CObject* CObject::m_pCurrent[CObject::Max_Priority] = {};
 CObject::CObject()
 {
 	if (m_pCurrent[2] != nullptr)
-	{
-		m_pCurrent[2]->m_pNext = this;
-		m_pPrev = m_pCurrent[2];
-		m_pCurrent[2] = this;
+	{//オブジェクトがもうあったら
+		m_pCurrent[2]->m_pNext = this;		//前のオブジェクトの次のオブジェクトへのポインタを設定する
+		m_pPrev = m_pCurrent[2];			//前のオブジェクトへのポインタの設定
+		m_pCurrent[2] = this;				//現在のオブジェクトの更新
 	}
 	else
-	{
-		m_pTop[2] = this;
-		m_pCurrent[2] = this;
-		m_pPrev = nullptr;
+	{//まだオブジェクトがなかったら
+		m_pTop[2] = this;					//先頭のオブジェクトへのポインをこのインスタンスのアドレスにする
+		m_pCurrent[2] = this;				//現在(一番後ろ)のオブジェクトへのポンタをこのインスタンスのアドレスにする
+		m_pPrev = nullptr;					//前のオブジェクトへのポインタをnullに設定する
 	}
 
-	m_pNext = nullptr;
+	m_pNext = nullptr;						//次のオブジェクトへのポインタをnullにする
 
-	m_nPriority = 3;
-	m_bDeath = false;
+	m_nPriority = 3;						//プライオリティを3に設定する
+	m_bDeath = false;						//死亡フラグをfalseに設定する
 }
 
 CObject::CObject(int nPriority)
 {
 	if (m_pCurrent[nPriority - 1] != nullptr)
 	{//オブジェクト既に存在する場合
-		m_pCurrent[nPriority - 1]->m_pNext = this;
-		m_pPrev = m_pCurrent[nPriority - 1];
-		m_pCurrent[nPriority - 1] = this;
+		m_pCurrent[nPriority - 1]->m_pNext = this;		//前のオブジェクトの次のオブジェクトへのポインタを設定する	
+		m_pPrev = m_pCurrent[nPriority - 1];			//前のオブジェクトへのポインタの設定
+		m_pCurrent[nPriority - 1] = this;				//現在のオブジェクトの更新
 	}
 	else
-	{//これは最初のオブジェクトだったら
-		m_pTop[nPriority - 1] = this;
-		m_pCurrent[nPriority - 1] = this;
-		m_pPrev = nullptr;
+	{//これは最初のオブジェクトだったら	
+		m_pTop[nPriority - 1] = this;					//先頭のオブジェクトへのポインをこのインスタンスのアドレスにする
+		m_pCurrent[nPriority - 1] = this;				//現在(一番後ろ)のオブジェクトへのポンタをこのインスタンスのアドレスにする
+		m_pPrev = nullptr;								//前のオブジェクトへのポインタをnullに設定する
 	}
 
-	m_pNext = nullptr;
+	m_pNext = nullptr;									//次のオブジェクトへのポインタをnullにする
 
-	m_nPriority = nPriority;
-}
+	m_nPriority = nPriority;							//死亡フラグをfalseに設定する
+}														
 
 //=============================================================================
 //デストラクタ
@@ -76,39 +73,14 @@ CObject::~CObject()
 //オブジェクトを消す処理
 void CObject::Release(void)
 {
-	//if (m_pPrev != nullptr)
-	//{
-	//	if (m_pNext != nullptr)
-	//	{//リストの中だったら
-	//		m_pPrev->m_pNext = m_pNext;
-	//		m_pNext->m_pPrev = m_pPrev;
-	//	}
-	//	else
-	//	{//リストの最後のオブジェクトだったら
-	//		m_pPrev->m_pNext = nullptr;
-	//		m_pCurrent[m_nPriority - 1] = m_pPrev;
-	//	}
-	//}
-	//else
-	//{
-	//	if (m_pNext != nullptr)
-	//	{//リストの最初のオブジェクトだったら
-	//		m_pNext->m_pPrev = nullptr;
-	//		m_pTop[m_nPriority - 1] = m_pNext;
-	//	}
-	//	else
-	//	{//このオブジェクトしかない場合
-	//		m_pTop[m_nPriority - 1] = nullptr;
-	//		m_pCurrent[m_nPriority - 1] = nullptr;
-	//	}
-	//}
-
-	Uninit();
-	m_bDeath = true;
+	Uninit();				//終了処理
+	m_bDeath = true;		//死亡フラグをtrueにする
 }
 
+//プライオリティの設定処理
 void CObject::SetPriority(int nPriority)
 {
+	//プライオリティが範囲外ではないように確認する
 	if (nPriority < 1)
 	{
 		nPriority = 1;
@@ -119,48 +91,50 @@ void CObject::SetPriority(int nPriority)
 	}
 	
 	if (m_pPrev != nullptr)
-	{
+	{//前のオブジェクトへのポインタがnullではなかったら
 		if (m_pNext != nullptr)
-		{
-			m_pPrev->m_pNext = m_pNext;
-			m_pNext->m_pPrev = m_pPrev;
+		{//前のオブジェクトへのポインタがnullではなかったら
+			//前のオブジェクトと次のオブジェクトを繋ぐ
+			m_pPrev->m_pNext = m_pNext;			
+			m_pNext->m_pPrev = m_pPrev;			
 		}
 		else
-		{
-			m_pPrev->m_pNext = nullptr;
-			m_pCurrent[m_nPriority - 1] = m_pPrev;
+		{//このオブジェクトが一番後ろだったら、前のオブジェクトを一番後ろにする
+			m_pPrev->m_pNext = nullptr;					
+			m_pCurrent[m_nPriority - 1] = m_pPrev;		
 		}
 	}
 	else
-	{
+	{//前のオブジェクトへのポインタがnullだったら
 		if (m_pNext != nullptr)
-		{
+		{//次のオブジェクトへのポインタがnullではなかったら、次のオブジェクトを先頭にする
 			m_pNext->m_pPrev = nullptr;
 			m_pTop[m_nPriority - 1] = m_pNext;
 		}
 		else
-		{
+		{//このオブジェクトしかなかったら、静的変数をnullにする
 			m_pTop[m_nPriority - 1] = nullptr;
 			m_pCurrent[m_nPriority - 1] = nullptr;
 		}
 	}
 
-	m_nPriority = nPriority;
+	m_nPriority = nPriority;			//プライオリティの設定処理
 
+	//新しいプライオリティの配列に入れる
 	if (m_pCurrent[nPriority - 1] != nullptr)
-	{
-		m_pCurrent[nPriority - 1]->m_pNext = this;
-		m_pPrev = m_pCurrent[nPriority - 1];
-		m_pCurrent[nPriority - 1] = this;
+	{//このプライオリティの配列にオブジェクトが既にあったら、一番後ろのオブジェクトとして入れる
+		m_pCurrent[nPriority - 1]->m_pNext = this;		
+		m_pPrev = m_pCurrent[nPriority - 1];			
+		m_pCurrent[nPriority - 1] = this;				
 	}
 	else
-	{
+	{//このプライオリティの配列の最初のオブジェクトだったら、普通に入れる
 		m_pTop[nPriority - 1] = this;
 		m_pCurrent[nPriority - 1] = this;
 		m_pPrev = nullptr;
 	}
 
-	m_pNext = nullptr;
+	m_pNext = nullptr;			//次のオブジェクトへのポインタをnullにする
 }
 
 //===============================================================================
@@ -211,8 +185,8 @@ void CObject::ReleaseAll(void)
 					}
 				}
 
-				pCurrent->Uninit();
-				delete pCurrent;
+				pCurrent->Uninit();			//終了処理
+				delete pCurrent;			//メモリを解放する
 
 				pCurrent = pNext;
 			}
@@ -335,112 +309,12 @@ CObject** CObject::GetObj(void)
 	return &m_pTop[0];
 }
 
-//当たり判定(丸)
-bool CObject::CircleHit(D3DXVECTOR3* pos1, D3DXVECTOR3* pos2, float fRadius1, float fRadius2)
-{
-	float radius = (fRadius1 * fRadius1) + (fRadius2 * fRadius2);
-
-	float deltaX = (pos2->x - pos1->x) * (pos2->x - pos1->x);
-	float deltaY = (pos2->y - pos1->y) * (pos2->y - pos1->y);
-
-	if (deltaX + deltaY <= radius)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool CObject::CircleHit(D3DXVECTOR3* pos1, D3DXVECTOR3* pos2, D3DXVECTOR2 size1, D3DXVECTOR2 size2)
-{
-	float fRadius1 = 0.5f * ((size1.x) + (size1.y));
-	float fRadius2 = 0.5f * ((size2.x) + (size2.y));
-
-	float radius = (fRadius1 * fRadius1) + (fRadius2 * fRadius2);
-
-	float deltaX = (pos2->x - pos1->x) * (pos2->x - pos1->x);
-	float deltaY = (pos2->y - pos1->y) * (pos2->y - pos1->y);
-
-	if ((deltaX + deltaY) <= radius)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-//当たり判定(四角形)
-bool CObject::HitBox(D3DXVECTOR3* pos1, D3DXVECTOR3* pos2, D3DXVECTOR2 size1, D3DXVECTOR2 size2)
-{
-	float top, bottom, right, left;
-	left = pos2->x - (size1.x + size2.x);
-	right = pos2->x + (size1.x + size2.x);
-	top = pos2->y - (size1.y + size2.y);
-	bottom = pos2->y + (size1.y + size2.y);
-
-	if (pos1->x >= left && pos1->x <= right &&
-		pos1->y >= top && pos1->y <= bottom)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-D3DXVECTOR3 CObject::GetPerpendicularVersor(D3DXVECTOR3 V)
-{
-	D3DXVECTOR3 Result, Unit;
-	float fHalfPi = D3DX_PI * 0.5f;
-
-	Unit = D3DXVECTOR3(1.0f, 0.0f, 0.0f);
-
-	if (V.y > Unit.y)
-	{
-		fHalfPi *= -1.0f;
-	}
-
-	D3DXVec3Normalize(&V, &V);
-
-	float fDot = D3DXVec3Dot(&V, &Unit);
-
-	float fAngle = (float)acos(fDot);
-
-	Result = D3DXVECTOR3(cosf(fAngle + fHalfPi), sinf(fAngle + fHalfPi), 0.0f);
-
-	return Result;
-}
-
 std::random_device rd;
 std::mt19937 gen(rd());
 
+//乱数を返す処理
 int CObject::random(const int low, const int high)
 {
 	std::uniform_int_distribution<> dist(low, high);
 	return dist(gen);
-}
-
-
-void CObject::DebugDestroy(void)
-{
-	int a = random(0, 5);
-
-	CObject* pObj = nullptr;
-
-	while (pObj == nullptr)
-	{
-		pObj = m_pTop[random(0, 4)];
-	}
-
-	for (int nCnt = 0; nCnt < a; nCnt++)
-	{
-		if (pObj->m_pNext != nullptr)
-		{
-			pObj = pObj->m_pNext;
-		}
-	}
-
-	if (pObj != nullptr)
-	{
-		pObj->Release();
-	}
 }

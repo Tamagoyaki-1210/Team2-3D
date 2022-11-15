@@ -62,8 +62,9 @@ char* CObject_2D::m_paTextPass[CObject::TEXTURE_TYPE_MAX] =
 //=============================================================================
 CObject_2D::CObject_2D()
 {
+	//メンバー変数をクリアする
 	m_pVtxBuff = nullptr;								//頂点バッファ
-	m_size = D3DXVECTOR2(0.0f, 0.0f);				//ポリゴンの幅と高さ
+	m_size = D3DXVECTOR2(0.0f, 0.0f);					//ポリゴンの幅と高さ
 	m_dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//ポリゴンの向き
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//移動量
 	m_acc = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//加速
@@ -80,15 +81,16 @@ CObject_2D::CObject_2D()
 	m_nMaxTexPattern = 0;								//テクスチャのパターン数
 	m_nMaxTexColumn = 0;								//テクスチャの行数
 	m_nTexLine = 0;										//テクスチャの列数
-	m_nFirstPattern = 0;
+	m_nFirstPattern = 0;								//最初のアニメーションパターン
 	m_nAnimFrame = 0;									//アニメーションパターンの変更フレーム数
-	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);
-	m_textureAnimSpeed = Vec2Null;
-	m_bFlipX = false;
-	m_bFlipY = false;
-	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
-	m_textType = CObject::TEXTURE_TYPE_MAX;					//テクスチャの種類
+	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);		//テクスチャの移動量
+	m_textureAnimSpeed = Vec2Null;						//テクスチャの移動速度
+	m_bFlipX = false;									//テクスチャのX座標が反転しているかどうか
+	m_bFlipY = false;									//テクスチャのY座標が反転しているかどうか
+	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);			//頂点カーラー
+	m_textType = CObject::TEXTURE_TYPE_MAX;				//テクスチャの種類
 
+	//頂点カラー
 	for (int nCnt = 0; nCnt < 4; nCnt++)
 	{
 		m_VtxCol[nCnt] = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
@@ -97,8 +99,9 @@ CObject_2D::CObject_2D()
 
 CObject_2D::CObject_2D(const int nPriority) : CObject::CObject(nPriority)
 {
+	//メンバー変数をクリアする
 	m_pVtxBuff = nullptr;								//頂点バッファ
-	m_size = D3DXVECTOR2(0.0f, 0.0f);				//ポリゴンの幅と高さ
+	m_size = D3DXVECTOR2(0.0f, 0.0f);					//ポリゴンの幅と高さ
 	m_dir = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//ポリゴンの向き
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//移動量
 	m_acc = D3DXVECTOR3(0.0f, 0.0f, 0.0f);				//加速
@@ -115,15 +118,16 @@ CObject_2D::CObject_2D(const int nPriority) : CObject::CObject(nPriority)
 	m_nMaxTexPattern = 0;								//テクスチャのパターン数
 	m_nMaxTexColumn = 0;								//テクスチャの行数
 	m_nTexLine = 0;										//テクスチャの列数
-	m_nFirstPattern = 0;
+	m_nFirstPattern = 0;								//最初のアニメーションパターン
 	m_nAnimFrame = 0;									//アニメーションパターンの変更フレーム数
-	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);
-	m_textureAnimSpeed = Vec2Null;
-	m_bFlipX = false;
-	m_bFlipY = false;
-	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
-	m_textType = CObject::TEXTURE_TYPE_MAX;					//テクスチャの種類
+	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);		//テクスチャの移動量
+	m_textureAnimSpeed = Vec2Null;						//テクスチャの移動速度
+	m_bFlipX = false;									//テクスチャのX座標が反転しているかどうか
+	m_bFlipY = false;									//テクスチャのY座標が反転しているかどうか
+	m_col = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);			//頂点カラー
+	m_textType = CObject::TEXTURE_TYPE_MAX;				//テクスチャの種類
 
+	//頂点カラー
 	for (int nCnt = 0; nCnt < 4; nCnt++)
 	{
 		m_VtxCol[nCnt] = D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.0f);
@@ -143,10 +147,11 @@ CObject_2D::~CObject_2D()
 //=============================================================================
 HRESULT CObject_2D::Init(void)
 {
+	//初期化処理
 	CRenderer* Render = CApplication::GetRenderer();			//レンディングインスタンスの取得処理
 	LPDIRECT3DDEVICE9 pDevice = Render->GetDevice();			//デバイスの取得処理
 
-	m_size = D3DXVECTOR2(0.0f, 0.0f);						//ポリゴンの幅と高さの設定
+	m_size = D3DXVECTOR2(0.0f, 0.0f);							//ポリゴンの幅と高さの設定
 	m_dir = D3DXVECTOR3(1.0f, 0.0f, 0.0f);						//ポリゴンの向き
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);						//移動量
 	m_acc = D3DXVECTOR3(0.0f, 0.0f, 0.0f);						//加速
@@ -163,14 +168,15 @@ HRESULT CObject_2D::Init(void)
 	m_nMaxTexPattern = 1;										//テクスチャのパターン数
 	m_nMaxTexColumn = 1;										//テクスチャの行数
 	m_nTexLine = 1;												//テクスチャの列数
-	m_nFirstPattern = 0;
-	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);
-	m_textureAnimSpeed = Vec2Null;
-	m_bFlipX = false;
-	m_bFlipY = false;
-	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	m_nFirstPattern = 0;										//最初のアニメーションパターン
+	m_textureTranslation = D3DXVECTOR2(0.0f, 0.0f);				//テクスチャの移動量
+	m_textureAnimSpeed = Vec2Null;								//テクスチャの移動速度
+	m_bFlipX = false;											//テクスチャのX座標が反転しているかどうか
+	m_bFlipY = false;											//テクスチャのY座標が反転しているかどうか
+	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);					//ポリゴンのカラー
 	m_nAnimFrame = 0;											//アニメーションパターンの変更フレーム数
 
+	//頂点カラー
 	for (int nCnt = 0; nCnt < 4; nCnt++)
 	{
 		m_VtxCol[nCnt] = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -190,7 +196,6 @@ HRESULT CObject_2D::Init(void)
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	// 頂点情報を設定
-
 	pVtx[0].pos.x = (m_posPolygon.x) + sinf(m_fRot + (m_fAngle + 2.0f * (D3DX_PI * 0.5f - m_fAngle))) * (m_size.x);
 	pVtx[0].pos.y = (m_posPolygon.y) + cosf(m_fRot + (m_fAngle + 2.0f * (D3DX_PI * 0.5f - m_fAngle))) * (m_size.x);
 	pVtx[0].pos.z = 0.0f;
@@ -212,8 +217,8 @@ HRESULT CObject_2D::Init(void)
 		pVtx[nCnt].col = m_col;
 	}
 
-	SetTexture(TEXTURE_NULL);
-	SetTextureParameter(1, 1, 1, INT_MAX);
+	SetTexture(TEXTURE_NULL);					//テクスチャの設定
+	SetTextureParameter(1, 1, 1, INT_MAX);		//テクスチャパラメータの設定
 
 	//頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
@@ -258,9 +263,10 @@ void CObject_2D::Update()
 	}
 
 	if (m_fRevolutionRadius != 0.0f)
-	{
-		m_revolutionCenter += GetMove();
+	{//公転速度が0ではなかったら
+		m_revolutionCenter += GetMove();			//中心点座標の更新
 
+		//位置の更新
 		m_posPolygon.x = m_revolutionCenter.x + (cosf(m_fRevolutionAngle) * (m_fRevolutionRadius));
 		m_posPolygon.y = m_revolutionCenter.y + (sinf(m_fRevolutionAngle) * (m_fRevolutionRadius));
 	}
@@ -288,7 +294,7 @@ void CObject_2D::Update()
 		m_textureTranslation += m_textureAnimSpeed;
 	}
 
-	UpdateTexture();
+	UpdateTexture();				//テクスチャの更新
 
 	//頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();

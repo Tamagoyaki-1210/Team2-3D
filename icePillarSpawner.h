@@ -16,8 +16,8 @@
 class CIcePillarSpawner : public CObject
 {
 public:
-	CIcePillarSpawner();
-	~CIcePillarSpawner();
+	CIcePillarSpawner();														//コンストラクタ
+	~CIcePillarSpawner();														//デストラクタ
 
 	HRESULT Init(void) override;												//初期化処理
 	void Uninit(void) override;													//終了処理
@@ -35,7 +35,7 @@ private:
 
 	D3DXVECTOR3 m_pos;				//位置
 	float		m_shadowY;			//影の高さ
-	float		m_laterlBounds;		//横の限界
+	float		m_laterlBounds;		//スポーンエリアの幅
 	float		m_fAreaLength;		//スポーンエリアの長さ
 	int			m_nCntTime;			//フレームカウンター
 	int			m_nSpawnTime;		//スポーンタイム
