@@ -183,15 +183,16 @@ void CPlayer::Update(void)
 		fA *= -1.0f;
 	}
 
+	//ゲームが始まった後とゴールしてないとき
 	if (!m_bGoal && CMessage::GetStart())
 	{
+		//プレイヤーの操作
 		PlayerController(m_nIdxPlayer);
 	}
 
-	//m_pModel->SetPos(m_pModel->GetPos() + m_move);
-
 	{
 		m_pos += m_move;								//位置の更新
+
 		CDebugProc::Print("\n%f %f %f", m_move.x, m_move.y, m_move.z);
 	}
 
@@ -199,8 +200,7 @@ void CPlayer::Update(void)
 	m_move.y += (0.0f - m_move.y) * 0.1f;							//移動量のYコンポネントの更新
 	m_move.z += (0.0f - m_move.z) * m_fFrictionCoeff;				//移動量のZコンポネントの更新
 
-	//if (!m_bMove)
-	
+	//リスポーン処理
 	PlayerRespawn();
 
 	//目的の角度の正規化処理
@@ -218,30 +218,28 @@ void CPlayer::Update(void)
 	m_pModel[BODY]->SetRot(rot);		//回転角度の設定処理
 
 	//回転角度の正規化処理
+	float fRot = m_pModel[BODY]->GetRot().y;
+
+	if (fRot > D3DX_PI)
 	{
-		float fRot = m_pModel[BODY]->GetRot().y;
-
-		if (fRot > D3DX_PI)
-		{
-			fRot = -D3DX_PI + (fRot - D3DX_PI);
-		}
-		else if (fRot < -D3DX_PI)
-		{
-			fRot = D3DX_PI - (D3DX_PI + fRot);
-		}
-
-		if (fRot < D3DX_PI * -2.0f)
-		{
-			fRot += D3DX_PI * 2.0f;
-		}
-		else if (fRot > D3DX_PI * 2.0f)
-		{
-			fRot += D3DX_PI * -2.0f;
-		}
-
-		//回転の設定処理
-		m_pModel[BODY]->SetRot(D3DXVECTOR3(m_pModel[BODY]->GetRot().x, fRot, m_pModel[BODY]->GetRot().z));
+		fRot = -D3DX_PI + (fRot - D3DX_PI);
 	}
+	else if (fRot < -D3DX_PI)
+	{
+		fRot = D3DX_PI - (D3DX_PI + fRot);
+	}
+
+	if (fRot < D3DX_PI * -2.0f)
+	{
+		fRot += D3DX_PI * 2.0f;
+	}
+	else if (fRot > D3DX_PI * 2.0f)
+	{
+		fRot += D3DX_PI * -2.0f;
+	}
+
+	//回転の設定処理
+	m_pModel[BODY]->SetRot(D3DXVECTOR3(m_pModel[BODY]->GetRot().x, fRot, m_pModel[BODY]->GetRot().z));
 
 	//重量を追加する
 	if (m_move.y >= -10.0f)
@@ -249,58 +247,60 @@ void CPlayer::Update(void)
 		m_move.y -= 0.65f;
 	}
 
-	//SetPos(pos);
-
-	{
 		float fHeight = 0.0f;
 
 		CMeshfield* pField = CMeshfield::FieldInteraction(this, &fHeight);
 
-			//地面との当たり判定
-			if (pField != nullptr)
-			{
-				m_bJump = false;		//着地している状態にする
-				m_bHit = false;
-				m_fFrictionCoeff = pField->GetFriction();
+	//地面との当たり判定
+	if (pField != nullptr)
+	{
+		m_bJump = false;		//着地している状態にする
+		m_bHit = false;			//当たってない状態にする
+		//摩擦係数の取得
+		m_fFrictionCoeff = pField->GetFriction();
 
-				for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
-				{
-					if (m_pModel[nCnt] != nullptr)
-					{
-						m_pModel[nCnt]->SetShadowHeight(fHeight);
-					}
-				}
-			}
-			else if(m_pos.x < -135.0f || m_pos.x > 125.0f)
+		//影の高さの設定
+		for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
+		{
+			if (m_pModel[nCnt] != nullptr)
 			{
-				for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
-				{
-					if (m_pModel[nCnt] != nullptr)
-					{
-						m_pModel[nCnt]->SetShadowHeight(-5000.0f);
-					}
-				}
+				m_pModel[nCnt]->SetShadowHeight(fHeight);
 			}
+		}
+	}
+	else if (m_pos.x < -135.0f || m_pos.x > 125.0f)
+	{
+		//影の高さの設定
+		for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
+		{
+			if (m_pModel[nCnt] != nullptr)
+			{
+				m_pModel[nCnt]->SetShadowHeight(-5000.0f);
+			}
+		}
 	}
 
 	if (m_pAnimator != nullptr)
 	{
+		//アニメーションの更新
 		m_pAnimator->Update();
 	}
 
+	//カメラの情報の取得
 	CCamera* pCamera = CApplication::GetCamera();
 
 	if (pCamera != nullptr)
 	{
+		//カメラのPosの取得
 		D3DXVECTOR3 wallPos = pCamera->GetPos();
 		wallPos.z += 160.0f;
 
 		if (m_pos.z <= wallPos.z)
-		{
+		{//カメラの前に押し出す
 			m_pos.z = wallPos.z;
 		}
 		else if (m_pos.z >= wallPos.z + 250.0f)
-		{
+		{//カメラの一定より前に出ない
 			m_pos.z = wallPos.z + 250.0f;
 		}
 
@@ -313,6 +313,7 @@ void CPlayer::Update(void)
 			pPlayer[nCnt] = CStage::GetPlayer(nCnt);
 		}
 
+		//ゴールしたら
 		if (m_pos.z >= 900.0f && m_bGoal == false)
 		{
 			m_bGoal = true;
@@ -341,8 +342,10 @@ void CPlayer::Update(void)
 			}
 		}
 
+		//ゴール後の動き
 		GoalMove();
 
+		//無敵時間
 		if (m_nInvincibilityCnt > 0)
 		{
 			m_nInvincibilityCnt--;
@@ -358,17 +361,21 @@ void CPlayer::Update(void)
 
 		if (m_pHitbox != nullptr)
 		{
+			//スコアの取得
 			int nScore = m_pScore->GetScore();
 
+			//当たり判定の更新
 			m_pHitbox->SetPos(m_pos);
 			m_pHitbox->Update();
 
+			//当たり判定のエフェクトを取得
 			CHitbox::INTERACTION_EFFECT effect = m_pHitbox->GetEffect();
 
 			switch (effect)
 			{
-			case CHitbox::EFFECT_DAMAGE:
 
+			case CHitbox::EFFECT_DAMAGE:
+			
 			{
 				int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);
 
@@ -538,15 +545,17 @@ void CPlayer::Update(void)
 			m_pPlayer[nCnt] = CStage::GetPlayer(nCnt);
 		}
 
-		if (m_pPlayer[0]->m_bGoal &&m_pPlayer[1]->m_bGoal &&m_pPlayer[2]->m_bGoal &&m_pPlayer[3]->m_bGoal
-			&& m_pPlayer[0]->m_bRot &&m_pPlayer[1]->m_bRot &&m_pPlayer[2]->m_bRot &&m_pPlayer[3]->m_bRot)
+		//全員が振り向き終わったら
+		if (m_pPlayer[0]->m_bRot &&m_pPlayer[1]->m_bRot &&m_pPlayer[2]->m_bRot &&m_pPlayer[3]->m_bRot)
 		{
+			//カメラを移動する
 			pCamera->SetPos(D3DXVECTOR3(pCamera->GetPos().x, -80.0f, 800.0f), pCamera->GetPos());
 
 			m_nFrame++;
 
 			if (m_nFrame >= 60)
 			{
+				//勝者が前に出る
 				MoveWinner();
 			}
 		}
@@ -648,7 +657,7 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 	pModel->m_pos = pos;
 	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 17.0f, 0.0f), Vec3Null);				//体のモデルを生成する
 
-	pModel->m_pModel[HEAD] = CModelPart::Create(pType, D3DXVECTOR3(0.0f, 7.0f, 0.0f), Vec3Null);				//頭のモデルを生成する
+	pModel->m_pModel[HEAD] = CModelPart::Create(pType, D3DXVECTOR3(0.0f, 7.0f, 0.0f), Vec3Null);							//頭のモデルを生成する
 	pModel->m_pModel[HEAD]->SetParent(pModel->m_pModel[BODY]);																//頭の親を設定する
 
 	pModel->m_pModel[LEFT_ARM] = CModelPart::Create(CModel::MODEL_LEFT_ARM, D3DXVECTOR3(8.0f, 3.0f, 0.0f), Vec3Null);		//左腕のモデルを生成する
