@@ -111,37 +111,34 @@ private:
 	D3DXVECTOR3 m_rot;													//向き
 	D3DXVECTOR3 m_DestRot;												//目的の角度
 	D3DXMATRIX  m_mtxWorld;												//ワールドマトリックス
-	bool		m_bJump;												//ジャンプしているかどうか
 	int			m_nInvincibilityCnt;									//無敵状態のカウンター
 	int			m_nCntAttack;											//攻撃カウンター
 	int			m_nPlayerRanking;										//プレイヤーの順位
+	int			m_nIdxPlayer;											//プレイヤー番号
+	int			m_nFrame;												//フレーム数
 	float		m_fFrictionCoeff;										//摩擦係数
-
-	float m_fAngle;														
-	bool m_bGoal;														//ゴールしたかどうか
-	bool m_bMove;														//動き切ったかどうか
-	bool m_bWinner;														//勝利したかどうか
-	bool m_bPos;														//位置についたかどうか
-	bool m_bRot;														//回転したかどうか
-	bool m_bHit;														//当たったかどうか
-	bool m_bPunch;														//パンチしたかどうか
-	bool m_bAttacking;													//アタックしたかどうか
+	float		m_fAngle;														
+	bool		m_bJump;												//ジャンプしているかどうか
+	bool		m_bGoal;												//ゴールしたかどうか
+	bool		m_bMove;												//動き切ったかどうか
+	bool		m_bWinner;												//勝利したかどうか
+	bool		m_bPos;													//位置についたかどうか
+	bool		m_bRot;													//回転したかどうか
+	bool		m_bHit;													//当たったかどうか
+	bool		m_bPunch;												//パンチしたかどうか
+	bool		m_bAttacking;											//アタックしたかどうか
 
 	D3DXVECTOR3 m_TargetPos;											//目標の位置
 	D3DXVECTOR3 GoalPos;												//ゴール判定の位置
+	STATE m_State;														//プレイヤーの状態
 
 	CModelPart* m_pModel[PARTS_MAX];									//モデルへのポインタ
 	CAnimator* m_pAnimator;												//アニメーターへのポインタ
-
-	STATE m_State;														//プレイヤーの状態
 	CCylinderHitbox* m_pHitbox;											//ヒットボックス
 	CCylinderHitbox* m_pHeadHitbox;										//頭のヒットボックス
-	CBoxHitbox*       m_pAttackHitbox;									//攻撃ヒットボックス
+	CBoxHitbox* m_pAttackHitbox;										//攻撃ヒットボックス
 	CScore* m_pScore;													//スコアのポインタ
 	CUIString* m_pScoreUI;												//スコアUIのポインタ
-
-	int m_nIdxPlayer;													//プレイヤー番号
-	int m_nFrame;														//フレーム数
 };
 
 #endif
