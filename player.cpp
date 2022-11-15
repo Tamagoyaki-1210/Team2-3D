@@ -55,20 +55,33 @@ D3DXCOLOR CPlayer::m_playerColor[PLAYER_COLOR_MAX]
 CPlayer::CPlayer() : CObject::CObject(1)
 {
 	//メンバー変数をクリアする
-	m_move = Vec3Null;					//速度の初期化処理		
-	m_DestRot = Vec3Null;				//目的の角度の初期化処理
-	m_pAnimator = nullptr;				//アニメーターへのポインタ
-	m_pHitbox = nullptr;				//ヒットボックスへのポインタ
-	m_pScore = nullptr;					//スコアへのポインタ
-	m_State = (STATE)0;					//アニメーション状態
-	m_pScoreUI = nullptr;				//スコアのUIへのポインタ
-	m_bJump = false;					//ジャンプしているかどうか
-	m_nInvincibilityCnt = 0;			//無敵状態のカウンター
-	m_pAttackHitbox = nullptr;			//攻撃のヒットボックス
-	m_pHeadHitbox = nullptr;			//頭のヒットボックス
-	m_bAttacking = false;				//攻撃しているかどうか
-	m_nCntAttack = 0;					//攻撃カウンター
-	m_fFrictionCoeff = 0.0f;			//摩擦係数
+	m_move = Vec3Null;								//速度の初期化処理
+	m_DestRot = Vec3Null;							//目的の角度の初期化処理
+	m_pAnimator = nullptr;							//アニメーターへのポインタ
+	m_pHitbox = nullptr;							//ヒットボックスへのポインタ
+	m_pScore = nullptr;								//スコアへのポインタ
+	m_pScoreUI = nullptr;							//スコアUIへのポインタ
+	m_rot = Vec3Null;								//向き
+	m_bGoal = false;								//ゴールに着いたかどうか
+	m_bMove = false;								//動いているかどうか
+	m_bWinner = false;								//勝ったどうか
+	m_bPos = false;									//位置についたかどうか
+	m_bRot = false;									//回転したかどうか
+	m_pAnimator = nullptr;							//アニメーターへのポインタ
+	m_pHitbox = nullptr;							//ヒットボックスへのポインタ
+	m_pScore = nullptr;								//スコアへのポインタ
+	m_State = (STATE)0;								//アニメーション状態
+	m_pScoreUI = nullptr;							//スコアのUIへのポインタ
+	m_bJump = false;								//ジャンプしているかどうか
+	m_nInvincibilityCnt = 0;						//無敵状態のカウンター
+	m_nFrame = 0;									//フレーム
+	m_pAttackHitbox = nullptr;						//攻撃のヒットボックス
+	m_pHeadHitbox = nullptr;						//頭のヒットボックス
+	m_bAttacking = false;							//攻撃しているかどうか
+	m_nCntAttack = 0;								//攻撃カウンター
+	m_fFrictionCoeff = 0.0f;						//摩擦係数
+	m_nPlayerRanking = 0;							//プレイヤーのランキング
+	m_nRanking = 0;									//ランキング
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -88,17 +101,16 @@ HRESULT CPlayer::Init(void)
 	//メンバー変数の初期化処理
 	m_move = Vec3Null;								//速度の初期化処理
 	m_DestRot = Vec3Null;							//目的の角度の初期化処理
-	m_pAnimator = nullptr;							
-	m_pHitbox = nullptr;
-	m_pScore = nullptr;
-	m_State = STATE_NEUTRAL;
-	m_pScoreUI = nullptr;
-	m_rot = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);
-	m_bGoal = false;
-	m_bMove = false;
-	m_bWinner = false;
-	m_bPos = false;
-	m_bRot = false;
+	m_pAnimator = nullptr;							//アニメーターへのポインタ
+	m_pHitbox = nullptr;							//ヒットボックスへのポインタ
+	m_pScore = nullptr;								//スコアへのポインタ
+	m_pScoreUI = nullptr;							//スコアUIへのポインタ
+	m_rot = D3DXVECTOR3(0.0f, D3DX_PI, 0.0f);		//向き
+	m_bGoal = false;								//ゴールに着いたかどうか
+	m_bMove = false;								//動いているかどうか
+	m_bWinner = false;								//勝ったどうか
+	m_bPos = false;									//位置についたかどうか
+	m_bRot = false;									//回転したかどうか
 	m_pAnimator = nullptr;							//アニメーターへのポインタ
 	m_pHitbox = nullptr;							//ヒットボックスへのポインタ
 	m_pScore = nullptr;								//スコアへのポインタ
@@ -106,14 +118,14 @@ HRESULT CPlayer::Init(void)
 	m_pScoreUI = nullptr;							//スコアのUIへのポインタ
 	m_bJump = false;								//ジャンプしているかどうか
 	m_nInvincibilityCnt = 0;						//無敵状態のカウンター
-	m_nFrame = 0;
-	m_pAttackHitbox = nullptr;
-	m_pHeadHitbox = nullptr;
-	m_bAttacking = false;
-	m_nCntAttack = 0;
-	m_fFrictionCoeff = 0.1f;
-	m_nPlayerRanking = 0;
-	m_nRanking = 0;
+	m_nFrame = 0;									//フレーム
+	m_pAttackHitbox = nullptr;						//攻撃のヒットボックス
+	m_pHeadHitbox = nullptr;						//頭のヒットボックス
+	m_bAttacking = false;							//攻撃しているかどうか
+	m_nCntAttack = 0;								//攻撃カウンター
+	m_fFrictionCoeff = 0.1f;						//摩擦係数
+	m_nPlayerRanking = 0;							//プレイヤーのランキング
+	m_nRanking = 0;									//ランキング
 
 	for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 	{//モデルの部分へのポインタ
@@ -162,11 +174,13 @@ void CPlayer::Uninit(void)
 		m_pScoreUI->Uninit();
 		m_pScoreUI = nullptr;
 	}
+	//頭のヒットボックスの破棄処理
 	if (m_pHeadHitbox != nullptr)
 	{
 		m_pHeadHitbox->Release();
 		m_pHeadHitbox = nullptr;
 	}
+	//攻撃のヒットボックスの破棄処理
 	if (m_pAttackHitbox != nullptr)
 	{
 		m_pAttackHitbox->Release();
@@ -254,6 +268,7 @@ void CPlayer::Update(void)
 
 		float fHeight = 0.0f;
 
+		//メッシュフィールドとの当たり判定
 		CMeshfield* pField = CMeshfield::FieldInteraction(this, &fHeight);
 
 	//地面との当たり判定
@@ -269,13 +284,13 @@ void CPlayer::Update(void)
 		{
 			if (m_pModel[nCnt] != nullptr)
 			{
-				m_pModel[nCnt]->SetShadowHeight(fHeight);
+				m_pModel[nCnt]->SetShadowHeight(fHeight);		
 			}
 		}
 	}
 	else if (m_pos.x < -135.0f || m_pos.x > 125.0f)
-	{
-		//影の高さの設定
+	{//メッシュフィールドから離れたら
+		//影の高さ見えないように設定する
 		for (int nCnt = 0; nCnt < PARTS_MAX; nCnt++)
 		{
 			if (m_pModel[nCnt] != nullptr)
@@ -353,13 +368,13 @@ void CPlayer::Update(void)
 		//無敵時間
 		if (m_nInvincibilityCnt > 0)
 		{
-			m_nInvincibilityCnt--;
+			m_nInvincibilityCnt--;			//カウンターの更新
 
 			if (m_nInvincibilityCnt <= 0)
-			{
+			{//0になったら、
 				if (m_pHitbox != nullptr)
-				{
-					m_pHitbox->SetInvincibility(false);
+				{//ヒットボックスがnullではなかったら
+					m_pHitbox->SetInvincibility(false);			//無敵状態が終わるように設定する
 				}
 			}
 		}
@@ -381,21 +396,22 @@ void CPlayer::Update(void)
 
 			case CHitbox::EFFECT_DAMAGE:
 			
-			{
-				int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);
+			{//普通のダメージを受けた場合
+
+				int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);			//スポーンコイン数を計算する
 
 				for (int nCnt = 0; nCnt < spawnCoin; nCnt++)
-				{
+				{//コインを落とす処理
 					CCoin::Create(GetPos(), D3DXVECTOR3((float)random(-5, 5), 10.0f, (float)random(-5, 5)), 180, CCoin::COIN_0);
 				}
 
-				m_nInvincibilityCnt = 60;
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);
+				m_nInvincibilityCnt = 60;												//無敵状態カウンターを設定する
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);			//ダメージサウンドを再生する
 
 				if (m_pHitbox != nullptr)
-				{
-					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
-					m_pHitbox->SetInvincibility(true);
+				{//ヒットボックスのポインタがnullではなかったら
+					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);		//エフェクトを戻す
+					m_pHitbox->SetInvincibility(true);				//無敵状態を設定する
 				}
 			}
 
@@ -403,29 +419,30 @@ void CPlayer::Update(void)
 
 			case CHitbox::EFFECT_LAUNCH:
 
-			{
-				m_bHit = true;
-				m_pAnimator->SetPresentAnim(4);
+			{//ノックバック
+				m_bHit = true;								//ダメージフラグをtrueにする
+				m_pAnimator->SetPresentAnim(4);				//現在のアニメーションをダメージアニメーションにする
 
-				int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);
+				int spawnCoin = (int)((nScore - m_pScore->GetScore()) * 0.1f);		//スポーンコイン数を計算する
 
 				for (int nCnt = 0; nCnt < spawnCoin; nCnt++)
-				{
+				{//コインを落とす処理
 					CCoin::Create(GetPos(), D3DXVECTOR3((float)random(-5, 5), 10.0f, (float)random(-5, 5)), 180, CCoin::COIN_0);
 				}
 
+				//ノックバックの処理(新しい速度の設定)
 				D3DXVec3Normalize(&m_move, &m_move);
 				m_move.x *= -50.0f;
 				m_move.y = 10.0f;
 				m_move.z *= -50.f;
-
-				m_nInvincibilityCnt = 60;
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);
+						
+				m_nInvincibilityCnt = 60;												//無敵状態カウンターを設定する
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE);			//ダメージサウンドを再生する
 
 				if (m_pHitbox != nullptr)
-				{
-					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
-					m_pHitbox->SetInvincibility(true);
+				{//ヒットボックスのポインタがnullではなかったら
+					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);				//エフェクトを戻す
+					m_pHitbox->SetInvincibility(true);						//無敵状態を設定する
 				}
 			}
 
@@ -433,21 +450,23 @@ void CPlayer::Update(void)
 
 			case CHitbox::EFFECT_PUSH:
 
-			{
-				m_bHit = true;
-				m_pAnimator->SetPresentAnim(4);
+			{//押されたエフェクト
+				m_bHit = true;								//ダメージフラグをtrueにする
+				m_pAnimator->SetPresentAnim(4);				//現在のアニメーションをダメージアニメーションにする
 
+				//ノックバックの処理(新しい速度の設定)
 				m_move = m_pHitbox->GetDirection();
 				D3DXVec3Normalize(&m_move, &m_move);
 				m_move.x *= 5.0f;
 				m_move.y = 10.0f;
 				m_move.z *= 5.f;
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE_PUNCH);
+
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE_PUNCH);		//ダメージサウンドを再生する
 
 				if (m_pHitbox != nullptr)
-				{
-					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
-					m_pHitbox->SetDirection(Vec3Null);
+				{//ヒットボックスのポインタがnullではなかったら
+					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);					//エフェクトを戻す
+					m_pHitbox->SetDirection(Vec3Null);							//無敵状態を設定する
 				}
 			}
 
@@ -455,20 +474,21 @@ void CPlayer::Update(void)
 
 			case CHitbox::EFFECT_BOUNCE:
 
-			{
-				m_bHit = true;
-				m_pAnimator->SetPresentAnim(4);
+			{//跳ね返るエフェクト
+				m_bHit = true;								//ダメージフラグをtrueにする
+				m_pAnimator->SetPresentAnim(4);				//現在のアニメーションをダメージアニメーションにする
 
+				//ノックバックの処理(新しい速度の設定)
 				D3DXVec3Normalize(&m_move, &m_move);
 				m_move.x *= -50.0f;
 				m_move.y = 10.0f;
 				m_move.z *= -50.f;
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE_PUNCH);
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_DAMAGE_PUNCH);			//ダメージサウンドを再生する
 
 				if (m_pHitbox != nullptr)
-				{
-					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
-					m_pHitbox->SetDirection(Vec3Null);
+				{//ヒットボックスのポインタがnullではなかったら
+					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);					//エフェクトを戻す
+					m_pHitbox->SetDirection(Vec3Null);							//無敵状態を設定する
 				}
 			}
 
@@ -476,19 +496,20 @@ void CPlayer::Update(void)
 
 			case CHitbox::EFFECT_JUMP:
 
-			{
-				m_bHit = true;
-				m_bJump = true;
-				m_pAnimator->SetPresentAnim(4);
+			{//ジャンプエフェクト
+				m_bHit = true;							//ダメージフラグをtrueにする
+				m_bJump = true;							//ジャンプフラグをtrueにする
+				m_pAnimator->SetPresentAnim(4);			//現在のアニメーションをダメージアニメーションにする
 
+														//ノックバックの処理(新しい速度の設定)
 				D3DXVec3Normalize(&m_move, &m_move);
 				m_move.y = 30.0f;
-				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_JUMP);
+				CApplication::GetSound()->Play(CSound::SOUND_LABEL_SE_JUMP);			//ダメージサウンドを再生する
 
 				if (m_pHitbox != nullptr)
-				{
-					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);
-					m_pHitbox->SetDirection(Vec3Null);
+				{//ヒットボックスのポインタがnullではなかったら
+					m_pHitbox->SetEffect(CHitbox::EFFECT_MAX);					//エフェクトを戻す
+					m_pHitbox->SetDirection(Vec3Null);							//無敵状態を設定する
 				}
 			}
 
@@ -499,11 +520,13 @@ void CPlayer::Update(void)
 			}
 		}
 		if (m_nCntAttack > 0)
-		{
-			m_nCntAttack--;
+		{//攻撃中だったら、
+			m_nCntAttack--;				//攻撃カウンターを更新する
 
 			if (m_nCntAttack == 15 && m_pAttackHitbox == nullptr)
-			{
+			{//攻撃アニメションが始まったら、攻撃のヒットボックスがnullだったら、
+
+				//スポーンの位置を計算する
 				D3DXVECTOR3 Rot = Vec3Null;
 
 				if (m_pModel[0] != nullptr)
@@ -515,32 +538,31 @@ void CPlayer::Update(void)
 				D3DXMatrixIdentity(&mtxOut);
 				D3DXMatrixRotationYawPitchRoll(&mtxRot, Rot.y, 0.0f, 0.0f);
 				D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxRot);
-				/*D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, m_pos.z);
-				D3DXMatrixMultiply(&mtxOut, &mtxOut, &mtxTrans);*/
 				D3DXVec3TransformCoord(&dir, &dir, &mtxOut);
 
+				//ヒットボックスの生成
 				m_pAttackHitbox = CBoxHitbox::Create(dir + m_pos, Vec3Null, D3DXVECTOR3(17.0f, 14.0f, 17.0f), CHitbox::TYPE_OBSTACLE, this, 0, CHitbox::EFFECT_PUSH);
 				
 				if (m_pAttackHitbox != nullptr)
-				{
+				{//生成出来たら
 					dir.y = 0.0f;
 					D3DXVec3Normalize(&dir, &dir);
-					m_pAttackHitbox->SetDirection(dir);
+					m_pAttackHitbox->SetDirection(dir);		//向きの設定
 				}
 			}
 
 			if (m_nCntAttack <= 0)
-			{
-				m_pAttackHitbox->Release();
-				m_pAttackHitbox = nullptr;
-				m_nCntAttack = 0;
-				m_bAttacking = false;
+			{//カウンターが0以下になったら
+				m_pAttackHitbox->Release();			//ヒットボックスを破棄する
+				m_pAttackHitbox = nullptr;			//ポインタをnullにする
+				m_nCntAttack = 0;					//カウンターを0に戻す
+				m_bAttacking = false;				//攻撃フラグをfalseにする
 			}
 		}
 		if (m_pHeadHitbox != nullptr)
-		{
-			m_pHeadHitbox->SetPos(m_pos);
-			m_pHeadHitbox->Update();
+		{//頭のヒットボックスがnullではなかったら
+			m_pHeadHitbox->SetPos(m_pos);			//位置の更新
+			m_pHeadHitbox->Update();				//更新処理
 		}
 		
 		CPlayer *m_pPlayer[PLAYER_MAX] = {};
@@ -566,7 +588,9 @@ void CPlayer::Update(void)
 		}
 
 		if (m_pScoreUI != nullptr && m_pScore != nullptr)
-		{
+		{//スコアUIの更新処理
+
+			//スコアを取得して、4桁の文字列に変換する
 			int nScore = m_pScore->GetScore();
 			std::string str = std::to_string(nScore);
 			std::string begin = {};
@@ -586,10 +610,11 @@ void CPlayer::Update(void)
 			}
 
 			const char* pStr = begin.c_str();
-			m_pScoreUI->ChangeString(pStr);
+			m_pScoreUI->ChangeString(pStr);				//UIの文字列の設定
 		}
 	}
 
+	//デバッグようの文字列
 	CDebugProc::Print("\nRot: %f\nRot Dest: %f\n\nPos: %f, %f, %f", m_pModel[BODY]->GetRot().y, m_DestRot.y, m_pos.x, m_pos.y, m_pos.z);
 	CDebugProc::Print("\nPlayer %d score: %d", m_nIdxPlayer, m_pScore->GetScore());
 }
@@ -598,27 +623,7 @@ void CPlayer::Update(void)
 void CPlayer::Draw(void)
 {
 	if (m_nInvincibilityCnt % 10 <= 5)
-	{
-		//デバイスの取得処理
-		//LPDIRECT3DDEVICE9 pDevice = CApplication::GetRenderer()->GetDevice();
-
-		////ステンシルバッファを有効にする
-		//pDevice->SetRenderState(D3DRS_STENCILENABLE, TRUE);
-
-		////ステンシルバッファと比較する参照値設定
-		//pDevice->SetRenderState(D3DRS_STENCILREF, 0x01);
-
-		////ステンシルバッファの値に対してのマスク設定
-		//pDevice->SetRenderState(D3DRS_STENCILMASK, 0xff);
-
-		////ステンシルテストの比較方法の設定
-		//pDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_GREATEREQUAL);
-
-		////ステンシルテストの結果に対しての反映設定
-		//pDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_REPLACE);
-		//pDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
-		//pDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
-
+	{//無敵状態だったら、点滅させる
 
 		D3DXMATRIX mtxTrans, mtxRot;												//計算用のマトリックス
 		D3DXMatrixIdentity(&m_mtxWorld);											//ワールドマトリックスの初期化処理
@@ -640,11 +645,19 @@ void CPlayer::Draw(void)
 				m_pModel[nCnt]->Draw();
 			}
 		}
-
-		////ステンシルバッファを無効にする
-		//pDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 	}
 }
+
+
+
+//=============================================================================
+//
+//								静的関数
+//
+//=============================================================================
+
+
+
 
 //生成処理
 CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
@@ -657,9 +670,9 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 		return nullptr;
 	}
 
-	CModel::ModelType pType = CPlayerModel::GetHeadType(nCntPlayer);
+	CModel::ModelType pType = CPlayerModel::GetHeadType(nCntPlayer);			//選択された頭の種類の取得
 
-	pModel->m_pos = pos;
+	pModel->m_pos = pos;																									//位置の設定
 	pModel->m_pModel[BODY] = CModelPart::Create(CModel::MODEL_BODY, D3DXVECTOR3(0.0f, 17.0f, 0.0f), Vec3Null);				//体のモデルを生成する
 
 	pModel->m_pModel[HEAD] = CModelPart::Create(pType, D3DXVECTOR3(0.0f, 7.0f, 0.0f), Vec3Null);							//頭のモデルを生成する
@@ -689,6 +702,7 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 	pModel->m_pModel[RIGHT_FOOT] = CModelPart::Create(CModel::MODEL_RIGHT_FOOT, D3DXVECTOR3(-0.1f, -5.0f, 0.0f), Vec3Null);//右足のモデルを生成する
 	pModel->m_pModel[RIGHT_FOOT]->SetParent(pModel->m_pModel[RIGHT_LEG]);													//右足の親を設定する
 
+	//生成したモデルをアニメーターに代入する
 	std::vector <CModelPart*> vParts;
 	vParts.clear();
 	vParts.push_back(pModel->m_pModel[BODY]);
@@ -704,20 +718,23 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 
 	pModel->m_pAnimator = CAnimator::Create(&vParts, CAnimator::ANIM_TYPE_PLAYER);
 
+	//ヒットボックスの生成
 	pModel->m_pHitbox = CCylinderHitbox::Create(pos, Vec3Null, D3DXVECTOR3(10.0f, 35.0f, 10.0f), CHitbox::TYPE_PLAYER, pModel, nCntPlayer);
 	pModel->m_pHeadHitbox = CCylinderHitbox::Create(pos, D3DXVECTOR3(0.0f, 35.0f, 0.0f), D3DXVECTOR3(1.0f, 2.0f, 1.0f), CHitbox::TYPE_PLAYER, pModel);
 
+	//プレイヤーのインデックス
 	pModel->SetPlayerIdx(nCntPlayer);
 
+	//スコアの生成
 	pModel->m_pScore = CScore::Create(nCntPlayer);
 
-	D3DXCOLOR UIcol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+	D3DXCOLOR UIcol = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);				//UI色の設定
 
-	D3DXCOLOR col = CPlayerModel::GetPlayerColors()[nCntPlayer];
+	//選択された色の取得と設定
+	D3DXCOLOR col = CPlayerModel::GetPlayerColors()[nCntPlayer];		
 
 	pModel->m_pModel[BODY]->SetModelColor(2, col);
 	UIcol = col;
-	//pModel->m_TargetPos = D3DXVECTOR3(-223.0f + (61.0f * (nCntPlayer + 1)),-149.0f,1009.0f);
 
 	D3DXVECTOR3 fieldPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -725,13 +742,14 @@ CPlayer* CPlayer::Create(const D3DXVECTOR3 pos, int nCntPlayer)
 	fieldPos = CGameRace::GetStage()->GetField()->GetPos();
 
 	pModel->m_TargetPos = D3DXVECTOR3(-75.0f + (50.0f * (nCntPlayer)), -150.0f, fieldPos.z - 100.0f);
+
+	//UIの生成
 	pModel->m_pScoreUI = CUIString::Create(D3DXVECTOR3(100.0f + (320.0f * nCntPlayer), SCREEN_HEIGHT - 80.0f, 0.0f), D3DXVECTOR2(150.0f, 50.0f), UIcol, "0000", 5);
-
-	//CSilhouette::Create();
-
-	return pModel;
+	
+	return pModel;					//生成したインスタンスを返す
 }
 
+//プレイヤーの色の取得処理
 D3DXCOLOR* CPlayer::GetPlayerColors(void)
 {
 	return m_playerColor;

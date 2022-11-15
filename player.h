@@ -29,39 +29,39 @@ public:
 
 	enum Parts
 	{
-		BODY = 0,
-		HEAD,
-		LEFT_ARM,
-		LEFT_HAND,
-		RIGHT_ARM,
-		RIGHT_HAND,
-		LEFT_LEG,
-		LEFT_FOOT,
-		RIGHT_LEG,
-		RIGHT_FOOT,
+		BODY = 0,								//体
+		HEAD,									//頭
+		LEFT_ARM,								//左腕
+		LEFT_HAND,								//左手
+		RIGHT_ARM,								//右腕
+		RIGHT_HAND,								//右手
+		LEFT_LEG,								//左足
+		LEFT_FOOT,								//左太腿
+		RIGHT_LEG,								//右足
+		RIGHT_FOOT,								//右太腿
 		PARTS_MAX
 	};
 
 	enum STATE
 	{
-		STATE_NEUTRAL = 0,
-		STATE_RUNNING,
-		STATE_JUMP,
-		STATE_PUNCH,
-		STATE_DAMAGE,
-		STATE_MAX
+		STATE_NEUTRAL = 0,						//ニュートラル
+		STATE_RUNNING,							//走る
+		STATE_JUMP,								//ジャンプ
+		STATE_PUNCH,							//パンチ
+		STATE_DAMAGE,							//ダメージ
+		STATE_MAX								
 	};
 
 	enum PlayerColor
 	{
-		PLAYER_RED = 0,
-		PLAYER_GREEN,
-		PLAYER_BLUE,
-		PLAYER_YELLOW,
-		PLAYER_MAGENTA,
-		PLAYER_CYAN,
-		PLAYER_BLACK,
-		PLAYER_WHITE,
+		PLAYER_RED = 0,							//赤
+		PLAYER_GREEN,							//緑
+		PLAYER_BLUE,							//青
+		PLAYER_YELLOW,							//黄
+		PLAYER_MAGENTA,							//マゼンタ
+		PLAYER_CYAN,							//シアン
+		PLAYER_BLACK,							//黒
+		PLAYER_WHITE,							//白
 
 		PLAYER_COLOR_MAX
 	};
@@ -83,7 +83,7 @@ public:
 	D3DXVECTOR3 GetDestRot(void) { return m_DestRot; }					//目的の角度の取得処理
 
 	static CPlayer* Create(const D3DXVECTOR3 pos,int nCntPlayer);		//生成処理
-	static D3DXCOLOR* GetPlayerColors(void);
+	static D3DXCOLOR* GetPlayerColors(void);							//プレイヤーの色の取得処理
 
 	void PlayerController(int nCntPlayer);								//プレイヤーのキー処理
 	void SetPlayerIdx(int nCntPlayer);									//プレイヤー番号の設定
@@ -101,9 +101,9 @@ public:
 private:
 	void GoalMove();													//ゴール後の動き
 
-	static D3DXCOLOR m_playerColor[PLAYER_COLOR_MAX];
-	static const float m_MaxWalkingSpeed;
-	static const float m_AccelerationCoeff;
+	static D3DXCOLOR m_playerColor[PLAYER_COLOR_MAX];					//プレイヤーの色
+	static const float m_MaxWalkingSpeed;								//最大の歩くスピード
+	static const float m_AccelerationCoeff;								//加速係数
 	static int m_nRanking;												//順位
 
 	D3DXVECTOR3 m_pos;													//位置
@@ -113,11 +113,11 @@ private:
 	D3DXMATRIX  m_mtxWorld;												//ワールドマトリックス
 	bool		m_bJump;												//ジャンプしているかどうか
 	int			m_nInvincibilityCnt;									//無敵状態のカウンター
-	int			m_nCntAttack;
+	int			m_nCntAttack;											//攻撃カウンター
 	int			m_nPlayerRanking;										//プレイヤーの順位
 	float		m_fFrictionCoeff;										//摩擦係数
 
-	float m_fAngle;
+	float m_fAngle;														
 	bool m_bGoal;														//ゴールしたかどうか
 	bool m_bMove;														//動き切ったかどうか
 	bool m_bWinner;														//勝利したかどうか
@@ -131,7 +131,7 @@ private:
 	D3DXVECTOR3 GoalPos;												//ゴール判定の位置
 
 	CModelPart* m_pModel[PARTS_MAX];									//モデルへのポインタ
-	CAnimator* m_pAnimator;
+	CAnimator* m_pAnimator;												//アニメーターへのポインタ
 
 	STATE m_State;														//プレイヤーの状態
 	CCylinderHitbox* m_pHitbox;											//ヒットボックス
