@@ -176,7 +176,7 @@ void CAnimator::LoadAllAnimation(void)
 					if (strcmp(pStr, "MOTION_SET") == 0)
 					{//モーションセットを読み込む処理
 						MotionSet motionSet;							//新しいモーションセットを宣言する
-						ZeroMemory(&motionSet, sizeof(MotionSet));		//モーションセットの初期化処理
+						motionSet.nNextAnim = 0;
 						nAnimSet++;										//モーションセットのカウンターをインクリメントする
 						nKeySet = -1;									//キーセットを元に戻す
 
@@ -194,7 +194,7 @@ void CAnimator::LoadAllAnimation(void)
 							else if (strcmp(pStr, "KEY_SET") == 0)
 							{//キーセットの読み込む処理
 								AnimKeySet keySet;							//新しいキーセットを宣言する
-								ZeroMemory(&keySet, sizeof(AnimKeySet));	//キーセットを初期化する
+								keySet.nAnimFrames = 0;
 								nKeySet++;									//キーセットをインクリメントする
 								nKey = -1;									//キーカウンターを元に戻す
 
@@ -212,7 +212,8 @@ void CAnimator::LoadAllAnimation(void)
 									else if (strcmp(pStr, "KEY") == 0)
 									{//キーの読み込む処理
 										AnimKey key;						//新しいキーを宣言する
-										ZeroMemory(&key, sizeof(AnimKey));	//キーを初期化する
+										key.RelativePos = Vec3Null;			
+										key.RelativeRot = Vec3Null;			
 										nKey++;								//キーカウンターをインクリメントする
 
 										char pString[512] = {};				//文字列を宣言する
